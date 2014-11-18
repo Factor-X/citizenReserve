@@ -1,0 +1,24 @@
+.field_row(ng-hide="getInfo().hidden === true")
+    div(ng-click="logField()") {{getInfo().fieldTitle}}
+    div
+
+        angucomplete(id="members",
+            ng-disabled='getInfo().disabled',
+            placeholder="{{getInfo().placeholder}}",
+            pause="400",
+            selectedobject="result",
+            url="{{getInfo().url}}",
+            datafield="values",
+            titlefield="content",
+            minlength="1",
+            inputclass="form-control form-control-small")
+
+    div
+
+        img(ng-if='!hideIsValidIcon', ng-show='getInfo().isValid', src='/assets/images/field_valid.png')
+        .error_message(ng-hide='getInfo().isValid')
+            img(src='/assets/images/field_invalid.png')
+            div {{getInfo().validationMessage}}
+        div(ng-transclude)
+
+

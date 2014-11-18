@@ -1,0 +1,22 @@
+<!-- Modal-->
+<div ng-enter="save()" ng-escape="close()" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" ng-click="close()" class="button"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Je suis une modale</h4>
+            </div>
+            <div class="modal-body">
+                <div class="field_form">
+                    <mm-field-text ng-info="fields.name"></mm-field-text>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div ng-hide="isLoading">
+                    <button type="button" ng-click="close();" class="button btn btn-primary">Cancel</button>
+                    <button type="button" ng-click="save();" ng-disabled="!allFieldValid()" class="button btn btn-primary">Save</button>
+                </div><img ng-show="isLoading" src="/assets/images/modal-loading.gif">
+            </div>
+        </div>
+    </div>
+</div>

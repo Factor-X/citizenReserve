@@ -1,0 +1,20 @@
+.field_row(ng-hide="getInfo().hidden === true")
+    div(ng-click="logField()") {{getInfo().fieldTitle}}
+    div
+            .dropdown
+            a.dropdown-toggle(id="{{id}}",role='button', data-toggle='dropdown', data-target='#', href='')
+                .input-group
+                    input.form-control(type='text', ng-model='resultFormated')
+                    span.input-group-addon
+                        i.glyphicon.glyphicon-calendar
+                ul.dropdown-menu.date_input(role='menu', aria-labelledby='dLabel')
+                    datetimepicker(data-ng-model='result', data-datetimepicker-config="{ dropdownSelector: '{{idHtag}}',minView:'day' }")
+
+    div
+        img(ng-if='!hideIsValidIcon', ng-show='getInfo().isValid', src='/assets/images/field_valid.png')
+        .error_message(ng-hide='getInfo().isValid')
+            img(src='/assets/images/field_invalid.png')
+            div {{getInfo().validationMessage}}
+        div(ng-transclude)
+
+
