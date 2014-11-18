@@ -17,11 +17,3 @@ libraryDependencies ++= Seq(
 
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.0")
 
-// Add Jacoco plugin for code coverage
-addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.6")
-
-// Add Findbugs plugin library
-addSbtPlugin("de.johoop" % "findbugs4sbt" % "1.2.2")
-
-// add cucumber plugin
-addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.8.0")
