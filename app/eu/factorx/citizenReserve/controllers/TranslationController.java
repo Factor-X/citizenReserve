@@ -1,6 +1,6 @@
 package eu.factorx.citizenReserve.controllers;
 
-import eu.factorx.citizenReserve.dto.TranslationsDTO;
+import eu.factorx.citizenReserve.dto.technical.TranslationsDTO;
 import eu.factorx.citizenReserve.util.exception.MyRuntimeException;
 import play.mvc.Controller;
 import play.mvc.Result;

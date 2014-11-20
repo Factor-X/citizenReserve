@@ -1,4 +1,4 @@
-package eu.factorx.citizenReserve.dto;
+package eu.factorx.citizenReserve.dto.technical;
 
 /**
  * Created by florian on 18/11/14.

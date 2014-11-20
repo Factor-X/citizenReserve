@@ -26,7 +26,7 @@ object ApplicationBuild extends Build {
     "com.googlecode.ehcache-spring-annotations" % "ehcache-spring-annotations" % "1.2.0",
     "com.google.inject" % "guice" % "3.0" % "test",
     "com.google.guava" % "guava" % "14.0",
-    "mysql" % "mysql-connector-java" % "5.1.18",
+    "org.postgresql" % "postgresql" % "9.3-1101-jdbc41",
     "de.neuland-bfi" % "jade4j" % "0.4.0",
     "org.apache.commons" % "commons-lang3" % "3.1","com.liferay" % "org.apache.commons.fileupload" % "1.2.2.LIFERAY-PATCHED-1",
     "com.google.code.maven-play-plugin.com.github.yeungda.jcoffeescript" % "jcoffeescript" % "1.0",

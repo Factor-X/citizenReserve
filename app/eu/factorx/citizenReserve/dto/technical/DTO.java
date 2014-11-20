@@ -1,4 +1,4 @@
-package eu.factorx.citizenReserve.dto;
+package eu.factorx.citizenReserve.dto.technical;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -1,6 +1,6 @@
 package eu.factorx.citizenReserve;
 
-import eu.factorx.citizenReserve.dto.ExceptionsDTO;
+import eu.factorx.citizenReserve.dto.technical.ExceptionsDTO;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.F;

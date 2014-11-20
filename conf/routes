@@ -2,10 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET        /assets/*file                            controllers.Assets.at(path="/public", file)
+GET        /assets/*file                             controllers.Assets.at(path="/public", file)
 
 # Home page
-GET        /                                        @eu.factorx.citizenReserve.controllers.ApplicationController.index()
+GET        /                                         @eu.factorx.citizenReserve.controllers.ApplicationController.index()
 
 #translation
 GET        /citizenReserve/translations/:lang        @eu.factorx.citizenReserve.controllers.TranslationController.get(lang:String)
+
+#account
+GET        /account                                  @eu.factorx.citizenReserve.controllers.AccountController.get()

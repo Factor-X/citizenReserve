@@ -1,9 +1,7 @@
-package eu.factorx.citizenReserve.dto;
+package eu.factorx.citizenReserve.dto.technical;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 public class TranslationsDTO extends DTO {
