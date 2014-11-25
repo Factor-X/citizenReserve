@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class TranslationController extends Controller {
 
-    public static final String BUNDLES_LOCATION = "public/translation/";
+    public static final String BUNDLES_LOCATION = "translation/";
     public static final String[] BUNDLES = {"Messages", "Interfaces", "Surveys"};
 
     public Result get(String lang) {
