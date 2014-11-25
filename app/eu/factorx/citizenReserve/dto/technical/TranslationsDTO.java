@@ -15,7 +15,8 @@ public class TranslationsDTO extends DTO {
     }
 
     public TranslationsDTO(String language) {
-		this();
+        this();
+        this.language = language;
 	}
 
     public Map<String, String> getLines() {

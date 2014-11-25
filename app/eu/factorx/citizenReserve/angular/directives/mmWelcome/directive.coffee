@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "mmWelcome", ($location, $http, modalService) ->
+.directive "mmWelcome", ($location, $http, modalService, translationService) ->
     restrict: "E"
     scope: {}
     templateUrl: "$/angular/templates/mm-welcome.html"
