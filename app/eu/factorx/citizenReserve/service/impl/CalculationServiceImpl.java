@@ -37,29 +37,13 @@ public class CalculationServiceImpl implements CalculationService {
 
 		// Gros electro menager
 		// 1110
-
-		firstPeriodTotal +=
-				(QuestionCode.Q1110.getNominalPower() *
-						byQuestionCodeAndPeriod.get(QuestionCode.Q1110).get(Period.FIRST).getDoubleValue()
-				)/WORKING_DAYS_BY_WEEK;
-
-		secondPeriodTotal +=
-				(QuestionCode.Q1110.getNominalPower() *
-						byQuestionCodeAndPeriod.get(QuestionCode.Q1110).get(Period.SECOND).getDoubleValue()
-				)/WORKING_DAYS_BY_WEEK;
-
-		thirdPeriodTotal +=
-				(QuestionCode.Q1110.getNominalPower() *
-						byQuestionCodeAndPeriod.get(QuestionCode.Q1110).get(Period.THIRD).getDoubleValue()
-				)/WORKING_DAYS_BY_WEEK;
-
-
+		addReductionForQuestionCode(QuestionCode.Q1110,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
 		// 1120
-		byQuestionCodeAndPeriod.get(QuestionCode.Q1120).get(Period.FIRST).getDoubleValue();
-
+		addReductionForQuestionCode(QuestionCode.Q1120,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
 		// 1130
-		byQuestionCodeAndPeriod.get(QuestionCode.Q1130).get(Period.FIRST).getDoubleValue();
+		addReductionForQuestionCode(QuestionCode.Q1130,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
 
+		// Chauffage et eau chaude
 		// 1600
 		byQuestionCodeAndPeriod.get(QuestionCode.Q1600).get(Period.FIRST).getDoubleValue();
 
@@ -157,4 +141,26 @@ public class CalculationServiceImpl implements CalculationService {
 		adjustmentFactor.setThirdPeriodPowerReduction(0.0);
 		return (adjustmentFactor);
 	}
+
+	private void addReductionForQuestionCode(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal) {
+
+		firstPeriodTotal +=
+				(QuestionCode.Q1110.getNominalPower() *
+						byQuestionCodeAndPeriod.get(QuestionCode.Q1110).get(Period.FIRST).getDoubleValue()
+				) / WORKING_DAYS_BY_WEEK;
+
+		secondPeriodTotal +=
+				(QuestionCode.Q1110.getNominalPower() *
+						byQuestionCodeAndPeriod.get(QuestionCode.Q1110).get(Period.SECOND).getDoubleValue()
+				) / WORKING_DAYS_BY_WEEK;
+
+		thirdPeriodTotal +=
+				(QuestionCode.Q1110.getNominalPower() *
+						byQuestionCodeAndPeriod.get(QuestionCode.Q1110).get(Period.THIRD).getDoubleValue()
+				) / WORKING_DAYS_BY_WEEK;
+
+		return;
+	}
+
+
 }
