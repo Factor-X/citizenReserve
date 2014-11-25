@@ -5,7 +5,7 @@ import eu.factorx.citizenReserve.model.technical.AbstractEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="accounts")
+@Table(name = "accounts")
 public class Account extends AbstractEntity {
 
     @Enumerated(value = EnumType.STRING)
