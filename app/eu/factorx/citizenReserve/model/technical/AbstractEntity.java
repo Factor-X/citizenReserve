@@ -2,22 +2,21 @@ package eu.factorx.citizenReserve.model.technical;
 
 import play.db.ebean.Model;
 
-import javax.persistence.Embedded;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Comparator;
+import java.util.Date;
 
-/**
- * Created by florian on 20/11/14.
- */
 @MappedSuperclass
 public abstract class AbstractEntity extends Model implements Comparator<AbstractEntity> {
 
     @Id
+    @GeneratedValue
     protected Long id;
 
     @Embedded
     protected TechnicalSegment technicalSegment;
+
+    protected Date deletionDate;
 
     public Long getId() {
         return id;
@@ -33,6 +32,18 @@ public abstract class AbstractEntity extends Model implements Comparator<Abstrac
 
     public void setTechnicalSegment(TechnicalSegment technicalSegment) {
         this.technicalSegment = technicalSegment;
+    }
+
+    public Date getDeletionDate() {
+        return deletionDate;
+    }
+
+    public void setDeletionDate(Date deletionDate) {
+        this.deletionDate = deletionDate;
+    }
+
+    public void markAsDeleted() {
+        this.deletionDate = new Date();
     }
 
     @Override

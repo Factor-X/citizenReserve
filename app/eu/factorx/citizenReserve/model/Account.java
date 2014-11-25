@@ -4,30 +4,12 @@ import eu.factorx.citizenReserve.model.technical.AbstractEntity;
 
 import javax.persistence.*;
 
-/**
- * Created by florian on 20/11/14.
- */
 @Entity
 @Table(name="accounts")
 public class Account extends AbstractEntity {
 
-
-	@Id
-	@GeneratedValue
-	public long id;
-
-	@Version
-	public long version;
-
-	@OneToOne (mappedBy = "account", cascade=CascadeType.ALL)
-	public Profile profile;
-
-
-	@Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    @Enumerated(value = EnumType.STRING)
+    private AccountType accountType;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -35,24 +17,30 @@ public class Account extends AbstractEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private String provider;
+
+    private String powerConsumptionCategory;
+
+    private String emailsHouseholdMembers;
+
+    private String sensitizationKit;
 
     public Account() {
     }
 
-    public String getFirstName() {
-        return firstName;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public String getEmail() {
@@ -71,17 +59,51 @@ public class Account extends AbstractEntity {
         this.password = password;
     }
 
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                super.toString()+
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getFirstName() {
+        return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getPowerConsumptionCategory() {
+        return powerConsumptionCategory;
+    }
+
+    public void setPowerConsumptionCategory(String powerConsumptionCategory) {
+        this.powerConsumptionCategory = powerConsumptionCategory;
+    }
+
+    public String getEmailsHouseholdMembers() {
+        return emailsHouseholdMembers;
+    }
+
+    public void setEmailsHouseholdMembers(String emailsHouseholdMembers) {
+        this.emailsHouseholdMembers = emailsHouseholdMembers;
+    }
+
+    public String getSensitizationKit() {
+        return sensitizationKit;
+    }
+
+    public void setSensitizationKit(String sensitizationKit) {
+        this.sensitizationKit = sensitizationKit;
+    }
 }
