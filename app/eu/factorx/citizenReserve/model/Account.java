@@ -2,16 +2,28 @@ package eu.factorx.citizenReserve.model;
 
 import eu.factorx.citizenReserve.model.technical.AbstractEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * Created by florian on 20/11/14.
  */
 @Entity
+@Table(name="accounts")
 public class Account extends AbstractEntity {
 
-    @Column(nullable = false)
+
+	@Id
+	@GeneratedValue
+	public long id;
+
+	@Version
+	public long version;
+
+	@OneToOne (mappedBy = "account", cascade=CascadeType.ALL)
+	public Profile profile;
+
+
+	@Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
@@ -22,6 +34,7 @@ public class Account extends AbstractEntity {
 
     @Column(nullable = false)
     private String password;
+
 
     public Account() {
     }
