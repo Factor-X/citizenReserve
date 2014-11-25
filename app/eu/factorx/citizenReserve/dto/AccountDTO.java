@@ -2,9 +2,6 @@ package eu.factorx.citizenReserve.dto;
 
 import eu.factorx.citizenReserve.dto.technical.DTO;
 
-/**
- * Created by florian on 20/11/14.
- */
 public class AccountDTO extends DTO {
 
     private Long id;

@@ -17,6 +17,8 @@ public class AnswerValue extends AbstractEntity {
 
     private Double doubleValue;
 
+    private Boolean booleanValue;
+
     public AnswerValue() {
     }
 
@@ -44,6 +46,14 @@ public class AnswerValue extends AbstractEntity {
         this.doubleValue = doubleValue;
     }
 
+    public Boolean getBooleanValue() {
+        return booleanValue;
+    }
+
+    public void setBooleanValue(Boolean booleanValue) {
+        this.booleanValue = booleanValue;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,6 +63,7 @@ public class AnswerValue extends AbstractEntity {
         AnswerValue that = (AnswerValue) o;
 
         if (!answer.equals(that.answer)) return false;
+        if (booleanValue != null ? !booleanValue.equals(that.booleanValue) : that.booleanValue != null) return false;
         if (doubleValue != null ? !doubleValue.equals(that.doubleValue) : that.doubleValue != null) return false;
         if (stringValue != null ? !stringValue.equals(that.stringValue) : that.stringValue != null) return false;
 
@@ -65,6 +76,7 @@ public class AnswerValue extends AbstractEntity {
         result = 31 * result + answer.hashCode();
         result = 31 * result + (stringValue != null ? stringValue.hashCode() : 0);
         result = 31 * result + (doubleValue != null ? doubleValue.hashCode() : 0);
+        result = 31 * result + (booleanValue != null ? booleanValue.hashCode() : 0);
         return result;
     }
 }
