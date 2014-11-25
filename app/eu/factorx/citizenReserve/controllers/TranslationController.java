@@ -23,7 +23,7 @@ public class TranslationController extends Controller {
         Logger.info("locale = {}", locale);
 
         // Get TranslationsDTO
-        TranslationsDTO translationsDTO = new TranslationsDTO();
+        TranslationsDTO translationsDTO = new TranslationsDTO(lang);
         for (String bundleName : BUNDLES) {
             ResourceBundle bundle = ResourceBundle.getBundle(BUNDLES_LOCATION + bundleName, locale);
             Enumeration<String> bundleKeys = bundle.getKeys();
