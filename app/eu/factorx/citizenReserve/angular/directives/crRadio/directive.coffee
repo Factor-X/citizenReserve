@@ -1,13 +1,13 @@
 angular
 .module('app.directives')
-.directive "crRange", (directiveService) ->
+.directive "crRadio", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
         ngLabel: '='
         ngModel: '='
         ngOptions: '='
         ngFreeAllowed: '='
-    templateUrl: "$/angular/templates/cr-range.html"
+    templateUrl: "$/angular/templates/cr-radio.html"
     replace: true
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope

@@ -35,7 +35,7 @@ angular
             max: 3
             rangeMin: 0
             rangeMax: 5
-        range:
+        radio:
             value: 3
             options: [
                 {value: 0, label: 'OPT_0'}
