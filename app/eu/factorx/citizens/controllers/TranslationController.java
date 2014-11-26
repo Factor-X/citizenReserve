@@ -10,8 +10,8 @@ import play.mvc.Result;
 
 public class TranslationController extends Controller {
 
-    public Result get(String lang) {
-        Logger.info("TranslationController.get(lang='{}')", lang);
+    public Result get() {
+        Logger.info("TranslationController.get()");
 
         ObjectMapper mapper = new ObjectMapper();
         try {
