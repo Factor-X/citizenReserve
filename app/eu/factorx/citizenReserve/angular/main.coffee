@@ -2,15 +2,13 @@
 # Modules
 #
 
-angular.module 'app.directives', []
+angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']
 
 angular.module 'app.filters', []
 
 angular.module 'app.services', []
 
-angular.module 'app.controllers', ['app.services', 'ngRoute', 'ngTable',
-                                   'angular-flash.service', 'angular-flash.flash-alert-directive', 'angucomplete',
-                                   'ui.bootstrap', 'ui.bootstrap.datetimepicker']
+angular.module 'app.controllers', ['app.services', 'ngRoute', 'ngLocale']
 
 angular.module 'app', [
     'app.directives',
