@@ -1,12 +1,13 @@
-package eu.factorx.citizens.service.impl;
+package eu.factorx.citizenReserve.service.impl;
 
 
-import eu.factorx.citizens.dto.AnswerDTO;
-import eu.factorx.citizens.dto.AnswerValueDTO;
-import eu.factorx.citizens.dto.ReductionDTO;
-import eu.factorx.citizens.model.survey.Period;
-import eu.factorx.citizens.model.survey.QuestionCode;
-import eu.factorx.citizens.service.CalculationService;
+import eu.factorx.citizenReserve.dto.AnswerDTO;
+import eu.factorx.citizenReserve.dto.AnswerValueDTO;
+import eu.factorx.citizenReserve.dto.ReductionDTO;
+import eu.factorx.citizenReserve.model.survey.Period;
+import eu.factorx.citizenReserve.model.survey.QuestionCode;
+import eu.factorx.citizenReserve.service.CalculationService;
+import play.api.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,8 @@ public class CalculationServiceImpl implements CalculationService {
 		Double firstPeriodTotal = ZERO;
 		Double secondPeriodTotal = ZERO;
 		Double thirdPeriodTotal = ZERO;
+
+		System.out.println("Entering -> calculatePotentialReduction");
 
 		Map <QuestionCode,ReductionDTO> potentialReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
 		ReductionDTO potentialReductionSummary = new ReductionDTO();
@@ -106,6 +109,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
 
+
 		// ******************** Gros electromenager **********************************
 		// 1110
 		reductionDetails.put(QuestionCode.Q1110,computeReductionForQuestionCodeAlgo0(QuestionCode.Q1110, byQuestionCodeAndPeriod));
@@ -164,16 +168,30 @@ public class CalculationServiceImpl implements CalculationService {
 
 	private Map<QuestionCode,Map<Period,AnswerValueDTO>> convertToMap (List<AnswerDTO> surveyAnswers) {
 
+		System.out.println("Entering -> convertToMap");
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> localMapByQuestionCode = new HashMap<QuestionCode,Map<Period,AnswerValueDTO>> ();
+
+
 
 		// keep for all answers and generate map
 		for (AnswerDTO answer : surveyAnswers) {
 			Map localMapByPeriod = new HashMap<Period,AnswerValueDTO> ();
 
+			System.out.println("into 1st loop: [" + answer.getPeriodKey() + "]");
+			System.out.println("into 1st loop: [" + answer.getAnswerValues().get(0) + "]");
+
 			localMapByPeriod.put (answer.getPeriodKey(),answer.getAnswerValues().get(0));
 			localMapByQuestionCode.put(QuestionCode.valueOf(answer.getQuestionKey()), localMapByPeriod);
 		}
 
+
+		for (Map.Entry <QuestionCode,Map<Period,AnswerValueDTO>> item : localMapByQuestionCode.entrySet()) {
+			QuestionCode key = item.getKey();
+			Map<Period,AnswerValueDTO> value = item.getValue();
+			System.out.println("DUMP: [" + key + "]");
+		}
+
+		System.out.println("Quitting -> convertToMap");
 		return (localMapByQuestionCode);
 	}
 
