@@ -40,6 +40,7 @@ public class CalculationServiceImpl implements CalculationService {
 		ReductionDTO potentialReductionSummary = new ReductionDTO();
 
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
+		dumpMap(byQuestionCodeAndPeriod);
 
 		potentialReductionDetails = calculatePotentialReductionDetails(surveyAnswers);
 		potentialReductionSummary = calculatePotentialSummary(potentialReductionDetails);
@@ -166,6 +167,23 @@ public class CalculationServiceImpl implements CalculationService {
 	* Convert to map
 	*/
 
+	private void dumpMap (Map<QuestionCode,Map<Period,AnswerValueDTO>> localMapByQuestionCode) {
+		System.out.println("Entering -> dumpMap");
+
+		for (Map.Entry <QuestionCode,Map<Period,AnswerValueDTO>> item : localMapByQuestionCode.entrySet()) {
+			QuestionCode key = item.getKey();
+			Map<Period,AnswerValueDTO> value = item.getValue();
+			System.out.println("DUMP: [" + key + "]");
+		}
+
+		System.out.println("Quitting -> dumpMap");
+	}
+
+	/*
+	* Convert to map
+	*/
+
+
 	private Map<QuestionCode,Map<Period,AnswerValueDTO>> convertToMap (List<AnswerDTO> surveyAnswers) {
 
 		System.out.println("Entering -> convertToMap");
@@ -182,13 +200,6 @@ public class CalculationServiceImpl implements CalculationService {
 
 			localMapByPeriod.put (answer.getPeriodKey(),answer.getAnswerValues().get(0));
 			localMapByQuestionCode.put(QuestionCode.valueOf(answer.getQuestionKey()), localMapByPeriod);
-		}
-
-
-		for (Map.Entry <QuestionCode,Map<Period,AnswerValueDTO>> item : localMapByQuestionCode.entrySet()) {
-			QuestionCode key = item.getKey();
-			Map<Period,AnswerValueDTO> value = item.getValue();
-			System.out.println("DUMP: [" + key + "]");
 		}
 
 		System.out.println("Quitting -> convertToMap");
@@ -213,6 +224,8 @@ public class CalculationServiceImpl implements CalculationService {
 	private ReductionDTO computeReductionForQuestionCodeAlgo0(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
 
 		ReductionDTO result = new ReductionDTO();
+
+		System.out.println("Processing QuestionCode: " + questionCode.name());
 
 		result.setFirstPeriodPowerReduction(
 				(questionCode.getNominalPower() *
