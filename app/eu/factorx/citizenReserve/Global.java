@@ -9,12 +9,7 @@ import play.mvc.Http;
 import play.mvc.Results;
 import play.mvc.SimpleResult;
 
-/**
- * Created by florian on 18/11/14.
- */
 public class Global  extends GlobalSettings {
-
-
     @Override
     public F.Promise<SimpleResult> onError(Http.RequestHeader request, Throwable t) {
         ExceptionsDTO exceptionsDTO = new ExceptionsDTO(t.getCause().getMessage());
@@ -24,7 +19,6 @@ public class Global  extends GlobalSettings {
         return F.Promise.<SimpleResult>pure(Results.internalServerError(exceptionsDTO
         ));
     }
-
 
     @Override
     public void onStart(Application app) {

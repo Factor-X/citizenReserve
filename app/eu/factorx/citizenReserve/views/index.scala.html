@@ -2,77 +2,150 @@
 <html ng-app="app">
     <head>
         <title>Citizen's reserve</title>
-
-            <!-- ------------------------------------------------------------------ -->
-            <!-- JAVASCRIPTS                                                        -->
-            <!-- ------------------------------------------------------------------ -->
-
-            <!-- jQuery -->
+        @* ------------------------------------------------------------------ *@
+        @* JAVASCRIPTS *@
+        @* ------------------------------------------------------------------ *@
+        @* jQuery *@
         <script src='@routes.Assets.at("components/jquery/dist/jquery.min.js")'></script>
-
-            <!-- Angular dependencies local -->
+        <script src='@routes.Assets.at("components/jquery-ui/jquery-ui.min.js")'></script>
+        @* Bootstrap *@
+        <script src='@routes.Assets.at("components/bootstrap/dist/js/bootstrap.js")'></script>
+        @* Angular dependencies local *@
         <script src='@routes.Assets.at("components/angular/angular.js")'></script>
         <script src='@routes.Assets.at("components/angular-i18n/angular-locale_fr-fr.js")'></script>
         <script src='@routes.Assets.at("components/angular-animate/angular-animate.min.js")'></script>
         <script src='@routes.Assets.at("components/angular-sanitize/angular-sanitize.min.js")'></script>
         <script src='@routes.Assets.at("components/angular-route/angular-route.min.js")'></script>
-        <script src='@routes.Assets.at("components/angular-bootstrap/ui-bootstrap-tpls.min.js")'></script>
-        <script src='@routes.Assets.at("components/angular-flash/dist/angular-flash.min.js")'></script>
         <script src='@routes.Assets.at("components/angular-dynamic-locale/src/tmhDynamicLocale.js")'></script>
-
-            <!-- Bootstrap -->
-        <script src='@routes.Assets.at("components/momentjs/moment.js")'></script>
-        <script src='@routes.Assets.at("components/bootstrap/dist/js/bootstrap.min.js")'></script>
-        <script src='@routes.Assets.at("components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js")'></script>
-
-            <!-- Messenger -->
-        <script src='@routes.Assets.at("components/messenger/build/js/messenger.min.js")'></script>
-        <script src='@routes.Assets.at("components/messenger/build/js/messenger-theme-flat.js")'></script>
-
-
-            <!-- angucomplete -->
-        <script src='@routes.Assets.at("components/angucomplete/angucomplete.js")'></script>
-
-            <!-- ng-table -->
-        <script src='@routes.Assets.at("components/ng-table/ng-table.min.js")'></script>
-
-            <!-- web app -->
+        <script src='@routes.Assets.at("components/angular-bootstrap/ui-bootstrap.js")'></script>
+        <script src='@routes.Assets.at("components/angular-bootstrap/ui-bootstrap-tpls.js")'></script>
+        <script src='@routes.Assets.at("components/angular-rangeslider/angular.rangeSlider.js")'></script>
+        @* web app *@
         <script src='@routes.Assets.at("javascripts/app.js")'></script>
-
-            <!-- ------------------------------------------------------------------ -->
-            <!-- STYLES                                                             -->
-            <!-- ------------------------------------------------------------------ -->
-
-            <!-- Main -->
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
-
-            <!-- Bootstrap -->
-        <link rel="stylesheet" href='@routes.Assets.at("components/bootstrap/dist/css/bootstrap.min.css")'>
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css")'>
-
-            <!-- Messenger -->
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/messenger/build/css/messenger.css")'>
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/messenger/build/css/messenger-theme-flat.css")'>
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/messenger-theme.css")'>
-
-            <!-- angucomplete -->
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/angucomplete/angucomplete.css")'>
-
-            <!-- ng-table -->
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/ng-table/ng-table.min.css")'>
+        @* ------------------------------------------------------------------ *@
+        @* STYLES *@
+        @* ------------------------------------------------------------------ *@
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/font-awesome/css/font-awesome.min.css")'/>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/bootstrap/dist/css/bootstrap.min.css")'/>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("components/angular-rangeslider/angular.rangeSlider.css")'/>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("style.css")'/>
 
     </head>
     <body ng-controller="MainCtrl">
 
-            <!-- background for modal -->
-        <div class="modal-background" ng-show="$root.displayModalBackground">
-    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Dropdown</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <cr-dropdown label="Q1000" ng-options="x.items" ng-model="x.sel"></cr-dropdown>
+                </div>
+            </div>
+        </div>
 
-            <!-- modal manager-->
-        <mm-modal-manager></mm-modal-manager>
+        <hr/>
 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Number</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <cr-number label="Q2000" ng-model="x.cnt"></cr-number>
+                </div>
+            </div>
+        </div>
 
-        <mm-welcome></mm-welcome>
+        <hr/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Tabset</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <tabset class="cr-tabset">
+                        <tab heading="Static title">
+                            <tab-heading>
+                                <i class="fa fa-gear"></i> Options!
+                            </tab-heading>
+
+                            Static content
+                        </tab>
+
+                        <tab select="alertMe()">
+                            <tab-heading>
+                                <i class="fa fa-gear"></i> Options!
+                            </tab-heading>
+
+                            I've got an HTML heading, and a select callback. Pretty cool!
+                        </tab>
+                    </tabset>
+
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Range 2 inputs</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max" label="Q3000"></cr-double-range>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Radio</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <cr-radio label="Q4000" ng-model="x.radio.value" ng-options="x.radio.options"></cr-radio>
+                    <cr-radio label="Q4000" ng-model="x.radio.value" ng-options="x.radio.simpleOptions"></cr-radio>
+                    <cr-radio label="Q4000" ng-model="x.radio.value" ng-options="x.radio.options" free-allowed="true"></cr-radio>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Grid</h3>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="cr-grid">
+                        <div class="col-md-3 cr-grid-item" ng-repeat="i in x.grid">
+                            <h3>{{ i.title }}</h3>
+                            <img ng-src="{{i.image}}" alt=""/>
+                            <p>{{ i.content }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </body>
 </html>
