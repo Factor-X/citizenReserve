@@ -2,6 +2,7 @@
 <html ng-app="app">
     <head>
         <title>Citizen's reserve</title>
+        <meta charset="utf-8"/>
         @* ------------------------------------------------------------------ *@
         @* JAVASCRIPTS *@
         @* ------------------------------------------------------------------ *@
@@ -42,7 +43,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <cr-dropdown label="Q1000" ng-options="x.items" ng-model="x.sel"></cr-dropdown>
+                    <cr-dropdown label="profile.Q1110.label" ng-options="x.items" ng-model="x.sel"></cr-dropdown>
                 </div>
             </div>
         </div>
@@ -57,7 +58,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <cr-number label="Q2000" ng-model="x.cnt"></cr-number>
+                    <cr-number label="action.Q3211.tooltip" ng-model="x.cnt"></cr-number>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@
                 ng-class="{active: isValue(o.value)}"
                 ng-repeat="o in computedOptions"
                 ng-click="setValue(o.value)"
-                ng-bind-html="('' + o.label) | translateText"
+                ng-bind-html="('' + o.label) | translate"
             ></button>
 
         <button ng-if="getFreeAllowed() == 'true'"
