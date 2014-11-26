@@ -29,6 +29,7 @@
     "angular-bootstrap": "~0.12.0",
     "messenger": "*",
     "momentjs": "*",
-    "angular-rangeslider": "~0.0.11"
+    "angular-rangeslider": "~0.0.11",
+    "angular-gettext": "~1.1.4"
   }
 }

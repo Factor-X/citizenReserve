@@ -8,7 +8,7 @@ angular.module 'app.filters', []
 
 angular.module 'app.services', []
 
-angular.module 'app.controllers', ['app.services', 'ngRoute', 'ngLocale']
+angular.module 'app.controllers', ['app.services', 'ngRoute', 'ngLocale', 'gettext']
 
 angular.module 'app', [
     'app.directives',
@@ -16,6 +16,10 @@ angular.module 'app', [
     'app.services',
     'app.controllers'
 ]
+
+angular.module('app').run (gettextCatalog) ->
+    gettextCatalog.setCurrentLanguage('fr')
+    gettextCatalog.loadRemote("/translations");
 
 angular
 .module('app.controllers')

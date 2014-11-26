@@ -16,6 +16,9 @@ angular
             scope.ngModel = v.value
 
         scope.isValue = (v) ->
+
+            return scope.ngModel == v.value
+
             indexOfNgModel = -1
             for o in scope.computedOptions
                 if `o.value == scope.ngModel`
