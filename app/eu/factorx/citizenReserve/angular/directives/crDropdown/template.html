@@ -2,13 +2,23 @@
 
     <label class="cr-dropdown-label" ng-bind-html="getLabel() | translate"></label>
 
-    <button type="button"
-            class="btn btn-default cr-dropdown-button"
-            ng-model="ngModel"
-            data-html="1"
-            ng-options="o.value as computeOptionLabel(o) for o in ngOptions"
-            bs-select>
+    <!-- Single button -->
+    <div class="btn-group cr-dropdown-control"
+         dropdown>
 
-    </button>
+        <button type="button"
+                class="btn btn-primary dropdown-toggle cr-dropdown-button"
+                dropdown-toggle
+                ng-disabled="getDisabled()">
+            {{ ngModel }} <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu cr-dropdown-menu"
+            role="menu">
+            <li ng-repeat="o in ngOptions" class="cr-dropdown-menu-item" ng-class="{divider: (o == '-')}">
+                <a class="cr-dropdown-menu-item-link" ng-if="o != '-'" ng-click="$select(o)">{{ o }}</a>
+            </li>
+        </ul>
+    </div>
 
 </div>

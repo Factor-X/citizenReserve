@@ -1,6 +1,7 @@
 package eu.factorx.citizenReserve;
 
 import eu.factorx.citizenReserve.dto.technical.ExceptionsDTO;
+import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.F;
@@ -9,7 +10,6 @@ import play.mvc.Results;
 import play.mvc.SimpleResult;
 
 public class Global  extends GlobalSettings {
-
     @Override
     public F.Promise<SimpleResult> onError(Http.RequestHeader request, Throwable t) {
         ExceptionsDTO exceptionsDTO = new ExceptionsDTO(t.getCause().getMessage());
@@ -20,5 +20,8 @@ public class Global  extends GlobalSettings {
         ));
     }
 
-
+    @Override
+    public void onStart(Application app) {
+        super.onStart(app);
+    }
 }

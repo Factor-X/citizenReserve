@@ -1,7 +1,7 @@
 # simple download service
 angular
 .module('app.services')
-.service "messageFlash", (flash) ->
+.service "messageFlash", () ->
 
     #
     # display a success message

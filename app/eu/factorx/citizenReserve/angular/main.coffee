@@ -2,13 +2,13 @@
 # Modules
 #
 
-angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'picardy.fontawesome']
+angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']
 
 angular.module 'app.filters', []
 
 angular.module 'app.services', []
 
-angular.module 'app.controllers', ['app.services', 'ngRoute']
+angular.module 'app.controllers', ['app.services', 'ngRoute', 'ngLocale']
 
 angular.module 'app', [
     'app.directives',

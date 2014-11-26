@@ -3,54 +3,53 @@
     <head>
         <title>Citizen's reserve</title>
 
-        <!-- ------------------------------------------------------------------ -->
-        <!-- JAVASCRIPTS                                                        -->
-        <!-- ------------------------------------------------------------------ -->
+            <!-- ------------------------------------------------------------------ -->
+            <!-- JAVASCRIPTS                                                        -->
+            <!-- ------------------------------------------------------------------ -->
 
-        <!-- jQuery -->
+            <!-- jQuery -->
         <script src='@routes.Assets.at("components/jquery/dist/jquery.min.js")'></script>
         <script src='@routes.Assets.at("components/jquery-ui/jquery-ui.min.js")'></script>
 
-        <!-- Angular dependencies local -->
+        <script src='@routes.Assets.at("components/bootstrap/dist/js/bootstrap.js")'></script>
+
+            <!-- Angular dependencies local -->
         <script src='@routes.Assets.at("components/angular/angular.js")'></script>
         <script src='@routes.Assets.at("components/angular-i18n/angular-locale_fr-fr.js")'></script>
         <script src='@routes.Assets.at("components/angular-animate/angular-animate.min.js")'></script>
         <script src='@routes.Assets.at("components/angular-sanitize/angular-sanitize.min.js")'></script>
         <script src='@routes.Assets.at("components/angular-route/angular-route.min.js")'></script>
         <script src='@routes.Assets.at("components/angular-dynamic-locale/src/tmhDynamicLocale.js")'></script>
-        <script src='@routes.Assets.at("components/angular-strap/dist/angular-strap.min.js")'></script>
-        <script src='@routes.Assets.at("components/angular-strap/dist/angular-strap.tpl.min.js")'></script>
-        <script src='@routes.Assets.at("components/angular-fontawesome/dist/angular-fontawesome.min.js")'></script>
+        <script src='@routes.Assets.at("components/angular-bootstrap/ui-bootstrap.js")'></script>
+        <script src='@routes.Assets.at("components/angular-bootstrap/ui-bootstrap-tpls.js")'></script>
 
-        <!-- web app -->
+            <!-- web app -->
         <script src='@routes.Assets.at("javascripts/app.js")'></script>
 
-        <!-- ------------------------------------------------------------------ -->
-        <!-- STYLES                                                             -->
-        <!-- ------------------------------------------------------------------ -->
+            <!-- ------------------------------------------------------------------ -->
+            <!-- STYLES                                                             -->
+            <!-- ------------------------------------------------------------------ -->
 
         <link rel="stylesheet" media="screen"
-              href='@routes.Assets.at("components/font-awesome/css/font-awesome.min.css")'/>
+        href='@routes.Assets.at("components/font-awesome/css/font-awesome.min.css")'/>
         <link rel="stylesheet" media="screen"
-              href='@routes.Assets.at("components/bootstrap/dist/css/bootstrap.min.css")'/>
-        <link rel="stylesheet" media="screen"
-              href='@routes.Assets.at("components/bootstrap-additions/dist/bootstrap-additions.min.css")'/>
-
-
+        href='@routes.Assets.at("components/bootstrap/dist/css/bootstrap.min.css")'/>
 
         <link rel="stylesheet" media="screen" href='@routes.Assets.at("style.css")'/>
 
     </head>
     <body ng-controller="MainCtrl">
 
-        <mm-welcome></mm-welcome>
-
-        <pre>
-            {{ x }}
-        </pre>
-
-        <button class="btn btn-primary" ng-click="m()">Modal</button>
-
+        <div class="row">
+            <div class="container">
+                <div class="col-md-4">
+                    <h4>Example</h4>
+                </div>
+                <div class="col-md-8">
+                    <h4>Debug</h4>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="container">
                 <div class="col-md-4">
@@ -73,7 +72,6 @@
                 </div>
             </div>
         </div>
-
 
     </body>
 </html>

@@ -1,34 +1,33 @@
 {
-  "name": "citizenReserve",
-  "version": "0.0.0",
-  "homepage": "",
-  "authors": [
-    "factorx"
-  ],
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "public/components"
-  ],
-  "dependencies": {
-    "jquery": "*",
-    "underscore": "*",
-    "angular": "*",
-    "angular-animate": "*",
-    "angular-dynamic-locale": "*",
-    "angular-i18n": "*",
-    "angular-route": "*",
-    "angular-sanitize": "*",
-    "angucomplete": "*",
-    "messenger": "*",
-    "momentjs": "*",
-    "jquery-ui": "*",
-    "angular-strap": "~2.1.3",
-    "angular-fontawesome": "~0.3.0",
-    "bootstrap": "=3.3.0",
-    "bootstrap-additions": "~0.2.3"
-  }
+    "name": "citizenReserve",
+    "version": "0.0.0",
+    "homepage": "",
+    "authors": [
+        "factorx"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "public/components"
+    ],
+    "dependencies": {
+        "jquery": "*",
+        "jquery-ui": "*",
+        "underscore": "*",
+        "angular": "=1.3.5-build.3620+sha.5d36353",
+        "angular-animate": "*",
+        "angular-dynamic-locale": "*",
+        "angular-i18n": "*",
+        "angular-route": "*",
+        "angular-sanitize": "*",
+        "angucomplete": "*",
+        "font-awesome": "*",
+        "bootstrap": "=3.3.0",
+        "angular-bootstrap": "~0.12.0",
+        "messenger": "*",
+        "momentjs": "*"
+    }
 }

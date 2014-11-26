@@ -45,7 +45,6 @@ angular
 
 
         ngModel.$formatters.push (value) ->
-            console.log '$formatters'
             return 0 + parseInt(value)
 
         scope.g = () ->

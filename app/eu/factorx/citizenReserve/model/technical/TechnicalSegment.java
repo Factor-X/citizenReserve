@@ -10,14 +10,25 @@ import java.util.Date;
 @Embeddable
 public class TechnicalSegment {
 
+    @Version
+    private long version;
+
     @CreatedTimestamp
     private Date creationDate;
 
     @UpdatedTimestamp
     @Version
-    private Date lastUpdate;
+    private Date lastUpdateDate;
 
     public TechnicalSegment() {
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     public Date getCreationDate() {
@@ -28,20 +39,20 @@ public class TechnicalSegment {
         this.creationDate = creationDate;
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
-
 
     @Override
     public String toString() {
         return "TechnicalSegment{" +
-                "creationDate=" + creationDate +
-                ", lastUpdate=" + lastUpdate +
+                "version=" + version +
+                ", creationDate=" + creationDate +
+                ", lastUpdateDate=" + lastUpdateDate +
                 '}';
     }
 }

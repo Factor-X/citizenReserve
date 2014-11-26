@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "MainCtrl", ($scope, translationService, modalService) ->
+.controller "MainCtrl", ($scope, translationService, modalService, $log) ->
     $scope.initialLoad =
         translations: false
 
@@ -22,16 +22,34 @@ angular
         return
 
     $scope.x =
-        sel: "Camera"
+        sel: "Human"
         items: [
-            {value: "Gear", icon: 'gear', label: "Gear"},
-            {value: "Globe", icon: 'globe', label: "Globe"},
-            {value: "Heart", icon: 'heart', label: "Heart"},
-            {value: "Camera", icon: 'camera', label: "Camera"}
+            "Human"
+            "Bat"
+            "-"
+            "Vampire"
         ]
         cnt: 10
-    $scope.m = () ->
-        modalService.open('nice-modal', $scope.$new({a: 12}))
+
+
+
+    $scope.$watch 'x.sel', (n,o) ->
+        if n == $scope.x.items[3]
+            modalInstance = modalService.open({
+                templateUrl: '$/angular/views/modal-confirm-vampire.html',
+                controller: 'NiceModalCtrl',
+                size: 'sm'
+                resolve:
+                    chosenValue: () ->
+                        return $scope.x.sel
+
+            });
+
+            modalInstance.result.then (result) ->
+                $log.info(result)
+            , () ->
+                $scope.x.sel = o
+                $log.info('Modal dismissed at: ' + new Date())
 
 #rootScope
 angular.module('app').run ($rootScope, $location, translationService)->

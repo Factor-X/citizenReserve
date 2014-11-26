@@ -1,49 +1,6 @@
-* {
-    box-sizing: border-box !important;
-
-}
-
 .cr-dropdown {
+    display: block;
     width: 100%;
-    box-sizing: border-box;
 
-    & > .cr-dropdown-button {
-        width: 100%;
-        text-align: left;
-        .caret {
-            float: right;
-            margin-top: 0.5em;
-        }
-    }
-
-    .dropdown-menu {
-        width: ~"calc(100% - 2em)";
-
-    }
-    .cr-dropdown-icon {
-        width: 1.5em;
-    }
 }
 
-.modal-backdrop.am-fade {
-    bottom: 0;
-    z-index: 10000;
-    opacity: .5;
-    transition: opacity .15s linear;
-    &.ng-enter {
-        opacity: 0;
-        &.ng-enter-active {
-            opacity: .5;
-        }
-    }
-    &.ng-leave {
-        opacity: .5;
-        &.ng-leave-active {
-            opacity: 0;
-        }
-    }
-}
-
-.modal {
-    z-index: 11000;
-}
