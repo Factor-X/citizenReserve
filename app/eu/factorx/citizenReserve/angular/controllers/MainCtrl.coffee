@@ -31,16 +31,17 @@ angular
         ]
         cnt: 10
         range:
-            first: 2
-            second: 3
-            options: [
-                {value: 0, label: 'OPT_0'}
-                {value: 1, label: 'OPT_1'}
-                {value: 2, label: 'OPT_2'}
-                {value: 3, label: 'OPT_3'}
-                {value: 4, label: 'OPT_4'}
-                {value: 5, label: 'OPT_5'}
-            ]
+            min: 2
+            max: 3
+            rangeMin: 0
+            rangeMax: 5
+
+
+
+
+
+
+
         grid: [
             {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?2165438536158519681651'}
             {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216548536158519681651'}

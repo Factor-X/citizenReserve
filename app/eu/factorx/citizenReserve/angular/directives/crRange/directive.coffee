@@ -4,9 +4,11 @@ angular
     restrict: "E"
     scope: directiveService.autoScope
         ngLabel: '='
-        ngOptions: '='
-        ngFirst: '='
-        ngSecond: '='
+        ngRangeMin: '='
+        ngRangeMax: '='
+        ngMin: '='
+        ngMax: '='
+        ngDisabled: '='
     templateUrl: "$/angular/templates/cr-range.html"
     replace: true
     link: (scope, elem, attrs, ngModel) ->
