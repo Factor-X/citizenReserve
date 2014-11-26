@@ -1,0 +1,17 @@
+<div class="cr-range">
+
+    <label class="cr-range-label" ng-bind-html="getLabel() | translate"></label>
+
+    <div class="input-group btn-group">
+        <input type="text" class="form-control input-sm" ng-model="ngFirst" style="width: 50px;"/>
+
+        <button ng-repeat="o in ngOptions"
+                class="btn btn-sm btn-default  cr-range-button"
+                ng-class="{'btn-danger': ngFirst == o.value, 'btn-info': ngSecond == o.value}"
+                ng-bind-html="o.label | translate"></button>
+
+        <input type="text" class="form-control input-sm" ng-model="ngSecond" style="width: 50px;"/>
+
+    </div>
+
+</div>
