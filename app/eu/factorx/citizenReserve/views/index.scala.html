@@ -102,7 +102,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <cr-range ng-range-min="x.range.rangeMin" ng-range-max="x.range.rangeMax" ng-min="x.range.min" ng-max="x.range.max" label="Q3000"></cr-range>
+                    <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max" label="Q3000"></cr-double-range>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <cr-range label="Q4000" ng-model="x.range.value" ng-options="x.range.options"></cr-range>
+                    <cr-range label="Q4000" ng-model="x.range.value" ng-options="x.range.simpleOptions"></cr-range>
+                    <cr-range label="Q4000" ng-model="x.range.value" ng-options="x.range.options" free-allowed="true"></cr-range>
                 </div>
             </div>
         </div>
@@ -123,6 +135,8 @@
             </div>
 
         </div>
+
+
 
     </body>
 </html>

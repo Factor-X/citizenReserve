@@ -2,6 +2,35 @@
 
     <label class="cr-range-label" ng-bind-html="getLabel() | translate"></label>
 
-    <div range-slider min="ngRangeMin" max="ngRangeMax" model-min="ngMin" model-max="ngMax" step="ngStep" disabled="ngDisabled"></div>
+    <div class="btn-group" ng-hide="edit">
+        <button class="btn btn-default  "
+                ng-class="{active: isValue(o.value)}"
+                ng-repeat="o in computedOptions"
+                ng-click="setValue(o.value)"
+                ng-bind-html="('' + o.label) | translateText"
+            ></button>
+
+        <button ng-if="getFreeAllowed() == 'true'"
+                class="btn btn-danger"
+                ng-click="toggle()">
+            <span class="fa fa-pencil"></span>
+        </button>
+
+    </div>
+
+    <div class="input-group" ng-show="edit">
+
+        <input type="text" class="form-control" ng-model="ngModel"/>
+
+        <span class="input-group-btn">
+            <button
+                ng-show="getFreeAllowed() == 'true'"
+                class="btn btn-danger"
+                ng-click="toggle()">
+                <span class="fa fa-eraser"></span>
+            </button>
+      </span>
+
+    </div>
 
 </div>
