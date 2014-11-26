@@ -101,7 +101,7 @@ public class CalculationServiceImpl implements CalculationService {
 		Double AllPeriodsTotal =  firstPeriodTotal+secondPeriodTotal+thirdPeriodTotal;
 
 		potentialReductionSummary.setAveragePowerReduction(AllPeriodsTotal/HOURSRANGE);
-		potentialReductionSummary.setEnergyReduction((AllPeriodsTotal*HOURSRANGE)/THOUSAND);
+		potentialReductionSummary.setEnergyReduction((potentialReductionSummary.getAveragePowerReduction()*HOURSRANGE)/THOUSAND);
 
 		return (potentialReductionSummary);
 	}

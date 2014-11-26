@@ -29,7 +29,7 @@ public class CalculationServiceTest {
 
         Assert.assertEquals(new Double(1617), potentialReduction.getAveragePowerReduction());
 
-        Assert.assertEquals(new Double(4.9), potentialReduction.getEnergyReduction());
+        Assert.assertEquals(new Double(4.851), potentialReduction.getEnergyReduction());
     }
 
     private List<AnswerDTO> buildSampleConsumerProfile() {
