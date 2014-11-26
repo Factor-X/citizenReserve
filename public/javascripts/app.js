@@ -865,7 +865,7 @@ angular.module('app.controllers').config(function($routeProvider) {
       rangeMax: 5
     },
     radio: {
-      value: 3,
+      value: null,
       options: [
         {
           value: 0,
