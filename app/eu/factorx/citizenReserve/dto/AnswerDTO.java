@@ -2,6 +2,7 @@ package eu.factorx.citizenReserve.dto;
 
 import eu.factorx.citizenReserve.dto.technical.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,9 +12,14 @@ public class AnswerDTO extends DTO {
 
     private String periodKey;
 
-    private List<AnswerValueDTO> answerValues;
+    private List<AnswerValueDTO> answerValues = new ArrayList<>();
 
     public AnswerDTO() {
+    }
+
+    public AnswerDTO(String questionKey, String periodKey) {
+        this.questionKey = questionKey;
+        this.periodKey = periodKey;
     }
 
     public String getQuestionKey() {
@@ -39,4 +45,17 @@ public class AnswerDTO extends DTO {
     public void setAnswerValues(List<AnswerValueDTO> answerValues) {
         this.answerValues = answerValues;
     }
+
+    public boolean addStringValue(String value) {
+        return answerValues.add(new AnswerValueDTO(value));
+    }
+
+    public boolean addDoubleValue(Double value) {
+        return answerValues.add(new AnswerValueDTO(value));
+    }
+
+    public boolean addBooleanValue(Boolean value) {
+        return answerValues.add(new AnswerValueDTO(value));
+    }
+
 }

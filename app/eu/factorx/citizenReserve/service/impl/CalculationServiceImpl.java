@@ -4,9 +4,8 @@ package eu.factorx.citizenReserve.service.impl;
 import eu.factorx.citizenReserve.dto.AnswerDTO;
 import eu.factorx.citizenReserve.dto.AnswerValueDTO;
 import eu.factorx.citizenReserve.dto.ReductionDTO;
-import eu.factorx.citizenReserve.model.AnswerValue;
-import eu.factorx.citizenReserve.model.Period;
-import eu.factorx.citizenReserve.model.QuestionCode;
+import eu.factorx.citizenReserve.model.survey.Period;
+import eu.factorx.citizenReserve.model.survey.QuestionCode;
 import eu.factorx.citizenReserve.service.CalculationService;
 
 import java.util.HashMap;
@@ -117,7 +116,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		// koop for all answers and generate map
 		for (AnswerDTO answer : surveyAnswers) {
-			Map localMapByPeriod = new HashMap<Period,AnswerValue> ();
+			Map localMapByPeriod = new HashMap<Period,AnswerValueDTO> ();
 
 			localMapByPeriod.put (answer.getPeriodKey(),answer.getAnswerValues().get(0));
 			localMapByQuestionCode.put(QuestionCode.valueOf(answer.getQuestionKey()), localMapByPeriod);
