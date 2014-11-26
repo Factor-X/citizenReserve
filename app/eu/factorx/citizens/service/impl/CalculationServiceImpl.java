@@ -184,7 +184,7 @@ public class CalculationServiceImpl implements CalculationService {
 				}
 				AnswerValueDTO avDTO = detail.getValue();
 				System.out.println(">>>DUMP: Period [" + periodKey + "]");
-				System.out.println(">>>DUMP: Values [" + avDTO.getDoubleValue() + "][" + avDTO.getStringValue()+ "][" + avDTO.getBooleanValue()+ "]");
+				System.out.println(">>>DUMP: Values D[" + avDTO.getDoubleValue() + "]S[" + avDTO.getStringValue()+ "]B[" + avDTO.getBooleanValue()+ "]");
 			}
 		}
 		System.out.println("Quitting -> dumpMap");
@@ -219,7 +219,8 @@ public class CalculationServiceImpl implements CalculationService {
 			}
 
 			if (answer.getPeriodKey()==null) {
-				localMapByPeriod.put(answer.getPeriodKey(), answer.getAnswerValues().get(0));
+				// assume Period.FIRST in case no period specified.
+				localMapByPeriod.put(Period.FIRST, answer.getAnswerValues().get(0));
 			} else {
 				//System.out.println("Pushing :" + answer.getPeriodKey());
 				localMapByPeriod.put(Period.valueOf(answer.getPeriodKey()), answer.getAnswerValues().get(0));
@@ -254,17 +255,17 @@ public class CalculationServiceImpl implements CalculationService {
 
 		result.setFirstPeriodPowerReduction(
 				(questionCode.getNominalPower() *
-				  byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getDoubleValue()
+				  Double.parseDouble(byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getStringValue())
 				) / WORKING_DAYS_BY_WEEK);
 
 		result.setSecondPeriodPowerReduction(
 				(questionCode.getNominalPower() *
-						byQuestionCodeAndPeriod.get(questionCode).get(Period.SECOND).getDoubleValue()
+				  Double.parseDouble(byQuestionCodeAndPeriod.get(questionCode).get(Period.SECOND).getStringValue())
 				) / WORKING_DAYS_BY_WEEK);
 
 		result.setThirdPeriodPowerReduction(
 				(questionCode.getNominalPower() *
-						byQuestionCodeAndPeriod.get(questionCode).get(Period.THIRD).getDoubleValue()
+					Double.parseDouble(byQuestionCodeAndPeriod.get(questionCode).get(Period.THIRD).getStringValue())
 				) / WORKING_DAYS_BY_WEEK);
 
 
@@ -280,7 +281,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		value =
 				(questionCode.getNominalPower() *
-						byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getDoubleValue()
+						Double.parseDouble(byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getStringValue())
 				);
 
 		result.setFirstPeriodPowerReduction(value);
