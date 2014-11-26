@@ -30,75 +30,92 @@ public class CalculationServiceImpl implements CalculationService {
     @Override
     public ReductionDTO calculatePotentialReduction(List<AnswerDTO> surveyAnswers) {
 
-		ReductionDTO reduction = new ReductionDTO();
 		Double firstPeriodTotal = ZERO;
 		Double secondPeriodTotal = ZERO;
 		Double thirdPeriodTotal = ZERO;
+
+		Map <QuestionCode,ReductionDTO> reductionDetails = new HashMap <QuestionCode,ReductionDTO>();
+		ReductionDTO reductionSummary = new ReductionDTO();
 
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
 
 		// ******************** Gros electromenager **********************************
 		// 1110
-		addReductionForQuestionCodeAlgo0(QuestionCode.Q1110,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1110,addReductionForQuestionCodeAlgo0(QuestionCode.Q1110, byQuestionCodeAndPeriod));
 		// 1120
-		addReductionForQuestionCodeAlgo0(QuestionCode.Q1120,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1120,addReductionForQuestionCodeAlgo0(QuestionCode.Q1120, byQuestionCodeAndPeriod));
 		// 1130
-		addReductionForQuestionCodeAlgo0(QuestionCode.Q1130,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1130,addReductionForQuestionCodeAlgo0(QuestionCode.Q1130, byQuestionCodeAndPeriod));
 
 		// ******************** Chauffage et eau chaude ******************************
 		// 1600
-		addReductionForQuestionCodeAlgo1(QuestionCode.Q1600, byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal );
+		reductionDetails.put(QuestionCode.Q1600,addReductionForQuestionCodeAlgo1(QuestionCode.Q1600, byQuestionCodeAndPeriod));
 		// 1210
-		addReductionForQuestionCode1210(byQuestionCodeAndPeriod,firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1210,addReductionForQuestionCode1210(byQuestionCodeAndPeriod));
 
 		// ******************** Eclairage et electromenager ***************************
 		// 1160
-		addReductionForQuestionCodeAlgo0(QuestionCode.Q1160,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1160,addReductionForQuestionCodeAlgo0(QuestionCode.Q1160, byQuestionCodeAndPeriod));
 		// 1120
-		addReductionForQuestionCodeAlgo1(QuestionCode.Q1220,byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1220,addReductionForQuestionCodeAlgo1(QuestionCode.Q1220,byQuestionCodeAndPeriod));
 		// 1230
-		addReductionForQuestionCodeAlgo1(QuestionCode.Q1230,byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1230,addReductionForQuestionCodeAlgo1(QuestionCode.Q1230,byQuestionCodeAndPeriod));
 		// 1700 - special
-		addReductionForQuestionCode1700(byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal, thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1700,addReductionForQuestionCode1700(byQuestionCodeAndPeriod));
 		// 1750 - special
-		addReductionForQuestionCode1750(byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal, thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1750,addReductionForQuestionCode1750(byQuestionCodeAndPeriod));
 		// 2010 - special
-		addReductionForQuestionCodeAlgo2(QuestionCode.Q2010,byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q2010,addReductionForQuestionCodeAlgo2(QuestionCode.Q2010,byQuestionCodeAndPeriod));
 		// 2020 - special
-		addReductionForQuestionCodeAlgo2(QuestionCode.Q2020,byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q2020,addReductionForQuestionCodeAlgo2(QuestionCode.Q2020,byQuestionCodeAndPeriod));
 		// 2030 - special
-		addReductionForQuestionCodeAlgo2(QuestionCode.Q2030,byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q2030,addReductionForQuestionCodeAlgo2(QuestionCode.Q2030,byQuestionCodeAndPeriod));
 		// 2040 - special
-		addReductionForQuestionCode2040(byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal, thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q2040,addReductionForQuestionCode2040(byQuestionCodeAndPeriod));
 		// 1235 - special
-		addReductionForQuestionCode1235(byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal, thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1235,addReductionForQuestionCode1235(byQuestionCodeAndPeriod));
 
 
 		// ******************** Repas ***************************
 		// 1140 - special
-		addReductionForQuestionCode1140(byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal, thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1140,addReductionForQuestionCode1140(byQuestionCodeAndPeriod));
 		// 1150
-		addReductionForQuestionCodeAlgo0(QuestionCode.Q1150,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
+		reductionDetails.put(QuestionCode.Q1150,addReductionForQuestionCodeAlgo0(QuestionCode.Q1150, byQuestionCodeAndPeriod));
 
 		// please keep in mind to add adjustment factor - TODO
-		ReductionDTO adjustmentFactor = adjustmentFactor();
-		firstPeriodTotal+= adjustmentFactor.getFirstPeriodPowerReduction();
-		secondPeriodTotal+= adjustmentFactor.getSecondPeriodPowerReduction();
-		thirdPeriodTotal+= adjustmentFactor.getThirdPeriodPowerReduction();
+		//reductionDetails.put("ADJUSTMENT,adjustmentFactor());
+
+		// Perform sum
+		for (Map.Entry<QuestionCode, ReductionDTO> item : reductionDetails.entrySet()) {
+			QuestionCode key = item.getKey();
+			ReductionDTO value = item.getValue();
+
+			firstPeriodTotal+=value.getFirstPeriodPowerReduction();
+			secondPeriodTotal+=value.getSecondPeriodPowerReduction();
+			thirdPeriodTotal+=value.getSecondPeriodPowerReduction();
+		}
 
 		// set up return object's values
-		reduction.setFirstPeriodPowerReduction(firstPeriodTotal);
-		reduction.setSecondPeriodPowerReduction(secondPeriodTotal);
-		reduction.setThirdPeriodPowerReduction(thirdPeriodTotal);
+		reductionSummary.setFirstPeriodPowerReduction(firstPeriodTotal);
+		reductionSummary.setSecondPeriodPowerReduction(secondPeriodTotal);
+		reductionSummary.setThirdPeriodPowerReduction(thirdPeriodTotal);
 
 		Double AllPeriodsTotal =  firstPeriodTotal+secondPeriodTotal+thirdPeriodTotal;
 
-		reduction.setAveragePowerReduction(AllPeriodsTotal/HOURSRANGE);
-		reduction.setEnergyReduction((AllPeriodsTotal*HOURSRANGE)/THOUSAND);
+		reductionSummary.setAveragePowerReduction(AllPeriodsTotal/HOURSRANGE);
+		reductionSummary.setEnergyReduction((AllPeriodsTotal*HOURSRANGE)/THOUSAND);
 
 
-		return reduction;
+		return reductionSummary;
     }
+
+	private Map <QuestionCode,ReductionDTO> calculatePotentialReductionTable(List<AnswerDTO> surveyAnswers) {
+
+
+
+		return null;
+	}
+
 
     @Override
     public ReductionDTO calculateEffectiveReduction(List<AnswerDTO> surveyAnswers) {
@@ -141,28 +158,33 @@ public class CalculationServiceImpl implements CalculationService {
 	}
 
 	// generic for 1110, 1120, 1130, 1160, 1150
-	private void addReductionForQuestionCodeAlgo0(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal) {
+	private ReductionDTO addReductionForQuestionCodeAlgo0(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
 
-		firstPeriodTotal +=
+		ReductionDTO result = new ReductionDTO();
+
+		result.setFirstPeriodPowerReduction(
 				(questionCode.getNominalPower() *
-						byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getDoubleValue()
-				) / WORKING_DAYS_BY_WEEK;
+				  byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getDoubleValue()
+				) / WORKING_DAYS_BY_WEEK);
 
-		secondPeriodTotal +=
+		result.setSecondPeriodPowerReduction(
 				(questionCode.getNominalPower() *
 						byQuestionCodeAndPeriod.get(questionCode).get(Period.SECOND).getDoubleValue()
-				) / WORKING_DAYS_BY_WEEK;
+				) / WORKING_DAYS_BY_WEEK);
 
-		thirdPeriodTotal +=
+		result.setThirdPeriodPowerReduction(
 				(questionCode.getNominalPower() *
 						byQuestionCodeAndPeriod.get(questionCode).get(Period.THIRD).getDoubleValue()
-				) / WORKING_DAYS_BY_WEEK;
+				) / WORKING_DAYS_BY_WEEK);
 
-		return;
+
+		return result;
 	}
 
 	//specific for 1600, 1220, 1230
-	private void addReductionForQuestionCodeAlgo1(QuestionCode questionCode,Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal) {
+	private ReductionDTO addReductionForQuestionCodeAlgo1(QuestionCode questionCode,Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
@@ -171,15 +193,17 @@ public class CalculationServiceImpl implements CalculationService {
 						byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getDoubleValue()
 				);
 
-		firstPeriodTotal += value;
-		secondPeriodTotal += value;
-		thirdPeriodTotal += value;
+		result.setFirstPeriodPowerReduction(value);
+		result.setSecondPeriodPowerReduction(value);
+		result.setThirdPeriodPowerReduction(value);
 
-		return;
+		return result;
 	}
 
 	//specific for 1210
-	private void addReductionForQuestionCode1210(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal ) {
+	private ReductionDTO addReductionForQuestionCode1210(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
@@ -190,18 +214,19 @@ public class CalculationServiceImpl implements CalculationService {
 				  ) *   byQuestionCodeAndPeriod.get(QuestionCode.Q1300).get(Period.FIRST).getDoubleValue() // nb of people in house
 				) / HALF;
 
-		firstPeriodTotal += value;
-		secondPeriodTotal += value;
-		thirdPeriodTotal += value;
+		result.setFirstPeriodPowerReduction(value);
+		result.setSecondPeriodPowerReduction(value);
+		result.setThirdPeriodPowerReduction(value);
 
-		return;
+		return result;
 	}
 
 	//specific for 1700
-	private void addReductionForQuestionCode1700(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal) {
+	private ReductionDTO addReductionForQuestionCode1700(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
-
 
 		value =
 					(QuestionCode.Q1700.getNominalPower() *
@@ -210,22 +235,24 @@ public class CalculationServiceImpl implements CalculationService {
 
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>0) { // if someone house between 17h00 and 18h00
-			firstPeriodTotal += value;
+			result.setFirstPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>1) { // if someone house between 18h00 and 19h00
-			secondPeriodTotal += value;
+			result.setSecondPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>2) { // if someone house between 19h00 and 20h00
-			thirdPeriodTotal += value;
+			result.setThirdPeriodPowerReduction(value);
 		}
 
-		return;
+		return result;
 	}
 
 	//specific for 2010, 2020, 2030
-	private void addReductionForQuestionCodeAlgo2(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal ) {
+	private ReductionDTO addReductionForQuestionCodeAlgo2(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
@@ -237,23 +264,25 @@ public class CalculationServiceImpl implements CalculationService {
 			) / THREEQUARTER;
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>0) { // if someone house between 17h00 and 18h00
-			firstPeriodTotal += value;
+			result.setFirstPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>1) { // if someone house between 18h00 and 19h00
-			secondPeriodTotal += value;
+			result.setSecondPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>2) { // if someone house between 19h00 and 20h00
-			thirdPeriodTotal += value;
+			result.setThirdPeriodPowerReduction(value);
 		}
 
-		return;
+		return result;
 	}
 
 
 	//specific for 1750
-	private void addReductionForQuestionCode1750(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal ) {
+	private ReductionDTO addReductionForQuestionCode1750(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
@@ -266,23 +295,25 @@ public class CalculationServiceImpl implements CalculationService {
 				);
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>0) { // if someone house between 17h00 and 18h00
-			firstPeriodTotal += value;
+			result.setFirstPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>1) { // if someone house between 18h00 and 19h00
-			secondPeriodTotal += value;
+			result.setSecondPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>2) { // if someone house between 19h00 and 20h00
-			thirdPeriodTotal += value;
+			result.setThirdPeriodPowerReduction(value);
 		}
 
-		return;
+		return result;
 	}
 
 
 	//specific for 2040
-	private void addReductionForQuestionCode2040(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal ) {
+	private ReductionDTO addReductionForQuestionCode2040(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
@@ -294,22 +325,24 @@ public class CalculationServiceImpl implements CalculationService {
 				) / THREEQUARTERDOUBLE;
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>0) { // if someone house between 17h00 and 18h00
-			firstPeriodTotal += value;
+			result.setFirstPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>1) { // if someone house between 18h00 and 19h00
-			secondPeriodTotal += value;
+			result.setSecondPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>2) { // if someone house between 19h00 and 20h00
-			thirdPeriodTotal += value;
+			result.setThirdPeriodPowerReduction(value);
 		}
 
-		return;
+		return result;
 	}
 
 	//specific for 1235
-	private void addReductionForQuestionCode1235(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal ) {
+	private ReductionDTO addReductionForQuestionCode1235(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
@@ -321,25 +354,31 @@ public class CalculationServiceImpl implements CalculationService {
 				);
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>0) { // if someone house between 17h00 and 18h00
-			firstPeriodTotal += value;
+			result.setFirstPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>1) { // if someone house between 18h00 and 19h00
-			secondPeriodTotal += value;
+			result.setSecondPeriodPowerReduction(value);
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getDoubleValue()>2) { // if someone house between 19h00 and 20h00
-			thirdPeriodTotal += value;
+			result.setThirdPeriodPowerReduction(value);
 		}
 
-		return;
+		return result;
 	}
 
 	//specific for 1140
-	private void addReductionForQuestionCode1140(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Double firstPeriodTotal, Double secondPeriodTotal, Double thirdPeriodTotal ) {
+	private ReductionDTO addReductionForQuestionCode1140(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+
+		Double firstPeriod;
+		Double secondPeriod;
+		Double thirdPeriod;
+
+		ReductionDTO result = new ReductionDTO();
 
 
-		firstPeriodTotal =
+		firstPeriod =
 				(
 						(
 								(QuestionCode.Q1140.getNominalPower() *
@@ -352,7 +391,7 @@ public class CalculationServiceImpl implements CalculationService {
 								) / HALF
 				);
 
-		secondPeriodTotal =
+		secondPeriod =
 				(
 						(
 								(QuestionCode.Q1140.getNominalPower() *
@@ -365,7 +404,7 @@ public class CalculationServiceImpl implements CalculationService {
 								) / HALF
 				);
 
-		thirdPeriodTotal =
+		thirdPeriod =
 				(
 						(
 								(QuestionCode.Q1140.getNominalPower() *
@@ -379,7 +418,12 @@ public class CalculationServiceImpl implements CalculationService {
 				);
 
 
-		return;
+		result.setFirstPeriodPowerReduction(firstPeriod);
+		result.setSecondPeriodPowerReduction(secondPeriod);
+		result.setThirdPeriodPowerReduction(thirdPeriod);
+
+
+		return result;
 	}
 
 }
