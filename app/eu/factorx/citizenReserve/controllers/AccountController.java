@@ -3,7 +3,7 @@ package eu.factorx.citizenReserve.controllers;
 import eu.factorx.citizenReserve.converter.AccountToAccountDTOConverter;
 import eu.factorx.citizenReserve.dto.AccountDTO;
 import eu.factorx.citizenReserve.dto.technical.ListDTO;
-import eu.factorx.citizenReserve.model.Account;
+import eu.factorx.citizenReserve.model.account.Account;
 import eu.factorx.citizenReserve.service.AccountService;
 import eu.factorx.citizenReserve.service.impl.AccountServiceImpl;
 import play.mvc.Controller;

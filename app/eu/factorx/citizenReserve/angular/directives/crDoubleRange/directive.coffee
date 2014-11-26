@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "crRange", (directiveService) ->
+.directive "crDoubleRange", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
         ngLabel: '='
@@ -9,7 +9,7 @@ angular
         ngMin: '='
         ngMax: '='
         ngDisabled: '='
-    templateUrl: "$/angular/templates/cr-range.html"
+    templateUrl: "$/angular/templates/cr-double-range.html"
     replace: true
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
