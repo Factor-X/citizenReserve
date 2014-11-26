@@ -22,15 +22,41 @@ angular
         return
 
     $scope.x =
-        sel: "Human"
+        sel: 'Human'
         items: [
-            "Human"
-            "Bat"
-            "-"
-            "Vampire"
+            'Human'
+            'Bat'
+            '-'
+            'Vampire'
         ]
         cnt: 10
+        range:
+            min: 2
+            max: 3
+            rangeMin: 0
+            rangeMax: 5
 
+
+
+
+
+
+
+        grid: [
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?2165438536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216548536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216438536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216543836158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216543853615851968161'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/128/512?3216543853615519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3215438536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216543853615851981651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216548536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216543536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/800?3165438536158519681651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3216543853615851981651'}
+            {title: 'AAA', content: 'Hello world', image:'http://placekitten.com/512/512?3215438536158519681651'}
+        ]
 
 
     $scope.$watch 'x.sel', (n,o) ->

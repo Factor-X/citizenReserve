@@ -2,7 +2,7 @@
 # Modules
 #
 
-angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']
+angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider']
 
 angular.module 'app.filters', []
 

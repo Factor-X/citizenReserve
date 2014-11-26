@@ -1,4 +1,4 @@
-angular.module('app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+angular.module('app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider']);
 angular.module('app.filters', []);
 angular.module('app.services', []);
 angular.module('app.controllers', ['app.services', 'ngRoute', 'ngLocale']);
@@ -10,6 +10,144 @@ angular.module('app.controllers').config(function($routeProvider) {
   }).otherwise({
     redirectTo: '/'
   });
+  return;
+});angular.module('app.services').service("modalService", function($rootScope, $modal) {
+  this.open = function(parameters) {
+    return $modal.open(parameters);
+  };
+  return;
+});angular.module('app.services').service("directiveService", function($sce) {
+  this.autoScope = function(s) {
+    var k, res, v;
+    res = {};
+    for (k in s) {
+      v = s[k];
+      res[k] = v;
+      if (k.slice(0, 2) === 'ng' && v === '=') {
+        res[k[2].toLowerCase() + k.slice(3)] = '@';
+      }
+    }
+    return res;
+  };
+  this.autoScopeImpl = function(s, name) {
+    var fget, key, val;
+    s.$$NAME = name;
+    for (key in s) {
+      val = s[key];
+      if (key.slice(0, 2) === 'ng') {
+        fget = function(scope, k) {
+          return function() {
+            var v;
+            v = 0;
+            if (scope[k] === void 0 || scope[k] === null || scope[k] === '') {
+              v = scope[k[2].toLowerCase() + k.slice(3)];
+            } else {
+              v = scope[k];
+            }
+            if (scope['decorate' + k.slice(2)]) {
+              return scope['decorate' + k.slice(2)](v);
+            } else {
+              return v;
+            }
+          };
+        };
+        s['get' + key.slice(2)] = fget(s, key);
+      }
+    }
+    s.isTrue = function(v) {
+      return v === true || v === 'true' || v === 'y';
+    };
+    s.isFalse = function(v) {
+      return v === false || v === 'false' || v === 'n';
+    };
+    s.isNull = function(v) {
+      return v === null;
+    };
+    return s.html = function(v) {
+      return $sce.trustAsHtml(v);
+    };
+  };
+  return;
+});angular.module('app.services').service("messageFlash", function() {
+  this.display = function(type, message, opts) {
+    var options;
+    options = {
+      message: message,
+      type: type,
+      hideAfter: 5,
+      showCloseButton: true
+    };
+    return Messenger().post(angular.extend(options, angular.copy(opts)));
+  };
+  this.displaySuccess = function(message, opts) {
+    return this.display('success', message, opts);
+  };
+  this.displayInfo = function(message, opts) {
+    return this.display('info', message, opts);
+  };
+  this.displayError = function(message, opts) {
+    return this.display('error', message, opts);
+  };
+  return;
+});angular.module('app.services').service("translationService", function($rootScope, $filter, $http) {
+  var svc;
+  svc = this;
+  svc.elements = null;
+  svc.initialize = function(lang) {
+    $http({
+      method: "GET",
+      url: "/citizenReserve/translations/" + lang,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).success(function(data, status, headers, config) {
+      svc.elements = data.lines;
+      return $rootScope.$broadcast("LOAD_FINISHED", {
+        type: "TRANSLATIONS",
+        success: true
+      });
+    }).error(function(data, status, headers, config) {
+      svc.elements = [];
+      return $rootScope.$broadcast("LOAD_FINISHED", {
+        type: "TRANSLATIONS",
+        success: false
+      });
+    });
+    return;
+  };
+  svc.get = function(code, count) {
+    var v;
+    if (svc.elements == null) {
+      return "";
+    }
+    v = svc.elements[code];
+    if (!(v != null)) {
+      return null;
+    }
+    return v;
+  };
+  svc.translateExceptionsDTO = function(exception) {
+    if ((exception.params != null) && Object.keys(exception.params).length > 0) {
+      return $filter('translateTextWithVars')(exception.messageToTranslate, exception.params);
+    } else if (exception.messageToTranslate != null) {
+      return $filter('translate')(exception.messageToTranslate);
+    } else {
+      return exception.message;
+    }
+  };
+  return;
+});angular.module('app.services').service("generateId", function($rootScope) {
+  this.generate = function() {
+    var i, possible, text;
+    text = "";
+    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    i = 0;
+    while (i < 20) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+      i++;
+    }
+    return text;
+  };
   return;
 });angular.module('app.services').service("downloadService", function($http, $q, messageFlash, translationService) {
   this.downloadsInProgress = 0;
@@ -97,144 +235,25 @@ angular.module('app.controllers').config(function($routeProvider) {
     return deferred.promise;
   };
   return;
-});angular.module('app.services').service("messageFlash", function() {
-  this.display = function(type, message, opts) {
-    var options;
-    options = {
-      message: message,
-      type: type,
-      hideAfter: 5,
-      showCloseButton: true
-    };
-    return Messenger().post(angular.extend(options, angular.copy(opts)));
-  };
-  this.displaySuccess = function(message, opts) {
-    return this.display('success', message, opts);
-  };
-  this.displayInfo = function(message, opts) {
-    return this.display('info', message, opts);
-  };
-  this.displayError = function(message, opts) {
-    return this.display('error', message, opts);
-  };
-  return;
-});angular.module('app.services').service("directiveService", function($sce) {
-  this.autoScope = function(s) {
-    var k, res, v;
-    res = {};
-    for (k in s) {
-      v = s[k];
-      res[k] = v;
-      if (k.slice(0, 2) === 'ng' && v === '=') {
-        res[k[2].toLowerCase() + k.slice(3)] = '@';
+});angular.module('app.filters').filter("translateTextWithVars", function($sce, translationService) {
+  return function(input, vars) {
+    var k, text, v;
+    text = translationService.get(input, null);
+    if (text != null) {
+      for (k in vars) {
+        v = vars[k];
+        text = text.replace('{' + k + '}', v);
       }
+      return text;
     }
-    return res;
+    return input;
   };
-  this.autoScopeImpl = function(s, name) {
-    var fget, key, val;
-    s.$$NAME = name;
-    for (key in s) {
-      val = s[key];
-      if (key.slice(0, 2) === 'ng') {
-        fget = function(scope, k) {
-          return function() {
-            var v;
-            v = 0;
-            if (scope[k] === void 0 || scope[k] === null || scope[k] === '') {
-              v = scope[k[2].toLowerCase() + k.slice(3)];
-            } else {
-              v = scope[k];
-            }
-            if (scope['decorate' + k.slice(2)]) {
-              return scope['decorate' + k.slice(2)](v);
-            } else {
-              return v;
-            }
-          };
-        };
-        s['get' + key.slice(2)] = fget(s, key);
-      }
-    }
-    s.isTrue = function(v) {
-      return v === true || v === 'true' || v === 'y';
-    };
-    s.isFalse = function(v) {
-      return v === false || v === 'false' || v === 'n';
-    };
-    s.isNull = function(v) {
-      return v === null;
-    };
-    return s.html = function(v) {
-      return $sce.trustAsHtml(v);
-    };
-  };
-  return;
-});angular.module('app.services').service("modalService", function($rootScope, $modal) {
-  this.open = function(parameters) {
-    return $modal.open(parameters);
-  };
-  return;
-});angular.module('app.services').service("generateId", function($rootScope) {
-  this.generate = function() {
-    var i, possible, text;
-    text = "";
-    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    i = 0;
-    while (i < 20) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-      i++;
-    }
-    return text;
-  };
-  return;
-});angular.module('app.services').service("translationService", function($rootScope, $filter, $http) {
-  var svc;
-  svc = this;
-  svc.elements = null;
-  svc.initialize = function(lang) {
-    $http({
-      method: "GET",
-      url: "/citizenReserve/translations/" + lang,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).success(function(data, status, headers, config) {
-      svc.elements = data.lines;
-      return $rootScope.$broadcast("LOAD_FINISHED", {
-        type: "TRANSLATIONS",
-        success: true
-      });
-    }).error(function(data, status, headers, config) {
-      svc.elements = [];
-      return $rootScope.$broadcast("LOAD_FINISHED", {
-        type: "TRANSLATIONS",
-        success: false
-      });
-    });
-    return;
-  };
-  svc.get = function(code, count) {
-    var v;
-    if (svc.elements == null) {
-      return "";
-    }
-    v = svc.elements[code];
-    if (!(v != null)) {
-      return null;
-    }
-    return v;
-  };
-  svc.translateExceptionsDTO = function(exception) {
-    if ((exception.params != null) && Object.keys(exception.params).length > 0) {
-      return $filter('translateTextWithVars')(exception.messageToTranslate, exception.params);
-    } else if (exception.messageToTranslate != null) {
-      return $filter('translate')(exception.messageToTranslate);
-    } else {
-      return exception.message;
+});angular.module('app.filters').filter("stringToFloat", function() {
+  return function(input) {
+    if (input != null) {
+      return parseFloat(input);
     }
   };
-  return;
 });angular.module('app.filters').filter("numberToI18N", function($filter) {
   return function(input, nbDecimal) {
     if (nbDecimal == null) {
@@ -269,12 +288,6 @@ angular.module('app.controllers').config(function($routeProvider) {
       return $sce.trustAsHtml("<span class=\"translated-text translation-missing\" data-code=\"" + input + "\">[" + input + "]</span>");
     }
   };
-});angular.module('app.filters').filter("stringToFloat", function() {
-  return function(input) {
-    if (input != null) {
-      return parseFloat(input);
-    }
-  };
 });angular.module('app.filters').filter("translateText", function($sce, translationService) {
   return function(input, count) {
     var text;
@@ -283,42 +296,6 @@ angular.module('app.controllers').config(function($routeProvider) {
       return text;
     }
     return input;
-  };
-});angular.module('app.filters').filter("translateTextWithVars", function($sce, translationService) {
-  return function(input, vars) {
-    var k, text, v;
-    text = translationService.get(input, null);
-    if (text != null) {
-      for (k in vars) {
-        v = vars[k];
-        text = text.replace('{' + k + '}', v);
-      }
-      return text;
-    }
-    return input;
-  };
-});angular.module('app.directives').directive("crDropdown", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngLabel: '=',
-      ngOptions: '=',
-      ngModel: '=',
-      ngDisabled: '=',
-      ngOpened: '='
-    }),
-    templateUrl: "$/angular/templates/cr-dropdown.html",
-    replace: true,
-    link: function(scope) {
-      directiveService.autoScopeImpl(scope);
-      scope.$select = function(o) {
-        return scope.ngModel = o;
-      };
-      return scope.$opened = function() {
-        console.log('ok');
-        return !!scope.getOpened();
-      };
-    }
   };
 });angular.module('app.directives').directive("focusMe", function($timeout, $parse) {
   return {
@@ -701,98 +678,21 @@ angular.module('app.controllers').config(function($routeProvider) {
       return scope;
     }
   };
-});angular.module('app.directives').directive("mmModalTest", function(directiveService, messageFlash, $http, downloadService) {
+});angular.module('app.directives').directive("crRange", function(directiveService) {
   return {
     restrict: "E",
     scope: directiveService.autoScope({
-      ngParams: '='
+      ngLabel: '=',
+      ngRangeMin: '=',
+      ngRangeMax: '=',
+      ngMin: '=',
+      ngMax: '=',
+      ngDisabled: '='
     }),
-    templateUrl: "$/angular/templates/mm-modal-test.html",
-    controller: function($scope, modalService) {
-      directiveService.autoScopeImpl($scope);
-      $scope.fields = {
-        name: {
-          fieldTitle: "Name",
-          validationRegex: "^.{3,50}$",
-          validationMessage: "between 3 and 50 characters",
-          focus: function() {
-            return true;
-          }
-        }
-      };
-      $scope.allFieldValid = function() {
-        var key, _i, _len, _ref;
-        _ref = Object.keys($scope.fields);
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          key = _ref[_i];
-          if (key !== '$$hashKey') {
-            if (!($scope.fields[key].isValid != null) || $scope.fields[key].isValid === false) {
-              return false;
-            }
-          }
-        }
-        return true;
-      };
-      $scope.save = function() {
-        var data, url;
-        if ($scope.allFieldValid()) {
-          $scope.isLoading = true;
-          url = "??";
-          data = {};
-          downloadService.postJson(url, data, function(result) {
-            $scope.isLoading = false;
-            if (result.success) {
-              return $scope.close();
-            }
-          });
-        }
-        return false;
-      };
-      return $scope.close = function() {
-        return modalService.close(modalService.TEST);
-      };
-    },
-    link: function(scope) {}
-  };
-});angular.module('app.directives').directive("mmModalManager", function(directiveService, $compile) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngCondition: '='
-    }),
-    templateUrl: "$/angular/templates/mm-modal-manager.html",
+    templateUrl: "$/angular/templates/cr-range.html",
     replace: true,
-    link: function(scope, element) {
-      scope.$on('SHOW_MODAL', function(event, args) {
-        if (args.show === true) {
-          scope.displayModal(args.target, args.params);
-        } else {
-          scope.removeModal(args.target);
-        }
-        return;
-      });
-      scope.displayModal = function(target, params) {
-        var directive, paramName;
-        paramName = 'params_' + target.replace(/-/g, "_");
-        scope[paramName] = params;
-        console.log("display mode");
-        console.log(params);
-        console.log("<mm-modal-" + target + " ng-params=\"" + paramName + "\" ></mm-modal-" + target + ">");
-        directive = $compile("<mm-modal-" + target + " ng-params=\"" + paramName + "\" ></mm-modal-" + target + ">")(scope);
-        element.append(directive);
-        return;
-      };
-      return scope.removeModal = function(target) {
-        var child, _i, _len, _ref;
-        _ref = element.children();
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          child = _ref[_i];
-          if (child.tagName.toLowerCase() === 'mm-modal-' + target.toLowerCase()) {
-            angular.element(child).remove();
-          }
-        }
-        return;
-      };
+    link: function(scope, elem, attrs, ngModel) {
+      return directiveService.autoScopeImpl(scope);
     }
   };
 });angular.module('app.directives').directive("mmWelcome", function($location, $http, modalService, translationService) {
@@ -806,6 +706,29 @@ angular.module('app.controllers').config(function($routeProvider) {
       return scope.open = function() {
         console.log("je suis ouvrir test");
         return modalService.show(modalService.TEST);
+      };
+    }
+  };
+});angular.module('app.directives').directive("crDropdown", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngLabel: '=',
+      ngOptions: '=',
+      ngModel: '=',
+      ngDisabled: '=',
+      ngOpened: '='
+    }),
+    templateUrl: "$/angular/templates/cr-dropdown.html",
+    replace: true,
+    link: function(scope) {
+      directiveService.autoScopeImpl(scope);
+      scope.$select = function(o) {
+        return scope.ngModel = o;
+      };
+      return scope.$opened = function() {
+        console.log('ok');
+        return !!scope.getOpened();
       };
     }
   };
@@ -830,9 +753,70 @@ angular.module('app.controllers').config(function($routeProvider) {
     return;
   });
   $scope.x = {
-    sel: "Human",
-    items: ["Human", "Bat", "-", "Vampire"],
-    cnt: 10
+    sel: 'Human',
+    items: ['Human', 'Bat', '-', 'Vampire'],
+    cnt: 10,
+    range: {
+      min: 2,
+      max: 3,
+      rangeMin: 0,
+      rangeMax: 5
+    },
+    grid: [
+      {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?2165438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216548536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543836158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543853615851968161'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/128/512?3216543853615519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3215438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543853615851981651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216548536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/800?3165438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543853615851981651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3215438536158519681651'
+      }
+    ]
   };
   return $scope.$watch('x.sel', function(n, o) {
     var modalInstance;
@@ -864,6 +848,4 @@ angular.module('app').run(function($rootScope, $location, translationService) {}
   return $scope.cancel = function() {
     return $modalInstance.dismiss('cancel');
   };
-});angular.module('app.controllers').controller("FormCtrl", function($scope, $http, modalService, downloadService) {
-  return $scope.text = "example";
-});angular.module('app.directives').run(function($templateCache) {$templateCache.put('$/angular/templates/cr-dropdown.html', "<div class=\"cr-dropdown\">\n\n    <label class=\"cr-dropdown-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <!-- Single button -->\n    <div class=\"btn-group cr-dropdown-control\"\n         dropdown>\n\n        <button type=\"button\"\n                class=\"btn btn-primary dropdown-toggle cr-dropdown-button\"\n                dropdown-toggle\n                ng-disabled=\"getDisabled()\">\n            {{ ngModel }} <span class=\"caret\"></span>\n        </button>\n\n        <ul class=\"dropdown-menu cr-dropdown-menu\"\n            role=\"menu\">\n            <li ng-repeat=\"o in ngOptions\" class=\"cr-dropdown-menu-item\" ng-class=\"{divider: (o == '-')}\">\n                <a class=\"cr-dropdown-menu-item-link\" ng-if=\"o != '-'\" ng-click=\"$select(o)\">{{ o }}</a>\n            </li>\n        </ul>\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/mm-modal-test.html', "<!-- Modal-->\n<div ng-enter=\"save()\" ng-escape=\"close()\" class=\"modal\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" ng-click=\"close()\" class=\"button\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>\n                <h4 class=\"modal-title\">Je suis une modale</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"field_form\">\n                    <mm-field-text ng-info=\"fields.name\"></mm-field-text>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div ng-hide=\"isLoading\">\n                    <button type=\"button\" ng-click=\"close();\" class=\"button btn btn-primary\">Cancel</button>\n                    <button type=\"button\" ng-click=\"save();\" ng-disabled=\"!allFieldValid()\" class=\"button btn btn-primary\">Save</button>\n                </div><img ng-show=\"isLoading\" src=\"/assets/images/modal-loading.gif\">\n            </div>\n        </div>\n    </div>\n</div>");$templateCache.put('$/angular/templates/mm-modal-manager.html', "<div>\n\n</div>");$templateCache.put('$/angular/templates/mm-welcome.html', "<div>\n    <h2 ng-bind-html=\"'directive.welcome.title.label' | translate \"></h2>\n\n    <div ng-view></div>\n</div>");$templateCache.put('$/angular/templates/mm-field-text.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"field_error_message_flash\" ng-show=\"errorMessage.length&gt;0\"><div>{{errorMessage}}</div><img src=\"/assets/images/question_field_error_message_icon_arrow.png\"></div><input ng-disabled=\"getInfo().disabled\" placeholder=\"{{getInfo().placeholder}}\" numbers-only=\"{{getInfo().numbersOnly}}\" focus-me=\"getInfo().focus()\" ng-class=\"{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}\" ng-model=\"getInfo().field\" type=\"{{fieldType}}\"></div><div><div ng-if=\"isValidationDefined\"><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-date.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"dropdown\"></div><a class=\"dropdown-toggle\" data-target=\"#\" id=\"{{id}}\" role=\"button\" data-toggle=\"dropdown\" href=\"\"><div class=\"input-group\"><input class=\"form-control\" ng-model=\"resultFormated\" type=\"text\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span></div><ul class=\"dropdown-menu date_input\" aria-labelledby=\"dLabel\" role=\"menu\"><datetimepicker data-ng-model=\"result\" data-datetimepicker-config=\"{ dropdownSelector: '{{idHtag}}',minView:'day' }\"></datetimepicker></ul></a></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-auto-completion.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><angucomplete minlength=\"1\" pause=\"400\" ng-disabled=\"getInfo().disabled\" id=\"members\" titlefield=\"content\" inputclass=\"form-control form-control-small\" placeholder=\"{{getInfo().placeholder}}\" selectedobject=\"result\" datafield=\"values\" url=\"{{getInfo().url}}\"></angucomplete></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/cr-number.html', "<div class=\"cr-number\">\n\n    <label class=\"cr-number-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <input\n        class=\"form-control cr-number-input\"\n        ng-model=\"ngModel\"/>\n\n    {{ g() }}\n\n</div>");$templateCache.put('$/angular/views/modal-confirm-vampire.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Vampire</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/nice-modal.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">I'm a modal!</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/form.html', "<div>\n    <h1>Je suis un {{text}} =></h1>\n\n    <div ng-bind-html=\"'hello' | translate\"></div>\n    <button ng-click=\"open()\">Click-me !</button>\n\n\n    <table>\n        <tr>\n            <th>\n                First name\n            </th>\n            <th>\n                Last name\n            </th>\n            <th>\n                Email\n            </th>\n        </tr>\n        <tr ng-repeat=\"account in accounts\">\n            <td>\n                {{account.firstName}}\n            </td>\n            <td>\n                {{ account.lastName}}\n            </td>\n            <td>\n                {{ account.email}}\n            </td>\n        </tr>\n    </table>\n\n</div>");$templateCache.put('$/angular/views/modal.html', "<div class=\"modal top am-fade-and-slide-top\" tabindex=\"-1\" role=\"dialog\" style=\"display: block;\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\" ng-include=\"'$/angular/views/nice-modal.html'\">\n        </div>\n    </div>\n</div>");});
+});angular.module('app.directives').run(function($templateCache) {$templateCache.put('$/angular/templates/cr-dropdown.html', "<div class=\"cr-dropdown\">\n\n    <label class=\"cr-dropdown-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <!-- Single button -->\n    <div class=\"btn-group cr-dropdown-control\"\n         dropdown>\n\n        <button type=\"button\"\n                class=\"btn btn-default dropdown-toggle cr-dropdown-button\"\n                dropdown-toggle\n                ng-disabled=\"getDisabled()\">\n            {{ ngModel }} <span class=\"caret\"></span>\n        </button>\n\n        <ul class=\"dropdown-menu cr-dropdown-menu\"\n            role=\"menu\">\n            <li ng-repeat=\"o in ngOptions\" class=\"cr-dropdown-menu-item\" ng-class=\"{divider: (o == '-')}\">\n                <a class=\"cr-dropdown-menu-item-link\" ng-if=\"o != '-'\" ng-click=\"$select(o)\">{{ o }}</a>\n            </li>\n        </ul>\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/mm-welcome.html', "<div>\n    <h2 ng-bind-html=\"'directive.welcome.title.label' | translate \"></h2>\n\n    <div ng-view></div>\n</div>");$templateCache.put('$/angular/templates/mm-field-text.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"field_error_message_flash\" ng-show=\"errorMessage.length&gt;0\"><div>{{errorMessage}}</div><img src=\"/assets/images/question_field_error_message_icon_arrow.png\"></div><input ng-disabled=\"getInfo().disabled\" placeholder=\"{{getInfo().placeholder}}\" numbers-only=\"{{getInfo().numbersOnly}}\" focus-me=\"getInfo().focus()\" ng-class=\"{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}\" ng-model=\"getInfo().field\" type=\"{{fieldType}}\"></div><div><div ng-if=\"isValidationDefined\"><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-date.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"dropdown\"></div><a class=\"dropdown-toggle\" data-target=\"#\" id=\"{{id}}\" role=\"button\" data-toggle=\"dropdown\" href=\"\"><div class=\"input-group\"><input class=\"form-control\" ng-model=\"resultFormated\" type=\"text\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span></div><ul class=\"dropdown-menu date_input\" aria-labelledby=\"dLabel\" role=\"menu\"><datetimepicker data-ng-model=\"result\" data-datetimepicker-config=\"{ dropdownSelector: '{{idHtag}}',minView:'day' }\"></datetimepicker></ul></a></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-auto-completion.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><angucomplete minlength=\"1\" pause=\"400\" ng-disabled=\"getInfo().disabled\" id=\"members\" titlefield=\"content\" inputclass=\"form-control form-control-small\" placeholder=\"{{getInfo().placeholder}}\" selectedobject=\"result\" datafield=\"values\" url=\"{{getInfo().url}}\"></angucomplete></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/cr-number.html', "<div class=\"cr-number\">\n\n    <label class=\"cr-number-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <input\n        class=\"form-control cr-number-input\"\n        ng-model=\"ngModel\"/>\n\n</div>");$templateCache.put('$/angular/templates/cr-range.html', "<div class=\"cr-range\">\n\n    <label class=\"cr-range-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <div range-slider min=\"ngRangeMin\" max=\"ngRangeMax\" model-min=\"ngMin\" model-max=\"ngMax\" step=\"ngStep\" disabled=\"ngDisabled\"></div>\n\n</div>");$templateCache.put('$/angular/views/modal-confirm-vampire.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Vampire</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/form.html', "<div>\n    <h1>Je suis un {{text}} =></h1>\n\n    <div ng-bind-html=\"'hello' | translate\"></div>\n    <button ng-click=\"open()\">Click-me !</button>\n\n\n    <table>\n        <tr>\n            <th>\n                First name\n            </th>\n            <th>\n                Last name\n            </th>\n            <th>\n                Email\n            </th>\n        </tr>\n        <tr ng-repeat=\"account in accounts\">\n            <td>\n                {{account.firstName}}\n            </td>\n            <td>\n                {{ account.lastName}}\n            </td>\n            <td>\n                {{ account.email}}\n            </td>\n        </tr>\n    </table>\n\n</div>");});
