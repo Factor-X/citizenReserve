@@ -1,7 +1,7 @@
 package eu.factorx.citizenReserve.converter;
 
 import eu.factorx.citizenReserve.dto.AccountDTO;
-import eu.factorx.citizenReserve.model.Account;
+import eu.factorx.citizenReserve.model.account.Account;
 
 /**
  * Created by florian on 20/11/14.

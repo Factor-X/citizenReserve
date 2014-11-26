@@ -1,16 +1,17 @@
-package eu.factorx.citizenReserve.model;
+package eu.factorx.citizenReserve.model.survey;
 
 import eu.factorx.citizenReserve.model.technical.AbstractEntity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "answers")
 public class Answer extends AbstractEntity {
 
-    @ManyToOne(optional = false)
-    private Account account;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private Survey survey;
 
     @Enumerated(value = EnumType.STRING)
     private QuestionCode questionCode;
@@ -18,18 +19,29 @@ public class Answer extends AbstractEntity {
     @Enumerated(value = EnumType.STRING)
     private Period period;
 
-    @OneToMany(mappedBy = "answer")
-    private Set<AnswerValue> answerValues;
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AnswerValue> answerValues = new HashSet<>();
 
     public Answer() {
     }
 
-    public Account getAccount() {
-        return account;
+    public Answer(Survey survey, QuestionCode questionCode) {
+        this.survey = survey;
+        this.questionCode = questionCode;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public Answer(Survey survey, QuestionCode questionCode, Period period) {
+        this.survey = survey;
+        this.questionCode = questionCode;
+        this.period = period;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 
     public QuestionCode getQuestionCode() {
@@ -56,6 +68,18 @@ public class Answer extends AbstractEntity {
         this.answerValues = answerValues;
     }
 
+    public boolean addStringValue(String value) {
+        return answerValues.add(new AnswerValue(this, value));
+    }
+
+    public boolean addDoubleValue(Double value) {
+        return answerValues.add(new AnswerValue(this, value));
+    }
+
+    public boolean addBooleanValue(Boolean value) {
+        return answerValues.add(new AnswerValue(this, value));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,7 +88,6 @@ public class Answer extends AbstractEntity {
 
         Answer answer = (Answer) o;
 
-        if (!account.equals(answer.account)) return false;
         if (period != answer.period) return false;
         if (questionCode != answer.questionCode) return false;
 
@@ -74,7 +97,6 @@ public class Answer extends AbstractEntity {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + account.hashCode();
         result = 31 * result + questionCode.hashCode();
         result = 31 * result + (period != null ? period.hashCode() : 0);
         return result;

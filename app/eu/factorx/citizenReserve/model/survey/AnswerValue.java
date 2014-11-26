@@ -1,7 +1,8 @@
-package eu.factorx.citizenReserve.model;
+package eu.factorx.citizenReserve.model.survey;
 
 import eu.factorx.citizenReserve.model.technical.AbstractEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "answervalues")
 public class AnswerValue extends AbstractEntity {
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Answer answer;
 
     private String stringValue;
@@ -20,6 +21,21 @@ public class AnswerValue extends AbstractEntity {
     private Boolean booleanValue;
 
     public AnswerValue() {
+    }
+
+    public AnswerValue(Answer answer, String stringValue) {
+        this.answer = answer;
+        this.stringValue = stringValue;
+    }
+
+    public AnswerValue(Answer answer, Double doubleValue) {
+        this.answer = answer;
+        this.doubleValue = doubleValue;
+    }
+
+    public AnswerValue(Answer answer, Boolean booleanValue) {
+        this.answer = answer;
+        this.booleanValue = booleanValue;
     }
 
     public Answer getAnswer() {

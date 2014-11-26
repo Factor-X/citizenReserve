@@ -1,4 +1,4 @@
-package eu.factorx.citizenReserve.model;
+package eu.factorx.citizenReserve.model.survey;
 
 public enum Period {
     FIRST,  // 17h-18h

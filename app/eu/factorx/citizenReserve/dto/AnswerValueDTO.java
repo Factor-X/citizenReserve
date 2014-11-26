@@ -13,6 +13,18 @@ public class AnswerValueDTO extends DTO {
     public AnswerValueDTO() {
     }
 
+    public AnswerValueDTO(String stringValue) {
+        this.stringValue = stringValue;
+    }
+
+    public AnswerValueDTO(Double doubleValue) {
+        this.doubleValue = doubleValue;
+    }
+
+    public AnswerValueDTO(Boolean booleanValue) {
+        this.booleanValue = booleanValue;
+    }
+
     public String getStringValue() {
         return stringValue;
     }
