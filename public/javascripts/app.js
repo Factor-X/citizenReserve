@@ -751,8 +751,8 @@ angular.module('app.controllers').config(function($routeProvider) {
     return;
   });
   $scope.x = {
-    sel: "Human",
-    items: ["Human", "Bat", "-", "Vampire"],
+    sel: 'Human',
+    items: ['Human', 'Bat', '-', 'Vampire'],
     cnt: 10,
     range: {
       first: 2,
@@ -778,7 +778,62 @@ angular.module('app.controllers').config(function($routeProvider) {
           label: 'OPT_5'
         }
       ]
-    }
+    },
+    grid: [
+      {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?2165438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216548536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543836158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543853615851968161'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/128/512?3216543853615519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3215438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543853615851981651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216548536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/800?3165438536158519681651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3216543853615851981651'
+      }, {
+        title: 'AAA',
+        content: 'Hello world',
+        image: 'http://placekitten.com/512/512?3215438536158519681651'
+      }
+    ]
   };
   return $scope.$watch('x.sel', function(n, o) {
     var modalInstance;

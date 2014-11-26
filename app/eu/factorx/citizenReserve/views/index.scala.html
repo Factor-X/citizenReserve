@@ -33,10 +33,10 @@
 
         <div class="row">
             <div class="container">
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <h4>Example</h4>
                 </div>
-                <div class="col-md-8">
+                <div class="col-sm-8">
                     <h4>Debug</h4>
                 </div>
             </div>
@@ -46,10 +46,10 @@
 
         <div class="row">
             <div class="container">
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <cr-dropdown label="Q1000" ng-options="x.items" ng-model="x.sel"></cr-dropdown>
                 </div>
-                <div class="col-md-8">
+                <div class="col-sm-8">
                     {{ x.sel }}
                 </div>
             </div>
@@ -59,10 +59,10 @@
 
         <div class="row">
             <div class="container">
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <cr-number label="Q2000" ng-model="x.cnt"></cr-number>
                 </div>
-                <div class="col-md-8">
+                <div class="col-sm-8">
                     {{ x.cnt }}
                 </div>
             </div>
@@ -72,25 +72,26 @@
 
         <div class="row">
             <div class="container">
+                <div class="col-md-12">
+                    <tabset class="cr-tabset">
+                        <tab heading="Static title">
+                            <tab-heading>
+                                <i class="fa fa-gear"></i> Options!
+                            </tab-heading>
 
-                <tabset class="cr-tabset">
-                    <tab heading="Static title">
-                        <tab-heading>
-                            <i class="fa fa-gear"></i> Options!
-                        </tab-heading>
+                            Static content
+                        </tab>
 
-                        Static content
-                    </tab>
+                        <tab select="alertMe()">
+                            <tab-heading>
+                                <i class="fa fa-gear"></i> Options!
+                            </tab-heading>
 
-                    <tab select="alertMe()">
-                        <tab-heading>
-                            <i class="fa fa-gear"></i> Options!
-                        </tab-heading>
+                            I've got an HTML heading, and a select callback. Pretty cool!
+                        </tab>
+                    </tabset>
 
-                        I've got an HTML heading, and a select callback. Pretty cool!
-                    </tab>
-                </tabset>
-
+                </div>
             </div>
         </div>
 
@@ -98,10 +99,23 @@
 
         <div class="row">
             <div class="container">
-
-                <cr-range ng-first="x.range.first" ng-second="x.range.second" ng-options="x.range.options" label="Q3000"></cr-range>
-
+                <div class="col-12">
+                    <cr-range ng-first="x.range.first" ng-second="x.range.second" ng-options="x.range.options" label="Q3000"></cr-range>
+                </div>
             </div>
+        </div>
+
+        <hr/>
+
+        <div class="container">
+            <div class="row cr-grid">
+                <div class="col-sm-3 cr-grid-item" ng-repeat="i in x.grid">
+                    <h3>{{ i.title }}</h3>
+                    <img ng-src="{{i.image}}" alt=""/>
+                    <p>{{ i.content }}</p>
+                </div>
+            </div>
+
         </div>
 
     </body>
