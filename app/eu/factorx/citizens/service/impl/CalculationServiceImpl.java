@@ -173,9 +173,20 @@ public class CalculationServiceImpl implements CalculationService {
 		for (Map.Entry <QuestionCode,Map<Period,AnswerValueDTO>> item : localMapByQuestionCode.entrySet()) {
 			QuestionCode key = item.getKey();
 			Map<Period,AnswerValueDTO> value = item.getValue();
-			System.out.println("DUMP: [" + key + "]");
-		}
+			System.out.println("DUMP: QuestionCode [" + key + "]");
 
+			for (Map.Entry <Period,AnswerValueDTO> detail : item.getValue().entrySet()) {
+				Period periodKey;
+				if (detail.getKey()!=null) {
+					periodKey = Period.valueOf(detail.getKey().name());
+				} else {
+					periodKey = detail.getKey();
+				}
+				AnswerValueDTO avDTO = detail.getValue();
+				System.out.println(">>>DUMP: Period [" + periodKey + "]");
+				System.out.println(">>>DUMP: Values [" + avDTO.getDoubleValue() + "][" + avDTO.getStringValue()+ "][" + avDTO.getBooleanValue()+ "]");
+			}
+		}
 		System.out.println("Quitting -> dumpMap");
 	}
 
@@ -186,23 +197,37 @@ public class CalculationServiceImpl implements CalculationService {
 
 	private Map<QuestionCode,Map<Period,AnswerValueDTO>> convertToMap (List<AnswerDTO> surveyAnswers) {
 
-		System.out.println("Entering -> convertToMap");
+		//System.out.println("Entering -> convertToMap");
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> localMapByQuestionCode = new HashMap<QuestionCode,Map<Period,AnswerValueDTO>> ();
-
 
 
 		// keep for all answers and generate map
 		for (AnswerDTO answer : surveyAnswers) {
+
 			Map localMapByPeriod = new HashMap<Period,AnswerValueDTO> ();
 
-			System.out.println("into 1st loop: [" + answer.getPeriodKey() + "]");
-			System.out.println("into 1st loop: [" + answer.getAnswerValues().get(0) + "]");
+			//System.out.println("into 1st loop - QuestionCode : [" + answer.getQuestionKey() + "]");
+			//System.out.println("into 1st loop - Period : [" + answer.getPeriodKey() + "]");
+			//System.out.println("into 1st loop - StringValue : [" + answer.getAnswerValues().get(0).getStringValue() + "]");
+			//System.out.println("into 1st loop - DoubleValue : [" + answer.getAnswerValues().get(0).getDoubleValue() + "]");
+			//System.out.println("into 1st loop - BooleanValue : [" + answer.getAnswerValues().get(0).getBooleanValue() + "]");
 
-			localMapByPeriod.put (answer.getPeriodKey(),answer.getAnswerValues().get(0));
+			// check if QuestionCode already into main key map
+			if (localMapByQuestionCode.containsKey(QuestionCode.valueOf(answer.getQuestionKey()))) {
+				// QuestionCode already present
+				localMapByPeriod = localMapByQuestionCode.get(QuestionCode.valueOf(answer.getQuestionKey()));
+			}
+
+			if (answer.getPeriodKey()==null) {
+				localMapByPeriod.put(answer.getPeriodKey(), answer.getAnswerValues().get(0));
+			} else {
+				//System.out.println("Pushing :" + answer.getPeriodKey());
+				localMapByPeriod.put(Period.valueOf(answer.getPeriodKey()), answer.getAnswerValues().get(0));
+			}
 			localMapByQuestionCode.put(QuestionCode.valueOf(answer.getQuestionKey()), localMapByPeriod);
 		}
 
-		System.out.println("Quitting -> convertToMap");
+		//System.out.println("Quitting -> convertToMap");
 		return (localMapByQuestionCode);
 	}
 

@@ -35,6 +35,7 @@ public class CalculationServiceTest {
     private List<AnswerDTO> buildSampleConsumerProfile() {
         List<AnswerDTO> answersDTOs = new ArrayList<>();
 
+
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1300, null, 4d));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1400, null, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1500, null, "1"));
@@ -43,9 +44,11 @@ public class CalculationServiceTest {
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.SECOND, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.THIRD, "2"));
 
+
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.SECOND, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.THIRD, "2"));
+
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.SECOND, "0"));
@@ -53,6 +56,7 @@ public class CalculationServiceTest {
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1600, null, 0));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1900, null, 0));
+
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1210, null, "0"));
 
@@ -81,6 +85,7 @@ public class CalculationServiceTest {
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.SECOND, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.THIRD, "0"));
+
         return answersDTOs;
     }
 
