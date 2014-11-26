@@ -57,7 +57,14 @@ img {
     }
 
     &.active:not(.first) {
-        border-color: green;
+        position: absolute;
+        display: inline-block;
+        height: 16px;
+        background: #d3d3d3;
+        width: 16px;
+        border-radius: 8px;
+        border: solid 4px green;
+        bottom: 4px;
     }
 
 }
@@ -66,6 +73,7 @@ img {
     position: absolute;
     padding: 0;
     width: 100px;
+    height: 24px;
     margin-left: -50px;
     bottom: 24px;
     text-align: center;

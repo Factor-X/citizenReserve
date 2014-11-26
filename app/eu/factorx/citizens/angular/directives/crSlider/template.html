@@ -7,7 +7,7 @@
     <div class="cr-slider-container">
         <!-- Sections -->
         <span class="cr-slider-section"
-              ng-class="{active: isValue(o), first: ($index == 1)}"
+              ng-class="{first: ($index == 1)}"
               ng-repeat="o in computedOptions"
               ng-mousedown="setValue(o)"
               ng-if="$index > 0"
