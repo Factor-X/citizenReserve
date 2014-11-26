@@ -4,9 +4,9 @@ package eu.factorx.citizenReserve.service.impl;
 import eu.factorx.citizenReserve.dto.AnswerDTO;
 import eu.factorx.citizenReserve.dto.AnswerValueDTO;
 import eu.factorx.citizenReserve.dto.ReductionDTO;
-import eu.factorx.citizenReserve.model.AnswerValue;
-import eu.factorx.citizenReserve.model.Period;
-import eu.factorx.citizenReserve.model.QuestionCode;
+import eu.factorx.citizenReserve.model.survey.AnswerValue;
+import eu.factorx.citizenReserve.model.survey.Period;
+import eu.factorx.citizenReserve.model.survey.QuestionCode;
 import eu.factorx.citizenReserve.service.CalculationService;
 
 import java.util.HashMap;
