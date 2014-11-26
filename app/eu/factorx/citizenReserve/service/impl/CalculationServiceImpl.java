@@ -77,7 +77,6 @@ public class CalculationServiceImpl implements CalculationService {
 		// ******************** Repas ***************************
 		// 1140 - special
 		addReductionForQuestionCode1140(byQuestionCodeAndPeriod, firstPeriodTotal, secondPeriodTotal, thirdPeriodTotal);
-
 		// 1150
 		addReductionForQuestionCodeAlgo0(QuestionCode.Q1150,byQuestionCodeAndPeriod,firstPeriodTotal,secondPeriodTotal,thirdPeriodTotal);
 
