@@ -4,7 +4,6 @@ package eu.factorx.citizenReserve.service.impl;
 import eu.factorx.citizenReserve.dto.AnswerDTO;
 import eu.factorx.citizenReserve.dto.AnswerValueDTO;
 import eu.factorx.citizenReserve.dto.ReductionDTO;
-import eu.factorx.citizenReserve.model.survey.AnswerValue;
 import eu.factorx.citizenReserve.model.survey.Period;
 import eu.factorx.citizenReserve.model.survey.QuestionCode;
 import eu.factorx.citizenReserve.service.CalculationService;
@@ -34,15 +33,50 @@ public class CalculationServiceImpl implements CalculationService {
 		Double secondPeriodTotal = ZERO;
 		Double thirdPeriodTotal = ZERO;
 
-		Map <QuestionCode,ReductionDTO> reductionDetails = new HashMap <QuestionCode,ReductionDTO>();
-		ReductionDTO reductionSummary = new ReductionDTO();
+		Map <QuestionCode,ReductionDTO> potentialReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
+		ReductionDTO potentialReductionSummary = new ReductionDTO();
 
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
 
-		reductionDetails = calculatePotentialReductionDetails(surveyAnswers);
+		potentialReductionDetails = calculatePotentialReductionDetails(surveyAnswers);
+		potentialReductionSummary = calculatePotentialSummary(potentialReductionDetails);
+
+		return potentialReductionSummary;
+    }
+
+
+	@Override
+	public ReductionDTO calculateEffectiveReduction(List<AnswerDTO> surveyAnswers) {
+
+		Map <QuestionCode,ReductionDTO> potentialReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
+		Map <QuestionCode,ReductionDTO> effectiveReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
+
+		ReductionDTO effectiveReductionSummary = new ReductionDTO();
+		ReductionDTO potentialReductionSummary = new ReductionDTO();
+
+		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
+
+		potentialReductionDetails = calculatePotentialReductionDetails(surveyAnswers);
+		potentialReductionSummary = calculatePotentialSummary(potentialReductionDetails);
+
+
+		// presence domicile
+
+		return effectiveReductionSummary;
+	}
+
+	/*************** Private methods ****************/
+
+	private ReductionDTO calculatePotentialSummary(Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+		ReductionDTO potentialReductionSummary = new ReductionDTO();
+
+		Double firstPeriodTotal = ZERO;
+		Double secondPeriodTotal = ZERO;
+		Double thirdPeriodTotal = ZERO;
 
 		// Perform sum
-		for (Map.Entry<QuestionCode, ReductionDTO> item : reductionDetails.entrySet()) {
+		for (Map.Entry<QuestionCode, ReductionDTO> item : potentialReductionDetails.entrySet()) {
 			QuestionCode key = item.getKey();
 			ReductionDTO value = item.getValue();
 
@@ -52,36 +86,17 @@ public class CalculationServiceImpl implements CalculationService {
 		}
 
 		// set up return object's values
-		reductionSummary.setFirstPeriodPowerReduction(firstPeriodTotal);
-		reductionSummary.setSecondPeriodPowerReduction(secondPeriodTotal);
-		reductionSummary.setThirdPeriodPowerReduction(thirdPeriodTotal);
+		potentialReductionSummary.setFirstPeriodPowerReduction(firstPeriodTotal);
+		potentialReductionSummary.setSecondPeriodPowerReduction(secondPeriodTotal);
+		potentialReductionSummary.setThirdPeriodPowerReduction(thirdPeriodTotal);
 
 		Double AllPeriodsTotal =  firstPeriodTotal+secondPeriodTotal+thirdPeriodTotal;
 
-		reductionSummary.setAveragePowerReduction(AllPeriodsTotal/HOURSRANGE);
-		reductionSummary.setEnergyReduction((AllPeriodsTotal*HOURSRANGE)/THOUSAND);
+		potentialReductionSummary.setAveragePowerReduction(AllPeriodsTotal/HOURSRANGE);
+		potentialReductionSummary.setEnergyReduction((AllPeriodsTotal*HOURSRANGE)/THOUSAND);
 
-
-		return reductionSummary;
-    }
-
-
-	@Override
-	public ReductionDTO calculateEffectiveReduction(List<AnswerDTO> surveyAnswers) {
-
-		Map <QuestionCode,ReductionDTO> reductionDetails = new HashMap <QuestionCode,ReductionDTO>();
-		ReductionDTO reductionSummary = new ReductionDTO();
-
-		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
-
-		reductionDetails = calculatePotentialReductionDetails(surveyAnswers);
-
-
-
-		return reductionSummary;
+		return (potentialReductionSummary);
 	}
-
-	/*************** Private methods ****************/
 
 
 	private Map <QuestionCode,ReductionDTO> calculatePotentialReductionDetails(List<AnswerDTO> surveyAnswers) {
@@ -153,7 +168,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		// keep for all answers and generate map
 		for (AnswerDTO answer : surveyAnswers) {
-			Map localMapByPeriod = new HashMap<Period,AnswerValue> ();
+			Map localMapByPeriod = new HashMap<Period,AnswerValueDTO> ();
 
 			localMapByPeriod.put (answer.getPeriodKey(),answer.getAnswerValues().get(0));
 			localMapByQuestionCode.put(QuestionCode.valueOf(answer.getQuestionKey()), localMapByPeriod);
