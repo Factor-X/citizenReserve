@@ -1,12 +1,12 @@
-package eu.factorx.citizenReserve.service.impl;
+package eu.factorx.citizens.service.impl;
 
 
-import eu.factorx.citizenReserve.dto.AnswerDTO;
-import eu.factorx.citizenReserve.dto.AnswerValueDTO;
-import eu.factorx.citizenReserve.dto.ReductionDTO;
-import eu.factorx.citizenReserve.model.survey.Period;
-import eu.factorx.citizenReserve.model.survey.QuestionCode;
-import eu.factorx.citizenReserve.service.CalculationService;
+import eu.factorx.citizens.dto.AnswerDTO;
+import eu.factorx.citizens.dto.AnswerValueDTO;
+import eu.factorx.citizens.dto.ReductionDTO;
+import eu.factorx.citizens.model.survey.Period;
+import eu.factorx.citizens.model.survey.QuestionCode;
+import eu.factorx.citizens.service.CalculationService;
 import play.api.Logger;
 
 import java.util.HashMap;
