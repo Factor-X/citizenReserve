@@ -18,6 +18,7 @@ public class CalculationServiceTest {
     @Test
     public void testCalculatePotentialReduction() throws Exception {
 
+		play.Logger.debug("Entering test...");
         List<AnswerDTO> answersDTOs = buildSampleConsumerProfile();
 
         ReductionDTO potentialReduction = calculationService.calculatePotentialReduction(answersDTOs);
@@ -40,15 +41,15 @@ public class CalculationServiceTest {
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.FIRST, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.SECOND, "1"));
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.FIRST, "2"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.THIRD, "2"));
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.SECOND, "0"));
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.FIRST, "2"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.THIRD, "2"));
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.SECOND, "0"));
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.FIRST, "0"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.THIRD, "0"));
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1600, null, 0));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1900, null, 0));
@@ -57,7 +58,7 @@ public class CalculationServiceTest {
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.SECOND, "2"));
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.FIRST, "3"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.THIRD, "3"));
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1220, null, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1230, null, "1"));
@@ -75,11 +76,11 @@ public class CalculationServiceTest {
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.SECOND, "0"));
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.FIRST, "0"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.THIRD, "0"));
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.SECOND, "1"));
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.FIRST, "0"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.THIRD, "0"));
         return answersDTOs;
     }
 
