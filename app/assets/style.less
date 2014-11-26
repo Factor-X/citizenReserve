@@ -9,5 +9,64 @@ img {
     }
 }
 
+.cr-slider-container {
+    position: relative;
+    height: 64px;
+}
 
+.cr-slider-section {
+    position: absolute;
+    display: inline-block;
+    height: 24px;
 
+    width: 100px;
+    border-radius: 4px;
+    bottom: 0;
+
+    .cr-slider-section-line {
+        vertical-align: middle;
+        display: inline-block;
+        height: 2px;
+        width: 100%;
+        border-bottom: solid 2px #d3d3d3;
+        margin-top: 2px;
+    }
+
+    &.active .cr-slider-section-line {
+        border-color: green;
+    }
+
+    &.first .cr-slider-section-line {
+        border-bottom-style: dotted;
+    }
+}
+
+.cr-slider-tick {
+    position: absolute;
+    display: inline-block;
+    height: 16px;
+    background: #d3d3d3;
+    width: 16px;
+    border-radius: 8px;
+    border: solid 4px #eeeeee;
+    bottom: 4px;
+
+    &.first {
+        border: double 3px #eeeeee;
+        background: #ffffff;
+    }
+
+    &.active:not(.first) {
+        border-color: green;
+    }
+
+}
+
+.cr-slider-text {
+    position: absolute;
+    padding: 0;
+    width: 100px;
+    margin-left: -50px;
+    bottom: 24px;
+    text-align: center;
+}

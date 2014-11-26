@@ -45,10 +45,17 @@ angular
                 {value: 4, label: 'OPT_4'}
             ],
             simpleOptions: [ 0, 1, 2, 3, 4 ]
-
-
-
-
+        slider:
+            value: null
+            steps: [
+                {value: null, label: null}
+                {value: 18, label: '18h'}
+                {value: 19, label: '19h'}
+                {value: 20, label: '20h'}
+                {value: 21, label: '21h'}
+                {value: 22, label: '22h'}
+            ],
+            simpleSteps: [ null, 18, 19, 20, 21, 22 ]
 
 
 
