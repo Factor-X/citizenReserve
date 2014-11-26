@@ -1,0 +1,14 @@
+<div class="cr-dropdown">
+
+    <label class="cr-dropdown-label" ng-bind-html="getLabel() | translate"></label>
+
+    <button type="button"
+            class="btn btn-default cr-dropdown-button"
+            ng-model="ngModel"
+            data-html="1"
+            ng-options="o.value as computeOptionLabel(o) for o in ngOptions"
+            bs-select>
+
+    </button>
+
+</div>

@@ -8,9 +8,6 @@ import play.mvc.Http;
 import play.mvc.Results;
 import play.mvc.SimpleResult;
 
-/**
- * Created by florian on 18/11/14.
- */
 public class Global  extends GlobalSettings {
 
     @Override
@@ -22,4 +19,6 @@ public class Global  extends GlobalSettings {
         return F.Promise.<SimpleResult>pure(Results.internalServerError(exceptionsDTO
         ));
     }
+
+
 }
