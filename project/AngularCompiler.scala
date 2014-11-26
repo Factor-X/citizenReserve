@@ -52,11 +52,11 @@ class AngularCompiler {
         assembleTemplates(Path.fromString(".tmp/sources/") ** "*.html", Path.fromString(".tmp/templates/"), angular)
 
         concatenate(
-            (Path.fromString(".tmp/sources/app/eu/factorx/citizenReserve/angular/") * "*.js")
-                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizenReserve/angular/services") ** "*.js")
-                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizenReserve/angular/filters") ** "*.js")
-                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizenReserve/angular/directives") ** "*.js")
-                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizenReserve/angular/controllers") ** "*.js")
+            (Path.fromString(".tmp/sources/app/eu/factorx/citizens/angular/") * "*.js")
+                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizens/angular/services") ** "*.js")
+                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizens/angular/filters") ** "*.js")
+                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizens/angular/directives") ** "*.js")
+                ++ (Path.fromString(".tmp/sources/app/eu/factorx/citizens/angular/controllers") ** "*.js")
                 ++ (Path.fromString(".tmp/templates/") ** "*.js"),
             Path.fromString(".tmp/concatenated/")
         )

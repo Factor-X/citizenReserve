@@ -4,7 +4,7 @@ class AngularCompileTask {
 
     def execute() {
         val compiler: AngularCompiler = new AngularCompiler
-        val result: String = compiler.compile("app/eu/factorx/citizenReserve/angular")
+        val result: String = compiler.compile("app/eu/factorx/citizens/angular")
         try {
             val writer: PrintWriter = new PrintWriter("public/javascripts/app.js", "UTF-8")
             writer.print(result)
