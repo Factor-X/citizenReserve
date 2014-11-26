@@ -27,9 +27,9 @@ public class CalculationServiceTest {
         Assert.assertEquals(new Double(1798), potentialReduction.getSecondPeriodPowerReduction());
         Assert.assertEquals(new Double(2678), potentialReduction.getThirdPeriodPowerReduction());
 
-        Assert.assertEquals(new Double(1600), potentialReduction.getAveragePowerReduction());
+        Assert.assertEquals(new Double(1617), potentialReduction.getAveragePowerReduction());
 
-        Assert.assertEquals(new Double(4.8), potentialReduction.getEnergyReduction());
+        Assert.assertEquals(new Double(4.9), potentialReduction.getEnergyReduction());
     }
 
     private List<AnswerDTO> buildSampleConsumerProfile() {
