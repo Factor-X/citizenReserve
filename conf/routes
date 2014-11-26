@@ -5,10 +5,10 @@
 GET        /assets/*file                             controllers.Assets.at(path="/public", file)
 
 # Home page
-GET        /                                         @eu.factorx.citizenReserve.controllers.ApplicationController.index()
+GET        /                                         @eu.factorx.citizens.controllers.ApplicationController.index()
 
 #translation
-GET        /citizenReserve/translations/:lang        @eu.factorx.citizenReserve.controllers.TranslationController.get(lang:String)
+GET        /translations                             @eu.factorx.citizens.controllers.TranslationController.get()
 
 #account
-GET        /account                                  @eu.factorx.citizenReserve.controllers.AccountController.get()
+GET        /account                                  @eu.factorx.citizens.controllers.AccountController.get()
