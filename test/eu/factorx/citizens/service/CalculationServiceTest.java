@@ -2,8 +2,8 @@ package eu.factorx.citizens.service;
 
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
-import eu.factorx.citizens.model.type.Period;
-import eu.factorx.citizens.model.type.QuestionCode;
+import eu.factorx.citizens.model.survey.Period;
+import eu.factorx.citizens.model.survey.QuestionCode;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,36 +27,40 @@ public class CalculationServiceTest {
         Assert.assertEquals(new Double(1798), potentialReduction.getSecondPeriodPowerReduction());
         Assert.assertEquals(new Double(2678), potentialReduction.getThirdPeriodPowerReduction());
 
-        Assert.assertEquals(new Double(1600), potentialReduction.getAveragePowerReduction());
+        Assert.assertEquals(new Double(1617), potentialReduction.getAveragePowerReduction());
 
-        Assert.assertEquals(new Double(4.8), potentialReduction.getEnergyReduction());
+        Assert.assertEquals(new Double(4.851), potentialReduction.getEnergyReduction());
     }
 
     private List<AnswerDTO> buildSampleConsumerProfile() {
         List<AnswerDTO> answersDTOs = new ArrayList<>();
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1300, null, 4));
+
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1300, null, 4d));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1400, null, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1500, null, "1"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.EVENING_FIRST, "1"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.FIRST, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.SECOND, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.THIRD, "2"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.EVENING_FIRST, "0"));
+
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.SECOND, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.THIRD, "2"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.EVENING_FIRST, "0"));
+
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.SECOND, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.THIRD, "0"));
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1600, null, 0));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1900, null, 0));
 
+
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1210, null, "0"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.EVENING_FIRST, "0"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.SECOND, "2"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.THIRD, "3"));
 
@@ -74,13 +78,14 @@ public class CalculationServiceTest {
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1235, null, "0"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.EVENING_FIRST, "0"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.SECOND, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.THIRD, "0"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.EVENING_FIRST, "0"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.FIRST, "0"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.SECOND, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.THIRD, "0"));
+
         return answersDTOs;
     }
 
