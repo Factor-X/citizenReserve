@@ -33,15 +33,12 @@ public class CalculationServiceImpl implements CalculationService {
     @Override
     public ReductionDTO calculatePotentialReduction(List<AnswerDTO> surveyAnswers) {
 
-		Double firstPeriodTotal = ZERO;
-		Double secondPeriodTotal = ZERO;
-		Double thirdPeriodTotal = ZERO;
-
 		play.Logger.debug("Entering -> calculatePotentialReduction");
 
 		Map <QuestionCode,ReductionDTO> potentialReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
 		ReductionDTO potentialReductionSummary = new ReductionDTO();
 
+		//for debug purposes
 		//Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
 		//dumpMap(byQuestionCodeAndPeriod);
 
@@ -61,6 +58,7 @@ public class CalculationServiceImpl implements CalculationService {
 		List<ReductionDTO> effectiveReductionSummary = new ArrayList<ReductionDTO>();
 		ReductionDTO potentialReductionSummary = new ReductionDTO();
 
+		// for debug purposes
 		//Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
 		//dumpMap(byQuestionCodeAndPeriod);
 
@@ -83,11 +81,12 @@ public class CalculationServiceImpl implements CalculationService {
 
 		List<ReductionDTO> potentialReductionSummary = new ArrayList<ReductionDTO>();
 
+		// temp data storage
 		List<Double> firstPeriodTotal = new ArrayList<Double> ();
 		List<Double> secondPeriodTotal = new ArrayList<Double> ();
 		List<Double> thirdPeriodTotal = new ArrayList<Double> ();
 
-		// init lists
+		// init temp data lists
 		for (ReductionDay day : ReductionDay.values()) {
 			firstPeriodTotal.add(day.ordinal(), ZERO);
 			secondPeriodTotal.add(day.ordinal(), ZERO);
@@ -99,9 +98,9 @@ public class CalculationServiceImpl implements CalculationService {
 			QuestionCode key = item.getKey();
 			List<ReductionDTO> value = item.getValue();
 			play.Logger.debug(">> Summary : [" + key.name() + "]");
+
 			for (ReductionDay day : ReductionDay.values()) {
 				play.Logger.debug(">> DAY : [" + day.name() + "]");
-
 				play.Logger.debug(">>>>>> First : [" + value.get(day.ordinal()).getFirstPeriodPowerReduction() + "]");
 				play.Logger.debug(">>>>>> Secon : [" + value.get(day.ordinal()).getSecondPeriodPowerReduction() + "]");
 				play.Logger.debug(">>>>>> Third : [" + value.get(day.ordinal()).getThirdPeriodPowerReduction() + "]");
