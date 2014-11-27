@@ -29,7 +29,6 @@ angular
                     scope.computedOptions.push {value: element, label: element}
 
 
-
         scope.toggle = () ->
             scope.edit = !scope.edit
 

@@ -10,15 +10,16 @@ import play.mvc.Result;
 
 public class TranslationController extends Controller {
 
-    public Result get() {
-        Logger.info("TranslationController.get()");
+	public Result get() {
+		Logger.info("TranslationController.get()");
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return ok(mapper.writeValueAsString(Global.TRANSLATIONS));
-        } catch (JsonProcessingException e) {
-            throw new MyRuntimeException(e, e.getMessage());
-        }
-    }
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+            response().setHeader("Content-Type", "application/json; charset=utf-8");
+			return ok(mapper.writeValueAsString(Global.TRANSLATIONS));
+		} catch (JsonProcessingException e) {
+			throw new MyRuntimeException(e, e.getMessage());
+		}
+	}
 
 }

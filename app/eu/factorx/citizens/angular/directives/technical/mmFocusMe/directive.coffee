@@ -1,9 +1,9 @@
 angular
 .module('app.directives')
 .directive "focusMe", ($timeout, $parse) ->
-    restrict:'A'
+    restrict: 'A'
     scope:
-        focusMe:'='
+        focusMe: '='
     link: (scope, element, attrs) ->
         scope.$watch 'focusMe', ->
             if scope.focusMe == true

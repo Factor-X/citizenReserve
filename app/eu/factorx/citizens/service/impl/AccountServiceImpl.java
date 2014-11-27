@@ -8,19 +8,19 @@ import java.util.List;
 
 public class AccountServiceImpl implements AccountService {
 
-    @Override
-    public Account saveAccount(Account account) {
-        Ebean.save(account);
-        return account;
-    }
+	@Override
+	public Account saveAccount(Account account) {
+		Ebean.save(account);
+		return account;
+	}
 
-    @Override
-    public Account getAccountById(Long id) {
-        return Ebean.find(Account.class, id);
-    }
+	@Override
+	public Account getAccountById(Long id) {
+		return Ebean.find(Account.class, id);
+	}
 
-    @Override
-    public List<Account> findAll() {
-        return Ebean.find(Account.class).findList();
-    }
+	@Override
+	public List<Account> findAll() {
+		return Ebean.find(Account.class).findList();
+	}
 }

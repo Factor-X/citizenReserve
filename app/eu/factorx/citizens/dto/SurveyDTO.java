@@ -4,26 +4,26 @@ import java.util.List;
 
 public class SurveyDTO {
 
-    private AccountDTO account;
+	private AccountDTO account;
 
-    private List<AnswerDTO> answers;
+	private List<AnswerDTO> answers;
 
-    public SurveyDTO() {
-    }
+	public SurveyDTO() {
+	}
 
-    public AccountDTO getAccount() {
-        return account;
-    }
+	public AccountDTO getAccount() {
+		return account;
+	}
 
-    public void setAccount(AccountDTO account) {
-        this.account = account;
-    }
+	public void setAccount(AccountDTO account) {
+		this.account = account;
+	}
 
-    public List<AnswerDTO> getAnswers() {
-        return answers;
-    }
+	public List<AnswerDTO> getAnswers() {
+		return answers;
+	}
 
-    public void setAnswers(List<AnswerDTO> answers) {
-        this.answers = answers;
-    }
+	public void setAnswers(List<AnswerDTO> answers) {
+		this.answers = answers;
+	}
 }

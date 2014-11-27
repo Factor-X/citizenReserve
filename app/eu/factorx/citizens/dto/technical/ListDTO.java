@@ -8,28 +8,28 @@ import java.util.List;
  */
 public class ListDTO<T extends DTO> extends DTO {
 
-    private List<T> list;
+	private List<T> list;
 
-    public ListDTO() {
-        list = new ArrayList<>();
-    }
+	public ListDTO() {
+		list = new ArrayList<>();
+	}
 
-    public List<T> getList() {
-        return list;
-    }
+	public List<T> getList() {
+		return list;
+	}
 
-    public void setList(List<T> list) {
-        this.list = list;
-    }
+	public void setList(List<T> list) {
+		this.list = list;
+	}
 
-    public void add(T dto) {
-        list.add(dto);
-    }
+	public void add(T dto) {
+		list.add(dto);
+	}
 
-    @Override
-    public String toString() {
-        return "ListDTO{" +
-                "list=" + list +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "ListDTO{" +
+				"list=" + list +
+				'}';
+	}
 }

@@ -2,9 +2,8 @@ package eu.factorx.citizens.service;
 
 import com.avaje.ebean.Ebean;
 import eu.factorx.citizens.model.account.Account;
-import eu.factorx.citizens.model.account.AccountType;
-import eu.factorx.citizens.model.survey.Answer;
-import eu.factorx.citizens.model.survey.QuestionCode;
+import eu.factorx.citizens.model.type.AccountType;
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import org.junit.Assert;
@@ -26,14 +25,14 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void testSaveSurvey() throws Exception {
+    public void testCRUD() throws Exception {
         Survey survey = new Survey();
         Account account = new Account(AccountType.HOUSEHOLD, "emailTest", "passwordTest", "firstNameTest", "lastNameTest", "zipCodeTest", "powerProviderTest");
-
         survey.setAccount(account);
-        Answer answer = new Answer(survey, QuestionCode.Q1300);
-        answer.addDoubleValue(4d);
-        survey.addAnswer(answer);
+
+        QuestionCode questionCode = QuestionCode.Q1300;
+        double value = 4d;
+        survey.addAnswer(QuestionCode.Q1300, null, 4);
         surveyService.saveSurvey(survey);
 
         List<Survey> foundSurveys = surveyService.findSurveysByAccount(account);

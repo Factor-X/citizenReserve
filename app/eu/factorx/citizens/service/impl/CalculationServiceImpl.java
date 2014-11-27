@@ -5,7 +5,8 @@ import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.AnswerValueDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.survey.Period;
-import eu.factorx.citizens.model.survey.QuestionCode;
+
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.service.CalculationService;
 import play.api.Logger;
 
