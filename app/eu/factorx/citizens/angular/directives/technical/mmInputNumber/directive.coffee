@@ -4,7 +4,6 @@ angular
     restrict: 'A'
     require: "ngModel"
     link: (scope, element, attrs, modelCtrl) ->
-
         if attrs.numbersOnly == "integer" || attrs.numbersOnly == "double"
 
             if  attrs.numbersOnly == "integer"
@@ -36,17 +35,17 @@ angular
                     if scope.lastValidValue?
                         resultString = scope.lastValidValue.toString()
                         if  attrs.numbersOnly == "percent"
-                            resultToDisplay = (scope.lastValidValue*100).toString()
+                            resultToDisplay = (scope.lastValidValue * 100).toString()
                         else
                             resultToDisplay = scope.lastValidValue.toString()
                     else
                         resultString = ""
-                        resultToDisplay =""
+                        resultToDisplay = ""
                     modelCtrl.$setViewValue resultToDisplay
                     modelCtrl.$render()
                 else
                     if  attrs.numbersOnly == "percent"
-                        result=result/100
+                        result = result / 100
                     scope.lastValidValue = result
                     resultString = result.toString()
                 if resultString == ""
@@ -55,9 +54,9 @@ angular
 
 
             modelCtrl.$formatters.unshift (modelValue) ->
-                result=parseFloat(modelValue)
+                result = parseFloat(modelValue)
                 if  attrs.numbersOnly == "percent"
-                    result=result*100
+                    result = result * 100
                 return convertToString(result)
 
             displayError = ->
@@ -67,14 +66,13 @@ angular
                     scope.setErrorMessage(errorMessage)
 
             convertToString = (value) ->
-
                 if !value? || isNaN value
                     return ""
 
-                value=value.toFixed(nbDecimal)
+                value = value.toFixed(nbDecimal)
 
                 formats = $locale.NUMBER_FORMATS
-                result= value.toString().replace(new RegExp("\\.", "g"), formats.DECIMAL_SEP)
+                result = value.toString().replace(new RegExp("\\.", "g"), formats.DECIMAL_SEP)
 
             convertToFloat = (viewValue) ->
                 if viewValue == ""
@@ -91,7 +89,6 @@ angular
                 return filterFloat value
 
             filterFloat = (value) ->
-
                 if  attrs.numbersOnly == "integer"
                     regexFloat = new RegExp("^(\\-|\\+)?([0-9]+|Infinity)$")
                 else

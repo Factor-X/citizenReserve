@@ -16,7 +16,6 @@ angular
             scope.ngModel = v.value
 
         scope.isValue = (v) ->
-
             return scope.ngModel == v.value
 
             indexOfNgModel = -1

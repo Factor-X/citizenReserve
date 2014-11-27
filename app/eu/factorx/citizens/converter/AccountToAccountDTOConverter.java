@@ -9,16 +9,16 @@ import eu.factorx.citizens.model.account.Account;
 public class AccountToAccountDTOConverter implements Converter<Account, AccountDTO> {
 
 
-    @Override
-    public AccountDTO convert(Account account) {
+	@Override
+	public AccountDTO convert(Account account) {
 
-        AccountDTO dto = new AccountDTO();
+		AccountDTO dto = new AccountDTO();
 
-        dto.setEmail(account.getEmail());
-        dto.setFirstName(account.getFirstName());
-        dto.setLastName(account.getLastName());
-        dto.setId(account.getId());
+		dto.setEmail(account.getEmail());
+		dto.setFirstName(account.getFirstName());
+		dto.setLastName(account.getLastName());
+		dto.setId(account.getId());
 
-        return dto;
-    }
+		return dto;
+	}
 }

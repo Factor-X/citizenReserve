@@ -5,12 +5,12 @@
             div {{errorMessage}}
             img(src='/assets/images/question_field_error_message_icon_arrow.png')
         input(  type='{{fieldType}}',
-                ng-disabled='getInfo().disabled',
-                ng-model='getInfo().field',
-                numbers-only="{{getInfo().numbersOnly}}",
-                ng-class="{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}"
-                placeholder='{{getInfo().placeholder}}',
-                focus-me="getInfo().focus()")
+        ng-disabled='getInfo().disabled',
+        ng-model='getInfo().field',
+        numbers-only="{{getInfo().numbersOnly}}",
+        ng-class="{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}"
+        placeholder='{{getInfo().placeholder}}',
+        focus-me="getInfo().focus()")
     div
         div(ng-if='isValidationDefined')
             img(ng-if='!hideIsValidIcon', ng-show='getInfo().isValid', src='/assets/images/field_valid.png')

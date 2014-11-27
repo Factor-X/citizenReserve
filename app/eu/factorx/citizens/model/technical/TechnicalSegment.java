@@ -10,49 +10,49 @@ import java.util.Date;
 @Embeddable
 public class TechnicalSegment {
 
-    @Version
-    private long version;
+	@Version
+	private long version;
 
-    @CreatedTimestamp
-    private Date creationDate;
+	@CreatedTimestamp
+	private Date creationDate;
 
-    @UpdatedTimestamp
-    @Version
-    private Date lastUpdateDate;
+	@UpdatedTimestamp
+	@Version
+	private Date lastUpdateDate;
 
-    public TechnicalSegment() {
-    }
+	public TechnicalSegment() {
+	}
 
-    public long getVersion() {
-        return version;
-    }
+	public long getVersion() {
+		return version;
+	}
 
-    public void setVersion(long version) {
-        this.version = version;
-    }
+	public void setVersion(long version) {
+		this.version = version;
+	}
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
+	public Date getCreationDate() {
+		return creationDate;
+	}
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
 
-    public Date getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
 
-    public void setLastUpdateDate(Date lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-    }
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
 
-    @Override
-    public String toString() {
-        return "TechnicalSegment{" +
-                "version=" + version +
-                ", creationDate=" + creationDate +
-                ", lastUpdateDate=" + lastUpdateDate +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "TechnicalSegment{" +
+				"version=" + version +
+				", creationDate=" + creationDate +
+				", lastUpdateDate=" + lastUpdateDate +
+				'}';
+	}
 }

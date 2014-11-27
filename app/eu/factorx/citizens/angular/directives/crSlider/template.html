@@ -12,7 +12,7 @@
               ng-mousedown="setValue(o)"
               ng-if="$index > 0"
               style="left: {{ ($index - 1 )* 100 + 8}}px"
-            >
+                >
             <span class="cr-slider-section-line"></span>
             </span>
 
@@ -24,7 +24,7 @@
                   ng-class="{active: isValue(o), first: ($index == 0)}"
                   ng-mousedown="setValue(o)"
                   style="left: {{ $index * 100 }}px"
-                ></span>
+                    ></span>
 
             </span>
 
@@ -36,7 +36,7 @@
                   ng-mousedown="setValue(o)"
                   style="left: {{ $index * 100 + 8}}px"
                   ng-bind-html="('' + o.label) | translate"
-                ></span>
+                    ></span>
 
             </span>
     </div>

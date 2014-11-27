@@ -14,51 +14,51 @@ import java.io.IOException;
  */
 public class DTO implements Content {
 
-    private String __type;
+	private String __type;
 
-    public static <T extends DTO> T getDTO(JsonNode data, Class<T> type) {
-        if (data != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonParser jp = data.traverse();
-            try {
-                T dto = mapper.readValue(jp, type);
-                /*
+	public static <T extends DTO> T getDTO(JsonNode data, Class<T> type) {
+		if (data != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			JsonParser jp = data.traverse();
+			try {
+				T dto = mapper.readValue(jp, type);
+				/*
                 if (dto == null) {
 					throw new MyRuntimeException("Validation of DTO : dto is null");
 				}
 				*/
-                //dto.validate();
-                return dto;
+				//dto.validate();
+				return dto;
 
-            } catch (IOException e) {
-                throw new MyRuntimeException(e, "Validation of DTO failed");
-            }
-        }
-        throw new MyRuntimeException("Validation of DTO : data is null");
-    }
+			} catch (IOException e) {
+				throw new MyRuntimeException(e, "Validation of DTO failed");
+			}
+		}
+		throw new MyRuntimeException("Validation of DTO : data is null");
+	}
 
-    public String get__type() {
-        return this.getClass().getCanonicalName();
-    }
+	public String get__type() {
+		return this.getClass().getCanonicalName();
+	}
 
-    public void set__type(String __type) {
-        if (!get__type().equals(__type)) {
-            throw new MyRuntimeException("Wrong type of DTO received. Expected : " + get__type() + ", receive : " + __type);
-        }
-    }
+	public void set__type(String __type) {
+		if (!get__type().equals(__type)) {
+			throw new MyRuntimeException("Wrong type of DTO received. Expected : " + get__type() + ", receive : " + __type);
+		}
+	}
 
-    @Override
-    public String body() {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new MyRuntimeException(e, e.getMessage());
-        }
-    }
+	@Override
+	public String body() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			throw new MyRuntimeException(e, e.getMessage());
+		}
+	}
 
-    @Override
-    public String contentType() {
-        return "application/json; charset=utf-8";
-    }
+	@Override
+	public String contentType() {
+		return "application/json; charset=utf-8";
+	}
 }
