@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "crSlider", (directiveService) ->
+.directive "crSlider", (directiveService, $filter) ->
     restrict: "E"
     scope: directiveService.autoScope
         ngModel: '='
@@ -10,6 +10,10 @@ angular
         ngMin: '='
         ngMax: '='
         ngStep: '='
+
+        ngVisible: '='
+
+        ngFilter: '='
 
     templateUrl: "$/angular/templates/cr-slider.html"
     replace: false
@@ -41,6 +45,23 @@ angular
             else
                 return indexOfV <= indexOfNgModel
 
+        scope.isVisible = () ->
+            v = scope.ngVisible
+            if (v == undefined)
+                return true
+            else if (v == null)
+                return false
+            else
+                return !!v
+
+
+        scope.labelFilter = $filter('translate')
+        scope.$watch ['ngFilter', 'filter'], () ->
+            n = scope.getFilter()
+            if n
+                scope.labelFilter = $filter(n);
+            else
+                scope.labelFilter = $filter('translate')
 
         scope.$watch ['ngSteps', 'ngMax', 'ngMin', 'ngStep', 'max', 'min', 'step'], (n, o) ->
             scope.computedOptions = []
@@ -81,10 +102,10 @@ angular
 
             target = w * offset - $scroller.width() / 2
 
-            if target<0
+            if target < 0
                 target = 0
-            if target >  w - $scroller.width() / 2 - 50
-                target =  w - $scroller.width() / 2 - 50
+            if target > w - $scroller.width() / 2 - 50
+                target = w - $scroller.width() / 2 - 50
 
             if Math.abs(target - $scroller.scrollLeft()) > 1
                 $scroller.delay(1000).animate({scrollLeft: target}, { easing: 'easeInOutBack'})

@@ -1,4 +1,4 @@
-<div class="cr-slider">
+<div class="cr-slider" collapse="!isVisible()">
 
     <div class="cr-slider-container">
 
@@ -46,7 +46,7 @@
                   ng-class="{active: isValue(o)}"
                   ng-mousedown="setValue(o)"
                   style="left: {{ ($index - 1 )* 50}}px"
-                  ng-bind-html="('' + o.label) | translate"
+                  ng-bind-html="labelFilter('' + o.label)"
                 ></span>
 
 

@@ -1,9 +1,12 @@
 angular
 .module('app.controllers')
-.controller "MainCtrl", ($scope, modalService, $log) ->
+.controller "MainCtrl", ($scope, modalService, $log, gettextCatalog) ->
     #
     # Initialize
     #
+    $scope.setLanguage = (lang) ->
+        gettextCatalog.setCurrentLanguage(lang)
+
     $scope.x =
         sel: 'Human'
         items: [
