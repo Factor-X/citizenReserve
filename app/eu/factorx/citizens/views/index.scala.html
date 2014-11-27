@@ -48,7 +48,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <cr-dropdown label="profile.Q1110.label" ng-options="x.items" ng-model="x.sel"></cr-dropdown>
+                        <cr-question label="profile.Q1110.label">
+                            <cr-dropdown ng-options="x.items" ng-model="x.sel"></cr-dropdown>
+                        </cr-question>
+
                     </div>
                 </div>
             </div>
@@ -63,7 +66,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <cr-number label="action.Q3211.tooltip" ng-model="x.cnt"></cr-number>
+                        <cr-question label="Q6000">
+                            <cr-number ng-model="x.cnt"></cr-number>
+                        </cr-question>
+
                     </div>
                 </div>
             </div>
@@ -110,7 +116,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max" label="Q3000"></cr-double-range>
+                        <cr-question label="Q6000">
+                            <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max"></cr-double-range>
+                        </cr-question>
                     </div>
                 </div>
             </div>
@@ -125,9 +133,17 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <cr-radio label="Q4000" ng-model="x.radio.value" ng-options="x.radio.options"></cr-radio>
-                        <cr-radio label="Q4000" ng-model="x.radio.value" ng-options="x.radio.simpleOptions"></cr-radio>
-                        <cr-radio label="Q4000" ng-model="x.radio.value" ng-options="x.radio.options" free-allowed="true"></cr-radio>
+                        <cr-question label="Q6000">
+                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.options"></cr-radio>
+                        </cr-question>
+
+                        <cr-question label="Q6000">
+                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.simpleOptions"></cr-radio>
+                        </cr-question>
+
+                        <cr-question label="Q6000">
+                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.options" free-allowed="true"></cr-radio>
+                        </cr-question>
                     </div>
                 </div>
             </div>
@@ -142,9 +158,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <cr-slider label="Q4000" ng-model="x.slider.value" ng-steps="x.slider.steps"></cr-slider>
-                        <cr-slider label="Q4000" ng-model="x.slider.value" ng-steps="x.slider.simpleSteps"></cr-slider>
-                        <cr-slider label="Q5000" ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
+                        <cr-question label="Q6000">
+                            <cr-slider ng-model="x.slider.value" ng-steps="x.slider.steps"></cr-slider>
+                        </cr-question>
+                        <cr-question label="Q6000">
+                            <cr-slider ng-model="x.slider.value" ng-steps="x.slider.simpleSteps"></cr-slider>
+                        </cr-question>
+                        <cr-question label="Q6000">
+                            <cr-slider ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
+                        </cr-question>
                     </div>
                 </div>
             </div>
@@ -159,8 +181,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <cr-boolean label="Q6000" ng-model="x.yesno.value"></cr-boolean>
-                        <cr-slider label="Q5000" ng-show="x.yesno.value" ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
+                        <cr-question label="Q6000">
+                            <cr-boolean ng-model="x.yesno.value"></cr-boolean>
+                            <cr-slider ng-show="x.yesno.value" ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
+                        </cr-question>
                     </div>
                 </div>
             </div>
@@ -201,7 +225,6 @@
                     </div>
                 </div>
             </div>
-
 
         </div>
 

@@ -3,7 +3,6 @@ angular
 .directive "crSlider", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngModel: '='
         ngSteps: '='
         ngFreeAllowed: '='
@@ -11,6 +10,7 @@ angular
         ngMin: '='
         ngMax: '='
         ngStep: '='
+
     templateUrl: "$/angular/templates/cr-slider.html"
     replace: false
     link: (scope, elem, attrs, ngModel) ->

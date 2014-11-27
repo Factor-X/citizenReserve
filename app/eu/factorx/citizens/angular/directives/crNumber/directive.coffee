@@ -3,7 +3,6 @@ angular
 .directive "crNumber", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngModel: '='
     require: 'ngModel'
     templateUrl: "$/angular/templates/cr-number.html"

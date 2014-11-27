@@ -3,7 +3,6 @@ angular
 .directive "crBoolean", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngModel: '='
     templateUrl: "$/angular/templates/cr-boolean.html"
     replace: false
