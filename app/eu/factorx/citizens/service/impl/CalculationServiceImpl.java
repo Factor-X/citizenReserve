@@ -35,7 +35,7 @@ public class CalculationServiceImpl implements CalculationService {
 		Double secondPeriodTotal = ZERO;
 		Double thirdPeriodTotal = ZERO;
 
-		System.out.println("Entering -> calculatePotentialReduction");
+		play.Logger.debug("Entering -> calculatePotentialReduction");
 
 		Map <QuestionCode,ReductionDTO> potentialReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
 		ReductionDTO potentialReductionSummary = new ReductionDTO();
@@ -85,10 +85,10 @@ public class CalculationServiceImpl implements CalculationService {
 			QuestionCode key = item.getKey();
 			ReductionDTO value = item.getValue();
 
-			System.out.println(">> Summary : [" + key.name() + "]");
-			System.out.println(">>>>>> First : [" + value.getFirstPeriodPowerReduction() + "]");
-			System.out.println(">>>>>> Secon : [" + value.getSecondPeriodPowerReduction() + "]");
-			System.out.println(">>>>>> Third : [" + value.getThirdPeriodPowerReduction() + "]");
+			play.Logger.debug(">> Summary : [" + key.name() + "]");
+			play.Logger.debug(">>>>>> First : [" + value.getFirstPeriodPowerReduction() + "]");
+			play.Logger.debug(">>>>>> Secon : [" + value.getSecondPeriodPowerReduction() + "]");
+			play.Logger.debug(">>>>>> Third : [" + value.getThirdPeriodPowerReduction() + "]");
 			firstPeriodTotal+=value.getFirstPeriodPowerReduction();
 			secondPeriodTotal+=value.getSecondPeriodPowerReduction();
 			thirdPeriodTotal+=value.getThirdPeriodPowerReduction();
@@ -175,12 +175,12 @@ public class CalculationServiceImpl implements CalculationService {
 	*/
 
 	private void dumpMap (Map<QuestionCode,Map<Period,AnswerValueDTO>> localMapByQuestionCode) {
-		System.out.println("Entering -> dumpMap");
+		play.Logger.debug("Entering -> dumpMap");
 
 		for (Map.Entry <QuestionCode,Map<Period,AnswerValueDTO>> item : localMapByQuestionCode.entrySet()) {
 			QuestionCode key = item.getKey();
 			Map<Period,AnswerValueDTO> value = item.getValue();
-			System.out.println("DUMP: QuestionCode [" + key + "]");
+			play.Logger.debug("DUMP: QuestionCode [" + key + "]");
 
 			for (Map.Entry <Period,AnswerValueDTO> detail : item.getValue().entrySet()) {
 				Period periodKey;
@@ -190,11 +190,11 @@ public class CalculationServiceImpl implements CalculationService {
 					periodKey = detail.getKey();
 				}
 				AnswerValueDTO avDTO = detail.getValue();
-				System.out.println(">>>DUMP: Period [" + periodKey + "]");
-				System.out.println(">>>DUMP: Values D[" + avDTO.getDoubleValue() + "]S[" + avDTO.getStringValue()+ "]B[" + avDTO.getBooleanValue()+ "]");
+				play.Logger.debug(">>>DUMP: Period [" + periodKey + "]");
+				play.Logger.debug(">>>DUMP: Values D[" + avDTO.getDoubleValue() + "]S[" + avDTO.getStringValue()+ "]B[" + avDTO.getBooleanValue()+ "]");
 			}
 		}
-		System.out.println("Quitting -> dumpMap");
+		play.Logger.debug("Quitting -> dumpMap");
 	}
 
 	/*
@@ -204,7 +204,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 	private Map<QuestionCode,Map<Period,AnswerValueDTO>> convertToMap (List<AnswerDTO> surveyAnswers) {
 
-		//System.out.println("Entering -> convertToMap");
+		//play.Logger.debug("Entering -> convertToMap");
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> localMapByQuestionCode = new HashMap<QuestionCode,Map<Period,AnswerValueDTO>> ();
 
 
@@ -213,11 +213,11 @@ public class CalculationServiceImpl implements CalculationService {
 
 			Map localMapByPeriod = new HashMap<Period,AnswerValueDTO> ();
 
-			//System.out.println("into 1st loop - QuestionCode : [" + answer.getQuestionKey() + "]");
-			//System.out.println("into 1st loop - Period : [" + answer.getPeriodKey() + "]");
-			//System.out.println("into 1st loop - StringValue : [" + answer.getAnswerValues().get(0).getStringValue() + "]");
-			//System.out.println("into 1st loop - DoubleValue : [" + answer.getAnswerValues().get(0).getDoubleValue() + "]");
-			//System.out.println("into 1st loop - BooleanValue : [" + answer.getAnswerValues().get(0).getBooleanValue() + "]");
+			//play.Logger.debug("into 1st loop - QuestionCode : [" + answer.getQuestionKey() + "]");
+			//play.Logger.debug("into 1st loop - Period : [" + answer.getPeriodKey() + "]");
+			//play.Logger.debug("into 1st loop - StringValue : [" + answer.getAnswerValues().get(0).getStringValue() + "]");
+			//play.Logger.debug("into 1st loop - DoubleValue : [" + answer.getAnswerValues().get(0).getDoubleValue() + "]");
+			//play.Logger.debug("into 1st loop - BooleanValue : [" + answer.getAnswerValues().get(0).getBooleanValue() + "]");
 
 			// check if QuestionCode already into main key map
 			if (localMapByQuestionCode.containsKey(QuestionCode.valueOf(answer.getQuestionKey()))) {
@@ -229,13 +229,13 @@ public class CalculationServiceImpl implements CalculationService {
 				// assume Period.FIRST in case no period specified.
 				localMapByPeriod.put(Period.FIRST, answer.getAnswerValues().get(0));
 			} else {
-				//System.out.println("Pushing :" + answer.getPeriodKey());
+				//play.Logger.debug("Pushing :" + answer.getPeriodKey());
 				localMapByPeriod.put(Period.valueOf(answer.getPeriodKey()), answer.getAnswerValues().get(0));
 			}
 			localMapByQuestionCode.put(QuestionCode.valueOf(answer.getQuestionKey()), localMapByPeriod);
 		}
 
-		//System.out.println("Quitting -> convertToMap");
+		//play.Logger.debug("Quitting -> convertToMap");
 		return (localMapByQuestionCode);
 	}
 
@@ -258,7 +258,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		ReductionDTO result = new ReductionDTO();
 
-		System.out.println("Processing QuestionCode: " + questionCode.name());
+		play.Logger.debug("Processing QuestionCode: " + questionCode.name());
 
 		result.setFirstPeriodPowerReduction(
 				(questionCode.getNominalPower() *

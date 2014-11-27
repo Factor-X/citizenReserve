@@ -6,14 +6,23 @@ import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import play.test.FakeApplication;
+import play.test.Helpers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CalculationServiceTest {
 
-    private CalculationService calculationService = new CalculationServiceImpl();
+	private CalculationService calculationService = new CalculationServiceImpl();
+
+	@BeforeClass
+	public static void setUp() {
+		FakeApplication app = Helpers.fakeApplication();
+		Helpers.start(app);
+	}
 
     @Test
     public void testCalculatePotentialReduction() throws Exception {
