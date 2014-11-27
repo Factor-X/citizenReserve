@@ -64,8 +64,8 @@ public class CalculationServiceImpl implements CalculationService {
 		potentialReductionDetails = calculatePotentialReductionDetails(surveyAnswers);
 		potentialReductionSummary = calculatePotentialSummary(potentialReductionDetails);
 
-
 		// presence domicile
+
 
 		return effectiveReductionSummary;
 	}
@@ -171,7 +171,7 @@ public class CalculationServiceImpl implements CalculationService {
 	/************************ UTIL methods ******************************/
 
 	/*
-	* Convert to map
+	* Dump to map
 	*/
 
 	private void dumpMap (Map<QuestionCode,Map<Period,AnswerValueDTO>> localMapByQuestionCode) {
