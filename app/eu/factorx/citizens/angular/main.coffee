@@ -17,6 +17,7 @@ angular.module 'app', [
     'app.controllers'
 ]
 
+
 angular.module('app').run (gettextCatalog) ->
     gettextCatalog.setCurrentLanguage('fr')
     gettextCatalog.loadRemote("/translations");

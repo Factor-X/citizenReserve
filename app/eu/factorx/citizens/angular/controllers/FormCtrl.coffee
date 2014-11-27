@@ -3,7 +3,7 @@ angular
 .controller "FormCtrl", ($scope, modalService, $log, topic) ->
     $scope.topic = topic
 
-    $scope.slider:
+    $scope.slider =
         schedule:
             value: null
             steps: [
