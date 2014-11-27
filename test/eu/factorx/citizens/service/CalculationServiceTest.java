@@ -3,7 +3,7 @@ package eu.factorx.citizens.service;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.survey.Period;
-import eu.factorx.citizens.model.survey.QuestionCode;
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;

@@ -77,3 +77,7 @@ angular
                 $scope.x.sel = o
                 $log.info('Modal dismissed at: ' + new Date())
 
+#rootScope
+angular.module('app').run ($rootScope, $location)->
+    $rootScope.redirectTo = (target) ->
+        $location.path(target)
