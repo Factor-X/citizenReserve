@@ -10,6 +10,7 @@ import play.mvc.Http;
 import play.mvc.Results;
 import play.mvc.SimpleResult;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class Global extends GlobalSettings {
@@ -45,12 +46,11 @@ public class Global extends GlobalSettings {
                 while (bundleKeys.hasMoreElements()) {
                     String key = bundleKeys.nextElement();
                     String value = bundle.getString(key);
-
-                    value = StringEscapeUtils.escapeHtml4(value);
-                    value = value.replace("&lt;", "<");
-                    value = value.replace("&gt;", ">");
-
-                    System.out.println(value);
+                    try {
+                        value = new String(value.getBytes("ISO-8859-1"), "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     translationCache.put(key, value);
                 }
             }
