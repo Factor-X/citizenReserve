@@ -25,10 +25,26 @@ angular
 .module('app.controllers')
 .config ($routeProvider) ->
     $routeProvider
-    .when('/test', {
-            templateUrl: '$/angular/views/form.html'
+    .when('/household-profile/:topic', {
+            templateUrl: '$/angular/views/household-profile.html'
             controller: 'FormCtrl'
+            resolve:
+                topic: ($route) ->
+                    return $route.current.params.topic
         }
     )
-    .otherwise({ redirectTo: '/' })
+    .when('/household-action/:topic', {
+            templateUrl: '$/angular/views/household-action.html'
+            controller: 'FormCtrl'
+            resolve:
+                topic: ($route) ->
+                    return $route.current.params.topic
+        }
+    )
+    .when('/welcome', {
+            templateUrl: '$/angular/views/welcome.html'
+            controller: 'WelcomeCtrl'
+        }
+    )
+    .otherwise({ redirectTo: '/welcome' })
     return

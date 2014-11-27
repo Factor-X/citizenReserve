@@ -1,0 +1,33 @@
+<div class="col-md-12">
+    <h1>Household questionnaire TRAD</h1>
+
+
+    <div class="container">
+        <div class="row">
+
+            <button class="col-md-2" ng-bind-html="'topic.programs.label' | translate"
+                    ng-click="openTopic('programs')">
+            </button>
+
+            <button class="col-md-2" ng-bind-html="'topic.presence.label' | translate"
+                    ng-click="openTopic('presence')">
+            </button>
+
+            <button class="col-md-2" ng-bind-html="'topic.heat.label' | translate"
+                    ng-click="openTopic('heat')">
+            </button>
+
+            <button class="col-md-2" ng-bind-html="'topic.light.label' | translate"
+                    ng-click="openTopic('light')">
+            </button>
+
+            <button class="col-md-2" ng-bind-html="'topic.cook.label' | translate"
+                    ng-click="openTopic('cook')">
+            </button>
+
+            <button class="col-md-2" ng-bind-html="'generic.next' | translate"
+                    ng-click="$root.redirectTo('/household-action/programs')">
+            </button>
+        </div>
+    </div>
+</div>
