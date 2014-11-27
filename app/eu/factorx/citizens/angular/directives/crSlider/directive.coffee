@@ -12,7 +12,7 @@ angular
         ngMax: '='
         ngStep: '='
     templateUrl: "$/angular/templates/cr-slider.html"
-    replace: true
+    replace: false
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
 
@@ -85,9 +85,6 @@ angular
                 target = 0
             if target >  w - $scroller.width() / 2 - 50
                 target =  w - $scroller.width() / 2 - 50
-
-            console.log target
-            console.log $scroller.scrollLeft()
 
             if Math.abs(target - $scroller.scrollLeft()) > 1
                 $scroller.delay(1000).animate({scrollLeft: target}, { easing: 'easeInOutBack'})
