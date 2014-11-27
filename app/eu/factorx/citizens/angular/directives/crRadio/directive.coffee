@@ -3,7 +3,6 @@ angular
 .directive "crRadio", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngModel: '='
         ngOptions: '='
         ngFreeAllowed: '='
@@ -19,8 +18,6 @@ angular
             return `scope.ngModel == v`
 
         scope.$watch 'ngOptions', (n, o) ->
-            console.log n
-
             scope.computedOptions = []
             for element in n
                 if typeof(element) == 'object'

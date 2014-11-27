@@ -46,6 +46,9 @@ angular
             min: 20
             max: 2000
 
+        yesno:
+            value: null
+
 
 
         grid: [

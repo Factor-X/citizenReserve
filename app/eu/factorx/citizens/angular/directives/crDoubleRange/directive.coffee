@@ -3,7 +3,6 @@ angular
 .directive "crDoubleRange", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngRangeMin: '='
         ngRangeMax: '='
         ngMin: '='
