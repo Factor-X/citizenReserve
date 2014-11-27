@@ -12,7 +12,7 @@ import eu.factorx.citizens.util.email.actors.EmailServiceActor;
 import eu.factorx.citizens.util.email.messages.EmailMessage;
 
 // annotate as Spring Service for IOC
-@Service
+//@Service
 public class EmailService {
 
 
