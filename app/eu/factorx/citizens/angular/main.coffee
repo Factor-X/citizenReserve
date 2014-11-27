@@ -17,9 +17,11 @@ angular.module 'app', [
     'app.controllers'
 ]
 
-angular.module('app').run (gettextCatalog) ->
+angular.module('app').run (gettextCatalog,surveyDTOService) ->
     gettextCatalog.setCurrentLanguage('fr')
     gettextCatalog.loadRemote("/translations");
+    surveyDTOService.initialize()
+    return
 
 angular
 .module('app.controllers')
