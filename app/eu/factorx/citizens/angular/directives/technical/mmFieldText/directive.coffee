@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "mmFieldText", (directiveService,$timeout) ->
+.directive "mmFieldText", (directiveService, $timeout) ->
     restrict: "E"
     scope: directiveService.autoScope
         ngInfo: '='
@@ -20,7 +20,7 @@ angular
             scope.fieldType = if (scope.getInfo().fieldType?) then scope.getInfo().fieldType else "text"
 
             if !scope.getInfo().field?
-                scope.getInfo().field=""
+                scope.getInfo().field = ""
 
             if !scope.getInfo().isValid?
                 scope.getInfo().isValid = !scope.isValidationDefined
@@ -36,15 +36,15 @@ angular
                     return
                 if not scope.getInfo().field
                     scope.getInfo().field = ""
-                    ###
-                    scope.getInfo().isValid = false
-                    return
-                    ###
+                ###
+                scope.getInfo().isValid = false
+                return
+                ###
 
                 isValid = true
 
                 if typeof scope.getInfo().field != 'string'
-                    scope.getInfo().field+=""
+                    scope.getInfo().field += ""
 
                 if scope.getInfo().validationRegex?
                     isValid = scope.getInfo().field.match(scope.getInfo().validationRegex)
@@ -64,7 +64,6 @@ angular
             # display a error message before the input
             #
             scope.setErrorMessage = (errorMessage)->
-
                 scope.errorMessage = errorMessage
                 if scope.lastTimeOut?
                     $timeout.cancel(scope.lastTimeOut)

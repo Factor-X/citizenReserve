@@ -14,18 +14,18 @@ import play.mvc.Result;
  */
 public class AccountController extends Controller {
 
-    //service
-    private AccountService accountService = new AccountServiceImpl();
-    //converter
-    private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
+	//service
+	private AccountService accountService = new AccountServiceImpl();
+	//converter
+	private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
 
-    public Result get() {
+	public Result get() {
 
-        ListDTO<AccountDTO> result = new ListDTO<>();
-        for (Account account : accountService.findAll()) {
-            result.add(accountToAccountDTOConverter.convert(account));
-        }
+		ListDTO<AccountDTO> result = new ListDTO<>();
+		for (Account account : accountService.findAll()) {
+			result.add(accountToAccountDTOConverter.convert(account));
+		}
 
-        return ok(result);
-    }
+		return ok(result);
+	}
 }

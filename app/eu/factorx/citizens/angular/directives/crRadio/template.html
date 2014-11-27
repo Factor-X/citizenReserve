@@ -8,7 +8,7 @@
                 ng-repeat="o in computedOptions"
                 ng-click="setValue(o.value)"
                 ng-bind-html="('' + o.label) | translate"
-            ></button>
+                ></button>
 
         <button ng-if="getFreeAllowed() == 'true'"
                 class="btn btn-danger"
@@ -24,9 +24,9 @@
 
         <span class="input-group-btn">
             <button
-                ng-show="getFreeAllowed() == 'true'"
-                class="btn btn-danger"
-                ng-click="toggle()">
+                    ng-show="getFreeAllowed() == 'true'"
+                    class="btn btn-danger"
+                    ng-click="toggle()">
                 <span class="fa fa-eraser"></span>
             </button>
       </span>

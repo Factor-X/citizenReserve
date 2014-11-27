@@ -3,7 +3,7 @@ package eu.factorx.citizens.util.exception;
 /**
  * Created by florian on 30/08/14.
  */
-public class MyRuntimeException extends RuntimeException{
+public class MyRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

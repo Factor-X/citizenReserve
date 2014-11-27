@@ -5,15 +5,17 @@ package eu.factorx.citizens.dto.technical;
  */
 public class ExceptionsDTO extends DTO {
 
-    private final String message;
+	private final String message;
 
-    public ExceptionsDTO() { this.message = null; }
+	public ExceptionsDTO() {
+		this.message = null;
+	}
 
-    public ExceptionsDTO(String message) {
-        this.message = message;
-    }
+	public ExceptionsDTO(String message) {
+		this.message = message;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public String getMessage() {
+		return message;
+	}
 }

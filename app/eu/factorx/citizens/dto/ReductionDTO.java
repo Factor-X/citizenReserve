@@ -2,58 +2,21 @@ package eu.factorx.citizens.dto;
 
 import eu.factorx.citizens.dto.technical.DTO;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReductionDTO extends DTO {
 
-    private Double firstPeriodPowerReduction;
+	private Map<String, Double> powerReductionByPeriod = new HashMap<>();
 
-    private Double secondPeriodPowerReduction;
+	public ReductionDTO() {
+	}
 
-    private Double thirdPeriodPowerReduction;
+	public Map<String, Double> getPowerReductionByPeriod() {
+		return powerReductionByPeriod;
+	}
 
-    private Double averagePowerReduction;
-
-    private Double energyReduction;
-
-    public ReductionDTO() {
-    }
-
-    public Double getFirstPeriodPowerReduction() {
-        return firstPeriodPowerReduction;
-    }
-
-    public void setFirstPeriodPowerReduction(Double firstPeriodPowerReduction) {
-        this.firstPeriodPowerReduction = firstPeriodPowerReduction;
-    }
-
-    public Double getSecondPeriodPowerReduction() {
-        return secondPeriodPowerReduction;
-    }
-
-    public void setSecondPeriodPowerReduction(Double secondPeriodPowerReduction) {
-        this.secondPeriodPowerReduction = secondPeriodPowerReduction;
-    }
-
-    public Double getThirdPeriodPowerReduction() {
-        return thirdPeriodPowerReduction;
-    }
-
-    public void setThirdPeriodPowerReduction(Double thirdPeriodPowerReduction) {
-        this.thirdPeriodPowerReduction = thirdPeriodPowerReduction;
-    }
-
-    public Double getAveragePowerReduction() {
-        return averagePowerReduction;
-    }
-
-    public void setAveragePowerReduction(Double averagePowerReduction) {
-        this.averagePowerReduction = averagePowerReduction;
-    }
-
-    public Double getEnergyReduction() {
-        return energyReduction;
-    }
-
-    public void setEnergyReduction(Double energyReduction) {
-        this.energyReduction = energyReduction;
-    }
+	public void setPowerReductionByPeriod(Map<String, Double> powerReductionByPeriod) {
+		this.powerReductionByPeriod = powerReductionByPeriod;
+	}
 }

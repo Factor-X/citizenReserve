@@ -1,7 +1,7 @@
 # simple download service
 angular
 .module('app.services')
-.service "downloadService", ($http, $q,messageFlash) ->
+.service "downloadService", ($http, $q, messageFlash) ->
     @downloadsInProgress = 0
 
     @getDownloadsInProgress = ->

@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface SurveyService {
 
-    Survey saveSurvey(Survey survey);
+	Survey saveSurvey(Survey survey);
 
-    Survey getSurveyById(Long id);
+	Survey getSurveyById(Long id);
 
-    List<Survey> findSurveysByAccount(Account account);
+	List<Survey> findSurveysByAccount(Account account);
 
 }
