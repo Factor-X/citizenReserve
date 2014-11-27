@@ -1,9 +1,10 @@
 # simple download service
 angular
 .module('app.services')
-.service "directiveService", ($sce) ->
+.service "conditionService", ($sce) ->
     @checkCondition = (questionKey, surveyDTO) ->
 
+    return
 #    getAnswers = (questionKey, surveyDTO) ->
 #        surveyDTO
 #
