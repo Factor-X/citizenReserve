@@ -3,11 +3,12 @@ angular.module('app.filters', []);
 angular.module('app.services', []);
 angular.module('app.controllers', ['app.services', 'ngRoute', 'ngLocale', 'gettext']);
 angular.module('app', ['app.directives', 'app.filters', 'app.services', 'app.controllers']);
-angular.module('app').run(function(gettextCatalog, surveyDTOService) {
+angular.module('app').run(function(surveyDTOService) {
+  return surveyDTOService.initialize();
+});
+angular.module('app').run(function(gettextCatalog) {
   gettextCatalog.setCurrentLanguage('fr');
-  gettextCatalog.loadRemote("/translations");
-  surveyDTOService.initialize();
-  return;
+  return gettextCatalog.loadRemote("/translations");
 });
 angular.module('app.controllers').config(function($routeProvider) {
   $routeProvider.when('/household-profile/:topic', {
@@ -32,78 +33,6 @@ angular.module('app.controllers').config(function($routeProvider) {
   }).otherwise({
     redirectTo: '/welcome'
   });
-  return;
-});angular.module('app.services').service("directiveService", function($sce) {
-  return this.checkCondition = function(questionKey, surveyDTO) {};
-});angular.module('app.services').service("surveyDTOService", function($rootScope, $modal) {
-  var surveyDTO;
-  surveyDTO = null;
-  this.initialize = function() {
-    surveyDTO = {
-      account: null,
-      answers: []
-    };
-    return surveyDTO.answers.push({
-      questionKey: 'Q4000'
-    });
-  };
-  this.getAnswers = function(questionCode) {
-    return _.where(surveyDTO.answers, {
-      questionKey: questionCode
-    });
-  };
-  return;
-});angular.module('app.services').service("directiveService", function($sce) {
-  this.autoScope = function(s) {
-    var k, res, v;
-    res = {};
-    for (k in s) {
-      v = s[k];
-      res[k] = v;
-      if (k.slice(0, 2) === 'ng' && v === '=') {
-        res[k[2].toLowerCase() + k.slice(3)] = '@';
-      }
-    }
-    return res;
-  };
-  this.autoScopeImpl = function(s, name) {
-    var fget, key, val;
-    s.$$NAME = name;
-    for (key in s) {
-      val = s[key];
-      if (key.slice(0, 2) === 'ng') {
-        fget = function(scope, k) {
-          return function() {
-            var v;
-            v = 0;
-            if (scope[k] === void 0 || scope[k] === null || scope[k] === '') {
-              v = scope[k[2].toLowerCase() + k.slice(3)];
-            } else {
-              v = scope[k];
-            }
-            if (scope['decorate' + k.slice(2)]) {
-              return scope['decorate' + k.slice(2)](v);
-            } else {
-              return v;
-            }
-          };
-        };
-        s['get' + key.slice(2)] = fget(s, key);
-      }
-    }
-    s.isTrue = function(v) {
-      return v === true || v === 'true' || v === 'y';
-    };
-    s.isFalse = function(v) {
-      return v === false || v === 'false' || v === 'n';
-    };
-    s.isNull = function(v) {
-      return v === null;
-    };
-    return s.html = function(v) {
-      return $sce.trustAsHtml(v);
-    };
-  };
   return;
 });angular.module('app.services').service("downloadService", function($http, $q, messageFlash) {
   this.downloadsInProgress = 0;
@@ -191,24 +120,6 @@ angular.module('app.controllers').config(function($routeProvider) {
     return deferred.promise;
   };
   return;
-});angular.module('app.services').service("modalService", function($rootScope, $modal) {
-  this.open = function(parameters) {
-    return $modal.open(parameters);
-  };
-  return;
-});angular.module('app.services').service("generateId", function($rootScope) {
-  this.generate = function() {
-    var i, possible, text;
-    text = "";
-    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    i = 0;
-    while (i < 20) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-      i++;
-    }
-    return text;
-  };
-  return;
 });angular.module('app.services').service("messageFlash", function() {
   this.display = function(type, message, opts) {
     var options;
@@ -230,65 +141,101 @@ angular.module('app.controllers').config(function($routeProvider) {
     return this.display('error', message, opts);
   };
   return;
-});angular.module('app.services').service("translationService", function($rootScope, $filter, $http) {
-  var svc;
-  svc = this;
-  svc.elements = null;
-  svc.initialize = function(lang) {
-    $http({
-      method: "GET",
-      url: "/citizenReserve/translations/" + lang,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).success(function(data, status, headers, config) {
-      svc.elements = data.lines;
-      return $rootScope.$broadcast("LOAD_FINISHED", {
-        type: "TRANSLATIONS",
-        success: true
-      });
-    }).error(function(data, status, headers, config) {
-      svc.elements = [];
-      return $rootScope.$broadcast("LOAD_FINISHED", {
-        type: "TRANSLATIONS",
-        success: false
-      });
-    });
-    return;
-  };
-  svc.get = function(code, count) {
-    var v;
-    if (svc.elements == null) {
-      return "";
-    }
-    v = svc.elements[code];
-    if (!(v != null)) {
-      return null;
-    }
-    return v;
-  };
-  svc.translateExceptionsDTO = function(exception) {
-    if ((exception.params != null) && Object.keys(exception.params).length > 0) {
-      return $filter('translateTextWithVars')(exception.messageToTranslate, exception.params);
-    } else if (exception.messageToTranslate != null) {
-      return $filter('translate')(exception.messageToTranslate);
-    } else {
-      return exception.message;
-    }
+});angular.module('app.services').service("directiveService", function($sce) {
+  return this.checkCondition = function(questionKey, surveyDTO) {};
+});angular.module('app.services').service("modalService", function($rootScope, $modal) {
+  this.open = function(parameters) {
+    return $modal.open(parameters);
   };
   return;
-});angular.module('app.filters').filter("translateTextWithVars", function($sce, translationService) {
-  return function(input, vars) {
-    var k, text, v;
-    text = translationService.get(input, null);
-    if (text != null) {
-      for (k in vars) {
-        v = vars[k];
-        text = text.replace('{' + k + '}', v);
-      }
-      return text;
+});angular.module('app.services').service("generateId", function($rootScope) {
+  this.generate = function() {
+    var i, possible, text;
+    text = "";
+    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    i = 0;
+    while (i < 20) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+      i++;
     }
-    return input;
+    return text;
+  };
+  return;
+});angular.module('app.services').service("directiveService", function($sce) {
+  this.autoScope = function(s) {
+    var k, res, v;
+    res = {};
+    for (k in s) {
+      v = s[k];
+      res[k] = v;
+      if (k.slice(0, 2) === 'ng' && v === '=') {
+        res[k[2].toLowerCase() + k.slice(3)] = '@';
+      }
+    }
+    return res;
+  };
+  this.autoScopeImpl = function(s, name) {
+    var fget, key, val;
+    s.$$NAME = name;
+    for (key in s) {
+      val = s[key];
+      if (key.slice(0, 2) === 'ng') {
+        fget = function(scope, k) {
+          return function() {
+            var v;
+            v = 0;
+            if (scope[k] === void 0 || scope[k] === null || scope[k] === '') {
+              v = scope[k[2].toLowerCase() + k.slice(3)];
+            } else {
+              v = scope[k];
+            }
+            if (scope['decorate' + k.slice(2)]) {
+              return scope['decorate' + k.slice(2)](v);
+            } else {
+              return v;
+            }
+          };
+        };
+        s['get' + key.slice(2)] = fget(s, key);
+      }
+    }
+    s.isTrue = function(v) {
+      return v === true || v === 'true' || v === 'y';
+    };
+    s.isFalse = function(v) {
+      return v === false || v === 'false' || v === 'n';
+    };
+    s.isNull = function(v) {
+      return v === null;
+    };
+    return s.html = function(v) {
+      return $sce.trustAsHtml(v);
+    };
+  };
+  return;
+});angular.module('app.services').service("surveyDTOService", function($rootScope, $modal) {
+  var surveyDTO;
+  surveyDTO = null;
+  this.initialize = function() {
+    surveyDTO = {
+      account: null,
+      answers: []
+    };
+    return surveyDTO.answers.push({
+      questionKey: 'Q4000'
+    });
+  };
+  this.getAnswers = function(questionCode) {
+    return _.where(surveyDTO.answers, {
+      questionKey: questionCode
+    });
+  };
+  return;
+});angular.module('app.filters').filter("stringToFloat", function() {
+  return function(input) {
+    if (input != null) {
+      return parseFloat(input);
+    }
   };
 });angular.module('app.filters').filter("numberToI18N", function($filter) {
   return function(input, nbDecimal) {
@@ -299,84 +246,6 @@ angular.module('app.controllers').config(function($routeProvider) {
       return $filter("number")(parseFloat(input), nbDecimal);
     }
     return "";
-  };
-});angular.module('app.filters').filter("translateWithVars", function($sce, translationService) {
-  return function(input, vars) {
-    var k, text, v;
-    text = translationService.get(input, null);
-    if (text != null) {
-      for (k in vars) {
-        v = vars[k];
-        text = text.replace('{' + k + '}', v);
-      }
-      return $sce.trustAsHtml("<span class=\"translated-text\" data-code=\"" + input + "\">" + text + "</span>");
-    } else {
-      return $sce.trustAsHtml("<span class=\"translated-text translation-missing\" data-code=\"" + input + "\">[" + input + "]</span>");
-    }
-  };
-});angular.module('app.filters').filter("stringToFloat", function() {
-  return function(input) {
-    if (input != null) {
-      return parseFloat(input);
-    }
-  };
-});angular.module('app.filters').filter("translate", function($sce, translationService) {
-  return function(input, count) {
-    var text;
-    text = translationService.get(input, count);
-    if (text != null) {
-      return $sce.trustAsHtml("<span class=\"translated-text\" data-code=\"" + input + "\">" + text + "</span>");
-    } else {
-      return $sce.trustAsHtml("<span class=\"translated-text translation-missing\" data-code=\"" + input + "\">[" + input + "]</span>");
-    }
-  };
-});angular.module('app.filters').filter("translateText", function($sce, translationService) {
-  return function(input, count) {
-    var text;
-    text = translationService.get(input, count);
-    if (text != null) {
-      return text;
-    }
-    return input;
-  };
-});angular.module('app.directives').directive("mmFieldAutoCompletion", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngInfo: '='
-    }),
-    templateUrl: "$/angular/templates/mm-field-auto-completion.html",
-    replace: true,
-    transclude: true,
-    link: function(scope) {
-      directiveService.autoScopeImpl(scope);
-      scope.result = null;
-      scope.$watch('result', function() {
-        if (scope.result != null) {
-          scope.getInfo().field = scope.result.originalObject.key;
-        } else {
-          scope.getInfo().field = null;
-        }
-        return scope.isValid();
-      });
-      scope.isValid = function() {
-        var isValid;
-        if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
-          scope.getInfo().isValid = true;
-          return;
-        }
-        isValid = true;
-        if (!(scope.getInfo().field != null)) {
-          isValid = false;
-        }
-        scope.getInfo().isValid = isValid;
-        return;
-      };
-      scope.isValid();
-      return scope.logField = function() {
-        return console.log(scope.getInfo());
-      };
-    }
   };
 });angular.module('app.directives').directive("focusMe", function($timeout, $parse) {
   return {
@@ -391,6 +260,83 @@ angular.module('app.controllers').config(function($routeProvider) {
         }
       });
       return;
+    }
+  };
+});angular.module('app.directives').directive("mmFieldText", function(directiveService, $timeout) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngInfo: '='
+    }),
+    templateUrl: "$/angular/templates/mm-field-text.html",
+    replace: true,
+    transclude: true,
+    compile: function() {
+      return {
+        pre: function(scope) {
+          return directiveService.autoScopeImpl(scope);
+        },
+        post: function(scope) {
+          directiveService.autoScopeImpl(scope);
+          scope.isValidationDefined = (scope.getInfo().validationRegex != null) || (scope.getInfo().validationFct != null);
+          scope.hideIsValidIcon = !!scope.getInfo().hideIsValidIcon;
+          scope.fieldType = (scope.getInfo().fieldType != null) ? scope.getInfo().fieldType : "text";
+          if (!(scope.getInfo().field != null)) {
+            scope.getInfo().field = "";
+          }
+          if (!(scope.getInfo().isValid != null)) {
+            scope.getInfo().isValid = !scope.isValidationDefined;
+          }
+          if (scope.isValidationDefined) {
+            scope.$watch('getInfo().field', function(n, o) {
+              if (n !== o) {
+                return scope.isValid();
+              }
+            });
+          }
+          scope.isValid = function() {
+            var isValid;
+            if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
+              scope.getInfo().isValid = true;
+              return;
+            }
+            if (!scope.getInfo().field) {
+              scope.getInfo().field = "";
+            }
+            /*
+            scope.getInfo().isValid = false
+            return
+            */
+            isValid = true;
+            if (typeof scope.getInfo().field !== 'string') {
+              scope.getInfo().field += "";
+            }
+            if (scope.getInfo().validationRegex != null) {
+              isValid = scope.getInfo().field.match(scope.getInfo().validationRegex);
+            }
+            if (scope.getInfo().validationFct != null) {
+              isValid = isValid && scope.getInfo().validationFct();
+            }
+            scope.getInfo().isValid = isValid;
+            return;
+          };
+          scope.isValid();
+          scope.logField = function() {
+            return console.log(scope.getInfo());
+          };
+          scope.errorMessage = "";
+          return scope.setErrorMessage = function(errorMessage) {
+            scope.errorMessage = errorMessage;
+            if (scope.lastTimeOut != null) {
+              $timeout.cancel(scope.lastTimeOut);
+            }
+            return scope.lastTimeOut = $timeout(function() {
+              scope.errorMessage = "";
+              return scope.lastTimeOut = null;
+            }, 2000);
+          };
+        }
+      };
     }
   };
 });angular.module('app.directives').directive("numbersOnly", function($filter, $locale) {
@@ -584,81 +530,198 @@ angular.module('app.controllers').config(function($routeProvider) {
       }
     });
   };
-});angular.module('app.directives').directive("mmFieldText", function(directiveService, $timeout) {
+});angular.module('app.directives').directive("mmFieldAutoCompletion", function(directiveService) {
   return {
     restrict: "E",
     scope: directiveService.autoScope({
       ngInfo: '='
     }),
-    templateUrl: "$/angular/templates/mm-field-text.html",
+    templateUrl: "$/angular/templates/mm-field-auto-completion.html",
     replace: true,
     transclude: true,
-    compile: function() {
-      return {
-        pre: function(scope) {
-          return directiveService.autoScopeImpl(scope);
-        },
-        post: function(scope) {
-          directiveService.autoScopeImpl(scope);
-          scope.isValidationDefined = (scope.getInfo().validationRegex != null) || (scope.getInfo().validationFct != null);
-          scope.hideIsValidIcon = !!scope.getInfo().hideIsValidIcon;
-          scope.fieldType = (scope.getInfo().fieldType != null) ? scope.getInfo().fieldType : "text";
-          if (!(scope.getInfo().field != null)) {
-            scope.getInfo().field = "";
+    link: function(scope) {
+      directiveService.autoScopeImpl(scope);
+      scope.result = null;
+      scope.$watch('result', function() {
+        if (scope.result != null) {
+          scope.getInfo().field = scope.result.originalObject.key;
+        } else {
+          scope.getInfo().field = null;
+        }
+        return scope.isValid();
+      });
+      scope.isValid = function() {
+        var isValid;
+        if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
+          scope.getInfo().isValid = true;
+          return;
+        }
+        isValid = true;
+        if (!(scope.getInfo().field != null)) {
+          isValid = false;
+        }
+        scope.getInfo().isValid = isValid;
+        return;
+      };
+      scope.isValid();
+      return scope.logField = function() {
+        return console.log(scope.getInfo());
+      };
+    }
+  };
+});angular.module('app.directives').directive("crTopic", function(directiveService, modalService, $log) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngActive: '=',
+      ngActiveImage: '=',
+      ngInactiveImage: '=',
+      ngHoverImage: '=',
+      ngView: '=',
+      ngController: '='
+    }),
+    templateUrl: "$/angular/templates/cr-topic.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      directiveService.autoScopeImpl(scope);
+      return scope.open = function() {
+        var modalInstance;
+        modalInstance = modalService.open({
+          templateUrl: scope.getView(),
+          controller: scope.getController(),
+          size: 'lg',
+          resolve: {}
+        });
+        return modalInstance.result.then(function(result) {
+          return $log.info(result);
+        }, function() {
+          return $log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+    }
+  };
+});angular.module('app.directives').directive("crSlider", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngLabel: '=',
+      ngModel: '=',
+      ngSteps: '=',
+      ngFreeAllowed: '=',
+      ngMin: '=',
+      ngMax: '=',
+      ngStep: '='
+    }),
+    templateUrl: "$/angular/templates/cr-slider.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      directiveService.autoScopeImpl(scope);
+      scope.setValue = function(v) {
+        return scope.ngModel = v.value;
+      };
+      scope.isValue = function(v) {
+        var indexOfNgModel, indexOfV, o, _i, _j, _len, _len2, _ref, _ref2;
+        return scope.ngModel === v.value;
+        indexOfNgModel = -1;
+        _ref = scope.computedOptions;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          o = _ref[_i];
+          if (o.value == scope.ngModel) {
+            break;
+          } else {
+            indexOfNgModel++;
           }
-          if (!(scope.getInfo().isValid != null)) {
-            scope.getInfo().isValid = !scope.isValidationDefined;
+        }
+        indexOfV = -1;
+        _ref2 = scope.computedOptions;
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          o = _ref2[_j];
+          if (o.value == v.value) {
+            break;
+          } else {
+            indexOfV++;
           }
-          if (scope.isValidationDefined) {
-            scope.$watch('getInfo().field', function(n, o) {
-              if (n !== o) {
-                return scope.isValid();
-              }
-            });
-          }
-          scope.isValid = function() {
-            var isValid;
-            if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
-              scope.getInfo().isValid = true;
-              return;
-            }
-            if (!scope.getInfo().field) {
-              scope.getInfo().field = "";
-            }
-            /*
-            scope.getInfo().isValid = false
-            return
-            */
-            isValid = true;
-            if (typeof scope.getInfo().field !== 'string') {
-              scope.getInfo().field += "";
-            }
-            if (scope.getInfo().validationRegex != null) {
-              isValid = scope.getInfo().field.match(scope.getInfo().validationRegex);
-            }
-            if (scope.getInfo().validationFct != null) {
-              isValid = isValid && scope.getInfo().validationFct();
-            }
-            scope.getInfo().isValid = isValid;
-            return;
-          };
-          scope.isValid();
-          scope.logField = function() {
-            return console.log(scope.getInfo());
-          };
-          scope.errorMessage = "";
-          return scope.setErrorMessage = function(errorMessage) {
-            scope.errorMessage = errorMessage;
-            if (scope.lastTimeOut != null) {
-              $timeout.cancel(scope.lastTimeOut);
-            }
-            return scope.lastTimeOut = $timeout(function() {
-              scope.errorMessage = "";
-              return scope.lastTimeOut = null;
-            }, 2000);
-          };
+        }
+        if (indexOfNgModel === -1 || indexOfV === -1) {
+          return false;
+        } else {
+          return indexOfV <= indexOfNgModel;
         }
       };
+      scope.$watch(['ngSteps', 'ngMax', 'ngMin', 'ngStep', 'max', 'min', 'step'], function(n, o) {
+        var element, max, min, step, _i, _j, _len, _len2, _ref, _ref2, _results, _results2;
+        scope.computedOptions = [];
+        if (scope.ngSteps) {
+          _ref = scope.ngSteps;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            element = _ref[_i];
+            _results.push(element === null ? scope.computedOptions.push({
+              value: element,
+              label: element
+            }) : typeof element === 'object' ? scope.computedOptions.push(element) : scope.computedOptions.push({
+              value: element,
+              label: element
+            }));
+          }
+          return _results;
+        } else if (scope.getMin() !== void 0 && scope.getMax() !== void 0 && scope.getStep() !== void 0) {
+          scope.computedOptions.push({
+            value: null,
+            label: null
+          });
+          min = parseFloat(scope.getMin());
+          max = parseFloat(scope.getMax()) + parseFloat(scope.getStep());
+          step = parseFloat(scope.getStep());
+          _ref2 = _.range(min, max, step);
+          _results2 = [];
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            element = _ref2[_j];
+            _results2.push(scope.computedOptions.push({
+              value: element,
+              label: element
+            }));
+          }
+          return _results2;
+        }
+      });
+      $(elem).mouseenter(function() {
+        var $scroller;
+        $scroller = $(".cr-slider-not-null-box", this);
+        return $scroller.stop(true);
+      });
+      return $(elem).mouseleave(function() {
+        var $scroller, cnt, idx, o, offset, target, w, _i, _len, _ref;
+        $scroller = $(".cr-slider-not-null-box", this);
+        w = $scroller[0].scrollWidth;
+        idx = -1;
+        _ref = scope.computedOptions;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          o = _ref[_i];
+          if (o.value == scope.ngModel) {
+            break;
+          }
+          idx++;
+        }
+        cnt = scope.computedOptions.length - 1;
+        offset = 1.0 * idx / cnt;
+        target = w * offset - $scroller.width() / 2;
+        if (target < 0) {
+          target = 0;
+        }
+        if (target > w - $scroller.width() / 2 - 50) {
+          target = w - $scroller.width() / 2 - 50;
+        }
+        console.log(target);
+        console.log($scroller.scrollLeft());
+        if (Math.abs(target - $scroller.scrollLeft()) > 1) {
+          return $scroller.delay(1000).animate({
+            scrollLeft: target
+          }, {
+            easing: 'easeInOutBack'
+          });
+        }
+      });
     }
   };
 });angular.module('app.directives').directive("crDropdown", function(directiveService) {
@@ -743,6 +806,23 @@ angular.module('app.controllers').config(function($routeProvider) {
       return scope;
     }
   };
+});angular.module('app.directives').directive("crDoubleRange", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngLabel: '=',
+      ngRangeMin: '=',
+      ngRangeMax: '=',
+      ngMin: '=',
+      ngMax: '=',
+      ngDisabled: '='
+    }),
+    templateUrl: "$/angular/templates/cr-double-range.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      return directiveService.autoScopeImpl(scope);
+    }
+  };
 });angular.module('app.directives').directive("crRadio", function(directiveService) {
   return {
     restrict: "E",
@@ -764,7 +844,6 @@ angular.module('app.controllers').config(function($routeProvider) {
       };
       scope.$watch('ngOptions', function(n, o) {
         var element, _i, _len, _results;
-        console.log(n);
         scope.computedOptions = [];
         _results = [];
         for (_i = 0, _len = n.length; _i < _len; _i++) {
@@ -794,87 +873,16 @@ angular.module('app.controllers').config(function($routeProvider) {
       };
     }
   };
-});angular.module('app.directives').directive("crDoubleRange", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngLabel: '=',
-      ngRangeMin: '=',
-      ngRangeMax: '=',
-      ngMin: '=',
-      ngMax: '=',
-      ngDisabled: '='
-    }),
-    templateUrl: "$/angular/templates/cr-double-range.html",
-    replace: true,
-    link: function(scope, elem, attrs, ngModel) {
-      return directiveService.autoScopeImpl(scope);
-    }
+});angular.module('app.controllers').controller("NiceModalCtrl", function($scope, $modalInstance, chosenValue) {
+  $scope.selected = chosenValue;
+  $scope.ok = function() {
+    return $modalInstance.close($scope.selected);
   };
-});angular.module('app.directives').directive("crSlider", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngLabel: '=',
-      ngModel: '=',
-      ngSteps: '=',
-      ngFreeAllowed: '='
-    }),
-    templateUrl: "$/angular/templates/cr-slider.html",
-    replace: true,
-    link: function(scope, elem, attrs, ngModel) {
-      directiveService.autoScopeImpl(scope);
-      scope.setValue = function(v) {
-        return scope.ngModel = v.value;
-      };
-      scope.isValue = function(v) {
-        var indexOfNgModel, indexOfV, o, _i, _j, _len, _len2, _ref, _ref2;
-        return scope.ngModel === v.value;
-        indexOfNgModel = -1;
-        _ref = scope.computedOptions;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          o = _ref[_i];
-          if (o.value == scope.ngModel) {
-            break;
-          } else {
-            indexOfNgModel++;
-          }
-        }
-        indexOfV = -1;
-        _ref2 = scope.computedOptions;
-        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-          o = _ref2[_j];
-          if (o.value == v.value) {
-            break;
-          } else {
-            indexOfV++;
-          }
-        }
-        if (indexOfNgModel === -1 || indexOfV === -1) {
-          return false;
-        } else {
-          return indexOfV <= indexOfNgModel;
-        }
-      };
-      return scope.$watch('ngSteps', function(n, o) {
-        var element, _i, _len, _results;
-        console.log(n);
-        scope.computedOptions = [];
-        _results = [];
-        for (_i = 0, _len = n.length; _i < _len; _i++) {
-          element = n[_i];
-          _results.push(element === null ? scope.computedOptions.push({
-            value: element,
-            label: element
-          }) : typeof element === 'object' ? scope.computedOptions.push(element) : scope.computedOptions.push({
-            value: element,
-            label: element
-          }));
-        }
-        return _results;
-      });
-    }
+  return $scope.cancel = function() {
+    return $modalInstance.dismiss('cancel');
   };
+});angular.module('app.controllers').controller("WelcomeCtrl", function($scope, modalService, $log, $location) {});angular.module('app.controllers').controller("ModalTopicCtrl", function($scope, surveyDTOService) {
+  return console.log(surveyDTOService.getAnswers('Q4000'));
 });angular.module('app.controllers').controller("FormCtrl", function($scope, modalService, $log, topic) {
   $scope.topic = topic;
   $scope.slider = {
@@ -923,7 +931,7 @@ modalInstance.result.then (result) ->
 , () ->
     $scope.x.sel = o
     $log.info('Modal dismissed at: ' + new Date())
-*/angular.module('app.controllers').controller("WelcomeCtrl", function($scope, modalService, $log, $location) {});angular.module('app.controllers').controller("MainCtrl", function($scope, modalService, $log) {
+*/angular.module('app.controllers').controller("MainCtrl", function($scope, modalService, $log) {
   $scope.x = {
     sel: 'Human',
     items: ['Human', 'Bat', '-', 'Vampire'],
@@ -980,6 +988,12 @@ modalInstance.result.then (result) ->
         }
       ],
       simpleSteps: [null, 18, 19, 20, 21, 22]
+    },
+    continuousSlider: {
+      value: 100,
+      step: 10,
+      min: 20,
+      max: 2000
     },
     grid: [
       {
@@ -1063,14 +1077,4 @@ angular.module('app').run(function($rootScope, $location) {
   return $rootScope.redirectTo = function(target) {
     return $location.path(target);
   };
-});angular.module('app.controllers').controller("ModalTopicCtrl", function($scope, surveyDTOService) {
-  return console.log(surveyDTOService.getAnswers('Q4000'));
-});angular.module('app.controllers').controller("NiceModalCtrl", function($scope, $modalInstance, chosenValue) {
-  $scope.selected = chosenValue;
-  $scope.ok = function() {
-    return $modalInstance.close($scope.selected);
-  };
-  return $scope.cancel = function() {
-    return $modalInstance.dismiss('cancel');
-  };
-});angular.module('app.directives').run(function($templateCache) {$templateCache.put('$/angular/views/modal/household/profile/programs.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Je suis le topic prgams de household/profile</h3>\n</div>\n<div class=\"modal-body\">\n    <!--<cr-slider label=\"Q4000\" ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>-->\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/household-profile.html', "<div class=\"col-md-12\">\n    <h1>Household questionnaire TRAD</h1>\n\n\n    <div class=\"container\">\n        <div class=\"row\">\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.programs.label' | translate\"\n                    ng-click=\"openTopic('programs')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.presence.label' | translate\"\n                    ng-click=\"openTopic('presence')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.heat.label' | translate\"\n                    ng-click=\"openTopic('heat')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.light.label' | translate\"\n                    ng-click=\"openTopic('light')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.cook.label' | translate\"\n                    ng-click=\"openTopic('cook')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'generic.next' | translate\"\n                    ng-click=\"$root.redirectTo('/household-action/programs')\">\n            </button>\n        </div>\n    </div>\n</div>");$templateCache.put('$/angular/views/modal-confirm-vampire.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Vampire</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/household.html', "<div class=\"col-md-12\">\n    <h1>Household questionnaire TRAD</h1>\n\n    <tabset>\n        <tab active=\"getTopic('programs').active\">\n            <tab-heading>\n                <i class=\"fa fa-home\" ng-bind-html=\"'topic.programs.label' | translate\"></i>\n            </tab-heading>\n\n            Contenu\n        </tab>\n\n        <tab active=\"getTopic('presence').active\">\n            <tab-heading>\n                <i class=\"fa fa-gear\" ng-bind-html=\"'topic.presence.label' | translate\"></i>\n            </tab-heading>\n\n            I've got an HTML heading, and a select callback. Pretty cool!\n        </tab>\n\n        <tab active=\"topic=='heat'\">\n            <tab-heading>\n                <i class=\"fa fa-gear\" ng-bind-html=\"'topic.heat.label' | translate\"></i>\n            </tab-heading>\n\n            I've got an HTML heading, and a select callback. Pretty cool!\n        </tab>\n\n        <tab active=\"topic=='light'\">\n            <tab-heading>\n                <i class=\"fa fa-gear\" ng-bind-html=\"'topic.light.label' | translate\"></i>\n            </tab-heading>\n\n            I've got an HTML heading, and a select callback. Pretty cool!\n        </tab>\n\n        <tab active=\"topic=='cook'\">\n            <tab-heading>\n                <i class=\"fa fa-gear\" ng-bind-html=\"'topic.cook.label' | translate\"></i>\n            </tab-heading>\n\n            I've got an HTML heading, and a select callback. Pretty cool!\n        </tab>\n    </tabset>\n\n</div>");$templateCache.put('$/angular/views/household-profil.html', "<div class=\"col-md-12\">\n    <h1>Household questionnaire TRAD</h1>\n\n\n    <div class=\"container\">\n        <div class=\"row\">\n            <button class=\"col-md-1\">\n                Precedent\n            </button>\n\n            <button class=\"col-md-2\">\n                programs\n            </button>\n\n            <button class=\"col-md-2\">\n                presence\n            </button>\n\n            <button class=\"col-md-2\">\n                heat\n            </button>\n\n            <button class=\"col-md-2\">\n                light\n            </button>\n\n            <button class=\"col-md-2\">\n                cook\n            </button>\n\n            <button class=\"col-md-1\">\n                Next\n            </button>\n        </div>\n    </div>\n\n    <!--\n        <tabset>\n            <tab>\n                <tab-heading>\n                    <i class=\"fa fa-gear\" ng-bind-html=\"'topic.programs.label' | translate\"></i>\n                </tab-heading>\n                <div>\n\n\n                </div>\n            </tab>\n\n            <tab>\n                <tab-heading>\n                    <i class=\"fa fa-gear\" ng-bind-html=\"'topic.presence.label' | translate\"></i>\n                </tab-heading>\n                <div>\n\n                </div>\n            </tab>\n\n            <tab>\n                <tab-heading>\n                    <i class=\"fa fa-gear\" ng-bind-html=\"'topic.heat.label' | translate\"></i>\n                </tab-heading>\n                <div>\n\n                </div>\n            </tab>\n\n            <tab>\n                <tab-heading>\n                    <i class=\"fa fa-gear\" ng-bind-html=\"'topic.light.label' | translate\"></i>\n                </tab-heading>\n                <div>\n\n                </div>\n            </tab>\n\n            <tab>\n                <tab-heading>\n                    <i class=\"fa fa-gear\" ng-bind-html=\"'topic.cook.label' | translate\"></i>\n                </tab-heading>\n                <div>\n\n                </div>\n            </tab>\n        </tabset>\n        -->\n</div>");$templateCache.put('$/angular/views/form.html', "<div>\n    <h1>Je suis un {{text}} =></h1>\n\n    <div ng-bind-html=\"'hello' | translate\"></div>\n    <button ng-click=\"open()\">Click-me !</button>\n\n\n    <table>\n        <tr>\n            <th>\n                First name\n            </th>\n            <th>\n                Last name\n            </th>\n            <th>\n                Email\n            </th>\n        </tr>\n        <tr ng-repeat=\"account in accounts\">\n            <td>\n                {{account.firstName}}\n            </td>\n            <td>\n                {{ account.lastName}}\n            </td>\n            <td>\n                {{ account.email}}\n            </td>\n        </tr>\n    </table>\n\n</div>");$templateCache.put('$/angular/views/welcome.html', "<div>\n    <p ng-bind-html=\"'welcome.choose_message' | translate\"></p>\n    <button ng-bind-html=\"'generic.household' | translate\"\n            ng-click=\"$root.redirectTo('/household-profile/programs')\"></button>\n\n\n\n</div>");$templateCache.put('$/angular/templates/cr-number.html', "<div class=\"cr-number\">\n\n\n    <label class=\"cr-number-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <input\n            class=\"form-control cr-number-input\"\n            ng-model=\"ngModel\"/>\n\n</div>");$templateCache.put('$/angular/templates/cr-slider.html', "<div class=\"cr-slider\">\n\n    <label class=\"cr-slider-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <span>{{ ngModel }}</span>\n\n    <div class=\"cr-slider-container\">\n        <!-- Sections -->\n        <span class=\"cr-slider-section\"\n              ng-class=\"{first: ($index == 1)}\"\n              ng-repeat=\"o in computedOptions\"\n              ng-mousedown=\"setValue(o)\"\n              ng-if=\"$index > 0\"\n              style=\"left: {{ ($index - 1 )* 100 + 8}}px\"\n                >\n            <span class=\"cr-slider-section-line\"></span>\n            </span>\n\n\n        <!-- Ticks -->\n        <span ng-repeat=\"o in computedOptions\">\n\n            <span class=\"cr-slider-tick\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ $index * 100 }}px\"\n                    ></span>\n\n            </span>\n\n        <!-- Labels -->\n        <span ng-repeat=\"o in computedOptions\">\n\n            <span class=\"cr-slider-text\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ $index * 100 + 8}}px\"\n                  ng-bind-html=\"('' + o.label) | translate\"\n                    ></span>\n\n            </span>\n    </div>\n</div>");$templateCache.put('$/angular/templates/cr-radio.html', "<div class=\"cr-radio\">\n\n    <label class=\"cr-radio-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <div class=\"btn-group\" ng-hide=\"edit\">\n        <button class=\"btn btn-default  \"\n                ng-class=\"{active: isValue(o.value)}\"\n                ng-repeat=\"o in computedOptions\"\n                ng-click=\"setValue(o.value)\"\n                ng-bind-html=\"('' + o.label) | translate\"\n                ></button>\n\n        <button ng-if=\"getFreeAllowed() == 'true'\"\n                class=\"btn btn-danger\"\n                ng-click=\"toggle()\">\n            <span class=\"fa fa-pencil\"></span>\n        </button>\n\n    </div>\n\n    <div class=\"input-group\" ng-show=\"edit\">\n\n        <input type=\"text\" class=\"form-control\" ng-model=\"ngModel\"/>\n\n        <span class=\"input-group-btn\">\n            <button\n                    ng-show=\"getFreeAllowed() == 'true'\"\n                    class=\"btn btn-danger\"\n                    ng-click=\"toggle()\">\n                <span class=\"fa fa-eraser\"></span>\n            </button>\n      </span>\n\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/mm-field-auto-completion.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><angucomplete minlength=\"1\" pause=\"400\" ng-disabled=\"getInfo().disabled\" id=\"members\" titlefield=\"content\" inputclass=\"form-control form-control-small\" placeholder=\"{{getInfo().placeholder}}\" selectedobject=\"result\" datafield=\"values\" url=\"{{getInfo().url}}\"></angucomplete></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-date.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"dropdown\"></div><a class=\"dropdown-toggle\" data-target=\"#\" id=\"{{id}}\" role=\"button\" data-toggle=\"dropdown\" href=\"\"><div class=\"input-group\"><input class=\"form-control\" ng-model=\"resultFormated\" type=\"text\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span></div><ul class=\"dropdown-menu date_input\" aria-labelledby=\"dLabel\" role=\"menu\"><datetimepicker data-ng-model=\"result\" data-datetimepicker-config=\"{ dropdownSelector: '{{idHtag}}',minView:'day' }\"></datetimepicker></ul></a></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-text.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"field_error_message_flash\" ng-show=\"errorMessage.length&gt;0\"><div>{{errorMessage}}</div><img src=\"/assets/images/question_field_error_message_icon_arrow.png\"></div><input ng-disabled=\"getInfo().disabled\" placeholder=\"{{getInfo().placeholder}}\" numbers-only=\"{{getInfo().numbersOnly}}\" focus-me=\"getInfo().focus()\" ng-class=\"{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}\" ng-model=\"getInfo().field\" type=\"{{fieldType}}\"></div><div><div ng-if=\"isValidationDefined\"><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/cr-dropdown.html', "<div class=\"cr-dropdown\">\n\n\n    <label class=\"cr-dropdown-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <!-- Single button -->\n    <div class=\"btn-group cr-dropdown-control\"\n         dropdown>\n\n        <button type=\"button\"\n                class=\"btn btn-default dropdown-toggle cr-dropdown-button\"\n                dropdown-toggle\n                ng-disabled=\"getDisabled()\">\n            {{ ngModel }} <span class=\"caret\"></span>\n        </button>\n\n        <ul class=\"dropdown-menu cr-dropdown-menu\"\n            role=\"menu\">\n            <li ng-repeat=\"o in ngOptions\" class=\"cr-dropdown-menu-item\" ng-class=\"{divider: (o == '-')}\">\n                <a class=\"cr-dropdown-menu-item-link\" ng-if=\"o != '-'\" ng-click=\"$select(o)\">{{ o }}</a>\n            </li>\n        </ul>\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/cr-double-range.html', "<div class=\"cr-range\">\n\n    <label class=\"cr-range-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n\n    <div range-slider min=\"ngRangeMin\" max=\"ngRangeMax\" model-min=\"ngMin\" model-max=\"ngMax\" step=\"ngStep\"\n         disabled=\"ngDisabled\"></div>\n\n</div>");});
+});angular.module('app.directives').run(function($templateCache) {$templateCache.put('$/angular/templates/cr-dropdown.html', "<div class=\"cr-dropdown\">\n\n\n    <label class=\"cr-dropdown-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <!-- Single button -->\n    <div class=\"btn-group cr-dropdown-control\"\n         dropdown>\n\n        <button type=\"button\"\n                class=\"btn btn-default dropdown-toggle cr-dropdown-button\"\n                dropdown-toggle\n                ng-disabled=\"getDisabled()\">\n            {{ ngModel }} <span class=\"caret\"></span>\n        </button>\n\n        <ul class=\"dropdown-menu cr-dropdown-menu\"\n            role=\"menu\">\n            <li ng-repeat=\"o in ngOptions\" class=\"cr-dropdown-menu-item\" ng-class=\"{divider: (o == '-')}\">\n                <a class=\"cr-dropdown-menu-item-link\" ng-if=\"o != '-'\" ng-click=\"$select(o)\">{{ o }}</a>\n            </li>\n        </ul>\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/cr-double-range.html', "<div class=\"cr-range\">\n\n    <label class=\"cr-range-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n\n    <div range-slider min=\"ngRangeMin\" max=\"ngRangeMax\" model-min=\"ngMin\" model-max=\"ngMax\" step=\"ngStep\"\n         disabled=\"ngDisabled\"></div>\n\n</div>");$templateCache.put('$/angular/templates/cr-radio.html', "<div class=\"cr-radio\">\n\n    <label class=\"cr-radio-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <div class=\"btn-group\" ng-hide=\"edit\">\n        <button class=\"btn btn-default  \"\n                ng-class=\"{active: isValue(o.value)}\"\n                ng-repeat=\"o in computedOptions\"\n                ng-click=\"setValue(o.value)\"\n                ng-bind-html=\"('' + o.label) | translate\"\n                ></button>\n\n        <button ng-if=\"getFreeAllowed() == 'true'\"\n                class=\"btn btn-danger\"\n                ng-click=\"toggle()\">\n            <span class=\"fa fa-pencil\"></span>\n        </button>\n\n    </div>\n\n    <div class=\"input-group\" ng-show=\"edit\">\n\n        <input type=\"text\" class=\"form-control\" ng-model=\"ngModel\"/>\n\n        <span class=\"input-group-btn\">\n            <button\n                    ng-show=\"getFreeAllowed() == 'true'\"\n                    class=\"btn btn-danger\"\n                    ng-click=\"toggle()\">\n                <span class=\"fa fa-eraser\"></span>\n            </button>\n      </span>\n\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/cr-topic.html', "<button class=\"cr-topic\" ng-click=\"open()\">\n    <span ng-show=\"getActive() == 'true'\"\n          class=\"cr-topic-image-active\"\n          ng-attr-style=\"background-image: url('{{ getActiveImage() }}')\"></span>\n    <span ng-hide=\"getActive() == 'true'\"\n          class=\"cr-topic-image-inactive\"\n          ng-attr-style=\"background-image: url('{{ getInactiveImage() }}')\"></span>\n    <span class=\"cr-topic-image-hover\"\n          ng-attr-style=\"background-image: url('{{ getHoverImage() }}')\"></span>\n</button>");$templateCache.put('$/angular/templates/mm-field-text.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"field_error_message_flash\" ng-show=\"errorMessage.length&gt;0\"><div>{{errorMessage}}</div><img src=\"/assets/images/question_field_error_message_icon_arrow.png\"></div><input ng-disabled=\"getInfo().disabled\" placeholder=\"{{getInfo().placeholder}}\" numbers-only=\"{{getInfo().numbersOnly}}\" focus-me=\"getInfo().focus()\" ng-class=\"{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}\" ng-model=\"getInfo().field\" type=\"{{fieldType}}\"></div><div><div ng-if=\"isValidationDefined\"><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-date.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"dropdown\"></div><a class=\"dropdown-toggle\" data-target=\"#\" id=\"{{id}}\" role=\"button\" data-toggle=\"dropdown\" href=\"\"><div class=\"input-group\"><input class=\"form-control\" ng-model=\"resultFormated\" type=\"text\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span></div><ul class=\"dropdown-menu date_input\" aria-labelledby=\"dLabel\" role=\"menu\"><datetimepicker data-ng-model=\"result\" data-datetimepicker-config=\"{ dropdownSelector: '{{idHtag}}',minView:'day' }\"></datetimepicker></ul></a></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-auto-completion.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><angucomplete minlength=\"1\" pause=\"400\" ng-disabled=\"getInfo().disabled\" id=\"members\" titlefield=\"content\" inputclass=\"form-control form-control-small\" placeholder=\"{{getInfo().placeholder}}\" selectedobject=\"result\" datafield=\"values\" url=\"{{getInfo().url}}\"></angucomplete></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/cr-number.html', "<div class=\"cr-number\">\n\n\n    <label class=\"cr-number-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <input\n            class=\"form-control cr-number-input\"\n            ng-model=\"ngModel\"/>\n\n</div>");$templateCache.put('$/angular/templates/cr-slider.html', "<div class=\"cr-slider\">\n\n    <label class=\"cr-slider-label\" ng-bind-html=\"getLabel() | translate\"></label>\n\n    <div class=\"cr-slider-container\">\n\n        <!-- Sections -->\n            <span class=\"cr-slider-section first\"\n                  ng-repeat=\"o in computedOptions\"\n                  style=\"left: 0px\"\n                >\n            </span>\n\n        <div class=\"cr-slider-null-box\">\n              <span class=\"cr-slider-tick first\"\n                    ng-mousedown=\"setValue(computedOptions[0])\"\n                    style=\"left: 0px\"\n                  ></span>\n\n        </div>\n\n        <div class=\"cr-slider-not-null-box\">\n\n            <!-- Sections -->\n            <span class=\"cr-slider-section\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"$index > 1\"\n                  style=\"left: {{ ($index - 2 )* 50}}px\"\n                >\n            </span>\n\n            <!-- Ticks -->\n\n            <span class=\"cr-slider-tick\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.value != null\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ ($index - 1) * 50 }}px\"\n                ></span>\n\n\n            <!-- Labels -->\n\n            <span class=\"cr-slider-text\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.label != null\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ ($index - 1 )* 50}}px\"\n                  ng-bind-html=\"('' + o.label) | translate\"\n                ></span>\n\n\n        </div>\n    </div>\n</div>");$templateCache.put('$/angular/views/modal-confirm-vampire.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Vampire</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/modal/household/profile/programs.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Je suis le topic prgams de household/profile</h3>\n</div>\n<div class=\"modal-body\">\n    <!--<cr-slider label=\"Q4000\" ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>-->\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/household-profile.html', "<div class=\"col-md-12\">\n    <h1>Household questionnaire TRAD</h1>\n\n\n    <div class=\"container\">\n        <div class=\"row\">\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.programs.label' | translate\"\n                    ng-click=\"openTopic('programs')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.presence.label' | translate\"\n                    ng-click=\"openTopic('presence')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.heat.label' | translate\"\n                    ng-click=\"openTopic('heat')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.light.label' | translate\"\n                    ng-click=\"openTopic('light')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.cook.label' | translate\"\n                    ng-click=\"openTopic('cook')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'generic.next' | translate\"\n                    ng-click=\"$root.redirectTo('/household-action/programs')\">\n            </button>\n        </div>\n    </div>\n</div>");$templateCache.put('$/angular/views/welcome.html', "<div>\n    <p ng-bind-html=\"'welcome.choose_message' | translate\"></p>\n    <button ng-bind-html=\"'generic.household' | translate\"\n            ng-click=\"$root.redirectTo('/household-profile/programs')\"></button>\n\n\n\n</div>");});
