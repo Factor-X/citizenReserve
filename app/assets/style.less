@@ -9,6 +9,53 @@ img {
     }
 }
 
+.cr-topic {
+    display: block;
+    width: 128px;
+    height: 128px;
+    margin: 20px auto;
+    background-size: 128px 128px;
+    border: none;
+    background-color: transparent;
+
+    transition: transform 0.2s cubic-bezier(0.25, 1.0, 0.5, 1.0), opacity 0.2s cubic-bezier(0.25, 1.0, 0.5, 1.0);
+
+    &:hover {
+        transform: scale(1.1, 1.1)
+    }
+
+    .cr-topic-image {
+        display: block;
+        width: 128px;
+        height: 128px;
+        background-size: 128px 128px;
+        border: none;
+        background-color: transparent;
+    }
+
+    .cr-topic-image-active {
+        .cr-topic-image();
+    }
+    .cr-topic-image-inactive {
+        .cr-topic-image();
+    }
+    .cr-topic-image-hover {
+        .cr-topic-image();
+        display: none;
+    }
+    &:hover .cr-topic-image-hover {
+        display: block;
+    }
+
+    &:hover .cr-topic-image-active {
+        display: none;
+    }
+
+    &:hover .cr-topic-image-inactive {
+        display: none;
+    }
+}
+
 .cr-slider {
 
     .cr-slider-container {
