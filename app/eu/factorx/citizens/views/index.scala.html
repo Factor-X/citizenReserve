@@ -6,6 +6,8 @@
         @* ------------------------------------------------------------------ *@
         @* JAVASCRIPTS *@
         @* ------------------------------------------------------------------ *@
+        @* Underscore *@
+        <script src='@routes.Assets.at("components/underscore/underscore-min.js")'></script>
         @* jQuery *@
         <script src='@routes.Assets.at("components/jquery/dist/jquery.min.js")'></script>
         <script src='@routes.Assets.at("components/jquery-ui/jquery-ui.min.js")'></script>
@@ -143,6 +145,7 @@
                 <div class="col-md-12">
                     <cr-slider label="Q4000" ng-model="x.slider.value" ng-steps="x.slider.steps"></cr-slider>
                     <cr-slider label="Q4000" ng-model="x.slider.value" ng-steps="x.slider.simpleSteps"></cr-slider>
+                    <cr-slider label="Q5000" ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
                 </div>
             </div>
         </div>

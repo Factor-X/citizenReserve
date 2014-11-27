@@ -14,7 +14,8 @@ public class TranslationController extends Controller {
 		Logger.info("TranslationController.get()");
 
 		ObjectMapper mapper = new ObjectMapper();
-		try {
+        try {
+            response().setHeader("Content-Type", "application/json; charset=utf-8");
 			return ok(mapper.writeValueAsString(Global.TRANSLATIONS));
 		} catch (JsonProcessingException e) {
 			throw new MyRuntimeException(e, e.getMessage());
