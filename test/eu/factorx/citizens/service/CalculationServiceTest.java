@@ -27,7 +27,7 @@ public class CalculationServiceTest {
     @Test
     public void testCalculatePotentialReduction() throws Exception {
 
-		play.Logger.debug("Entering test...");
+		play.Logger.debug("Entering Calculate Potential Reduction test...");
         List<AnswerDTO> answersDTOs = buildSampleConsumerProfile();
 
         ReductionDTO potentialReduction = calculationService.calculatePotentialReduction(answersDTOs);
@@ -98,7 +98,66 @@ public class CalculationServiceTest {
         return answersDTOs;
     }
 
-    private AnswerDTO createAnswerDTO(QuestionCode questionCode, Period period) {
+	@Test
+	public void testCalculateEffectiveReduction() throws Exception {
+
+		play.Logger.debug("Entering Calculate Effective Reduction test...");
+		List<AnswerDTO> answersDTOs = buildSampleActionsConsumerProfile();
+
+		// Sortir
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3210, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
+
+		// Programme et electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3110, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3120, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3130, null, true));
+
+		//Chauffage et eau chaude
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3310, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3320, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3330, null, true));
+
+		//Eclairage & electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3410, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3420, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3510, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3530, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3610, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3620, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3630, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3631, null, "2"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3640, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3810, null, true));
+
+		//Repas
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3710, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "1"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3720, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "1"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "1"));
+
+
+		ReductionDTO effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
+
+	}
+
+	private List<AnswerDTO> buildSampleActionsConsumerProfile() {
+		List<AnswerDTO> answersDTOs = new ArrayList<>();
+
+		answersDTOs = buildSampleConsumerProfile();
+
+
+		return answersDTOs;
+	}
+
+	/************************************** Private methods ***************************/
+
+
+	private AnswerDTO createAnswerDTO(QuestionCode questionCode, Period period) {
         String periodKey = null;
         if (period != null) {
             periodKey = period.name();
@@ -117,5 +176,12 @@ public class CalculationServiceTest {
         answerDTO.addStringValue(stringValue);
         return answerDTO;
     }
+
+	private AnswerDTO buildAnswerDTO(QuestionCode questionCode, Period period, Boolean booleanValue) {
+		AnswerDTO answerDTO = createAnswerDTO(questionCode, period);
+		answerDTO.addBooleanValue(booleanValue);
+		return answerDTO;
+	}
+
 
 }
