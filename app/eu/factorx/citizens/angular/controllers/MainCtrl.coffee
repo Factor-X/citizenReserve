@@ -40,6 +40,12 @@ angular
             ],
             simpleSteps: [ null, 18, 19, 20, 21, 22 ]
 
+        continuousSlider:
+            value: 100
+            step: 10
+            min: 20
+            max: 2000
+
 
 
         grid: [
@@ -77,3 +83,7 @@ angular
                 $scope.x.sel = o
                 $log.info('Modal dismissed at: ' + new Date())
 
+#rootScope
+angular.module('app').run ($rootScope, $location)->
+    $rootScope.redirectTo = (target) ->
+        $location.path(target)
