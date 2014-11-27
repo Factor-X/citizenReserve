@@ -30,6 +30,10 @@
     "messenger": "*",
     "momentjs": "*",
     "angular-rangeslider": "~0.0.11",
-    "angular-gettext": "~1.1.4"
+    "angular-gettext": "~1.1.4",
+    "venturocket-angular-slider": "~0.3.2"
+  },
+  "resolutions": {
+    "angular": "=1.3.5-build.3620+sha.5d36353"
   }
 }

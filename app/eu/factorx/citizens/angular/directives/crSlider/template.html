@@ -3,38 +3,55 @@
     <label class="cr-slider-label" ng-bind-html="getLabel() | translate"></label>
 
     <div class="cr-slider-container">
+
         <!-- Sections -->
-        <span class="cr-slider-section"
-              ng-class="{first: ($index == 1)}"
-              ng-repeat="o in computedOptions"
-              ng-if="$index > 0"
-              style="left: {{ ($index - 1 )* 50}}px"
-            >
-        </span>
-
-
-        <!-- Ticks -->
-        <span ng-repeat="o in computedOptions">
-
-            <span class="cr-slider-tick"
-                  ng-class="{active: isValue(o), first: ($index == 0)}"
-                  ng-mousedown="setValue(o)"
-                  style="left: {{ $index * 50 }}px"
-                ></span>
-
+            <span class="cr-slider-section first"
+                  ng-repeat="o in computedOptions"
+                  style="left: 0px"
+                >
             </span>
 
-        <!-- Labels -->
-        <span ng-repeat="o in computedOptions">
+        <div class="cr-slider-null-box">
+              <span class="cr-slider-tick first"
+                    ng-mousedown="setValue(computedOptions[0])"
+                    style="left: 0px"
+                  ></span>
+
+        </div>
+
+        <div class="cr-slider-not-null-box">
+
+            <!-- Sections -->
+            <span class="cr-slider-section"
+                  ng-repeat="o in computedOptions"
+                  ng-if="$index > 1"
+                  style="left: {{ ($index - 2 )* 50}}px"
+                >
+            </span>
+
+            <!-- Ticks -->
+
+            <span class="cr-slider-tick"
+                  ng-repeat="o in computedOptions"
+                  ng-if="o.value != null"
+                  ng-class="{active: isValue(o), first: ($index == 0)}"
+                  ng-mousedown="setValue(o)"
+                  style="left: {{ ($index - 1) * 50 }}px"
+                ></span>
+
+
+            <!-- Labels -->
 
             <span class="cr-slider-text"
+                  ng-repeat="o in computedOptions"
                   ng-if="o.label != null"
                   ng-class="{active: isValue(o)}"
                   ng-mousedown="setValue(o)"
-                  style="left: {{ $index * 50}}px"
+                  style="left: {{ ($index - 1 )* 50}}px"
                   ng-bind-html="('' + o.label) | translate"
                 ></span>
 
-            </span>
+
+        </div>
     </div>
 </div>
