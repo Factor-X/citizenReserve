@@ -15,7 +15,10 @@ angular
         return @surveyDTO.account
 
     @getAnswerValue = (questionKey, periodKey) ->
-        answer = _.findWhere(@surveyDTO.answers, {questionKey: questionKey, periodKey: periodKey})
+        if !!periodKey
+            answer = _.findWhere(@surveyDTO.answers, {questionKey: questionKey, periodKey: periodKey})
+        else
+            answer = _.findWhere(@surveyDTO.answers, {questionKey: questionKey})
 
         if not answer
             answer = {
