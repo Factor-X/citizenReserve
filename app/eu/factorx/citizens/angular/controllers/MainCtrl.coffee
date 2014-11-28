@@ -17,6 +17,7 @@ angular
         ]
         cnt: 10
         firstName: 'Winston'
+        password: '123'
         comment: 'Attitude is a little thing that makes a big difference.'
         doubleRange:
             min: 2
