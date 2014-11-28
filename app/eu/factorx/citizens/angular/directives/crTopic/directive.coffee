@@ -4,22 +4,26 @@ angular
     restrict: "E"
     scope: directiveService.autoScope
         ngActive: '='
-        ngActiveImage: '='
-        ngInactiveImage: '='
-        ngHoverImage: '='
+        ngImage: '='
         ngView: '='
         ngController: '='
+        ngWindowClass: '='
 
     templateUrl: "$/angular/templates/cr-topic.html"
     replace: true
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
 
+
         scope.open = () ->
+
+            console.log scope.getWindowClass()
+
             modalInstance = modalService.open({
                 templateUrl: scope.getView(),
                 controller: scope.getController(),
                 size: 'lg'
+                windowClass: scope.getWindowClass()
                 resolve: {}
             });
 

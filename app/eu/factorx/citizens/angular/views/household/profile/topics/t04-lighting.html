@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <h3 class="modal-title" ng-bind-html="'topic.light.label' | translate"></h3>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic04_title.png" alt=""/>
+    <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
+    <h3 class="modal-title cr-modal-title-text"  ng-bind-html="'topic.light.label' | translate"></h3>
 </div>
 <div class="modal-body">
 
@@ -32,7 +34,7 @@
             <cr-slider ng-model="getAnswerValue('Q2020').stringValue" ng-steps="getOptions('Q2020')" vertical="true"></cr-slider>
         </cr-question>
         <cr-question label="Q2030.label">
-                <cr-slider ng-model="getAnswerValue('Q2030').stringValue" ng-steps="getOptions('Q2030')" vertical="true"></cr-slider>
+            <cr-slider ng-model="getAnswerValue('Q2030').stringValue" ng-steps="getOptions('Q2030')" vertical="true"></cr-slider>
         </cr-question>
         <cr-question label="Q2040.label">
             <cr-slider ng-model="getAnswerValue('Q2040').stringValue" ng-steps="getOptions('Q2040')" vertical="true"></cr-slider>

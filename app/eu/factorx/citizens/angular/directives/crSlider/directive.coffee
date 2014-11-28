@@ -16,6 +16,8 @@ angular
 
         ngFilter: '='
 
+        ngTheme: '='
+
     templateUrl: "$/angular/templates/cr-slider.html"
     replace: false
     link: (scope, elem, attrs, ngModel) ->
@@ -113,7 +115,7 @@ angular
                 scope.computedOptionsFiltered = _.where(scope.computedOptions, {value: scope.ngModel})
                 if _.where(scope.computedOptionsFiltered, {value: null}).length == 0
                     scope.computedOptionsFiltered.unshift {label: null, value: null}
-                scope.computedOptionsFiltered.push {value: "$SELECT_A_VALUE$", label: "..."}
+                scope.computedOptionsFiltered.push {value: "$SELECT_A_VALUE$", label: null}
 
 
         scope.toggleExpanded = () ->
