@@ -67,7 +67,7 @@ public class AccountController extends AbstractController {
         accountService.saveAccount(account);
 
         //save data
-        surveyController.saveSurvey(dto);
+        surveyController.saveSurvey(dto,account);
 
 
         //TODO send email
