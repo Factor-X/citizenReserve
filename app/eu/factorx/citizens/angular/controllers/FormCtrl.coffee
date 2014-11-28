@@ -12,24 +12,17 @@ angular
             else
                 console.log "je suis un echec"
 
-
+    $scope.load = () ->
+        modalInstance = modalService.open({
+            templateUrl: '$/angular/views/login_modal.html',
+            controller: 'LoginModalCtrl',
+            size: 'lg'
+        })
 
     $scope.openTopic = (target) ->
-        # TODO TEMP
+
         modalInstance = modalService.open({
             templateUrl: '$/angular/views/household/profile/topics/' + target + '.html',
             controller: 'ModalTopicCtrl',
             size: 'lg'
-        ###
-        resolve:
-            chosenValue: () ->
-                return $scope.x.sel
-        ###
-        });
-###
-modalInstance.result.then (result) ->
-    $log.info(result)
-, () ->
-    $scope.x.sel = o
-    $log.info('Modal dismissed at: ' + new Date())
-###
+        })

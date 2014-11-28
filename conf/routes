@@ -11,5 +11,5 @@ GET         /                    @eu.factorx.citizens.controllers.ApplicationCon
 GET         /translations        @eu.factorx.citizens.controllers.TranslationController.get()
 
 #account
-GET         /account             @eu.factorx.citizens.controllers.AccountController.get()
+POST        /login               @eu.factorx.citizens.controllers.AccountController.login()
 POST        /registration        @eu.factorx.citizens.controllers.AccountController.createAccountAndSaveData()
