@@ -9,10 +9,31 @@ angular
             account: null
             answers: []
         }
-        surveyDTO.answers.push {questionKey: 'Q4000'}
 
     # add the search answer function into DTO
     @getAnswers = (questionCode) ->
         return _.where(surveyDTO.answers, {questionKey: questionCode})
+
+    @getAnswerValue = (questionKey, periodKey) ->
+
+        console.log surveyDTO
+
+        answer= _.findWhere(surveyDTO.answers, {questionKey: questionKey, periodKey: periodKey})
+
+        if not answer
+            answer = {
+                questionKey: questionKey
+                periodKey: periodKey
+                answerValues: []
+            }
+        console.log answer
+        if answer.answerValues.length == 0
+            answer.answerValues.push {
+                stringValue: null
+                doubleValue: null
+                booleanValue: null
+            }
+
+        return answer.answerValues[0]
 
     return

@@ -1,8 +1,10 @@
 package eu.factorx.citizens.dto;
 
+import eu.factorx.citizens.dto.technical.DTO;
+
 import java.util.List;
 
-public class SurveyDTO {
+public class SurveyDTO extends DTO {
 
 	private AccountDTO account;
 
@@ -26,4 +28,6 @@ public class SurveyDTO {
 	public void setAnswers(List<AnswerDTO> answers) {
 		this.answers = answers;
 	}
+
+
 }

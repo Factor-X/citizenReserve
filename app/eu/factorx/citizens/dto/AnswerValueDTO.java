@@ -48,4 +48,13 @@ public class AnswerValueDTO extends DTO {
 	public void setBooleanValue(Boolean booleanValue) {
 		this.booleanValue = booleanValue;
 	}
+
+    @Override
+    public String toString() {
+        return "AnswerValueDTO{" +
+                "stringValue='" + stringValue + '\'' +
+                ", doubleValue=" + doubleValue +
+                ", booleanValue=" + booleanValue +
+                '}';
+    }
 }

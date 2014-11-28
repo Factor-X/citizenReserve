@@ -1,59 +1,143 @@
 package eu.factorx.citizens.dto;
 
 import eu.factorx.citizens.dto.technical.DTO;
+import play.data.validation.Constraints;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 public class AccountDTO extends DTO {
 
-	private Long id;
+    private Long id;
 
-	private String firstName;
+    @Size(min = 2,max = 30)
+    private String firstName;
 
-	private String lastName;
+    @Size(min = 2,max = 30)
+    private String lastName;
 
-	private String email;
+    @Constraints.Email
+    private String email;
 
-	public AccountDTO() {
-	}
+    @Size(min = 6,max = 18)
+    private String password;
 
-	public Long getId() {
-		return id;
-	}
+    @Size(min = 4,max = 20)
+    private String zipCode;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotNull
+    private String accoutType;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    @NotNull
+    private String sensitizationKit;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    @NotNull
+    private String powerProvider;
 
-	public String getLastName() {
-		return lastName;
-	}
+    @NotNull
+    private String powerComsumerCategory;
+    private List<String> otherEmailAddresses;
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public AccountDTO() {
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
-	public String toString() {
-		return "AccountDTO{" +
-				"id=" + id +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", email='" + email + '\'' +
-				'}';
-	}
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    public String getAccoutType() {
+        return accoutType;
+    }
+
+    public void setAccoutType(String accoutType) {
+        this.accoutType = accoutType;
+    }
+
+    public String getSensitizationKit() {
+        return sensitizationKit;
+    }
+
+    public void setSensitizationKit(String sensitizationKit) {
+        this.sensitizationKit = sensitizationKit;
+    }
+
+    public String getPowerProvider() {
+        return powerProvider;
+    }
+
+    public void setPowerProvider(String powerProvider) {
+        this.powerProvider = powerProvider;
+    }
+
+    public String getPowerComsumerCategory() {
+        return powerComsumerCategory;
+    }
+
+    public void setPowerComsumerCategory(String powerComsumerCategory) {
+        this.powerComsumerCategory = powerComsumerCategory;
+    }
+
+    public List<String> getOtherEmailAddresses() {
+        return otherEmailAddresses;
+    }
+
+    public void setOtherEmailAddresses(List<String> otherEmailAddresses) {
+        this.otherEmailAddresses = otherEmailAddresses;
+    }
 }

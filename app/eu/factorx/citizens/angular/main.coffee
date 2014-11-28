@@ -22,7 +22,8 @@ angular.module('app').run (surveyDTOService) ->
 
 angular.module('app').run (gettextCatalog) ->
     gettextCatalog.setCurrentLanguage('fr')
-    gettextCatalog.loadRemote("/translations");
+    gettextCatalog.loadRemote("/translations")
+
 
 angular
 .module('app.controllers')

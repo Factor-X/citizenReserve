@@ -1,5 +1,12 @@
 angular
 .module('app.controllers')
-.controller "ModalTopicCtrl", ($scope,surveyDTOService) ->
+.controller "ModalTopicCtrl", ($scope, surveyDTOService, optionService) ->
 
-    console.log surveyDTOService.getAnswers('Q4000')
+    $scope.getOptions = (questionKey) ->
+        opt=optionService.getOptions(questionKey)
+        console.log "OPTION"
+        console.log opt
+        return opt
+
+    $scope.getAnswerValue = (questionKey, periodKey) ->
+        return surveyDTOService.getAnswerValue(questionKey, periodKey)
