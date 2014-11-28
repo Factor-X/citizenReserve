@@ -1,9 +1,14 @@
 <div class="cr-text">
 
-    <input ng-show="getMultiline() != 'true'" class="form-control cr-text-input"
-           ng-model="ngModel"/>
+    <input
+        ng-show="getMultiline() != 'true'"
+        ng-attr-name="{{ getName() }}"
+        class="form-control cr-text-input"
+        ng-model="ngModel"/>
 
-    <textarea ng-show="getMultiline() == 'true'" class="form-control cr-text-input"
-           ng-model="ngModel"></textarea>
+    <textarea ng-show="getMultiline() == 'true'"
+              ng-attr-name="{{ getName() }}"
+              class="form-control cr-text-textarea"
+              ng-model="ngModel"></textarea>
 
 </div>
