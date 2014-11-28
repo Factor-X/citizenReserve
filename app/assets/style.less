@@ -70,6 +70,12 @@ img {
     background: transparent;
     display: block;
     width: 100%;
+    ::selection {
+        background: transparent; /* WebKit/Blink Browsers */
+    }
+    ::-moz-selection {
+        background: transparent; /* Gecko Browsers */
+    }
 
     .cr-slider-container {
         background: transparent;
@@ -89,6 +95,7 @@ img {
             position: relative;
             width: 100%;
             overflow-x: auto;
+            overflow-y: hidden;
         }
 
         .cr-slider-section {
@@ -175,6 +182,7 @@ img {
             position: relative;
             width: 100%;
             overflow-x: auto;
+            overflow-y: hidden;
         }
 
         .cr-slider-section {

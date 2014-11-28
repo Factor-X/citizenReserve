@@ -76,7 +76,7 @@ angular
     $scope.$watch 'x.sel', (n, o) ->
         if n == $scope.x.items[3]
             modalInstance = modalService.open({
-                templateUrl: '$/angular/views/modal-confirm-vampire.html',
+                templateUrl: '$/angular/views/test/modal-confirm-vampire.html',
                 controller: 'NiceModalCtrl',
                 size: 'sm'
                 resolve:
