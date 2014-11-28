@@ -31,6 +31,9 @@ angular.module('app.controllers').config(function($routeProvider) {
     redirectTo: '/welcome'
   });
   return;
+});angular.module('app.services').service("conditionService", function($sce) {
+  this.checkCondition = function(questionKey, surveyDTO) {};
+  return;
 });angular.module('app.services').service("messageFlash", function() {
   this.display = function(type, message, opts) {
     var options;
@@ -52,6 +55,11 @@ angular.module('app.controllers').config(function($routeProvider) {
     return this.display('error', message, opts);
   };
   return;
+});angular.module('app.services').service("modalService", function($rootScope, $modal) {
+  this.open = function(parameters) {
+    return $modal.open(parameters);
+  };
+  return;
 });angular.module('app.services').service("generateId", function($rootScope) {
   this.generate = function() {
     var i, possible, text;
@@ -64,14 +72,6 @@ angular.module('app.controllers').config(function($routeProvider) {
     }
     return text;
   };
-  return;
-});angular.module('app.services').service("modalService", function($rootScope, $modal) {
-  this.open = function(parameters) {
-    return $modal.open(parameters);
-  };
-  return;
-});angular.module('app.services').service("conditionService", function($sce) {
-  this.checkCondition = function(questionKey, surveyDTO) {};
   return;
 });angular.module('app.services').service("directiveService", function($sce) {
   this.autoScope = function(s) {
@@ -123,37 +123,6 @@ angular.module('app.controllers').config(function($routeProvider) {
     return s.html = function(v) {
       return $sce.trustAsHtml(v);
     };
-  };
-  return;
-});angular.module('app.services').service("optionService", function($rootScope, $modal, gettextCatalog, $filter) {
-  var cleanKey, options;
-  options = {};
-  this.getOptions = function(questionKey) {
-    var list, opt, optionList, pattern, _i, _len;
-    if (options[questionKey] != null) {
-      return options[questionKey];
-    }
-    pattern = new RegExp(questionKey + "\.options\.*");
-    list = _.filter(Object.keys(gettextCatalog.strings.fr), function(key) {
-      return pattern.test(key);
-    });
-    list.sort();
-    optionList = [];
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      opt = list[_i];
-      optionList.push({
-        value: cleanKey(questionKey, opt),
-        label: $filter('translate')(opt)
-      });
-    }
-    options[questionKey] = optionList;
-    return optionList;
-  };
-  cleanKey = function(questionKey, key) {
-    var match, pattern;
-    pattern = new RegExp(questionKey + "\.options\.([^\.]+)\.label");
-    match = pattern.exec(key);
-    return match[1];
   };
   return;
 });angular.module('app.services').service("downloadService", function($http, $q, messageFlash) {
@@ -279,10 +248,59 @@ angular.module('app.controllers').config(function($routeProvider) {
     return answerValue;
   };
   return;
+});angular.module('app.services').service("optionService", function($rootScope, $modal, gettextCatalog, $filter) {
+  var cleanKey, options;
+  options = {};
+  this.getOptions = function(questionKey) {
+    var list, opt, optionList, pattern, _i, _len;
+    if (options[questionKey] != null) {
+      return options[questionKey];
+    }
+    pattern = new RegExp(questionKey + "\.options\.*");
+    list = _.filter(Object.keys(gettextCatalog.strings.fr), function(key) {
+      return pattern.test(key);
+    });
+    list.sort();
+    optionList = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      opt = list[_i];
+      optionList.push({
+        value: cleanKey(questionKey, opt),
+        label: $filter('translate')(opt)
+      });
+    }
+    options[questionKey] = optionList;
+    return optionList;
+  };
+  cleanKey = function(questionKey, key) {
+    var match, pattern;
+    pattern = new RegExp(questionKey + "\.options\.([^\.]+)\.label");
+    match = pattern.exec(key);
+    return match[1];
+  };
+  return;
 });angular.module('app.filters').filter("toHour", function(translateFilter) {
   return function(input) {
     if (input != null) {
       return input + translateFilter('filter.toHour.hour.suffix');
+    }
+  };
+});angular.module('app.filters').filter("toWatts", function(translateFilter) {
+  return function(input) {
+    if (input != null) {
+      return input + translateFilter('filter.toWatts.w.suffix');
+    }
+  };
+});angular.module('app.filters').filter("stringToFloat", function() {
+  return function(input) {
+    if (input != null) {
+      return parseFloat(input);
+    }
+  };
+});angular.module('app.filters').filter("toSquareMeters", function(translateFilter) {
+  return function(input) {
+    if (input != null) {
+      return input + translateFilter('filter.toSquareMeters.m2.suffix');
     }
   };
 });angular.module('app.filters').filter("numberToI18N", function($filter) {
@@ -295,22 +313,40 @@ angular.module('app.controllers').config(function($routeProvider) {
     }
     return "";
   };
-});angular.module('app.filters').filter("stringToFloat", function() {
-  return function(input) {
-    if (input != null) {
-      return parseFloat(input);
+});angular.module('app.directives').directive("crDropdown", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngOptions: '=',
+      ngModel: '=',
+      ngDisabled: '=',
+      ngOpened: '='
+    }),
+    templateUrl: "$/angular/templates/cr-dropdown.html",
+    replace: true,
+    link: function(scope) {
+      directiveService.autoScopeImpl(scope);
+      scope.$select = function(o) {
+        return scope.ngModel = o;
+      };
+      return scope.$opened = function() {
+        console.log('ok');
+        return !!scope.getOpened();
+      };
     }
   };
-});angular.module('app.filters').filter("toWatts", function(translateFilter) {
-  return function(input) {
-    if (input != null) {
-      return input + translateFilter('filter.toWatts.w.suffix');
-    }
-  };
-});angular.module('app.filters').filter("toSquareMeters", function(translateFilter) {
-  return function(input) {
-    if (input != null) {
-      return input + translateFilter('filter.toSquareMeters.m2.suffix');
+});angular.module('app.directives').directive("crText", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngModel: '=',
+      ngMultiline: '='
+    }),
+    require: 'ngModel',
+    templateUrl: "$/angular/templates/cr-text.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      return directiveService.autoScopeImpl(scope);
     }
   };
 });angular.module('app.directives').directive("crRadio", function(directiveService) {
@@ -359,37 +395,6 @@ angular.module('app.controllers').config(function($routeProvider) {
             return scope.ngModel = scope.ngOptions[0].value;
           }
         }
-      };
-    }
-  };
-});angular.module('app.directives').directive("crTopic", function(directiveService, modalService, $log) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngActive: '=',
-      ngActiveImage: '=',
-      ngInactiveImage: '=',
-      ngHoverImage: '=',
-      ngView: '=',
-      ngController: '='
-    }),
-    templateUrl: "$/angular/templates/cr-topic.html",
-    replace: true,
-    link: function(scope, elem, attrs, ngModel) {
-      directiveService.autoScopeImpl(scope);
-      return scope.open = function() {
-        var modalInstance;
-        modalInstance = modalService.open({
-          templateUrl: scope.getView(),
-          controller: scope.getController(),
-          size: 'lg',
-          resolve: {}
-        });
-        return modalInstance.result.then(function(result) {
-          return $log.info(result);
-        }, function() {
-          return $log.info('Modal dismissed at: ' + new Date());
-        });
       };
     }
   };
@@ -451,30 +456,6 @@ angular.module('app.controllers').config(function($routeProvider) {
       return scope;
     }
   };
-});angular.module('app.directives').directive("crBoolean", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngModel: '='
-    }),
-    templateUrl: "$/angular/templates/cr-boolean.html",
-    replace: false,
-    link: function(scope, elem, attrs, ngModel) {
-      directiveService.autoScopeImpl(scope);
-      return scope.steps = [
-        {
-          value: null,
-          label: null
-        }, {
-          value: true,
-          label: "directive.boolean.yes"
-        }, {
-          value: false,
-          label: "directive.boolean.no"
-        }
-      ];
-    }
-  };
 });angular.module('app.directives').directive("crQuestion", function(directiveService) {
   return {
     restrict: "E",
@@ -486,72 +467,6 @@ angular.module('app.controllers').config(function($routeProvider) {
     transclude: true,
     link: function(scope, elem, attrs, ngModel) {
       return directiveService.autoScopeImpl(scope);
-    }
-  };
-});angular.module('app.directives').directive("ngEnter", function() {
-  return function(scope, element, attrs) {
-    return element.bind("keydown keypress", function(event) {
-      if (event.which === 13) {
-        scope.$apply(function() {
-          return scope.$eval(attrs.ngEnter);
-        });
-        return event.preventDefault();
-      }
-    });
-  };
-});angular.module('app.directives').directive("mmFieldDate", function(directiveService, $filter, generateId) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngInfo: '='
-    }),
-    templateUrl: "$/angular/templates/mm-field-date.html",
-    replace: true,
-    transclude: true,
-    compile: function() {
-      return {
-        pre: function(scope) {
-          scope.id = generateId.generate();
-          return scope.idHtag = '#' + scope.id;
-        },
-        post: function(scope) {
-          directiveService.autoScopeImpl(scope);
-          scope.result = null;
-          scope.$watch('result', function() {
-            return scope.resultFormated = $filter('date')(scope.result, 'yyyy-MM-dd');
-          });
-          scope.$watch('getInfo().field', function() {
-            if (scope.getInfo().field != null) {
-              return scope.result = new Date(Number(scope.getInfo().field));
-            }
-          });
-          scope.$watch('result', function() {
-            if (scope.result != null) {
-              scope.getInfo().field = scope.result.getTime();
-            } else {
-              scope.getInfo().field = null;
-            }
-            return scope.isValid();
-          });
-          scope.isValid = function() {
-            var isValid;
-            if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
-              scope.getInfo().isValid = true;
-              return;
-            }
-            isValid = true;
-            if (!(scope.getInfo().field != null)) {
-              isValid = false;
-            }
-            scope.getInfo().isValid = isValid;
-            return;
-          };
-          scope.isValid();
-          return scope.logField = function() {
-            return console.log(scope.getInfo());
-          };
-        }
-      };
     }
   };
 });angular.module('app.directives').directive("focusMe", function($timeout, $parse) {
@@ -643,45 +558,6 @@ angular.module('app.controllers').config(function($routeProvider) {
             }, 2000);
           };
         }
-      };
-    }
-  };
-});angular.module('app.directives').directive("mmFieldAutoCompletion", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngInfo: '='
-    }),
-    templateUrl: "$/angular/templates/mm-field-auto-completion.html",
-    replace: true,
-    transclude: true,
-    link: function(scope) {
-      directiveService.autoScopeImpl(scope);
-      scope.result = null;
-      scope.$watch('result', function() {
-        if (scope.result != null) {
-          scope.getInfo().field = scope.result.originalObject.key;
-        } else {
-          scope.getInfo().field = null;
-        }
-        return scope.isValid();
-      });
-      scope.isValid = function() {
-        var isValid;
-        if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
-          scope.getInfo().isValid = true;
-          return;
-        }
-        isValid = true;
-        if (!(scope.getInfo().field != null)) {
-          isValid = false;
-        }
-        scope.getInfo().isValid = isValid;
-        return;
-      };
-      scope.isValid();
-      return scope.logField = function() {
-        return console.log(scope.getInfo());
       };
     }
   };
@@ -810,6 +686,142 @@ angular.module('app.controllers').config(function($routeProvider) {
       }
     });
   };
+});angular.module('app.directives').directive("mmFieldDate", function(directiveService, $filter, generateId) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngInfo: '='
+    }),
+    templateUrl: "$/angular/templates/mm-field-date.html",
+    replace: true,
+    transclude: true,
+    compile: function() {
+      return {
+        pre: function(scope) {
+          scope.id = generateId.generate();
+          return scope.idHtag = '#' + scope.id;
+        },
+        post: function(scope) {
+          directiveService.autoScopeImpl(scope);
+          scope.result = null;
+          scope.$watch('result', function() {
+            return scope.resultFormated = $filter('date')(scope.result, 'yyyy-MM-dd');
+          });
+          scope.$watch('getInfo().field', function() {
+            if (scope.getInfo().field != null) {
+              return scope.result = new Date(Number(scope.getInfo().field));
+            }
+          });
+          scope.$watch('result', function() {
+            if (scope.result != null) {
+              scope.getInfo().field = scope.result.getTime();
+            } else {
+              scope.getInfo().field = null;
+            }
+            return scope.isValid();
+          });
+          scope.isValid = function() {
+            var isValid;
+            if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
+              scope.getInfo().isValid = true;
+              return;
+            }
+            isValid = true;
+            if (!(scope.getInfo().field != null)) {
+              isValid = false;
+            }
+            scope.getInfo().isValid = isValid;
+            return;
+          };
+          scope.isValid();
+          return scope.logField = function() {
+            return console.log(scope.getInfo());
+          };
+        }
+      };
+    }
+  };
+});angular.module('app.directives').directive("ngEnter", function() {
+  return function(scope, element, attrs) {
+    return element.bind("keydown keypress", function(event) {
+      if (event.which === 13) {
+        scope.$apply(function() {
+          return scope.$eval(attrs.ngEnter);
+        });
+        return event.preventDefault();
+      }
+    });
+  };
+});angular.module('app.directives').directive("mmFieldAutoCompletion", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngInfo: '='
+    }),
+    templateUrl: "$/angular/templates/mm-field-auto-completion.html",
+    replace: true,
+    transclude: true,
+    link: function(scope) {
+      directiveService.autoScopeImpl(scope);
+      scope.result = null;
+      scope.$watch('result', function() {
+        if (scope.result != null) {
+          scope.getInfo().field = scope.result.originalObject.key;
+        } else {
+          scope.getInfo().field = null;
+        }
+        return scope.isValid();
+      });
+      scope.isValid = function() {
+        var isValid;
+        if (scope.getInfo().disabled === true || scope.getInfo().hidden === true) {
+          scope.getInfo().isValid = true;
+          return;
+        }
+        isValid = true;
+        if (!(scope.getInfo().field != null)) {
+          isValid = false;
+        }
+        scope.getInfo().isValid = isValid;
+        return;
+      };
+      scope.isValid();
+      return scope.logField = function() {
+        return console.log(scope.getInfo());
+      };
+    }
+  };
+});angular.module('app.directives').directive("crTopic", function(directiveService, modalService, $log) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngActive: '=',
+      ngActiveImage: '=',
+      ngInactiveImage: '=',
+      ngHoverImage: '=',
+      ngView: '=',
+      ngController: '='
+    }),
+    templateUrl: "$/angular/templates/cr-topic.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      directiveService.autoScopeImpl(scope);
+      return scope.open = function() {
+        var modalInstance;
+        modalInstance = modalService.open({
+          templateUrl: scope.getView(),
+          controller: scope.getController(),
+          size: 'lg',
+          resolve: {}
+        });
+        return modalInstance.result.then(function(result) {
+          return $log.info(result);
+        }, function() {
+          return $log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+    }
+  };
 });angular.module('app.directives').directive("crDoubleRange", function(directiveService) {
   return {
     restrict: "E",
@@ -826,26 +838,28 @@ angular.module('app.controllers').config(function($routeProvider) {
       return directiveService.autoScopeImpl(scope);
     }
   };
-});angular.module('app.directives').directive("crDropdown", function(directiveService) {
+});angular.module('app.directives').directive("crBoolean", function(directiveService) {
   return {
     restrict: "E",
     scope: directiveService.autoScope({
-      ngOptions: '=',
-      ngModel: '=',
-      ngDisabled: '=',
-      ngOpened: '='
+      ngModel: '='
     }),
-    templateUrl: "$/angular/templates/cr-dropdown.html",
-    replace: true,
-    link: function(scope) {
+    templateUrl: "$/angular/templates/cr-boolean.html",
+    replace: false,
+    link: function(scope, elem, attrs, ngModel) {
       directiveService.autoScopeImpl(scope);
-      scope.$select = function(o) {
-        return scope.ngModel = o;
-      };
-      return scope.$opened = function() {
-        console.log('ok');
-        return !!scope.getOpened();
-      };
+      return scope.steps = [
+        {
+          value: null,
+          label: null
+        }, {
+          value: true,
+          label: "directive.boolean.yes"
+        }, {
+          value: false,
+          label: "directive.boolean.no"
+        }
+      ];
     }
   };
 });angular.module('app.directives').directive("crSlider", function(directiveService, $filter) {
@@ -866,6 +880,14 @@ angular.module('app.controllers').config(function($routeProvider) {
     replace: false,
     link: function(scope, elem, attrs, ngModel) {
       directiveService.autoScopeImpl(scope);
+      scope.labelFilter = $filter('translate');
+      scope.opened = false;
+      scope.computedOptionsFiltered = [
+        {
+          label: null,
+          value: null
+        }
+      ];
       scope.setValue = function(v) {
         return scope.ngModel = v.value;
       };
@@ -909,7 +931,6 @@ angular.module('app.controllers').config(function($routeProvider) {
           return !!v;
         }
       };
-      scope.labelFilter = $filter('translate');
       scope.$watch(['ngFilter', 'filter'], function() {
         var n;
         n = scope.getFilter();
@@ -920,22 +941,26 @@ angular.module('app.controllers').config(function($routeProvider) {
         }
       });
       scope.$watch(['ngSteps', 'ngMax', 'ngMin', 'ngStep', 'max', 'min', 'step'], function(n, o) {
-        var element, max, min, step, _i, _j, _len, _len2, _ref, _ref2, _results, _results2;
+        var element, max, min, step, _i, _j, _len, _len2, _ref, _ref2;
         scope.computedOptions = [];
         if (scope.ngSteps) {
           _ref = scope.ngSteps;
-          _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             element = _ref[_i];
-            _results.push(element === null ? scope.computedOptions.push({
-              value: element,
-              label: element
-            }) : typeof element === 'object' ? scope.computedOptions.push(element) : scope.computedOptions.push({
-              value: element,
-              label: element
-            }));
+            if (element === null) {
+              scope.computedOptions.push({
+                value: element,
+                label: element
+              });
+            } else if (typeof element === 'object') {
+              scope.computedOptions.push(element);
+            } else {
+              scope.computedOptions.push({
+                value: element,
+                label: element
+              });
+            }
           }
-          return _results;
         } else if (scope.getMin() !== void 0 && scope.getMax() !== void 0 && scope.getStep() !== void 0) {
           scope.computedOptions.push({
             value: null,
@@ -945,17 +970,37 @@ angular.module('app.controllers').config(function($routeProvider) {
           max = parseFloat(scope.getMax()) + parseFloat(scope.getStep());
           step = parseFloat(scope.getStep());
           _ref2 = _.range(min, max, step);
-          _results2 = [];
           for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
             element = _ref2[_j];
-            _results2.push(scope.computedOptions.push({
+            scope.computedOptions.push({
               value: element,
               label: element
-            }));
+            });
           }
-          return _results2;
         }
+        return scope.updateComputedOptionsFiltered();
       });
+      scope.$watch('ngModel', function() {
+        return scope.updateComputedOptionsFiltered();
+      });
+      scope.updateComputedOptionsFiltered = function() {
+        console.log('DUMP :-)');
+        if (scope.expanded) {
+          return scope.computedOptionsFiltered = scope.computedOptions;
+        } else {
+          scope.computedOptionsFiltered = _.where(scope.computedOptions, {
+            value: scope.ngModel
+          });
+          return scope.computedOptionsFiltered.unshift({
+            label: null,
+            value: null
+          });
+        }
+      };
+      scope.toggleExpanded = function() {
+        scope.expanded = !scope.expanded;
+        return scope.updateComputedOptionsFiltered();
+      };
       $(elem).mouseenter(function() {
         var $scroller;
         $scroller = $(".cr-slider-not-null-box", this);
@@ -992,14 +1037,6 @@ angular.module('app.controllers').config(function($routeProvider) {
         }
       });
     }
-  };
-});angular.module('app.controllers').controller("NiceModalCtrl", function($scope, $modalInstance, chosenValue) {
-  $scope.selected = chosenValue;
-  $scope.ok = function() {
-    return $modalInstance.close($scope.selected);
-  };
-  return $scope.cancel = function() {
-    return $modalInstance.dismiss('cancel');
   };
 });angular.module('app.controllers').controller("FormCtrl", function($scope, modalService, $log, topic) {
   $scope.topic = topic;
@@ -1049,14 +1086,7 @@ modalInstance.result.then (result) ->
 , () ->
     $scope.x.sel = o
     $log.info('Modal dismissed at: ' + new Date())
-*/angular.module('app.controllers').controller("ModalTopicCtrl", function($scope, surveyDTOService, optionService) {
-  $scope.getOptions = function(questionKey) {
-    return optionService.getOptions(questionKey);
-  };
-  return $scope.getAnswerValue = function(questionKey, periodKey) {
-    return surveyDTOService.getAnswerValue(questionKey, periodKey);
-  };
-});angular.module('app.controllers').controller("WelcomeCtrl", function($scope, modalService, $log, $location) {});angular.module('app.controllers').controller("MainCtrl", function($scope, modalService, $log, gettextCatalog) {
+*/angular.module('app.controllers').controller("WelcomeCtrl", function($scope, modalService, $log, $location) {});angular.module('app.controllers').controller("MainCtrl", function($scope, modalService, $log, gettextCatalog) {
   $scope.setLanguage = function(lang) {
     return gettextCatalog.setCurrentLanguage(lang);
   };
@@ -1064,6 +1094,8 @@ modalInstance.result.then (result) ->
     sel: 'Human',
     items: ['Human', 'Bat', '-', 'Vampire'],
     cnt: 10,
+    firstName: 'Winston',
+    comment: 'Attitude is a little thing that makes a big difference.',
     doubleRange: {
       min: 2,
       max: 3,
@@ -1208,4 +1240,19 @@ angular.module('app').run(function($rootScope, $location) {
   return $rootScope.redirectTo = function(target) {
     return $location.path(target);
   };
-});angular.module('app.directives').run(function($templateCache) {$templateCache.put('$/angular/views/welcome.html', "<div>\n    <p ng-bind-html=\"'welcome.choose_message' | translate\"></p>\n    <button ng-bind-html=\"'generic.household' | translate\"\n            ng-click=\"$root.redirectTo('/household-profile/programs')\"></button>\n\n\n\n</div>");$templateCache.put('$/angular/views/form.html', "<div>\n    <h1>Je suis un {{text}} =></h1>\n\n    <div ng-bind-html=\"'hello' | translate\"></div>\n    <button ng-click=\"open()\">Click-me !</button>\n\n\n    <table>\n        <tr>\n            <th>\n                First name\n            </th>\n            <th>\n                Last name\n            </th>\n            <th>\n                Email\n            </th>\n        </tr>\n        <tr ng-repeat=\"account in accounts\">\n            <td>\n                {{account.firstName}}\n            </td>\n            <td>\n                {{ account.lastName}}\n            </td>\n            <td>\n                {{ account.email}}\n            </td>\n        </tr>\n    </table>\n\n</div>");$templateCache.put('$/angular/views/household-profile.html', "<div class=\"col-md-12\">\n    <h1>Household questionnaire TRAD</h1>\n\n\n    <div class=\"container\">\n        <div class=\"row\">\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.programs.label' | translate\"\n                    ng-click=\"openTopic('programs')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.presence.label' | translate\"\n                    ng-click=\"openTopic('presence')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.heat.label' | translate\"\n                    ng-click=\"openTopic('heat')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.light.label' | translate\"\n                    ng-click=\"openTopic('light')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.cook.label' | translate\"\n                    ng-click=\"openTopic('cook')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'generic.next' | translate\"\n                    ng-click=\"$root.redirectTo('/household-action/programs')\">\n            </button>\n        </div>\n\n        <row>\n\n\n            <button class=\"col-md-2\"\n                    ng-click=\"openTopic('registration')\"> TEST !!\n            </button>\n\n        </row>\n    </div>\n</div>");$templateCache.put('$/angular/views/topics/t03-heating.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Chauffage & eau chaude</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"profile.Q4000.label\">\n        <cr-slider ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>\n    </cr-question>\n\n    <cr-question label=\"profile.Q1600.label\">\n        <cr-slider ng-model=\"q1600\" min=\"0\" max=\"1000\" step=\"10\" filter=\"toSquareMeters\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1900.label\">\n        <cr-slider ng-model=\"q1900\" min=\"0\" max=\"20000\" step=\"500\" filter=\"toWatts\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1210.label\">\n        <cr-slider ng-model=\"q1210\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t02-presence.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Présence au domicile</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"profile.Q1130.label\">\n        <cr-slider ng-model=\"q1130\" vertical=\"true\" ng-steps=\"[{value: null, label:null}, {value: 17, label:'BEFORE_1700_HOURS'}, {value: 18, label:'BEFORE_1800_HOURS'}, {value: 19, label:'BEFORE_1900_HOURS'} ,{value: 20, label:'BEFORE_2000_HOURS'}, {value: 100, label:'AFTER_2000_HOURS'}]\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t01-programs.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Programmes Gros Electroménager</h3>\n</div>\n<div class=\"modal-body\">\n\n    <cr-question label=\"profile.Q1110.label\">\n        <cr-slider ng-model=\"q1110\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1120.label\">\n        <cr-slider ng-model=\"q1120\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1130.label\">\n        <cr-slider ng-model=\"q1130\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t05-dinner.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Repas</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"profile.Q4000.label\">\n        <cr-slider ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t04-lighting.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Eclairage & électroménager</h3>\n</div>\n<div class=\"modal-body\">\n\n    <cr-question label=\"profile.Q1160.label\">\n        <cr-slider ng-model=\"q1160\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1220.label\">\n        <cr-slider ng-model=\"q1220\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1230.label\">\n        <cr-slider ng-model=\"q1230\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1700.label\">\n        <cr-slider ng-model=\"q1700\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1750.label\">\n        <cr-slider ng-model=\"q1750\" vertical=\"true\" ng-steps=\"[{value: null, label: null}, {value: 1, label:'des lampes LED'},{value: 2, label:' des lampes fluo-compactes'},{value: 3, label:' des lampes halogènes'},{value: 4, label:'des ampoules classiques'}]\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1800.label\">\n        <cr-slider ng-model=\"q1800\" min=\"0\" max=\"1000\" step=\"10\" filter=\"toWatts\"></cr-slider>\n    </cr-question>\n\n    <cr-section label=\"profile.Q2000.label\">\n        <cr-question label=\"profile.Q2010.label\">\n            <cr-slider ng-model=\"q2010\" vertical=\"true\" ng-steps=\"[{value: null, label: null},{value: 0, label:'quasiment jamais'},{value: 1, label:'en moyenne 15 minutes par jour'},{value: 2, label:'en moyenne 30 minutes par jour'},{value: 3, label:'en moyenne 45 minutes par jour'},{value: 4, label:'en moyenne 1 heure par jour ou plus'}]\"></cr-slider>\n        </cr-question>\n    </cr-section>\n\n\n\n\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/modal/household/registration/registration.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\" ng-bind-html=\"'profile.powerprovider.title' | translate\"></h3>\n</div>\n<div class=\"modal-body\">\n\n    <!-- Q5110 generic.firstName -->\n    <!-- Q5120 generic.lastName -->\n    <!-- Q5130 generic.emailAddress -->\n    <!-- Q5140 generic.password -->\n    <!-- Q5150 generic.zip -->\n\n    <cr-dropdown label=\"Q1110.label\" ng-options=\"getOptions('Q1110')\" ng-model=\"getAnswerValue('Q1110',null).stringValue\"></cr-dropdown>\n    <!-- Q5150 generic.zip -->\n\n\n\n\n\n</div>\n<div class=\"modal-footer\">\n</div>");$templateCache.put('$/angular/views/modal/household/profile/registration.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\" ng-bind-html=\"'profile.powerprovider.title' | translate\"></h3>\n</div>\n<div class=\"modal-body\">\n\n    <!-- Q5110 generic.firstName -->\n    <!-- Q5120 generic.lastName -->\n    <!-- Q5130 generic.emailAddress -->\n    <!-- Q5140 generic.password -->\n    <!-- Q5150 generic.zip -->\n\n    <!-- Q5150 generic.zip -->\n    <cr-question label=\"Q1500.label\">\n        <cr-slider ng-steps=\"getOptions('Q1500')\" ng-model=\"getAnswerValue('Q1500',null).stringValue\" vertical=\"true\"></cr-slider>\n    </cr-question>\n\n</div>\n<div class=\"modal-footer\">\n</div>");$templateCache.put('$/angular/views/modal/household/profile/programs.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Je suis le topic prgams de household/profile</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"Q4000\">\n        <cr-slider ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/modal-confirm-vampire.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Vampire</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/templates/cr-question.html', "<div class=\"cr-question\">\n\n    <div class=\"row\">\n        <div class=\"col-md-2\">\n            <label class=\"cr-question-label\" ng-bind-html=\"getLabel() | translate\"></label>\n        </div>\n        <div class=\"col-md-10\">\n            <div class=\"cr-question-editor\" ng-transclude></div>\n        </div>\n    </div>\n\n\n</div>");$templateCache.put('$/angular/templates/cr-boolean.html', "<cr-slider ng-model=\"ngModel\" ng-steps=\"steps\"></cr-slider>");$templateCache.put('$/angular/templates/cr-double-range.html', "<div class=\"cr-range\">\n\n    <div range-slider min=\"ngRangeMin\" max=\"ngRangeMax\" model-min=\"ngMin\" model-max=\"ngMax\" step=\"ngStep\"\n         disabled=\"ngDisabled\"></div>\n\n</div>");$templateCache.put('$/angular/templates/cr-radio.html', "<div class=\"cr-radio\">\n\n    <div class=\"btn-group\" ng-hide=\"edit\">\n        <button class=\"btn btn-default  \"\n                ng-class=\"{active: isValue(o.value)}\"\n                ng-repeat=\"o in computedOptions\"\n                ng-click=\"setValue(o.value)\"\n                ng-bind-html=\"('' + o.label) | translate\"\n                ></button>\n\n        <button ng-if=\"getFreeAllowed() == 'true'\"\n                class=\"btn btn-danger\"\n                ng-click=\"toggle()\">\n            <span class=\"fa fa-pencil\"></span>\n        </button>\n\n    </div>\n\n    <div class=\"input-group\" ng-show=\"edit\">\n\n        <input type=\"text\" class=\"form-control\" ng-model=\"ngModel\"/>\n\n        <span class=\"input-group-btn\">\n            <button\n                    ng-show=\"getFreeAllowed() == 'true'\"\n                    class=\"btn btn-danger\"\n                    ng-click=\"toggle()\">\n                <span class=\"fa fa-eraser\"></span>\n            </button>\n      </span>\n\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/mm-field-date.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"dropdown\"></div><a class=\"dropdown-toggle\" data-target=\"#\" id=\"{{id}}\" role=\"button\" data-toggle=\"dropdown\" href=\"\"><div class=\"input-group\"><input class=\"form-control\" ng-model=\"resultFormated\" type=\"text\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span></div><ul class=\"dropdown-menu date_input\" aria-labelledby=\"dLabel\" role=\"menu\"><datetimepicker data-ng-model=\"result\" data-datetimepicker-config=\"{ dropdownSelector: '{{idHtag}}',minView:'day' }\"></datetimepicker></ul></a></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-text.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"field_error_message_flash\" ng-show=\"errorMessage.length&gt;0\"><div>{{errorMessage}}</div><img src=\"/assets/images/question_field_error_message_icon_arrow.png\"></div><input ng-disabled=\"getInfo().disabled\" placeholder=\"{{getInfo().placeholder}}\" numbers-only=\"{{getInfo().numbersOnly}}\" focus-me=\"getInfo().focus()\" ng-class=\"{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}\" ng-model=\"getInfo().field\" type=\"{{fieldType}}\"></div><div><div ng-if=\"isValidationDefined\"><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-auto-completion.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><angucomplete minlength=\"1\" pause=\"400\" ng-disabled=\"getInfo().disabled\" id=\"members\" titlefield=\"content\" inputclass=\"form-control form-control-small\" placeholder=\"{{getInfo().placeholder}}\" selectedobject=\"result\" datafield=\"values\" url=\"{{getInfo().url}}\"></angucomplete></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/cr-number.html', "<div class=\"cr-number\">\n\n    <input\n            class=\"form-control cr-number-input\"\n            ng-model=\"ngModel\"/>\n\n</div>");$templateCache.put('$/angular/templates/cr-dropdown.html', "<div class=\"cr-dropdown\">\n\n    <div class=\"btn-group cr-dropdown-control\"\n         dropdown>\n\n        <button type=\"button\"\n                class=\"btn btn-default dropdown-toggle cr-dropdown-button\"\n                dropdown-toggle\n                ng-disabled=\"getDisabled()\">\n            {{ ngModel }} <span class=\"caret\"></span>\n        </button>\n\n        <ul class=\"dropdown-menu cr-dropdown-menu\"\n            role=\"menu\">\n            <li ng-repeat=\"o in ngOptions\" class=\"cr-dropdown-menu-item\" ng-class=\"{divider: (o == '-')}\">\n                <a class=\"cr-dropdown-menu-item-link\" ng-if=\"o != '-'\" ng-click=\"$select(o)\">{{ o }}</a>\n            </li>\n        </ul>\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/cr-topic.html', "<button class=\"cr-topic\" ng-click=\"open()\">\n    <span ng-show=\"getActive() == 'true'\"\n          class=\"cr-topic-image-active\"\n          ng-attr-style=\"background-image: url('{{ getActiveImage() }}')\"></span>\n    <span ng-hide=\"getActive() == 'true'\"\n          class=\"cr-topic-image-inactive\"\n          ng-attr-style=\"background-image: url('{{ getInactiveImage() }}')\"></span>\n    <span class=\"cr-topic-image-hover\"\n          ng-attr-style=\"background-image: url('{{ getHoverImage() }}')\"></span>\n</button>");$templateCache.put('$/angular/templates/cr-slider.html', "<div class=\"cr-slider\" collapse=\"!isVisible()\">\n\n    <div class=\"cr-slider-container\" ng-if=\"!getVertical()\">\n\n        <!-- Sections -->\n            <span class=\"cr-slider-section first\"\n                  ng-repeat=\"o in computedOptions\"\n                  style=\"left: 0px\"\n                >\n            </span>\n\n        <div class=\"cr-slider-null-box\">\n              <span class=\"cr-slider-tick first\"\n                    ng-mousedown=\"setValue(computedOptions[0])\"\n                    style=\"left: 0px\"\n                  ></span>\n\n        </div>\n\n        <div class=\"cr-slider-not-null-box\">\n\n            <!-- Sections -->\n            <span class=\"cr-slider-section\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"$index > 1\"\n                  style=\"left: {{ ($index - 2 )* 50}}px\"\n                >\n            </span>\n\n            <!-- Ticks -->\n\n            <span class=\"cr-slider-tick\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.value != null\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ ($index - 1) * 50 }}px\"\n                ></span>\n\n\n            <!-- Labels -->\n\n            <span class=\"cr-slider-text\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.label != null\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ ($index - 1 )* 50}}px\"\n                  ng-bind-html=\"labelFilter('' + o.label)\"\n                ></span>\n\n\n        </div>\n    </div>\n\n    <div class=\"cr-slider-container-vertical\" ng-if=\"getVertical()\" style=\"height: {{ computedOptions.length * 50.0 }}px\">\n\n        <!-- Sections -->\n            <span class=\"cr-slider-section first\"\n                  ng-repeat=\"o in computedOptions\"\n                  style=\"left: 0px\"\n                >\n            </span>\n\n        <div class=\"cr-slider-null-box\">\n              <span class=\"cr-slider-tick first\"\n                    ng-mousedown=\"setValue(computedOptions[0])\"\n                    style=\"left: 0px\"\n                  ></span>\n\n        </div>\n\n        <div class=\"cr-slider-not-null-box\" style=\"height: {{ computedOptions.length * 50.0 }}px\">\n\n            <!-- Sections -->\n            <span class=\"cr-slider-section\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"$index > 1\"\n                  style=\"top: {{ ($index - 2 )* 50}}px\"\n                >\n            </span>\n\n            <!-- Ticks -->\n\n            <span class=\"cr-slider-tick\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.value != null\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"top: {{ ($index - 1) * 50 }}px\"\n                ></span>\n\n\n            <!-- Labels -->\n\n            <span class=\"cr-slider-text\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.label != null\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"top: {{ ($index - 1 )* 50}}px\"\n                  ng-bind-html=\"labelFilter('' + o.label)\"\n                ></span>\n\n\n        </div>\n    </div>\n</div>");});
+});angular.module('app.controllers').controller("ModalTopicCtrl", function($scope, surveyDTOService, optionService) {
+  $scope.getOptions = function(questionKey) {
+    return optionService.getOptions(questionKey);
+  };
+  return $scope.getAnswerValue = function(questionKey, periodKey) {
+    return surveyDTOService.getAnswerValue(questionKey, periodKey);
+  };
+});angular.module('app.controllers').controller("NiceModalCtrl", function($scope, $modalInstance, chosenValue) {
+  $scope.selected = chosenValue;
+  $scope.ok = function() {
+    return $modalInstance.close($scope.selected);
+  };
+  return $scope.cancel = function() {
+    return $modalInstance.dismiss('cancel');
+  };
+});angular.module('app.directives').run(function($templateCache) {$templateCache.put('$/angular/templates/cr-boolean.html', "<cr-slider ng-model=\"ngModel\" ng-steps=\"steps\"></cr-slider>");$templateCache.put('$/angular/templates/cr-dropdown.html', "<div class=\"cr-dropdown\">\n\n    <div class=\"btn-group cr-dropdown-control\"\n         dropdown>\n\n        <button type=\"button\"\n                class=\"btn btn-default dropdown-toggle cr-dropdown-button\"\n                dropdown-toggle\n                ng-disabled=\"getDisabled()\">\n            {{ ngModel }} <span class=\"caret\"></span>\n        </button>\n\n        <ul class=\"dropdown-menu cr-dropdown-menu\"\n            role=\"menu\">\n            <li ng-repeat=\"o in ngOptions\" class=\"cr-dropdown-menu-item\" ng-class=\"{divider: (o == '-')}\">\n                <a class=\"cr-dropdown-menu-item-link\" ng-if=\"o != '-'\" ng-click=\"$select(o)\">{{ o }}</a>\n            </li>\n        </ul>\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/cr-double-range.html', "<div class=\"cr-range\">\n\n    <div range-slider min=\"ngRangeMin\" max=\"ngRangeMax\" model-min=\"ngMin\" model-max=\"ngMax\" step=\"ngStep\"\n         disabled=\"ngDisabled\"></div>\n\n</div>");$templateCache.put('$/angular/templates/cr-question.html', "<div class=\"cr-question\">\n\n    <div class=\"row\">\n        <div class=\"col-md-2\">\n            <label class=\"cr-question-label\" ng-bind-html=\"getLabel() | translate\"></label>\n        </div>\n        <div class=\"col-md-10\">\n            <div class=\"cr-question-editor\" ng-transclude></div>\n        </div>\n    </div>\n\n\n</div>");$templateCache.put('$/angular/templates/cr-radio.html', "<div class=\"cr-radio\">\n\n    <div class=\"btn-group\" ng-hide=\"edit\">\n        <button class=\"btn btn-default  \"\n                ng-class=\"{active: isValue(o.value)}\"\n                ng-repeat=\"o in computedOptions\"\n                ng-click=\"setValue(o.value)\"\n                ng-bind-html=\"('' + o.label) | translate\"\n                ></button>\n\n        <button ng-if=\"getFreeAllowed() == 'true'\"\n                class=\"btn btn-danger\"\n                ng-click=\"toggle()\">\n            <span class=\"fa fa-pencil\"></span>\n        </button>\n\n    </div>\n\n    <div class=\"input-group\" ng-show=\"edit\">\n\n        <input type=\"text\" class=\"form-control\" ng-model=\"ngModel\"/>\n\n        <span class=\"input-group-btn\">\n            <button\n                    ng-show=\"getFreeAllowed() == 'true'\"\n                    class=\"btn btn-danger\"\n                    ng-click=\"toggle()\">\n                <span class=\"fa fa-eraser\"></span>\n            </button>\n      </span>\n\n    </div>\n\n</div>");$templateCache.put('$/angular/templates/cr-topic.html', "<button class=\"cr-topic\" ng-click=\"open()\">\n    <span ng-show=\"getActive() == 'true'\"\n          class=\"cr-topic-image-active\"\n          ng-attr-style=\"background-image: url('{{ getActiveImage() }}')\"></span>\n    <span ng-hide=\"getActive() == 'true'\"\n          class=\"cr-topic-image-inactive\"\n          ng-attr-style=\"background-image: url('{{ getInactiveImage() }}')\"></span>\n    <span class=\"cr-topic-image-hover\"\n          ng-attr-style=\"background-image: url('{{ getHoverImage() }}')\"></span>\n</button>");$templateCache.put('$/angular/templates/mm-field-text.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"field_error_message_flash\" ng-show=\"errorMessage.length&gt;0\"><div>{{errorMessage}}</div><img src=\"/assets/images/question_field_error_message_icon_arrow.png\"></div><input ng-disabled=\"getInfo().disabled\" placeholder=\"{{getInfo().placeholder}}\" numbers-only=\"{{getInfo().numbersOnly}}\" focus-me=\"getInfo().focus()\" ng-class=\"{input_number: getInfo().numbersOnly === 'integer' || getInfo().numbersOnly === 'double'}\" ng-model=\"getInfo().field\" type=\"{{fieldType}}\"></div><div><div ng-if=\"isValidationDefined\"><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-date.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><div class=\"dropdown\"></div><a class=\"dropdown-toggle\" data-target=\"#\" id=\"{{id}}\" role=\"button\" data-toggle=\"dropdown\" href=\"\"><div class=\"input-group\"><input class=\"form-control\" ng-model=\"resultFormated\" type=\"text\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span></div><ul class=\"dropdown-menu date_input\" aria-labelledby=\"dLabel\" role=\"menu\"><datetimepicker data-ng-model=\"result\" data-datetimepicker-config=\"{ dropdownSelector: '{{idHtag}}',minView:'day' }\"></datetimepicker></ul></a></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/mm-field-auto-completion.html', "<div class=\"field_row\" ng-hide=\"getInfo().hidden === true\"><div ng-click=\"logField()\">{{getInfo().fieldTitle}}</div><div><angucomplete minlength=\"1\" pause=\"400\" ng-disabled=\"getInfo().disabled\" id=\"members\" titlefield=\"content\" inputclass=\"form-control form-control-small\" placeholder=\"{{getInfo().placeholder}}\" selectedobject=\"result\" datafield=\"values\" url=\"{{getInfo().url}}\"></angucomplete></div><div><img src=\"/assets/images/field_valid.png\" ng-if=\"!hideIsValidIcon\" ng-show=\"getInfo().isValid\"><div class=\"error_message\" ng-hide=\"getInfo().isValid\"><img src=\"/assets/images/field_invalid.png\"><div>{{getInfo().validationMessage}}</div></div><div ng-transclude></div></div></div>");$templateCache.put('$/angular/templates/cr-number.html', "<div class=\"cr-number\">\n\n    <input\n            class=\"form-control cr-number-input\"\n            ng-model=\"ngModel\"/>\n\n</div>");$templateCache.put('$/angular/templates/cr-text.html', "<div class=\"cr-text\">\n\n    <input ng-show=\"getMultiline() != 'true'\" class=\"form-control cr-text-input\"\n           ng-model=\"ngModel\"/>\n\n    <textarea ng-show=\"getMultiline() == 'true'\" class=\"form-control cr-text-input\"\n           ng-model=\"ngModel\"></textarea>\n\n</div>");$templateCache.put('$/angular/templates/cr-slider.html', "<div class=\"cr-slider\" collapse=\"!isVisible()\">\n\n    <div class=\"cr-slider-container\" ng-if=\"!getVertical()\">\n\n        <!-- Sections -->\n            <span class=\"cr-slider-section first\"\n                  ng-repeat=\"o in computedOptions\"\n                  style=\"left: 0px\"\n                >\n            </span>\n\n        <div class=\"cr-slider-null-box\">\n              <span class=\"cr-slider-tick first\"\n                    ng-mousedown=\"setValue(computedOptions[0])\"\n                    style=\"left: 0px\"\n                  ></span>\n\n        </div>\n\n        <div class=\"cr-slider-not-null-box\">\n\n            <!-- Sections -->\n            <span class=\"cr-slider-section\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"$index > 1\"\n                  style=\"left: {{ ($index - 2 )* 50}}px\"\n                >\n            </span>\n\n            <!-- Ticks -->\n\n            <span class=\"cr-slider-tick\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.value != null\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ ($index - 1) * 50 }}px\"\n                ></span>\n\n\n            <!-- Labels -->\n\n            <span class=\"cr-slider-text\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.label != null\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"left: {{ ($index - 1 )* 50}}px\"\n                  ng-bind-html=\"labelFilter('' + o.label)\"\n                ></span>\n\n\n        </div>\n    </div>\n\n    <div class=\"cr-slider-container-vertical\" ng-if=\"getVertical()\"\n         style=\"height: {{ computedOptions.length * 50.0 }}px\" ng-show=\"computedOptions.length <= 3\">\n\n        <!-- Sections -->\n            <span class=\"cr-slider-section first\"\n                  ng-repeat=\"o in computedOptions\"\n                  style=\"left: 0px\"\n                >\n            </span>\n\n        <div class=\"cr-slider-null-box\">\n              <span class=\"cr-slider-tick first\"\n                    ng-mousedown=\"setValue(computedOptions[0])\"\n                    style=\"left: 0px\"\n                  ></span>\n\n        </div>\n\n        <div class=\"cr-slider-not-null-box\" style=\"height: {{ computedOptions.length * 50.0 }}px\">\n\n            <!-- Sections -->\n            <span class=\"cr-slider-section\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"$index > 1\"\n                  style=\"top: {{ ($index - 2 )* 50}}px\"\n                >\n            </span>\n\n            <!-- Ticks -->\n\n            <span class=\"cr-slider-tick\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.value != null\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"top: {{ ($index - 1) * 50 }}px\"\n                ></span>\n\n\n            <!-- Labels -->\n\n            <span class=\"cr-slider-text\"\n                  ng-repeat=\"o in computedOptions\"\n                  ng-if=\"o.label != null\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"top: {{ ($index - 1 )* 50}}px\"\n                  ng-bind-html=\"labelFilter('' + o.label)\"\n                ></span>\n\n\n        </div>\n    </div>\n\n\n    <div class=\"cr-slider-container-vertical\" ng-if=\"getVertical()\"\n         style=\"height: {{ computedOptions.length * 50.0 }}px\" ng-hide=\"computedOptions.length <= 3\">\n\n        <button class=\"btn btn-danger\" style=\"position:absolute; left: 0; top: 0; z-index: 1000\" ng-click=\"toggleExpanded()\">TOGGLE {{ expanded }}</button>\n\n\n        <!-- Sections -->\n            <span class=\"cr-slider-section first\"\n                  ng-repeat=\"o in computedOptions\"\n                  style=\"left: 0px\"\n                >\n            </span>\n\n        <div class=\"cr-slider-null-box\">\n              <span class=\"cr-slider-tick first\"\n                    ng-mousedown=\"setValue(computedOptions[0])\"\n                    style=\"left: 0px\"\n                  ></span>\n\n        </div>\n\n        <div class=\"cr-slider-not-null-box\" style=\"height: {{ computedOptions.length * 50.0 }}px\">\n\n            <!-- Sections -->\n            <span class=\"cr-slider-section\"\n                  ng-repeat=\"o in computedOptionsFiltered\"\n                  ng-if=\"$index > 1\"\n                  style=\"top: {{ ($index - 2 )* 50}}px\"\n                >\n            </span>\n\n            <!-- Ticks -->\n\n            <span class=\"cr-slider-tick\"\n                  ng-repeat=\"o in computedOptionsFiltered\"\n                  ng-if=\"o.value != null\"\n                  ng-class=\"{active: isValue(o), first: ($index == 0)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"top: {{ ($index - 1) * 50 }}px\"\n                ></span>\n\n\n            <!-- Labels -->\n\n            <span class=\"cr-slider-text\"\n                  ng-repeat=\"o in computedOptionsFiltered\"\n                  ng-if=\"o.label != null\"\n                  ng-class=\"{active: isValue(o)}\"\n                  ng-mousedown=\"setValue(o)\"\n                  style=\"top: {{ ($index - 1 )* 50}}px\"\n                  ng-bind-html=\"labelFilter('' + o.label)\"\n                ></span>\n\n\n        </div>\n\n\n\n    </div>\n</div>");$templateCache.put('$/angular/views/modal-confirm-vampire.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Vampire</h3>\n</div>\n<div class=\"modal-body\">\n    Are you sure to be a <b>{{ selected }}</b> ?!\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/modal/household/profile/programs.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Je suis le topic prgams de household/profile</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"Q4000\">\n        <cr-slider ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/modal/household/profile/registration.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\" ng-bind-html=\"'profile.powerprovider.title' | translate\"></h3>\n</div>\n<div class=\"modal-body\">\n\n    <!-- Q5110 generic.firstName -->\n    <!-- Q5120 generic.lastName -->\n    <!-- Q5130 generic.emailAddress -->\n    <!-- Q5140 generic.password -->\n    <!-- Q5150 generic.zip -->\n\n    <!-- Q5150 generic.zip -->\n    <cr-question label=\"Q1500.label\">\n        <cr-slider ng-steps=\"getOptions('Q1500')\" ng-model=\"getAnswerValue('Q1500',null).stringValue\" vertical=\"true\"></cr-slider>\n    </cr-question>\n\n</div>\n<div class=\"modal-footer\">\n</div>");$templateCache.put('$/angular/views/topics/t05-dinner.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Repas</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"profile.Q4000.label\">\n        <cr-slider ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t03-heating.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Chauffage & eau chaude</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"profile.Q4000.label\">\n        <cr-slider ng-model=\"responses.Q4000.value\" ng-steps=\"slider.schedule.value\"></cr-slider>\n    </cr-question>\n\n    <cr-question label=\"profile.Q1600.label\">\n        <cr-slider ng-model=\"q1600\" min=\"0\" max=\"1000\" step=\"10\" filter=\"toSquareMeters\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1900.label\">\n        <cr-slider ng-model=\"q1900\" min=\"0\" max=\"20000\" step=\"500\" filter=\"toWatts\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1210.label\">\n        <cr-slider ng-model=\"q1210\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t04-lighting.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Eclairage & électroménager</h3>\n</div>\n<div class=\"modal-body\">\n\n    <cr-question label=\"profile.Q1160.label\">\n        <cr-slider ng-model=\"q1160\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1220.label\">\n        <cr-slider ng-model=\"q1220\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1230.label\">\n        <cr-slider ng-model=\"q1230\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1700.label\">\n        <cr-slider ng-model=\"q1700\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1750.label\">\n        <cr-slider ng-model=\"q1750\" vertical=\"true\" ng-steps=\"[{value: null, label: null}, {value: 1, label:'des lampes LED'},{value: 2, label:' des lampes fluo-compactes'},{value: 3, label:' des lampes halogènes'},{value: 4, label:'des ampoules classiques'}]\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1800.label\">\n        <cr-slider ng-model=\"q1800\" min=\"0\" max=\"1000\" step=\"10\" filter=\"toWatts\"></cr-slider>\n    </cr-question>\n\n    <cr-section label=\"profile.Q2000.label\">\n        <cr-question label=\"profile.Q2010.label\">\n            <cr-slider ng-model=\"q2010\" vertical=\"true\" ng-steps=\"[{value: null, label: null},{value: 0, label:'quasiment jamais'},{value: 1, label:'en moyenne 15 minutes par jour'},{value: 2, label:'en moyenne 30 minutes par jour'},{value: 3, label:'en moyenne 45 minutes par jour'},{value: 4, label:'en moyenne 1 heure par jour ou plus'}]\"></cr-slider>\n        </cr-question>\n    </cr-section>\n\n\n\n\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t01-programs.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Programmes Gros Electroménager</h3>\n</div>\n<div class=\"modal-body\">\n\n    <cr-question label=\"profile.Q1110.label\">\n        <cr-slider ng-model=\"q1110\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1120.label\">\n        <cr-slider ng-model=\"q1120\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n    <cr-question label=\"profile.Q1130.label\">\n        <cr-slider ng-model=\"q1130\" min=\"0\" max=\"5\" step=\"1\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/topics/t02-presence.html', "<div class=\"modal-header\">\n    <h3 class=\"modal-title\">Présence au domicile</h3>\n</div>\n<div class=\"modal-body\">\n    <cr-question label=\"profile.Q1130.label\">\n        <cr-slider ng-model=\"q1130\" vertical=\"true\" ng-steps=\"[{value: null, label:null}, {value: 17, label:'BEFORE_1700_HOURS'}, {value: 18, label:'BEFORE_1800_HOURS'}, {value: 19, label:'BEFORE_1900_HOURS'} ,{value: 20, label:'BEFORE_2000_HOURS'}, {value: 100, label:'AFTER_2000_HOURS'}]\"></cr-slider>\n    </cr-question>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-primary\" ng-click=\"ok()\">Yes</button>\n    <button class=\"btn btn-warning\" ng-click=\"cancel()\">No</button>\n</div>");$templateCache.put('$/angular/views/household-profile.html', "<div class=\"col-md-12\">\n    <h1>Household questionnaire TRAD</h1>\n\n\n    <div class=\"container\">\n        <div class=\"row\">\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.programs.label' | translate\"\n                    ng-click=\"openTopic('programs')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.presence.label' | translate\"\n                    ng-click=\"openTopic('presence')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.heat.label' | translate\"\n                    ng-click=\"openTopic('heat')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.light.label' | translate\"\n                    ng-click=\"openTopic('light')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'topic.cook.label' | translate\"\n                    ng-click=\"openTopic('cook')\">\n            </button>\n\n            <button class=\"col-md-2\" ng-bind-html=\"'generic.next' | translate\"\n                    ng-click=\"$root.redirectTo('/household-action/programs')\">\n            </button>\n        </div>\n\n        <row>\n\n\n            <button class=\"col-md-2\"\n                    ng-click=\"openTopic('registration')\"> TEST !!\n            </button>\n\n        </row>\n    </div>\n</div>");$templateCache.put('$/angular/views/welcome.html', "<div>\n    <p ng-bind-html=\"'welcome.choose_message' | translate\"></p>\n    <button ng-bind-html=\"'generic.household' | translate\"\n            ng-click=\"$root.redirectTo('/household-profile/programs')\"></button>\n\n\n\n</div>");});
