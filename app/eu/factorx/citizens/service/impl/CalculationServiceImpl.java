@@ -155,10 +155,13 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3420,computeReductionForQuestionCodeGeneral(QuestionCode.Q3420,QuestionCode.Q1230,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3510,computeReductionForQuestionCodeGeneral(QuestionCode.Q3510,QuestionCode.Q1750,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3530,computeReductionForQuestionCodeGeneral(QuestionCode.Q3530,QuestionCode.Q1800,byQuestionCodeAndPeriod, potentialReductionDetails));
-
 		reductionDetails.put(QuestionCode.Q3610,computeReductionForQuestionCodeGeneral(QuestionCode.Q3610,QuestionCode.Q2010,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3620,computeReductionForQuestionCodeGeneral(QuestionCode.Q3620,QuestionCode.Q2020,byQuestionCodeAndPeriod, potentialReductionDetails));
-		reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCodeGeneral(QuestionCode.Q3630,QuestionCode.Q1700,byQuestionCodeAndPeriod, potentialReductionDetails));
+
+		//reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCodeGeneral(QuestionCode.Q3630,QuestionCode.Q1700,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCode3630(byQuestionCodeAndPeriod, potentialReductionDetails));
+
+
 
 
 		return reductionDetails;
@@ -229,6 +232,44 @@ public class CalculationServiceImpl implements CalculationService {
 
 		return result;
 	}
+
+	//specific for 3630
+	private List<ReductionDTO> computeReductionForQuestionCode3630(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		//
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3631).get(Period.FIRST).getStringValue());
+
+		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3630).get(Period.FIRST).getBooleanValue()) && ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+				// YES to 3630
+				localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1700).getFirstPeriodPowerReduction());
+				localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1700).getSecondPeriodPowerReduction());
+				localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1700).getThirdPeriodPowerReduction());
+//				localResult.setFirstPeriodPowerReduction(potentialReductionSummary.getFirstPeriodPowerReduction());
+//				localResult.setSecondPeriodPowerReduction(potentialReductionSummary.getSecondPeriodPowerReduction());
+//				localResult.setThirdPeriodPowerReduction(potentialReductionSummary.getThirdPeriodPowerReduction());
+			} else {
+				// NO to 3630
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
 
 	/*
 	* Dump to map
