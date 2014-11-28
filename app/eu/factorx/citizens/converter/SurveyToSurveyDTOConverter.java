@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * Created by florian on 28/11/14.
  */
-public class SurveyToSurveyDTOConverter  implements Converter<Survey, SurveyDTO> {
+public class SurveyToSurveyDTOConverter implements Converter<Survey, SurveyDTO> {
 
-    private AccountToAccountDTOConverter accountToAccountDTOConverter =new AccountToAccountDTOConverter();
+    private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
     private AnswerToAnswerDTOConverter answerToAnswerDTOConverter = new AnswerToAnswerDTOConverter();
 
 
@@ -26,8 +26,10 @@ public class SurveyToSurveyDTOConverter  implements Converter<Survey, SurveyDTO>
 
         List<AnswerDTO> answerDTOList = new ArrayList<>();
 
-        for (Answer answer : survey.getAnswers()) {
-            answerDTOList.add(answerToAnswerDTOConverter.convert(answer));
+        if (survey.getAnswers() != null) {
+            for (Answer answer : survey.getAnswers()) {
+                answerDTOList.add(answerToAnswerDTOConverter.convert(answer));
+            }
         }
 
         dto.setAnswers(answerDTOList);

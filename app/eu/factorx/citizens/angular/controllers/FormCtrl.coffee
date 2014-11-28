@@ -15,8 +15,7 @@ angular
     $scope.load = () ->
         modalInstance = modalService.open({
             templateUrl: '$/angular/views/login_modal.html',
-            controller: 'LoginModalCtrl',
-            size: 'lg'
+            controller: 'LoginModalCtrl'
         })
 
     $scope.openModal = (target) ->

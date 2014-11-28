@@ -16,3 +16,4 @@ angular
         if scope.getType()
             $('input', elem).attr('type', scope.getType())
 
+        scope.$watch 'ngType'

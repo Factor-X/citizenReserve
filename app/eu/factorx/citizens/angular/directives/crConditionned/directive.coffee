@@ -4,6 +4,8 @@ angular
     restrict: "A"
     link: (scope, element, attrs) ->
 
+        console.log(attrs.crConditionned)
+
         result = conditionService.checkCondition(attrs.crConditionned)
         if result
             $(element).show()
@@ -12,6 +14,7 @@ angular
 
         handler = ->
             result = conditionService.checkCondition(attrs.crConditionned)
+            console.log("model changed!! result = ", result)
             if result
                 $(element).slideDown()
             else
