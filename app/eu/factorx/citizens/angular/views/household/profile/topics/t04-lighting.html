@@ -1,22 +1,26 @@
 <div class="modal-header">
-    <h3 class="modal-title">Eclairage & électroménager</h3>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic04_title.png" alt=""/>
+    <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
+    <h3 class="modal-title cr-modal-title-text"  ng-bind-html="'topic.light.label' | translate"></h3>
 </div>
 <div class="modal-body">
 
     <cr-question label="Q1160.label">
-        <cr-slider ng-model="Q1160" min="0" max="5" step="1"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1160','FIRST').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1160','SECOND').stringValue"  ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1160','THIRD').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
     </cr-question>
     <cr-question label="Q1220.label">
-        <cr-slider ng-model="Q1220" min="0" max="5" step="1"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1220').stringValue" ng-steps="getNumericOptions('Q1220',0,5,1)"></cr-slider>
     </cr-question>
     <cr-question label="Q1230.label">
-        <cr-slider ng-model="Q1230" min="0" max="5" step="1"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1230').stringValue" ng-steps="getNumericOptions('Q1230',0,5,1)"></cr-slider>
     </cr-question>
     <cr-question label="Q1700.label">
-        <cr-slider ng-model="Q1700" min="0" max="5" step="1"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1700').stringValue" ng-steps="getNumericOptions('Q1700',0,5,1)"></cr-slider>
     </cr-question>
     <cr-question label="Q1750.label">
-        <cr-slider ng-model="Q1750" vertical="true" ng-steps="[{value: null, label: null}, {value: 1, label:'des lampes LED'},{value: 2, label:' des lampes fluo-compactes'},{value: 3, label:' des lampes halogènes'},{value: 4, label:'des ampoules classiques'}]"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1750').stringValue" ng-steps="getOptions('Q1750')" vertical="true"></cr-slider>
     </cr-question>
     <cr-question label="Q1800.label">
         <cr-slider ng-model="Q1800" min="0" max="1000" step="10" filter="toWatts"></cr-slider>
@@ -24,7 +28,16 @@
 
     <cr-section label="Q2000.label">
         <cr-question label="Q2010.label">
-            <cr-slider ng-model="Q2010" vertical="true" ng-steps="[{value: null, label: null},{value: 0, label:'quasiment jamais'},{value: 1, label:'en moyenne 15 minutes par jour'},{value: 2, label:'en moyenne 30 minutes par jour'},{value: 3, label:'en moyenne 45 minutes par jour'},{value: 4, label:'en moyenne 1 heure par jour ou plus'}]"></cr-slider>
+            <cr-slider ng-model="getAnswerValue('Q2010').stringValue" ng-steps="getOptions('Q2010')" vertical="true"></cr-slider>
+        </cr-question>
+        <cr-question label="Q2020.label">
+            <cr-slider ng-model="getAnswerValue('Q2020').stringValue" ng-steps="getOptions('Q2020')" vertical="true"></cr-slider>
+        </cr-question>
+        <cr-question label="Q2030.label">
+            <cr-slider ng-model="getAnswerValue('Q2030').stringValue" ng-steps="getOptions('Q2030')" vertical="true"></cr-slider>
+        </cr-question>
+        <cr-question label="Q2040.label">
+            <cr-slider ng-model="getAnswerValue('Q2040').stringValue" ng-steps="getOptions('Q2040')" vertical="true"></cr-slider>
         </cr-question>
     </cr-section>
 
@@ -33,6 +46,5 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Yes</button>
-    <button class="btn btn-warning" ng-click="cancel()">No</button>
+    <button class="btn btn-primary" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
 </div>
