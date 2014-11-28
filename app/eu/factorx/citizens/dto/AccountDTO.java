@@ -27,17 +27,18 @@ public class AccountDTO extends DTO {
     private String zipCode;
 
     @NotNull
-    private String accoutType;
+    private String powerProvider;
+
+    @NotNull
+    private String powerComsumerCategory;
+
+    private List<String> otherEmailAddresses;
 
     @NotNull
     private String sensitizationKit;
 
     @NotNull
-    private String powerProvider;
-
-    @NotNull
-    private String powerComsumerCategory;
-    private List<String> otherEmailAddresses;
+    private String accoutType;
 
     public AccountDTO() {
     }

@@ -3,6 +3,7 @@ package eu.factorx.citizens.controllers;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.AnswerValueDTO;
 import eu.factorx.citizens.dto.SurveyDTO;
+import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.service.SurveyService;
@@ -17,9 +18,9 @@ public class SurveyController extends AbstractController {
     //service
     private SurveyService surveyService = new SurveyServiceImpl();
 
-    /*package*/ void saveSurvey(SurveyDTO dto) {
+    /*package*/ void saveSurvey(SurveyDTO dto, Account account) {
 
-        Survey survey = new Survey();
+        Survey survey = new Survey(account);
 
         for (AnswerDTO answerDTO : dto.getAnswers()) {
 
