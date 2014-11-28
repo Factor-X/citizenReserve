@@ -70,6 +70,12 @@ img {
     background: transparent;
     display: block;
     width: 100%;
+    ::selection {
+        background: transparent; /* WebKit/Blink Browsers */
+    }
+    ::-moz-selection {
+        background: transparent; /* Gecko Browsers */
+    }
 
     .cr-slider-container {
         background: transparent;
