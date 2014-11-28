@@ -1,4 +1,6 @@
-app.directive "crConditionned", (conditionService, surveyDTOService) ->
+angular
+.module('app.directives')
+.directive "crConditionned", (conditionService, surveyDTOService) ->
     restrict: "A"
     link: (scope, element, attrs) ->
 

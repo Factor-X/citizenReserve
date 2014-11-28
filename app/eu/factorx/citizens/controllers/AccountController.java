@@ -11,6 +11,7 @@ import eu.factorx.citizens.service.impl.AccountServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import org.apache.commons.lang3.StringUtils;
+import play.db.ebean.Transactional;
 import play.mvc.Result;
 
 /**
@@ -25,6 +26,7 @@ public class AccountController extends AbstractController {
     //controller
     private SurveyController surveyController = new SurveyController();
 
+    @Transactional
 	public Result get() {
 
 		ListDTO<AccountDTO> result = new ListDTO<>();
@@ -35,6 +37,7 @@ public class AccountController extends AbstractController {
 		return ok(result);
 	}
 
+    @Transactional
     public Result createAccountAndSaveData(){
 
         SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
