@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <h3 class="modal-title">Eclairage & électroménager</h3>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic04_title.png" alt=""/>
+    <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
+    <h3 class="modal-title cr-modal-title-text">Eclairage & électroménager</h3>
 </div>
 <div class="modal-body">
 
@@ -18,8 +20,9 @@
     <cr-question label="profile.Q1750.label">
         <cr-slider ng-model="q1750" vertical="true" ng-steps="[{value: null, label: null}, {value: 1, label:'des lampes LED'},{value: 2, label:' des lampes fluo-compactes'},{value: 3, label:' des lampes halogènes'},{value: 4, label:'des ampoules classiques'}]"></cr-slider>
     </cr-question>
+
     <cr-question label="profile.Q1800.label">
-        <cr-slider ng-model="q1800" min="0" max="1000" step="10" filter="toWatts"></cr-slider>
+        <cr-slider ng-model="q1800" min="0" max="1000" step="100" filter="toWatts"></cr-slider>
     </cr-question>
 
     <cr-section label="profile.Q2000.label">
@@ -27,9 +30,6 @@
             <cr-slider ng-model="q2010" vertical="true" ng-steps="[{value: null, label: null},{value: 0, label:'quasiment jamais'},{value: 1, label:'en moyenne 15 minutes par jour'},{value: 2, label:'en moyenne 30 minutes par jour'},{value: 3, label:'en moyenne 45 minutes par jour'},{value: 4, label:'en moyenne 1 heure par jour ou plus'}]"></cr-slider>
         </cr-question>
     </cr-section>
-
-
-
 
 </div>
 <div class="modal-footer">

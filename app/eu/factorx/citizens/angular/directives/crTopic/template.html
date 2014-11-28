@@ -1,10 +1,11 @@
-<button class="cr-topic" ng-click="open()">
-    <span ng-show="getActive() == 'true'"
-          class="cr-topic-image-active"
-          ng-attr-style="background-image: url('{{ getActiveImage() }}')"></span>
-    <span ng-hide="getActive() == 'true'"
-          class="cr-topic-image-inactive"
-          ng-attr-style="background-image: url('{{ getInactiveImage() }}')"></span>
-    <span class="cr-topic-image-hover"
-          ng-attr-style="background-image: url('{{ getHoverImage() }}')"></span>
+<button class="cr-topic" ng-class="{active: getActive() == 'true'}" ng-click="open()">
+
+    <img class="cr-topic-image-active"
+         ng-src="/assets/images/{{getImage()}}_active.png"/>
+
+    <img class="cr-topic-image-inactive"
+         ng-src="/assets/images/{{getImage()}}_inactive.png"/>
+
+    <img class="cr-topic-image-hover"
+         ng-src="/assets/images/{{getImage()}}_hover.png"/>
 </button>
