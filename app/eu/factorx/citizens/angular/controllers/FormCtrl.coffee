@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "FormCtrl", ($scope, modalService, $log, topic,downloadService,surveyDTOService ) ->
+.controller "FormCtrl", ($scope, modalService, $log, topic,downloadService,surveyDTOService, conditionService) ->
     $scope.topic = topic
 
     $scope.save= () ->
@@ -24,3 +24,9 @@ angular
             controller: 'ModalTopicCtrl',
             size: 'lg'
         })
+
+    $scope.hasAtLeastOneValidCondition = (questionKeys) ->
+        for questionKey in questionKeys
+            if conditionService.checkCondition questionKey
+                return true
+        return false

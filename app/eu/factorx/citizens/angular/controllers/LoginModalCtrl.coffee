@@ -14,7 +14,7 @@ angular
         downloadService.postJson '/login', dto, (result)->
             if result.success
                 surveyDTOService.surveyDTO = result.data
-                $modalInstance.close
+                $scope.close()
 
     $scope.close = ->
         $modalInstance.close()
