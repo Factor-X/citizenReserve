@@ -1,7 +1,5 @@
 package eu.factorx.citizens.model.type;
 
-import eu.factorx.citizens.util.exception.MyRuntimeException;
-
 public enum AccountType {
 	HOUSEHOLD("household");
 

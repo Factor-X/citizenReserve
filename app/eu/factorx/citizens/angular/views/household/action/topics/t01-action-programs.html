@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title">Programmes Gros Electroménager</h3>
+</div>
+<div class="modal-body">
+
+    <cr-question label="Q1110.label">
+        <cr-slider ng-model="getAnswerValue('Q1110','FIRST').stringValue" min="0" max="5" step="1"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1110','SECOND').stringValue" min="0" max="5" step="1"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1110','THIRD').stringValue" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1120.label">
+        <cr-slider ng-model="getAnswerValue('Q1120').stringValue" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1130.label">
+        <cr-slider ng-model="getAnswerValue('Q1130').stringValue" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Yes</button>
+    <button class="btn btn-warning" ng-click="cancel()">No</button>
+</div>

@@ -19,10 +19,9 @@ angular
             size: 'lg'
         })
 
-    $scope.openTopic = (target) ->
-
+    $scope.openModal = (target) ->
         modalInstance = modalService.open({
-            templateUrl: '$/angular/views/household/profile/topics/' + target + '.html',
+            templateUrl: '$/angular/views/' + target + '.html',
             controller: 'ModalTopicCtrl',
             size: 'lg'
         })
