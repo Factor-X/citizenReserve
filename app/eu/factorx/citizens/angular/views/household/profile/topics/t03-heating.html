@@ -2,18 +2,14 @@
     <h3 class="modal-title">Chauffage & eau chaude</h3>
 </div>
 <div class="modal-body">
-    <cr-question label="profile.Q4000.label">
-        <cr-slider ng-model="responses.Q4000.value" ng-steps="slider.schedule.value"></cr-slider>
+    <cr-question label="Q1600.label">
+        <cr-slider ng-model="getAnswerValue('Q1600').doubleValue" min="0" max="1000" step="10" filter="toSquareMeters"></cr-slider>
     </cr-question>
-
-    <cr-question label="profile.Q1600.label">
-        <cr-slider ng-model="q1600" min="0" max="1000" step="10" filter="toSquareMeters"></cr-slider>
+    <cr-question label="Q1900.label">
+        <cr-slider ng-model="getAnswerValue('Q1900').doubleValue" min="0" max="20000" step="500" filter="toWatts"></cr-slider>
     </cr-question>
-    <cr-question label="profile.Q1900.label">
-        <cr-slider ng-model="q1900" min="0" max="20000" step="500" filter="toWatts"></cr-slider>
-    </cr-question>
-    <cr-question label="profile.Q1210.label">
-        <cr-slider ng-model="q1210" min="0" max="5" step="1"></cr-slider>
+    <cr-question label="Q1210.label">
+        <cr-slider ng-model="getAnswerValue('Q1210').stringValue" min="0" max="5" step="1"></cr-slider>
     </cr-question>
 
 </div>
