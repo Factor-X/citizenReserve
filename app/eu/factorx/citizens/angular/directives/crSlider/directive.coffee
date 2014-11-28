@@ -28,7 +28,16 @@ angular
         ]
 
         scope.setValue = (v) ->
-            scope.ngModel = v.value
+            if v.value == null
+                scope.ngModel = null
+                scope.expanded = false
+                scope.updateComputedOptionsFiltered()
+            else if scope.getVertical() and scope.computedOptions.length > 3 and !scope.expanded
+                scope.expanded = true
+                scope.updateComputedOptionsFiltered()
+            else
+                scope.ngModel = v.value
+                scope.expanded = false
 
         scope.isValue = (v) ->
             return scope.ngModel == v.value
@@ -91,18 +100,20 @@ angular
                 for element in _.range(min, max, step)
                     scope.computedOptions.push {value: element, label: element}
 
-            scope.updateComputedOptionsFiltered()
+            if scope.getVertical()
+                scope.updateComputedOptionsFiltered()
 
         scope.$watch 'ngModel', () ->
             scope.updateComputedOptionsFiltered()
 
         scope.updateComputedOptionsFiltered = () ->
-            console.log 'DUMP :-)'
             if scope.expanded
                 scope.computedOptionsFiltered = scope.computedOptions
             else
                 scope.computedOptionsFiltered = _.where(scope.computedOptions, {value: scope.ngModel})
-                scope.computedOptionsFiltered.unshift {label: null, value: null}
+                if _.where(scope.computedOptionsFiltered, {value: null}).length == 0
+                    scope.computedOptionsFiltered.unshift {label: null, value: null}
+                scope.computedOptionsFiltered.push {value: "$SELECT_A_VALUE$", label: "..."}
 
 
         scope.toggleExpanded = () ->

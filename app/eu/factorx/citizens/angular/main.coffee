@@ -28,7 +28,7 @@ angular
 .config ($routeProvider) ->
     $routeProvider
     .when('/household-profile/:topic', {
-            templateUrl: '$/angular/views/household-profile.html'
+            templateUrl: '$/angular/views/household/profile/household-profile.html'
             controller: 'FormCtrl'
             resolve:
                 topic: ($route) ->
@@ -36,7 +36,7 @@ angular
         }
     )
     .when('/household-action/:topic', {
-            templateUrl: '$/angular/views/household-action.html'
+            templateUrl: '$/angular/views/household/action/household-action.html'
             controller: 'FormCtrl'
             resolve:
                 topic: ($route) ->

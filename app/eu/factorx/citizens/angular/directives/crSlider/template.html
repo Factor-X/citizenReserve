@@ -108,28 +108,27 @@
     </div>
 
 
-    <div class="cr-slider-container-vertical" ng-if="getVertical()"
-         style="height: {{ computedOptions.length * 50.0 }}px" ng-hide="computedOptions.length <= 3">
-
-        <button class="btn btn-danger" style="position:absolute; left: 0; top: 0; z-index: 1000" ng-click="toggleExpanded()">TOGGLE {{ expanded }}</button>
+    <div class="cr-slider-container-vertical" ng-if="getVertical() == 'true'"
+         style="height: {{ computedOptionsFiltered.length * 50.0 }}px" ng-hide="computedOptions.length <= 3">
 
 
         <!-- Sections -->
             <span class="cr-slider-section first"
-                  ng-repeat="o in computedOptions"
+                  ng-repeat="o in computedOptionsFiltered"
                   style="left: 0px"
                 >
             </span>
 
         <div class="cr-slider-null-box">
               <span class="cr-slider-tick first"
-                    ng-mousedown="setValue(computedOptions[0])"
+                    ng-mousedown="setValue(computedOptionsFiltered[0])"
                     style="left: 0px"
                   ></span>
 
         </div>
 
-        <div class="cr-slider-not-null-box" style="height: {{ computedOptions.length * 50.0 }}px">
+        <div class="cr-slider-not-null-box" style="height: {{ computedOptionsFiltered.length * 50.0 }}px">
+
 
             <!-- Sections -->
             <span class="cr-slider-section"
@@ -163,7 +162,6 @@
 
 
         </div>
-
 
 
     </div>
