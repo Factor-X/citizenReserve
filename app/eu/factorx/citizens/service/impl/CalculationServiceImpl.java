@@ -138,16 +138,45 @@ public class CalculationServiceImpl implements CalculationService {
 		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
 
 		// Sortir
-		reductionDetails.put(QuestionCode.Q3210, computeReductionForQuestionCode3210(QuestionCode.Q3210, byQuestionCodeAndPeriod, potentialReductionDetails, potentialReductionSummary));
-
+		reductionDetails.put(QuestionCode.Q3210, computeReductionForQuestionCode3210(byQuestionCodeAndPeriod, potentialReductionDetails, potentialReductionSummary));
+		// Programmes et Gros electromenager
+		reductionDetails.put(QuestionCode.Q3110,computeReductionForQuestionCode3110(byQuestionCodeAndPeriod, potentialReductionDetails));
 
 
 		return reductionDetails;
 	}
 
+	//specific for 3110
+	private List<ReductionDTO> computeReductionForQuestionCode3110(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3110).get(Period.FIRST).getBooleanValue()) && (Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue())<1) ) {
+				// YES to 3110
+				localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1110).getFirstPeriodPowerReduction());
+				localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1110).getSecondPeriodPowerReduction());
+				localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1110).getThirdPeriodPowerReduction());
+			} else {
+				// NO to 3110
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
 
 	//specific for 3210
-	private List<ReductionDTO> computeReductionForQuestionCode3210(QuestionCode questionCode,Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails, ReductionDTO potentialReductionSummary) {
+	private List<ReductionDTO> computeReductionForQuestionCode3210(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails, ReductionDTO potentialReductionSummary) {
 
 
 		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
@@ -162,7 +191,7 @@ public class CalculationServiceImpl implements CalculationService {
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( (byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getBooleanValue()) && ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3210).get(Period.FIRST).getBooleanValue()) && ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
 				// YES to 3210
 				localResult.setFirstPeriodPowerReduction(potentialReductionSummary.getFirstPeriodPowerReduction());
 				localResult.setSecondPeriodPowerReduction(potentialReductionSummary.getSecondPeriodPowerReduction());
