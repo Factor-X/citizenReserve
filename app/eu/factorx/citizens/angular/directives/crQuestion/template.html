@@ -1,12 +1,10 @@
 <div class="cr-question">
 
     <div class="row">
-        <div class="col-md-12">
+        <div ng-class="{'col-md-1': getInline() == 'true', 'col-md-12': getInline() != 'true'}">
             <label class="cr-question-label" ng-bind-html="getLabel() | translate"></label>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+        <div ng-class="{'col-md-11': getInline() == 'true', 'col-md-12': getInline() != 'true'}">
             <div class="cr-question-editor" ng-transclude></div>
         </div>
     </div>
