@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ModalTopicCtrl", ($scope, surveyDTOService, optionService) ->
+.controller "ModalTopicCtrl", ($scope, surveyDTOService, optionService,$modalInstance) ->
 
     $scope.getOptions = (questionKey) ->
         return optionService.getOptions(questionKey)
@@ -13,4 +13,7 @@ angular
 
     $scope.getAccount = () ->
         return surveyDTOService.getAccount()
+
+    $scope.close = ->
+        $modalInstance.close()
 

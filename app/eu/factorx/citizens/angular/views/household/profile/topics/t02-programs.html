@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">Programmes Gros Electroménager</h3>
+    <h3 class="modal-title" ng-bind-html="'topic.programs.label' | translate"></h3>
 </div>
 <div class="modal-body">
 
@@ -9,13 +9,16 @@
         <cr-slider ng-model="getAnswerValue('Q1110','THIRD').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
     </cr-question>
     <cr-question label="Q1120.label">
-        <cr-slider ng-model="getAnswerValue('Q1120').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1120','FIRST').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1120','SECOND').stringValue"  ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1120','THIRD').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
     </cr-question>
     <cr-question label="Q1130.label">
-        <cr-slider ng-model="getAnswerValue('Q1130').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1130','FIRST').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1130','SECOND').stringValue"  ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1130','THIRD').stringValue" ng-steps="getNumericOptions('Q1110',0,5,1)"></cr-slider>
     </cr-question>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Yes</button>
-    <button class="btn btn-warning" ng-click="cancel()">No</button>
+    <button class="btn btn-primary" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
 </div>
