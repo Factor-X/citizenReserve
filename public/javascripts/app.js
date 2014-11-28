@@ -646,11 +646,7 @@ angular.module('app.controllers').config(function($routeProvider) {
     templateUrl: "$/angular/templates/cr-text.html",
     replace: true,
     link: function(scope, elem, attrs, ngModel) {
-      directiveService.autoScopeImpl(scope);
-      if (scope.getType()) {
-        $('input', elem).attr('type', scope.getType());
-      }
-      return $watch('ngType');
+      return directiveService.autoScopeImpl(scope);
     }
   };
 });angular.module('app.directives').directive("crSlider", function(directiveService, $filter) {
@@ -1243,7 +1239,7 @@ angular.module('app.controllers').config(function($routeProvider) {
     });
   };
   return $scope.close = function() {
-    return $modalInstance.close;
+    return $modalInstance.close();
   };
 });angular.module('app.controllers').controller("NiceModalCtrl", function($scope, $modalInstance, chosenValue) {
   $scope.selected = chosenValue;

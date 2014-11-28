@@ -16,4 +16,4 @@ angular
         if scope.getType()
             $('input', elem).attr('type', scope.getType())
 
-        $watch 'ngType'
+        scope.$watch 'ngType'

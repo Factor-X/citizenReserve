@@ -20,7 +20,7 @@ angular
 
 
     $scope.close = ->
-        $modalInstance.close
+        $modalInstance.close()
 
 
 
