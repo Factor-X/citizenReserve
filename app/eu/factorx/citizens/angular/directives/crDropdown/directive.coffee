@@ -3,7 +3,6 @@ angular
 .directive "crDropdown", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngOptions: '='
         ngModel: '='
         ngDisabled: '='

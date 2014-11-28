@@ -3,7 +3,6 @@ angular
 .directive "crBoolean", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngModel: '='
     templateUrl: "$/angular/templates/cr-boolean.html"
     replace: false
@@ -12,6 +11,6 @@ angular
 
         scope.steps = [
             {value: null, label: null},
-            {value: true, label: "YES"},
-            {value: false, label: "NO"}
+            {value: true, label: "directive.boolean.yes"},
+            {value: false, label: "directive.boolean.no"}
         ]

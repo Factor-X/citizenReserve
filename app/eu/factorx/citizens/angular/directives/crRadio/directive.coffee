@@ -3,7 +3,6 @@ angular
 .directive "crRadio", (directiveService) ->
     restrict: "E"
     scope: directiveService.autoScope
-        ngLabel: '='
         ngModel: '='
         ngOptions: '='
         ngFreeAllowed: '='

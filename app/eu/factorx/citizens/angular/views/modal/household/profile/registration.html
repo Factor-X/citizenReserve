@@ -9,12 +9,10 @@
     <!-- Q5140 generic.password -->
     <!-- Q5150 generic.zip -->
 
-    <cr-dropdown label="Q1500.label" ng-options="getOptions('Q1500')" ng-model="getAnswerValue('Q1500',null).stringValue"></cr-dropdown>
     <!-- Q5150 generic.zip -->
-
-
-
-
+    <cr-question label="Q1500.label">
+        <cr-slider ng-steps="getOptions('Q1500')" ng-model="getAnswerValue('Q1500',null).stringValue" vertical="true"></cr-slider>
+    </cr-question>
 
 </div>
 <div class="modal-footer">
