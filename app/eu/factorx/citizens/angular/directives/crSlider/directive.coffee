@@ -21,6 +21,12 @@ angular
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
 
+        scope.labelFilter = $filter('translate')
+        scope.opened = false
+        scope.computedOptionsFiltered = [
+            {label: null, value: null}
+        ]
+
         scope.setValue = (v) ->
             scope.ngModel = v.value
 
@@ -56,7 +62,6 @@ angular
                 return !!v
 
 
-        scope.labelFilter = $filter('translate')
         scope.$watch ['ngFilter', 'filter'], () ->
             n = scope.getFilter()
             if n
@@ -85,6 +90,24 @@ angular
                 step = parseFloat(scope.getStep())
                 for element in _.range(min, max, step)
                     scope.computedOptions.push {value: element, label: element}
+
+            scope.updateComputedOptionsFiltered()
+
+        scope.$watch 'ngModel', () ->
+            scope.updateComputedOptionsFiltered()
+
+        scope.updateComputedOptionsFiltered = () ->
+            console.log 'DUMP :-)'
+            if scope.expanded
+                scope.computedOptionsFiltered = scope.computedOptions
+            else
+                scope.computedOptionsFiltered = _.where(scope.computedOptions, {value: scope.ngModel})
+                scope.computedOptionsFiltered.unshift {label: null, value: null}
+
+
+        scope.toggleExpanded = () ->
+            scope.expanded = !scope.expanded
+            scope.updateComputedOptionsFiltered()
 
         $(elem).mouseenter () ->
             $scroller = $(".cr-slider-not-null-box", this)
