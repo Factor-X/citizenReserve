@@ -163,6 +163,9 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//Repas
 		reductionDetails.put(QuestionCode.Q3710,computeReductionForQuestionCode3710(byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3720,computeReductionForQuestionCodeGeneral(QuestionCode.Q3720,QuestionCode.Q1140,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3730,computeReductionForQuestionCodeGeneral(QuestionCode.Q3730,QuestionCode.Q1150,byQuestionCodeAndPeriod, potentialReductionDetails));
+
 
 
 		return reductionDetails;
