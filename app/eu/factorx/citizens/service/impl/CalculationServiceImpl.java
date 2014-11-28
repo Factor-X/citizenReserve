@@ -153,9 +153,7 @@ public class CalculationServiceImpl implements CalculationService {
 		//Eclairage et electromenager
 		reductionDetails.put(QuestionCode.Q3410,computeReductionForQuestionCodeGeneral(QuestionCode.Q3410,QuestionCode.Q1220,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3420,computeReductionForQuestionCodeGeneral(QuestionCode.Q3420,QuestionCode.Q1230,byQuestionCodeAndPeriod, potentialReductionDetails));
-
-
-
+		reductionDetails.put(QuestionCode.Q3510,computeReductionForQuestionCodeGeneral(QuestionCode.Q3510,QuestionCode.Q1750,byQuestionCodeAndPeriod, potentialReductionDetails));
 
 
 		return reductionDetails;
