@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="app">
+<html ng-app="app" xmlns="">
     <head>
         <title>Citizen's reserve</title>
         <meta charset="utf-8"/>
@@ -40,190 +40,154 @@
         <div class="cr-master">
             <ng-view></ng-view>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Dropdown</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <cr-question label="profile.Q1110.label">
-                            <cr-dropdown ng-options="x.items" ng-model="x.sel"></cr-dropdown>
-                        </cr-question>
-
-                    </div>
-                </div>
-            </div>
-
             <hr/>
 
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>Number</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <cr-question label="Q6000">
-                            <cr-number ng-model="x.cnt"></cr-number>
-                        </cr-question>
-
-                    </div>
-                </div>
-            </div>
-
-            <hr/>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Tabset</h3>
+                        <h3>Controls</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <tabset class="cr-tabset">
+
                             <tab>
                                 <tab-heading>
-                                    <i class="fa fa-home"></i> Maison
+                                    <i class="fa fa-gear"></i> Dropdown
                                 </tab-heading>
 
-                                Contenu
+                                <cr-question label="profile.Q1110.label">
+                                    <cr-dropdown ng-options="x.items" ng-model="x.sel"></cr-dropdown>
+                                </cr-question>
+
+                            </tab>
+
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-gear"></i> Number
+                                </tab-heading>
+
+                                <cr-question label="Q6000">
+                                    <cr-number ng-model="x.cnt"></cr-number>
+                                </cr-question>
+                            </tab>
+
+
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-gear"></i> Range 2 inputs
+                                </tab-heading>
+
+                                <cr-question label="Q6000">
+                                    <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max"></cr-double-range>
+                                </cr-question>
                             </tab>
 
                             <tab select="alertMe()">
                                 <tab-heading>
-                                    <i class="fa fa-gear"></i> Options!
+                                    <i class="fa fa-gear"></i> Radio
                                 </tab-heading>
 
-                                I've got an HTML heading, and a select callback. Pretty cool!
+                                <cr-question label="Q6000">
+                                    <cr-radio ng-model="x.radio.value" ng-options="x.radio.options"></cr-radio>
+                                </cr-question>
+
+                                <cr-question label="Q6000">
+                                    <cr-radio ng-model="x.radio.value" ng-options="x.radio.simpleOptions"></cr-radio>
+                                </cr-question>
+
+                                <cr-question label="Q6000">
+                                    <cr-radio ng-model="x.radio.value" ng-options="x.radio.options" free-allowed="true"></cr-radio>
+                                </cr-question>
+                            </tab>
+
+
+                            <tab select="alertMe()">
+                                <tab-heading>
+                                    <i class="fa fa-gear"></i> Slider
+                                </tab-heading>
+
+                                <cr-question label="BAD (static labels)">
+                                    <cr-slider ng-model="x.slider.value" ng-steps="x.slider.steps"></cr-slider>
+                                </cr-question>
+                                <cr-question label="GOOD (labels by filter)">
+                                    <cr-slider ng-model="x.slider.value" ng-steps="x.slider.simpleSteps" filter="toHour"></cr-slider>
+                                </cr-question>
+                                <cr-question label="Q6000">
+                                    <cr-slider ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
+                                </cr-question>
+
+                                <cr-question label="language">
+                                    <button class="btn btn-default" ng-click="setLanguage('fr')">Français</button>
+                                    <button class="btn btn-default" ng-click="setLanguage('nl')">Nederlands</button>
+                                </cr-question>
+                            </tab>
+
+
+
+                            <tab select="alertMe()">
+                                <tab-heading>
+                                    <i class="fa fa-gear"></i> YES/NO
+                                </tab-heading>
+
+                                <cr-question label="Q6000">
+                                    <cr-boolean ng-model="x.yesno.value"></cr-boolean>
+                                    <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value1" min="10" max="2000" step="10"></cr-slider>
+                                    <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value2" min="10" max="2000" step="10"></cr-slider>
+                                    <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value3" min="10" max="2000" step="10"></cr-slider>
+                                </cr-question>
+                            </tab>
+
+                            <tab select="alertMe()">
+                                <tab-heading>
+                                    <i class="fa fa-gear"></i> Topic
+                                </tab-heading>
+
+                                <div class="col-md-3" >
+                                    <cr-topic active-image="http://lorempixel.com/128/128/sports/1/Active"
+                                    inactive-image="http://lorempixel.com/g/128/128/sports/1/PROGRAMMES"
+                                    hover-image="http://lorempixel.com/128/128/sports/1/Hover"
+                                    view="$/angular/views/topics/t01-programs.html"
+                                    controller="ModalTopicCtrl"></cr-topic>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <cr-topic active-image="http://lorempixel.com/128/128/sports/1/Active"
+                                    inactive-image="http://lorempixel.com/g/128/128/sports/1/PRESENCE"
+                                    hover-image="http://lorempixel.com/128/128/sports/1/Hover"
+                                    view="$/angular/views/topics/t02-presence.html"
+                                    controller="ModalTopicCtrl"></cr-topic>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <cr-topic active-image="http://lorempixel.com/128/128/sports/1/Active"
+                                    inactive-image="http://lorempixel.com/g/128/128/sports/1/CHAUFFAGE"
+                                    hover-image="http://lorempixel.com/128/128/sports/1/Hover"
+                                    view="$/angular/views/topics/t03-heating.html"
+                                    controller="ModalTopicCtrl"></cr-topic>
+                                </div>
+
+                                <div class="col-md-3" >
+                                    <cr-topic
+                                    active="true"
+                                    active-image="http://lorempixel.com/128/128/sports/1/Active"
+                                    inactive-image="http://lorempixel.com/g/128/128/sports/1/ECLAIRAGE"
+                                    hover-image="http://lorempixel.com/128/128/sports/1/Hover"
+                                    view="$/angular/views/topics/t04-lighting.html"
+                                    controller="ModalTopicCtrl"></cr-topic>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <cr-topic active-image="http://lorempixel.com/128/128/sports/1/Active"
+                                    inactive-image="http://lorempixel.com/g/128/128/sports/1/REPAS"
+                                    hover-image="http://lorempixel.com/128/128/sports/1/Hover"
+                                    view="$/angular/views/topics/t05-dinner.html"
+                                    controller="ModalTopicCtrl"></cr-topic>
+                                </div>
                             </tab>
                         </tabset>
 
-                    </div>
-                </div>
-            </div>
-
-            <hr/>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Range 2 inputs</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <cr-question label="Q6000">
-                            <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max"></cr-double-range>
-                        </cr-question>
-                    </div>
-                </div>
-            </div>
-
-            <hr/>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Radio</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <cr-question label="Q6000">
-                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.options"></cr-radio>
-                        </cr-question>
-
-                        <cr-question label="Q6000">
-                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.simpleOptions"></cr-radio>
-                        </cr-question>
-
-                        <cr-question label="Q6000">
-                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.options" free-allowed="true"></cr-radio>
-                        </cr-question>
-                    </div>
-                </div>
-            </div>
-
-            <hr/>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Slider</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <cr-question label="Q6000">
-                            <cr-slider ng-model="x.slider.value" ng-steps="x.slider.steps"></cr-slider>
-                        </cr-question>
-                        <cr-question label="Q6000">
-                            <cr-slider ng-model="x.slider.value" ng-steps="x.slider.simpleSteps"></cr-slider>
-                        </cr-question>
-                        <cr-question label="Q6000">
-                            <cr-slider ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
-                        </cr-question>
-                    </div>
-                </div>
-            </div>
-
-            <hr/>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>YES/NO</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <cr-question label="Q6000">
-                            <cr-boolean ng-model="x.yesno.value"></cr-boolean>
-                            <cr-slider ng-show="x.yesno.value" ng-model="x.continuousSlider.value1" min="10" max="2000" step="10"></cr-slider>
-                            <cr-slider ng-show="x.yesno.value" ng-model="x.continuousSlider.value2" min="10" max="2000" step="10"></cr-slider>
-                            <cr-slider ng-show="x.yesno.value" ng-model="x.continuousSlider.value3" min="10" max="2000" step="10"></cr-slider>
-                        </cr-question>
-                    </div>
-                </div>
-            </div>
-
-            <hr/>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Slider</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3" ng-repeat="e in [0,1,2]">
-                        <cr-topic active-image="http://lorempixel.com/128/128/sports/1/Active"
-                        inactive-image="http://lorempixel.com/g/128/128/sports/1/Inactive"
-                        hover-image="http://lorempixel.com/128/128/sports/1/Hover"
-                        view="$/angular/views/modal/household/profile/programs.html"
-                        controller="ModalTopicCtrl"></cr-topic>
-                    </div>
-
-                    <div class="col-md-3" >
-                        <cr-topic
-                        active="true"
-                        active-image="http://lorempixel.com/128/128/sports/1/Active"
-                        inactive-image="http://lorempixel.com/g/128/128/sports/1/Inactive"
-                        hover-image="http://lorempixel.com/128/128/sports/1/Hover"
-                        view="$/angular/views/modal/household/profile/programs.html"
-                        controller="ModalTopicCtrl"></cr-topic>
-                    </div>
-
-                    <div class="col-md-3" ng-repeat="e in [0,1]">
-                        <cr-topic active-image="http://lorempixel.com/128/128/sports/1/Active"
-                        inactive-image="http://lorempixel.com/g/128/128/sports/1/Inactive"
-                        hover-image="http://lorempixel.com/128/128/sports/1/Hover"
-                        view="$/angular/views/modal/household/profile/programs.html"
-                        controller="ModalTopicCtrl"></cr-topic>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,6 @@ angular
 
         scope.steps = [
             {value: null, label: null},
-            {value: true, label: "YES"},
-            {value: false, label: "NO"}
+            {value: true, label: "directive.boolean.yes"},
+            {value: false, label: "directive.boolean.no"}
         ]
