@@ -68,7 +68,7 @@ public class CalculationServiceImpl implements CalculationService {
 		effectiveReductionDetails = calculateEffectiveReductionDetails(surveyAnswers, potentialReductionDetails, potentialReductionSummary);
 		effectiveReductionSummary = calculateEffectiveSummary(effectiveReductionDetails);
 
-		dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
+		//dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
 
 		return effectiveReductionSummary;
 	}
@@ -97,13 +97,13 @@ public class CalculationServiceImpl implements CalculationService {
 		for (Map.Entry<QuestionCode, List<ReductionDTO>> item : effectiveReductionDetails.entrySet()) {
 			QuestionCode key = item.getKey();
 			List<ReductionDTO> value = item.getValue();
-			play.Logger.debug(">> Summary : [" + key.name() + "]");
+			//play.Logger.debug(">> Summary : [" + key.name() + "]");
 
 			for (ReductionDay day : ReductionDay.values()) {
-				play.Logger.debug(">> DAY : [" + day.name() + "]");
-				play.Logger.debug(">>>>>> First : [" + value.get(day.ordinal()).getFirstPeriodPowerReduction() + "]");
-				play.Logger.debug(">>>>>> Secon : [" + value.get(day.ordinal()).getSecondPeriodPowerReduction() + "]");
-				play.Logger.debug(">>>>>> Third : [" + value.get(day.ordinal()).getThirdPeriodPowerReduction() + "]");
+				//play.Logger.debug(">> DAY : [" + day.name() + "]");
+				//play.Logger.debug(">>>>>> First : [" + value.get(day.ordinal()).getFirstPeriodPowerReduction() + "]");
+				//play.Logger.debug(">>>>>> Secon : [" + value.get(day.ordinal()).getSecondPeriodPowerReduction() + "]");
+				//play.Logger.debug(">>>>>> Third : [" + value.get(day.ordinal()).getThirdPeriodPowerReduction() + "]");
 
 				firstPeriodTotal.set(day.ordinal(),firstPeriodTotal.get(day.ordinal()) + value.get(day.ordinal()).getFirstPeriodPowerReduction());
 				secondPeriodTotal.set(day.ordinal(), secondPeriodTotal.get(day.ordinal()) + value.get(day.ordinal()).getSecondPeriodPowerReduction());
@@ -159,6 +159,11 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3620,computeReductionForQuestionCodeGeneral(QuestionCode.Q3620,QuestionCode.Q2020,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCode3630(byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3640,computeReductionForQuestionCodeGeneral(QuestionCode.Q3640,QuestionCode.Q1160,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3810,computeReductionForQuestionCodeGeneral(QuestionCode.Q3810,QuestionCode.Q1235,byQuestionCodeAndPeriod, potentialReductionDetails));
+
+		//Repas
+		reductionDetails.put(QuestionCode.Q3710,computeReductionForQuestionCode3710(byQuestionCodeAndPeriod, potentialReductionDetails));
+
 
 		return reductionDetails;
 	}
@@ -206,7 +211,7 @@ public class CalculationServiceImpl implements CalculationService {
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 
-		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+		//play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
@@ -240,7 +245,7 @@ public class CalculationServiceImpl implements CalculationService {
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3631).get(Period.FIRST).getStringValue());
 
-		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+		//play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
@@ -262,6 +267,56 @@ public class CalculationServiceImpl implements CalculationService {
 
 		return result;
 	}
+
+	//specific for 3710
+	private List<ReductionDTO> computeReductionForQuestionCode3710(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		//
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+
+		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3710).get(Period.FIRST).getBooleanValue()) && ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+				// YES to 3710
+				localResult.setFirstPeriodPowerReduction(
+							potentialReductionDetails.get(QuestionCode.Q2030).getFirstPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q2040).getFirstPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q1140).getFirstPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q1150).getFirstPeriodPowerReduction()
+				);
+				localResult.setSecondPeriodPowerReduction(
+							potentialReductionDetails.get(QuestionCode.Q2030).getSecondPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q2040).getSecondPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q1140).getSecondPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q1150).getSecondPeriodPowerReduction()
+				);
+				localResult.setThirdPeriodPowerReduction(
+							potentialReductionDetails.get(QuestionCode.Q2030).getThirdPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q2040).getThirdPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q1140).getThirdPeriodPowerReduction() +
+							potentialReductionDetails.get(QuestionCode.Q1150).getThirdPeriodPowerReduction()
+				);
+			} else {
+				// NO to 3710
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
 
 
 	/*
@@ -304,10 +359,10 @@ public class CalculationServiceImpl implements CalculationService {
 			QuestionCode key = item.getKey();
 			ReductionDTO value = item.getValue();
 
-			play.Logger.debug(">> Summary : [" + key.name() + "]");
-			play.Logger.debug(">>>>>> First : [" + value.getFirstPeriodPowerReduction() + "]");
-			play.Logger.debug(">>>>>> Secon : [" + value.getSecondPeriodPowerReduction() + "]");
-			play.Logger.debug(">>>>>> Third : [" + value.getThirdPeriodPowerReduction() + "]");
+//			play.Logger.debug(">> Summary : [" + key.name() + "]");
+//			play.Logger.debug(">>>>>> First : [" + value.getFirstPeriodPowerReduction() + "]");
+//			play.Logger.debug(">>>>>> Secon : [" + value.getSecondPeriodPowerReduction() + "]");
+//			play.Logger.debug(">>>>>> Third : [" + value.getThirdPeriodPowerReduction() + "]");
 			firstPeriodTotal+=value.getFirstPeriodPowerReduction();
 			secondPeriodTotal+=value.getSecondPeriodPowerReduction();
 			thirdPeriodTotal+=value.getThirdPeriodPowerReduction();
@@ -479,7 +534,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		ReductionDTO result = new ReductionDTO();
 
-		play.Logger.debug("Processing QuestionCode: " + questionCode.name());
+		//play.Logger.debug("Processing QuestionCode: " + questionCode.name());
 
 		result.setFirstPeriodPowerReduction(
 				(questionCode.getNominalPower() *
