@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h3 class="modal-title">Eclairage & électroménager</h3>
+</div>
+<div class="modal-body">
+
+    <cr-question label="Q1160.label">
+        <cr-slider ng-model="Q1160" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1220.label">
+        <cr-slider ng-model="Q1220" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1230.label">
+        <cr-slider ng-model="Q1230" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1700.label">
+        <cr-slider ng-model="Q1700" min="0" max="5" step="1"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1750.label">
+        <cr-slider ng-model="Q1750" vertical="true" ng-steps="[{value: null, label: null}, {value: 1, label:'des lampes LED'},{value: 2, label:' des lampes fluo-compactes'},{value: 3, label:' des lampes halogènes'},{value: 4, label:'des ampoules classiques'}]"></cr-slider>
+    </cr-question>
+    <cr-question label="Q1800.label">
+        <cr-slider ng-model="Q1800" min="0" max="1000" step="10" filter="toWatts"></cr-slider>
+    </cr-question>
+
+    <cr-section label="Q2000.label">
+        <cr-question label="Q2010.label">
+            <cr-slider ng-model="Q2010" vertical="true" ng-steps="[{value: null, label: null},{value: 0, label:'quasiment jamais'},{value: 1, label:'en moyenne 15 minutes par jour'},{value: 2, label:'en moyenne 30 minutes par jour'},{value: 3, label:'en moyenne 45 minutes par jour'},{value: 4, label:'en moyenne 1 heure par jour ou plus'}]"></cr-slider>
+        </cr-question>
+    </cr-section>
+
+
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Yes</button>
+    <button class="btn btn-warning" ng-click="cancel()">No</button>
+</div>
