@@ -1,7 +1,10 @@
 <div class="modal-header">
-    <h3 class="modal-title">Sortir</h3>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic01_title.png" alt=""/>
+    <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
+    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'topic.presence.label' | translate"></h3>
 </div>
 <div class="modal-body">
+
     <cr-question label="Q3210.label">
         <cr-boolean ng-model="getAnswerValue('Q3210').booleanValue"></cr-boolean>
     </cr-question>
@@ -12,6 +15,5 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Yes</button>
-    <button class="btn btn-warning" ng-click="cancel()">No</button>
+    <button class="btn btn-primary" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
 </div>

@@ -1,12 +1,51 @@
 <div class="modal-header">
-    <h3 class="modal-title">Repas</h3>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic01_title.png" alt=""/>
+    <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
+    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'topic.cook.label' | translate"></h3>
 </div>
 <div class="modal-body">
-    <cr-question label="profile.Q4000.label">
-        <cr-slider ng-model="responses.Q4000.value" ng-steps="slider.schedule.value"></cr-slider>
+
+
+    <cr-question label="Q3710.label"  cr-conditionned="Q3710">
+        <cr-boolean ng-model="getAnswerValue('Q3710').booleanValue"></cr-boolean>
     </cr-question>
+
+
+    <cr-question label="Q3711.label"  cr-conditionned="Q3711">
+        <cr-boolean ng-model="getAnswerValue('Q3711').booleanValue"></cr-boolean>
+    </cr-question>
+
+
+    <cr-question label="Q3720.label"  cr-conditionned="Q3720">
+        <cr-boolean ng-model="getAnswerValue('Q3720').booleanValue"></cr-boolean>
+    </cr-question>
+
+
+    <cr-question label="Q3730.label"  cr-conditionned="Q3730">
+        <cr-boolean ng-model="getAnswerValue('Q3730').booleanValue"></cr-boolean>
+    </cr-question>
+
+
+    <cr-question label="Q3750.label"  cr-conditionned="Q3750">
+        <cr-boolean ng-model="getAnswerValue('Q3750').booleanValue"></cr-boolean>
+    </cr-question>
+
+    <cr-question label="Q3760.label"  cr-conditionned="Q3760">
+        <cr-boolean ng-model="getAnswerValue('Q3760').booleanValue"></cr-boolean>
+    </cr-question>
+
+
+    <cr-question label="Q3740.label"  cr-conditionned="Q3740">
+        <cr-boolean ng-model="getAnswerValue('Q3740').booleanValue"></cr-boolean>
+    </cr-question>
+
+
+    <cr-question label="Q3741.label"  cr-conditionned="Q3741">
+        <cr-boolean ng-model="getAnswerValue('Q3741').booleanValue"></cr-boolean>
+    </cr-question>
+
+
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Yes</button>
-    <button class="btn btn-warning" ng-click="cancel()">No</button>
+    <button class="btn btn-primary" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
 </div>

@@ -6,16 +6,13 @@
 <div class="modal-body">
 
     <cr-section label="Q1160.label">
-        <cr-question label="Q2010.label">
-            <cr-slider ng-model="getAnswerValue('Q2010').stringValue" ng-steps="getOptions('Q2010')" vertical="true"></cr-slider>
-        </cr-question>
-        <cr-question label="18h" inline="true">
+        <cr-question label="period.1.label">
             <cr-slider ng-model="getAnswerValue('Q1160','FIRST').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
         </cr-question>
-        <cr-question label="19h" inline="true">
+        <cr-question label="period.2.label">
             <cr-slider ng-model="getAnswerValue('Q1160','SECOND').stringValue"  ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
         </cr-question>
-        <cr-question label="20h" inline="true">
+        <cr-question label="period.3.label">
             <cr-slider ng-model="getAnswerValue('Q1160','THIRD').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
         </cr-question>
     </cr-section>

@@ -1,19 +1,24 @@
 <div class="modal-header">
-    <h3 class="modal-title">Chauffage & eau chaude</h3>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic01_title.png" alt=""/>
+    <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
+    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'topic.heat.label' | translate"></h3>
 </div>
 <div class="modal-body">
-    <cr-question label="Q1600.label">
-        <cr-slider ng-model="getAnswerValue('Q1600').doubleValue" min="0" max="1000" step="10" filter="toSquareMeters"></cr-slider>
+
+
+    <cr-question label="Q3310.label"  cr-conditionned="Q3310">
+        <cr-boolean ng-model="getAnswerValue('Q3310').booleanValue"></cr-boolean>
     </cr-question>
-    <cr-question label="Q1900.label">
-        <cr-slider ng-model="getAnswerValue('Q1900').doubleValue" min="0" max="20000" step="500" filter="toWatts"></cr-slider>
+
+    <cr-question label="Q3320.label" cr-conditionned="Q3320">
+        <cr-boolean ng-model="getAnswerValue('Q3320').booleanValue"></cr-boolean>
     </cr-question>
-    <cr-question label="Q1210.label">
-        <cr-slider ng-model="getAnswerValue('Q1210').stringValue" min="0" max="5" step="1"></cr-slider>
+
+    <cr-question label="Q3330.label" cr-conditionned="Q3330">
+        <cr-boolean ng-model="getAnswerValue('Q3330').booleanValue"></cr-boolean>
     </cr-question>
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Yes</button>
-    <button class="btn btn-warning" ng-click="cancel()">No</button>
+    <button class="btn btn-primary" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
 </div>

@@ -1,23 +1,23 @@
 <div class="modal-header">
     <img class="cr-modal-title-icon" src="/assets/images/modal/topic01_title.png" alt=""/>
     <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
-    <h3 class="modal-title cr-modal-title-text">Programmes Gros Electroménager</h3>
+    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'topic.programs.label' | translate"></h3>
 </div>
 <div class="modal-body">
 
-    <cr-question label="Q1110.label">
-        <cr-slider ng-model="getAnswerValue('Q1110','FIRST').stringValue" min="0" max="5" step="1"></cr-slider>
-        <cr-slider ng-model="getAnswerValue('Q1110','SECOND').stringValue" min="0" max="5" step="1"></cr-slider>
-        <cr-slider ng-model="getAnswerValue('Q1110','THIRD').stringValue" min="0" max="5" step="1"></cr-slider>
+    <cr-question label="Q3110.label"  cr-conditionned="Q3110">
+        <cr-boolean ng-model="getAnswerValue('Q3110').booleanValue"></cr-boolean>
     </cr-question>
-    <cr-question label="Q1120.label">
-        <cr-slider ng-model="getAnswerValue('Q1120').stringValue" min="0" max="5" step="1"></cr-slider>
+
+    <cr-question label="Q3120.label" cr-conditionned="Q3120">
+        <cr-boolean ng-model="getAnswerValue('Q3120').booleanValue"></cr-boolean>
     </cr-question>
-    <cr-question label="Q1130.label">
-        <cr-slider ng-model="getAnswerValue('Q1130').stringValue" min="0" max="5" step="1"></cr-slider>
+
+    <cr-question label="Q3130.label" cr-conditionned="Q3130">
+        <cr-boolean ng-model="getAnswerValue('Q3130').booleanValue"></cr-boolean>
     </cr-question>
+    
 </div>
 <div class="modal-footer">
-    <button class="btn" ng-click="ok()">Yes</button>
-    <button class="btn" ng-click="cancel()">No</button>
+    <button class="btn btn-primary" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
 </div>

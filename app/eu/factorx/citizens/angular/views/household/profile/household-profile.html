@@ -2,6 +2,11 @@
     <h1>Ménage : Profil de consommation</h1>
 
 
+    <button class="col-md-2"
+            ng-click="load()"> Login
+    </button>
+
+
     <div class="container">
         <div class="row">
 
@@ -64,21 +69,5 @@
                     ng-click="$root.redirectTo('/household-action')">
             </button>
         </div>
-
-        <row>
-
-
-            <button class="col-md-2"
-                    ng-click="openModal('household/account/registration')"> TEST !!
-            </button>
-
-            <button class="col-md-2"
-                    ng-click="save()"> SAVE !!
-            </button>
-            <button class="col-md-2"
-                    ng-click="load()"> LOAD !!
-            </button>
-
-        </row>
     </div>
 </div>
