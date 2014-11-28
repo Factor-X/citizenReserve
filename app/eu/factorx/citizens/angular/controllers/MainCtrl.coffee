@@ -16,6 +16,8 @@ angular
             'Vampire'
         ]
         cnt: 10
+        firstName: 'Winston'
+        comment: 'Attitude is a little thing that makes a big difference.'
         doubleRange:
             min: 2
             max: 3

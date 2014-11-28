@@ -8,7 +8,7 @@ import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class TranslationController extends Controller {
+public class TranslationController extends AbstractController {
 
 	public Result get() {
 		Logger.info("TranslationController.get()");

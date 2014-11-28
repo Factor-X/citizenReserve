@@ -2,7 +2,6 @@ package eu.factorx.citizens.model.survey;
 
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.technical.AbstractEntity;
-import eu.factorx.citizens.model.type.Period;
 import eu.factorx.citizens.model.type.QuestionCode;
 
 import javax.persistence.*;
@@ -42,7 +41,7 @@ public class Survey extends AbstractEntity {
 		this.answers = answers;
 	}
 
-	public void addAnswer(QuestionCode questionCode, Period period, double value) {
+	public void addAnswer(QuestionCode questionCode, Period period, Double value) {
 		Answer answer = new Answer(this, questionCode, period);
 		answer.addDoubleValue(value, period);
 		this.answers.add(answer);
@@ -54,7 +53,7 @@ public class Survey extends AbstractEntity {
 		this.answers.add(answer);
 	}
 
-	public void addAnswer(QuestionCode questionCode, Period period, boolean value) {
+	public void addAnswer(QuestionCode questionCode, Period period, Boolean value) {
 		Answer answer = new Answer(this, questionCode, period);
 		answer.addBooleanValue(value, period);
 		this.answers.add(answer);
