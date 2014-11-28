@@ -139,15 +139,25 @@ public class CalculationServiceImpl implements CalculationService {
 
 		// Sortir
 		reductionDetails.put(QuestionCode.Q3210, computeReductionForQuestionCode3210(byQuestionCodeAndPeriod, potentialReductionDetails, potentialReductionSummary));
+
 		// Programmes et Gros electromenager
-		reductionDetails.put(QuestionCode.Q3110,computeReductionForQuestionCode3110(byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3110,computeReductionForQuestionCodeGeneral(QuestionCode.Q3110,QuestionCode.Q1110,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3120,computeReductionForQuestionCodeGeneral(QuestionCode.Q3120,QuestionCode.Q1120,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3130,computeReductionForQuestionCodeGeneral(QuestionCode.Q3130,QuestionCode.Q1130,byQuestionCodeAndPeriod, potentialReductionDetails));
+
+		//Chauffage et eau chaude
+		reductionDetails.put(QuestionCode.Q3310,computeReductionForQuestionCodeGeneral(QuestionCode.Q3310,QuestionCode.Q1600,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3320,computeReductionForQuestionCodeGeneral(QuestionCode.Q3320,QuestionCode.Q1900,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3330,computeReductionForQuestionCodeGeneral(QuestionCode.Q3330,QuestionCode.Q1210,byQuestionCodeAndPeriod, potentialReductionDetails));
+
+
 
 
 		return reductionDetails;
 	}
 
-	//specific for 3110
-	private List<ReductionDTO> computeReductionForQuestionCode3110(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+	//specific for 3110, 3120, 3130, 3310
+	private List<ReductionDTO> computeReductionForQuestionCodeGeneral(QuestionCode effectiveCode,QuestionCode potentialCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
 
 		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
 
@@ -156,13 +166,13 @@ public class CalculationServiceImpl implements CalculationService {
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3110).get(Period.FIRST).getBooleanValue()) && (Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue())<1) ) {
-				// YES to 3110
-				localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1110).getFirstPeriodPowerReduction());
-				localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1110).getSecondPeriodPowerReduction());
-				localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1110).getThirdPeriodPowerReduction());
+			if ( (byQuestionCodeAndPeriod.get(effectiveCode).get(Period.FIRST).getBooleanValue()) && (Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue())<1) ) {
+				// YES
+				localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(potentialCode).getFirstPeriodPowerReduction());
+				localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(potentialCode).getSecondPeriodPowerReduction());
+				localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(potentialCode).getThirdPeriodPowerReduction());
 			} else {
-				// NO to 3110
+				// NO
 				localResult.setFirstPeriodPowerReduction(ZERO);
 				localResult.setSecondPeriodPowerReduction(ZERO);
 				localResult.setThirdPeriodPowerReduction(ZERO);
@@ -173,6 +183,9 @@ public class CalculationServiceImpl implements CalculationService {
 
 		return result;
 	}
+
+
+
 
 
 	//specific for 3210
@@ -291,6 +304,8 @@ public class CalculationServiceImpl implements CalculationService {
 		// ******************** Chauffage et eau chaude ******************************
 		// 1600
 		reductionDetails.put(QuestionCode.Q1600,computeReductionForQuestionCodeAlgo3(QuestionCode.Q1600, byQuestionCodeAndPeriod));
+		// 1900
+		reductionDetails.put(QuestionCode.Q1900,computeReductionForQuestionCodeAlg4(QuestionCode.Q1900,byQuestionCodeAndPeriod));
 		// 1210
 		reductionDetails.put(QuestionCode.Q1210,computeReductionForQuestionCode1210(byQuestionCodeAndPeriod));
 
@@ -306,7 +321,7 @@ public class CalculationServiceImpl implements CalculationService {
 		// 1750 - special
 		reductionDetails.put(QuestionCode.Q1750,computeReductionForQuestionCode1750(byQuestionCodeAndPeriod));
 		// 1800 - special
-		reductionDetails.put(QuestionCode.Q1800,computeReductionForQuestionCode1800(byQuestionCodeAndPeriod));
+		reductionDetails.put(QuestionCode.Q1800,computeReductionForQuestionCodeAlg4(QuestionCode.Q1800,byQuestionCodeAndPeriod));
 		// 2010 - special
 		reductionDetails.put(QuestionCode.Q2010,computeReductionForQuestionCodeAlgo2(QuestionCode.Q2010,byQuestionCodeAndPeriod));
 		// 2020 - special
@@ -546,14 +561,14 @@ public class CalculationServiceImpl implements CalculationService {
 	}
 
 
-	//specific for 1800
-	private ReductionDTO computeReductionForQuestionCode1800(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
+	//specific for 1800, 1900
+	private ReductionDTO computeReductionForQuestionCodeAlg4(QuestionCode questionCode, Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
 
 		ReductionDTO result = new ReductionDTO();
 
 		Double value = ZERO;
 
-		value =		byQuestionCodeAndPeriod.get(QuestionCode.Q1800).get(Period.FIRST).getDoubleValue();
+		value =		byQuestionCodeAndPeriod.get(questionCode).get(Period.FIRST).getDoubleValue();
 
 
 		result.setFirstPeriodPowerReduction(value);
