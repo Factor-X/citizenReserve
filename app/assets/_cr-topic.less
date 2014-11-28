@@ -1,3 +1,16 @@
+.generate-cr-topic-theme(~'default', #000000);
+.generate-cr-topic-theme(~'blue', #1494d0);
+.generate-cr-topic-theme(~'green', #229913);
+.generate-cr-topic-theme(~'orange', #ff7800);
+.generate-cr-topic-theme(~'red', #d22323);
+.generate-cr-topic-theme(~'magenta', #831cb2);
+.generate-cr-topic-theme(@name, @color) {
+    .cr-theme-@{name} .cr-topic, .cr-theme-@{name}.cr-topic {
+        .cr-topic-text {
+            color: @color;
+        }
+    }
+}
 
 .cr-topic {
     display: block;
@@ -11,6 +24,12 @@
 
     &:hover {
         transform: scale(1.1, 1.1)
+    }
+
+    .cr-topic-text {
+        text-align: center;
+        margin-top: 2em;
+        height: 4em;
     }
 
     .cr-topic-image {
@@ -38,8 +57,6 @@
         top: 0;
     }
 
-
-
     &:hover .cr-topic-image-hover {
         opacity: 1.0;
     }
@@ -61,7 +78,5 @@
     &:active:not(:hover) .cr-topic-image-inactive {
         opacity: 0.0;
     }
-
-
 
 }

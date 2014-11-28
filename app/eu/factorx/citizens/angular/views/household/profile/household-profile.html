@@ -5,25 +5,60 @@
     <div class="container">
         <div class="row">
 
-            <button class="col-md-2" ng-bind-html="'topic.presence.label' | translate"
-                    ng-click="openModal('household/profile/topics/t01-presence')">
-            </button>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic02"
+                    view="$/angular/views/household/profile/topics/t01-presence.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-green"
+                    label="topic.presence.label"
+                    ></cr-topic>
+            </div>
 
-            <button class="col-md-2" ng-bind-html="'topic.programs.label' | translate"
-                    ng-click="openModal('household/profile/topics/t02-programs')">
-            </button>
 
-            <button class="col-md-2" ng-bind-html="'topic.heat.label' | translate"
-                    ng-click="openModal('household/profile/topics/t03-heating')">
-            </button>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic01"
+                    view="$/angular/views/household/profile/topics/t02-programs.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-blue"
+                    label="topic.programs.label"
+                    ></cr-topic>
+            </div>
 
-            <button class="col-md-2" ng-bind-html="'topic.light.label' | translate"
-                    ng-click="openModal('household/profile/topics/t04-lighting')">
-            </button>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic03"
+                    view="$/angular/views/household/profile/topics/t03-heating.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-orange"
+                    label="topic.heat.label"
+                    ></cr-topic>
+            </div>
 
-            <button class="col-md-2" ng-bind-html="'topic.cook.label' | translate"
-                    ng-click="openModal('household/profile/topics/t05-dinner')">
-            </button>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <cr-topic
+                    active="true"
+                    image="household/topics/topic04"
+                    view="$/angular/views/household/profile/topics/t04-lighting.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-red"
+                    label="topic.light.label"
+                    ></cr-topic>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic05"
+                    view="$/angular/views/household/profile/topics/t05-dinner.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-magenta"
+                    label="topic.cook.label"
+                    ></cr-topic>
+            </div>
+        </div>
+
+        <div class="row">
 
             <button class="col-md-2" ng-bind-html="'nav.to-actions' | translate"
                     ng-click="$root.redirectTo('/household-action')">
