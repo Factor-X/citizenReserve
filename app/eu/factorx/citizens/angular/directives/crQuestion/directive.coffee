@@ -4,6 +4,7 @@ angular
     restrict: "E"
     scope: directiveService.autoScope
         ngLabel: '='
+        ngInline: '='
     templateUrl: "$/angular/templates/cr-question.html"
     replace: false
     transclude: true

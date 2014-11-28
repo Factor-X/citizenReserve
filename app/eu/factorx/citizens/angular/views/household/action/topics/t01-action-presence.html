@@ -7,7 +7,7 @@
     </cr-question>
 
     <cr-question label="Q3211.label" cr-conditionned="Q3211" >
-        <cr-slider ng-model="getAnswerValue('Q3211').stringValue" ng-steps="[null, '1', '2', '3', '4']"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q3211').stringValue" ng-steps="getNumericOptions('Q3211',1,4,1)"></cr-slider>
     </cr-question>
 
 </div>
