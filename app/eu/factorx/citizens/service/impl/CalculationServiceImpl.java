@@ -154,6 +154,11 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3410,computeReductionForQuestionCodeGeneral(QuestionCode.Q3410,QuestionCode.Q1220,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3420,computeReductionForQuestionCodeGeneral(QuestionCode.Q3420,QuestionCode.Q1230,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3510,computeReductionForQuestionCodeGeneral(QuestionCode.Q3510,QuestionCode.Q1750,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3530,computeReductionForQuestionCodeGeneral(QuestionCode.Q3530,QuestionCode.Q1800,byQuestionCodeAndPeriod, potentialReductionDetails));
+
+		reductionDetails.put(QuestionCode.Q3610,computeReductionForQuestionCodeGeneral(QuestionCode.Q3610,QuestionCode.Q2010,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3620,computeReductionForQuestionCodeGeneral(QuestionCode.Q3620,QuestionCode.Q2020,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCodeGeneral(QuestionCode.Q3630,QuestionCode.Q1700,byQuestionCodeAndPeriod, potentialReductionDetails));
 
 
 		return reductionDetails;
