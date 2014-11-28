@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "surveys")
 @NamedQueries({
-        @NamedQuery(name = Survey.FIND_VALID_BY_ACCOUNT, query = "where " + Survey.COL_ACCOUNT + " = :" + Survey.COL_ACCOUNT +" and "+AbstractEntity.DELETATION_DATE+" is null"),
+        @NamedQuery(name = Survey.FIND_VALID_BY_ACCOUNT, query = "where account_id = :" + Survey.COL_ACCOUNT +" and "+AbstractEntity.DELETATION_DATE+" is null"),
 })
 public class Survey extends AbstractEntity {
 

@@ -30,7 +30,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     public Survey findValidSurveyByAccount(Account account) {
         List<Survey> list = Ebean.createNamedQuery(Survey.class, Survey.FIND_VALID_BY_ACCOUNT)
-                .setParameter(Survey.COL_ACCOUNT, account)
+                .setParameter(Survey.COL_ACCOUNT, account.getId())
                 .findList();
 
         if (list.size() > 1) {

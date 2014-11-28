@@ -38,8 +38,6 @@ public class AccountController extends AbstractController {
 	public Result login() {
         LoginDTO loginDTO  = extractDTOFromRequest(LoginDTO.class);
 
-        Logger.error(loginDTO+"");
-
         //login
         Account account = accountService.findByEmail(loginDTO.getEmail());
 
@@ -49,6 +47,10 @@ public class AccountController extends AbstractController {
 
         //build and return result
         Survey survey = surveyService.findValidSurveyByAccount(account);
+
+        if(survey == null){
+            throw new MyRuntimeException("there is no not deleted survey for account "+account.getId());
+        }
 
         //build dto
         return ok(surveyToSurveyDTOConverter.convert(survey));
