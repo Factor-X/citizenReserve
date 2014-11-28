@@ -9,6 +9,4 @@ angular
         return surveyDTOService.getAnswerValue(questionKey, periodKey)
 
     $scope.getAccount = () ->
-        console.log "survey"
-        console.log surveyDTOService.surveyDTO
         return surveyDTOService.getAccount()

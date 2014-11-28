@@ -4,15 +4,52 @@
 <div class="modal-body">
 
     <!-- Q5110 generic.firstName -->
+    <cr-question label="generic.firstName">
+        <cr-text ng-model="getAccount().firstName" ></cr-text>
+    </cr-question>
+
     <!-- Q5120 generic.lastName -->
+    <cr-question label="generic.lastName">
+        <cr-text ng-model="getAccount().lastName" ></cr-text>
+    </cr-question>
+
     <!-- Q5130 generic.emailAddress -->
+    <cr-question label="generic.emailAddress">
+        <cr-text ng-model="getAccount().email" ></cr-text>
+    </cr-question>
+
     <!-- Q5140 generic.password -->
-    <!-- Q5150 generic.zip -->
+    <cr-question label="generic.password">
+        <cr-text ng-model="getAccount().password" ></cr-text>
+    </cr-question>
 
     <!-- Q5150 generic.zip -->
-    <cr-question label="profile.powerprovider.label">
+    <cr-question label="generic.zip">
+        <cr-text ng-model="getAccount().zipCode" ></cr-text>
+    </cr-question>
+
+    <!-- Q5210 account.powerprovider.label -->
+    <cr-question label="account.powerprovider.label">
         <cr-slider ng-steps="getOptions('Q5210')" ng-model="getAccount().powerProvider" vertical="true"></cr-slider>
     </cr-question>
+
+    <!-- Q5220 account.powerconsumercategory.labe -->
+    <cr-question label="account.powerconsumercategory.label">
+        <cr-slider ng-steps="getOptions('powerconsumercategory')" ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
+    </cr-question>
+
+    <!--Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+
+    <!-- Q5410 account.powerconsumercategory.labe -->
+    <cr-question label="account.info.summaryemail.label">
+        <cr-slider ng-steps="getOptions('sensitizationkit')" ng-model="getAccount().sensitizationKit" vertical="true"></cr-slider>
+    </cr-question>
+
+    <!-- advertisemnt -->
+    <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
+
+
+    <p ng-bind-html="'account.info.terms&conditions.label' | translate"></p>
 
 </div>
 <div class="modal-footer">
