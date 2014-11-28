@@ -27,7 +27,9 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
 
         dto.setPowerProvider(account.getPowerProvider());
         dto.setPowerComsumerCategory(account.getPowerComsumerCategory());
-        dto.setOtherEmailAddresses(Arrays.asList(StringUtils.split(account.getOtherEmailAdresses(),";")));
+        if(account.getOtherEmailAdresses()!=null) {
+            dto.setOtherEmailAddresses(Arrays.asList(StringUtils.split(account.getOtherEmailAdresses(), ";")));
+        }
         dto.setSensitizationKit(account.getSensitizationKit());
         dto.setAccoutType(account.getAccountType().getString());
 
