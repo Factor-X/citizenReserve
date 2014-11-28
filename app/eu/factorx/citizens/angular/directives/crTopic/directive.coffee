@@ -8,6 +8,7 @@ angular
         ngView: '='
         ngController: '='
         ngWindowClass: '='
+        ngLabel: '='
 
     templateUrl: "$/angular/templates/cr-topic.html"
     replace: true
