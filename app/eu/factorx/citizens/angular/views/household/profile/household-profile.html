@@ -1,16 +1,16 @@
 <div class="col-md-12">
-    <h1>Household questionnaire TRAD</h1>
+    <h1>Ménage : Profil de consommation</h1>
 
 
     <div class="container">
         <div class="row">
 
-            <button class="col-md-2" ng-bind-html="'topic.programs.label' | translate"
-                    ng-click="openModal('household/profile/topics/t01-programs')">
+            <button class="col-md-2" ng-bind-html="'topic.presence.label' | translate"
+                    ng-click="openModal('household/profile/topics/t01-presence')">
             </button>
 
-            <button class="col-md-2" ng-bind-html="'topic.presence.label' | translate"
-                    ng-click="openModal('household/profile/topics/t02-presence')">
+            <button class="col-md-2" ng-bind-html="'topic.programs.label' | translate"
+                    ng-click="openModal('household/profile/topics/t02-programs')">
             </button>
 
             <button class="col-md-2" ng-bind-html="'topic.heat.label' | translate"
@@ -26,7 +26,7 @@
             </button>
 
             <button class="col-md-2" ng-bind-html="'generic.next' | translate"
-                    ng-click="$root.redirectTo('/household-action/programs')">
+                    ng-click="$root.redirectTo('/household-action')">
             </button>
         </div>
 
