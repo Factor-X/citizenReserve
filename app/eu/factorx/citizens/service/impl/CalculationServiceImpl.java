@@ -148,7 +148,7 @@ public class CalculationServiceImpl implements CalculationService {
 		//Chauffage et eau chaude
 		reductionDetails.put(QuestionCode.Q3310,computeReductionForQuestionCodeGeneral(QuestionCode.Q3310,QuestionCode.Q1600,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3320,computeReductionForQuestionCodeGeneral(QuestionCode.Q3320,QuestionCode.Q1900,byQuestionCodeAndPeriod, potentialReductionDetails));
-		//reductionDetails.put(QuestionCode.Q3330,computeReductionForQuestionCodeGeneral(QuestionCode.Q3330,QuestionCode.Q1210,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3330,computeReductionForQuestionCodeGeneral(QuestionCode.Q3330,QuestionCode.Q1210,byQuestionCodeAndPeriod, potentialReductionDetails));
 
 
 

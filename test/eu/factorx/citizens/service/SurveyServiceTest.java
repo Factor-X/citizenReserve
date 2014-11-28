@@ -32,7 +32,7 @@ public class SurveyServiceTest {
 
         QuestionCode questionCode = QuestionCode.Q1300;
         double value = 4d;
-        survey.addAnswer(QuestionCode.Q1300, null, 4);
+        survey.addAnswer(QuestionCode.Q1300, null, 4d);
         surveyService.saveSurvey(survey);
 
         List<Survey> foundSurveys = surveyService.findSurveysByAccount(account);
