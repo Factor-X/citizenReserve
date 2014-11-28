@@ -1,19 +1,18 @@
 angular
 .module('app.controllers')
-.controller "FormCtrl", ($scope, modalService, $log, topic) ->
+.controller "FormCtrl", ($scope, modalService, $log, topic,downloadService,surveyDTOService ) ->
     $scope.topic = topic
 
-    $scope.slider =
-        schedule:
-            value: null
-            steps: [
-                {value: null, label: null}
-                {value: 18, label: '18h'}
-                {value: 19, label: '19h'}
-                {value: 20, label: '20h'}
-                {value: 21, label: '21h'}
-                {value: 22, label: '22h'}
-            ]
+    $scope.save= () ->
+        console.log "surveyDTO"
+        console.log surveyDTOService.surveyDTO
+        downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
+            if result.success
+                console.log "je suis un success"
+            else
+                console.log "je suis un echec"
+
+
 
     $scope.openTopic = (target) ->
         # TODO TEMP

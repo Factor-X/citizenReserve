@@ -3,13 +3,16 @@ angular
 .module('app.services')
 .service "surveyDTOService", ($rootScope, $modal) ->
     @surveyDTO = {
-        account: null
+        account: {}
         answers: []
     }
 
     # add the search answer function into DTO
     @getAnswers = (questionCode) ->
         return _.where(@surveyDTO.answers, {questionKey: questionCode})
+
+    @getAccount = () ->
+        return @surveyDTO.account
 
     @getAnswerValue = (questionKey, periodKey) ->
         answer = _.findWhere(@surveyDTO.answers, {questionKey: questionKey, periodKey: periodKey})

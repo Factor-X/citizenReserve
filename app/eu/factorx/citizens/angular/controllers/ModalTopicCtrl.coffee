@@ -7,3 +7,6 @@ angular
 
     $scope.getAnswerValue = (questionKey, periodKey) ->
         return surveyDTOService.getAnswerValue(questionKey, periodKey)
+
+    $scope.getAccount = () ->
+        return surveyDTOService.getAccount()
