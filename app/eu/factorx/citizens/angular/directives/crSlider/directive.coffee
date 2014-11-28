@@ -12,6 +12,7 @@ angular
         ngStep: '='
 
         ngVisible: '='
+        ngVertical: '='
 
         ngFilter: '='
 

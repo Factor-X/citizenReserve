@@ -1,6 +1,6 @@
 <div class="cr-slider" collapse="!isVisible()">
 
-    <div class="cr-slider-container">
+    <div class="cr-slider-container" ng-if="!getVertical()">
 
         <!-- Sections -->
             <span class="cr-slider-section first"
@@ -46,6 +46,59 @@
                   ng-class="{active: isValue(o)}"
                   ng-mousedown="setValue(o)"
                   style="left: {{ ($index - 1 )* 50}}px"
+                  ng-bind-html="labelFilter('' + o.label)"
+                ></span>
+
+
+        </div>
+    </div>
+
+    <div class="cr-slider-container-vertical" ng-if="getVertical()" style="height: {{ computedOptions.length * 50.0 }}px">
+
+        <!-- Sections -->
+            <span class="cr-slider-section first"
+                  ng-repeat="o in computedOptions"
+                  style="left: 0px"
+                >
+            </span>
+
+        <div class="cr-slider-null-box">
+              <span class="cr-slider-tick first"
+                    ng-mousedown="setValue(computedOptions[0])"
+                    style="left: 0px"
+                  ></span>
+
+        </div>
+
+        <div class="cr-slider-not-null-box" style="height: {{ computedOptions.length * 50.0 }}px">
+
+            <!-- Sections -->
+            <span class="cr-slider-section"
+                  ng-repeat="o in computedOptions"
+                  ng-if="$index > 1"
+                  style="top: {{ ($index - 2 )* 50}}px"
+                >
+            </span>
+
+            <!-- Ticks -->
+
+            <span class="cr-slider-tick"
+                  ng-repeat="o in computedOptions"
+                  ng-if="o.value != null"
+                  ng-class="{active: isValue(o), first: ($index == 0)}"
+                  ng-mousedown="setValue(o)"
+                  style="top: {{ ($index - 1) * 50 }}px"
+                ></span>
+
+
+            <!-- Labels -->
+
+            <span class="cr-slider-text"
+                  ng-repeat="o in computedOptions"
+                  ng-if="o.label != null"
+                  ng-class="{active: isValue(o)}"
+                  ng-mousedown="setValue(o)"
+                  style="top: {{ ($index - 1 )* 50}}px"
                   ng-bind-html="labelFilter('' + o.label)"
                 ></span>
 
