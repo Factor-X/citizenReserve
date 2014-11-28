@@ -5,8 +5,10 @@
 </div>
 <div class="modal-body">
 
-<<<<<<< HEAD
     <cr-section label="Q1160.label">
+        <cr-question label="Q2010.label">
+            <cr-slider ng-model="getAnswerValue('Q2010').stringValue" ng-steps="getOptions('Q2010')" vertical="true"></cr-slider>
+        </cr-question>
         <cr-question label="18h" inline="true">
             <cr-slider ng-model="getAnswerValue('Q1160','FIRST').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
         </cr-question>
@@ -17,16 +19,6 @@
             <cr-slider ng-model="getAnswerValue('Q1160','THIRD').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
         </cr-question>
     </cr-section>
-=======
-    <cr-question label="Q1160.label">
-        <cr-question label="Q2010.label">
-            <cr-slider ng-model="getAnswerValue('Q2010').stringValue" ng-steps="getOptions('Q2010')" vertical="true"></cr-slider>
-        </cr-question>
-        <cr-slider ng-model="getAnswerValue('Q1160','FIRST').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
-        <cr-slider ng-model="getAnswerValue('Q1160','SECOND').stringValue"  ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
-        <cr-slider ng-model="getAnswerValue('Q1160','THIRD').stringValue" ng-steps="getNumericOptions('Q1160',0,5,1)"></cr-slider>
-    </cr-question>
->>>>>>> 60276cde2c41edc479bc1aeb893341b3f5f81179
     <cr-question label="Q1220.label">
         <cr-slider ng-model="getAnswerValue('Q1220').stringValue" ng-steps="getNumericOptions('Q1220',0,5,1)"></cr-slider>
     </cr-question>
