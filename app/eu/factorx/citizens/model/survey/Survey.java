@@ -10,9 +10,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "surveys")
+@NamedQueries({
+        @NamedQuery(name = Survey.FIND_VALID_BY_ACCOUNT, query = "where account_id = :" + Survey.COL_ACCOUNT +" and "+AbstractEntity.DELETATION_DATE+" is null"),
+})
 public class Survey extends AbstractEntity {
 
-	@ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //request
+    public static final String FIND_VALID_BY_ACCOUNT = "Survey_FIND_VALID_BY_ACCOUNT";
+    public static final String COL_ACCOUNT = "account";
+    //column name
+
+
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Account account;
 
 	@OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)

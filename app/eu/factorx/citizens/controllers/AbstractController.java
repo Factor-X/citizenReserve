@@ -34,6 +34,11 @@ public abstract class AbstractController extends Controller {
     }
 
     public Period getPeriodByPeriodKey(String periodKey){
+        for (Period period : Period.values()) {
+            if(period.name().equals(periodKey)){
+                return period;
+            }
+        }
         return null;
     }
 

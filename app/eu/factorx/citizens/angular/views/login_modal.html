@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h3 class="modal-title" ng-bind-html="login.modal.title"></h3>
+</div>
+<div class="modal-body">
+
+    <cr-question label="generic.emailAddress">
+        <cr-text ng-model="o.email"></cr-text>
+    </cr-question>
+    <cr-question label="generic.password">
+        <cr-text ng-model="o.password"></cr-text>
+    </cr-question>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="valid()" ng-bind-html="'generic.valid' | translate"></button>
+    <button class="btn btn-warning" ng-click="close()" ng-bind-html="'generic.close' | translate"></button>
+</div>

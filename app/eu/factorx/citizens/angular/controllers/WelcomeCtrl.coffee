@@ -4,6 +4,6 @@ angular
 
     $scope.toHouseHold = ->
         surveyDTOService.getAccount().accoutType = 'household'
-        $scope.$root.redirectTo('/household-profile/programs')
+        $scope.$root.redirectTo('/household-profile')
 
 
