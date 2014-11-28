@@ -1468,7 +1468,7 @@ public class CalculationServiceTest {
 	@Test
 	public void testCalculateEffectiveReductionCase019() throws Exception {
 
-		play.Logger.debug("Entering Calculate Effective Reduction test Case 018...");
+		play.Logger.debug("Entering Calculate Effective Reduction test Case 019...");
 		List<AnswerDTO> answersDTOs = buildSampleActionsConsumerProfile001();
 
 		// Sortir
@@ -1614,7 +1614,7 @@ public class CalculationServiceTest {
 	@Test
 	public void testCalculateEffectiveReductionCase021() throws Exception {
 
-		play.Logger.debug("Entering Calculate Effective Reduction test Case 020...");
+		play.Logger.debug("Entering Calculate Effective Reduction test Case 021...");
 		List<AnswerDTO> answersDTOs = buildSampleActionsConsumerProfile001();
 
 		// Sortir
@@ -1670,7 +1670,7 @@ public class CalculationServiceTest {
 
 
 		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
-		//Assert.assertEquals(new Double(1698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction()); TODO
+		Assert.assertEquals(new Double(1698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
 		Assert.assertEquals(new Double(2578), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
 
 		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
@@ -1685,8 +1685,8 @@ public class CalculationServiceTest {
 		Assert.assertEquals(new Double(1415), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
 		Assert.assertEquals(new Double(2295), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
 
-		//Assert.assertEquals(new Double(1517), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction()); TODO
-		//Assert.assertEquals(new Double(4.551), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getEnergyReduction()); TODO
+		Assert.assertEquals(new Double(1517), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.551), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getEnergyReduction());
 
 		Assert.assertEquals(new Double(1400.3333333333333), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getAveragePowerReduction());
 		Assert.assertEquals(new Double(4.201), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getEnergyReduction());
@@ -1698,7 +1698,6 @@ public class CalculationServiceTest {
 		Assert.assertEquals(new Double(3.985), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getEnergyReduction());
 
 	}
-
 
 
 
