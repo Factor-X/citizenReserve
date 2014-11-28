@@ -157,12 +157,8 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3530,computeReductionForQuestionCodeGeneral(QuestionCode.Q3530,QuestionCode.Q1800,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3610,computeReductionForQuestionCodeGeneral(QuestionCode.Q3610,QuestionCode.Q2010,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3620,computeReductionForQuestionCodeGeneral(QuestionCode.Q3620,QuestionCode.Q2020,byQuestionCodeAndPeriod, potentialReductionDetails));
-
-		//reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCodeGeneral(QuestionCode.Q3630,QuestionCode.Q1700,byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3630,computeReductionForQuestionCode3630(byQuestionCodeAndPeriod, potentialReductionDetails));
-
-
-
+		reductionDetails.put(QuestionCode.Q3640,computeReductionForQuestionCodeGeneral(QuestionCode.Q3640,QuestionCode.Q1160,byQuestionCodeAndPeriod, potentialReductionDetails));
 
 		return reductionDetails;
 	}
@@ -254,9 +250,6 @@ public class CalculationServiceImpl implements CalculationService {
 				localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1700).getFirstPeriodPowerReduction());
 				localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1700).getSecondPeriodPowerReduction());
 				localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1700).getThirdPeriodPowerReduction());
-//				localResult.setFirstPeriodPowerReduction(potentialReductionSummary.getFirstPeriodPowerReduction());
-//				localResult.setSecondPeriodPowerReduction(potentialReductionSummary.getSecondPeriodPowerReduction());
-//				localResult.setThirdPeriodPowerReduction(potentialReductionSummary.getThirdPeriodPowerReduction());
 			} else {
 				// NO to 3630
 				localResult.setFirstPeriodPowerReduction(ZERO);
