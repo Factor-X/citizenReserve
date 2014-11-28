@@ -26,7 +26,9 @@ angular
         if (questionKey == "Q3210")
             return true
         if (questionKey == "Q3211")
-            return testBooleanAnswerEquals("Q3210", null, true)
+            res = testBooleanAnswerEquals("Q3210", null, true)
+            console.log("res", res)
+            return res
         if (questionKey == "Q3110")
             return (testStringAnswerValueNotEquals("Q1110", "FIRST", "0") ||
                 testStringAnswerValueNotEquals("Q1110", "SECOND", "0") ||
