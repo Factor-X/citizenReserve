@@ -5,11 +5,15 @@
     <div class="container">
         <div class="row">
 
+            <button class="col-md-2" ng-bind-html="'nav.back-to-profile' | translate"
+                    ng-click="$root.redirectTo('/household-profile')">
+            </button>
+
             <button class="col-md-2" ng-bind-html="'topic.presence.label' | translate"
                     ng-click="openModal('household/action/topics/t01-action-presence')">
             </button>
 
-            <button class="col-md-2" ng-bind-html="'topic.programs.label' | translate"
+            <button class="col-md-2" ng-bind-html="'topic.programs.label' | translate" ng-disabled="!checkCondition(['Q3110', 'Q3120', 'Q3130'])"
                     ng-click="openModal('household/action/topics/t02-action-programs')">
             </button>
 
@@ -18,24 +22,20 @@
             </button>
 
             <button class="col-md-2" ng-bind-html="'topic.light.label' | translate"
-                    ng-click="oopenModal('household/action/topics/t04-action-light')">
+                    ng-click="openModal('household/action/topics/t04-action-light')">
             </button>
 
             <button class="col-md-2" ng-bind-html="'topic.cook.label' | translate"
                     ng-click="openModal('household/action/topics/t05-action-cook')">
             </button>
 
-            <button class="col-md-2" ng-bind-html="'generic.next' | translate"
-                    ng-click="$root.redirectTo('/household-action/programs')">
+            <button class="col-md-2" ng-bind-html="'nav.to-identification' | translate"
+                    ng-click="openModal('household/account/registration')">
             </button>
         </div>
 
         <row>
 
-
-            <button class="col-md-2"
-                    ng-click="openTopic('registration')"> TEST !!
-            </button>
 
             <button class="col-md-2"
                     ng-click="save()"> SAVE !!

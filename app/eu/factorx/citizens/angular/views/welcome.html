@@ -1,8 +1,37 @@
-<div>
-    <p ng-bind-html="'welcome.choose_message' | translate"></p>
-    <button ng-bind-html="'generic.household' | translate"
-            ng-click="toHouseHold()"></button>
+<div class="cr-welcome">
 
+    <div class="container">
+        <div class="row">
 
+            <div class="col-md-12">
+
+                <h1 ng-bind-html="'welcome.title' | translate"></h1>
+
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <h2 ng-bind-html="'welcome.choose_message' | translate"></h2>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <button ng-bind-html="'generic.household' | translate"
+                        ng-click="toHouseHold()"></button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <button ng-bind-html="'generic.enterprise' | translate"
+                        ng-click="alert('not implemented yet !')"></button>
+            </div>
+        </div>
+    </div>
 
 </div>

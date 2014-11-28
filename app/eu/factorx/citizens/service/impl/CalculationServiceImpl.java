@@ -141,8 +141,8 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3210, computeReductionForQuestionCode3210(byQuestionCodeAndPeriod, potentialReductionDetails, potentialReductionSummary));
 
 		// Programmes et Gros electromenager
-		reductionDetails.put(QuestionCode.Q3110,computeReductionForQuestionCodeGeneral(QuestionCode.Q3110,QuestionCode.Q1110,byQuestionCodeAndPeriod, potentialReductionDetails));
-		reductionDetails.put(QuestionCode.Q3120,computeReductionForQuestionCodeGeneral(QuestionCode.Q3120,QuestionCode.Q1120,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3110,computeReductionForQuestionCodeGeneral(QuestionCode.Q3110, QuestionCode.Q1110, byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3120,computeReductionForQuestionCodeGeneral(QuestionCode.Q3120, QuestionCode.Q1120, byQuestionCodeAndPeriod, potentialReductionDetails));
 		reductionDetails.put(QuestionCode.Q3130,computeReductionForQuestionCodeGeneral(QuestionCode.Q3130,QuestionCode.Q1130,byQuestionCodeAndPeriod, potentialReductionDetails));
 
 		//Chauffage et eau chaude
@@ -163,8 +163,8 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//Repas
 		reductionDetails.put(QuestionCode.Q3710,computeReductionForQuestionCode3710(byQuestionCodeAndPeriod, potentialReductionDetails));
-		reductionDetails.put(QuestionCode.Q3720,computeReductionForQuestionCodeGeneral(QuestionCode.Q3720,QuestionCode.Q1140,byQuestionCodeAndPeriod, potentialReductionDetails));
-		reductionDetails.put(QuestionCode.Q3730,computeReductionForQuestionCodeGeneral(QuestionCode.Q3730,QuestionCode.Q1150,byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3720,computeReductionForQuestionCode3720(byQuestionCodeAndPeriod, potentialReductionDetails));
+		reductionDetails.put(QuestionCode.Q3730,computeReductionForQuestionCode3730(byQuestionCodeAndPeriod, potentialReductionDetails));
 
 
 
@@ -320,6 +320,92 @@ public class CalculationServiceImpl implements CalculationService {
 		return result;
 	}
 
+	//specific for 3720
+	private List<ReductionDTO> computeReductionForQuestionCode3720(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		//
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+
+		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) ) {
+				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+					// YES to 3730 and day is one of the repeat actions one
+					play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
+					localResult.setFirstPeriodPowerReduction(ZERO);
+					localResult.setSecondPeriodPowerReduction(ZERO);
+					localResult.setThirdPeriodPowerReduction(ZERO);
+				} else {
+					play.Logger.debug("DAY: " + day.name() + " set to value ");
+					localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1140).getFirstPeriodPowerReduction());
+					localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1140).getSecondPeriodPowerReduction());
+					localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1140).getThirdPeriodPowerReduction());
+				}
+			} else {
+				// NO to 3730
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
+	//specific for 3730
+	private List<ReductionDTO> computeReductionForQuestionCode3730(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		//
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+
+		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) ) {
+				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+					// YES to 3730 and day is one of the repeat actions one
+					play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
+					localResult.setFirstPeriodPowerReduction(ZERO);
+					localResult.setSecondPeriodPowerReduction(ZERO);
+					localResult.setThirdPeriodPowerReduction(ZERO);
+				} else {
+					play.Logger.debug("DAY: " + day.name() + " set to value ");
+					localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1150).getFirstPeriodPowerReduction());
+					localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1150).getSecondPeriodPowerReduction());
+					localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1150).getThirdPeriodPowerReduction());
+				}
+			} else {
+				// NO to 3730
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
+
+
 
 
 	/*
@@ -405,7 +491,7 @@ public class CalculationServiceImpl implements CalculationService {
 		// 1600
 		reductionDetails.put(QuestionCode.Q1600,computeReductionForQuestionCodeAlgo3(QuestionCode.Q1600, byQuestionCodeAndPeriod));
 		// 1900
-		reductionDetails.put(QuestionCode.Q1900,computeReductionForQuestionCodeAlg4(QuestionCode.Q1900,byQuestionCodeAndPeriod));
+		reductionDetails.put(QuestionCode.Q1900,computeReductionForQuestionCodeAlg4(QuestionCode.Q1900, byQuestionCodeAndPeriod));
 		// 1210
 		reductionDetails.put(QuestionCode.Q1210,computeReductionForQuestionCode1210(byQuestionCodeAndPeriod));
 
@@ -421,7 +507,7 @@ public class CalculationServiceImpl implements CalculationService {
 		// 1750 - special
 		reductionDetails.put(QuestionCode.Q1750,computeReductionForQuestionCode1750(byQuestionCodeAndPeriod));
 		// 1800 - special
-		reductionDetails.put(QuestionCode.Q1800,computeReductionForQuestionCodeAlg4(QuestionCode.Q1800,byQuestionCodeAndPeriod));
+		reductionDetails.put(QuestionCode.Q1800,computeReductionForQuestionCodeAlg4(QuestionCode.Q1800, byQuestionCodeAndPeriod));
 		// 2010 - special
 		reductionDetails.put(QuestionCode.Q2010,computeReductionForQuestionCodeAlgo2(QuestionCode.Q2010,byQuestionCodeAndPeriod));
 		// 2020 - special
