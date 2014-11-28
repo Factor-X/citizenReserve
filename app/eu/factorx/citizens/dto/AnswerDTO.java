@@ -57,4 +57,12 @@ public class AnswerDTO extends DTO {
 		return answerValues.add(new AnswerValueDTO(value));
 	}
 
+    @Override
+    public String toString() {
+        return "AnswerDTO{" +
+                "questionKey='" + questionKey + '\'' +
+                ", periodKey='" + periodKey + '\'' +
+                ", answerValues=" + answerValues +
+                '}';
+    }
 }

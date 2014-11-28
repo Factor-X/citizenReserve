@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h3 class="modal-title" ng-bind-html="'profile.powerprovider.title' | translate"></h3>
+</div>
+<div class="modal-body">
+
+    <!-- Q5110 generic.firstName -->
+    <!-- Q5120 generic.lastName -->
+    <!-- Q5130 generic.emailAddress -->
+    <!-- Q5140 generic.password -->
+    <!-- Q5150 generic.zip -->
+
+    <!-- Q5150 generic.zip -->
+    <cr-question label="Q1500.label">
+        <cr-slider ng-steps="getOptions('Q1500')" ng-model="getAnswerValue('Q1500',null).stringValue" vertical="true"></cr-slider>
+    </cr-question>
+
+</div>
+<div class="modal-footer">
+</div>
