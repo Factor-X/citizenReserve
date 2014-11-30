@@ -1,20 +1,17 @@
 angular
 .module('app.directives')
-.directive "crConditionned", (conditionService, surveyDTOService) ->
+.directive "crConditioned", (conditionService, surveyDTOService) ->
     restrict: "A"
     link: (scope, element, attrs) ->
 
-        console.log(attrs.crConditionned)
-
-        result = conditionService.checkCondition(attrs.crConditionned)
+        result = conditionService.checkCondition(attrs.crConditioned)
         if result
             $(element).show()
         else
             $(element).hide()
 
         handler = ->
-            result = conditionService.checkCondition(attrs.crConditionned)
-            console.log("model changed!! result = ", result)
+            result = conditionService.checkCondition(attrs.crConditioned)
             if result
                 $(element).slideDown()
             else

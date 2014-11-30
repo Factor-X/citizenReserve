@@ -1,122 +1,141 @@
-# simple download service
 angular
 .module('app.services')
 .service "conditionService", (surveyDTOService) ->
-
-    testBooleanAnswerEquals = (questionKey, periodKey, value) ->
+    svc = this
+    hits = 0
+    testAnswerIsTrue = (questionKey, periodKey) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).booleanValue
         if (answerValue == null)
             return false
-        return answerValue == value
+        return answerValue
 
-    testStringAnswerValueNotEquals = (questionKey, periodKey, value) ->
+    testAnswerNotEquals = (questionKey, periodKey, stringValue) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).stringValue
         if (answerValue == null)
             return false
-        return answerValue != value
+        return answerValue != stringValue
 
-    testNumericValueGreaterThan = (questionKey, periodKey, value) ->
+    testAnyAnswerNotEquals = (questionKey, stringValue) ->
+        for periodKey in ["FIRST", "SECOND", "THIRD"]
+            if testAnswerNotEquals(questionKey, periodKey, stringValue)
+                return true
+        return false
+
+    testAnswerIsGreaterThan = (questionKey, periodKey, numericValue) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).doubleValue
         if (answerValue == null)
             return false
-        return  answerValue > value
+        return answerValue > numericValue
 
+    testIsNotAlwaysOut = ->
+        answerValue = surveyDTOService.getAnswerValue("Q3211", null).stringValue
+        return (answerValue != "4")
 
+    resetAnswerValues = (answers) ->
+        for answer in answers
+            for answerValue in answer.answerValues
+                if !!answerValue.stringValue
+                    console.log("reset stringValue")
+                    answerValue.stringValue = null
+                if !!answerValue.doubleValue
+                    console.log("reset doubleValue")
+                    answerValue.doubleValue = null
+                if !!answerValue.booleanValue
+                    console.log("reset booleanValue")
+                    answerValue.booleanValue = null
+
+    tests =
+        Q3211: ->
+            return testAnswerIsTrue("Q3210", null)
+        Q3110: ->
+            return testIsNotAlwaysOut() &&
+                testAnyAnswerNotEquals("Q1110", "0")
+        Q3120: ->
+            return testIsNotAlwaysOut() &&
+                testAnyAnswerNotEquals("Q1120", "0")
+        Q3130: ->
+            return testIsNotAlwaysOut() &&
+                testAnyAnswerNotEquals("Q1130", "0")
+        Q3310: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerIsGreaterThan("Q1600", null, 0)
+        Q3320: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerIsGreaterThan("Q1900", null, 0)
+        Q3330: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q1210", null, "0")
+        Q3410: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q1220", null, "0")
+        Q3420: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q1230", null, "0")
+        Q3510: ->
+            return testIsNotAlwaysOut()
+        Q3530: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerIsGreaterThan("Q1800", null, 0)
+        Q3610: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q2010", null, "0")
+        Q3620: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q2020", null, "0")
+        Q3630: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q1700", null, "0")
+        Q3631: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerIsTrue("Q3630", null)
+        Q3640: ->
+            return testIsNotAlwaysOut() &&
+                testAnyAnswerNotEquals("Q1160", "0")
+        Q3810: ->
+            return testAnswerNotEquals("Q1235", null, "0")
+        Q3710: ->
+            return testIsNotAlwaysOut() &&
+                (testAnyAnswerNotEquals("Q1140", "0") ||
+                    testAnyAnswerNotEquals("Q1150", "0") ||
+                    testAnswerNotEquals("Q2030", null, "0") ||
+                    testAnswerNotEquals("Q2040", null, "0"))
+        Q3711: ->
+            return testAnswerIsTrue("Q3710", null)
+        Q3720: ->
+            return testIsNotAlwaysOut() &&
+                testAnyAnswerNotEquals("Q1140", "0") &&
+                testAnswerNotEquals("Q3711", null, "4")
+        Q3730: ->
+            return testIsNotAlwaysOut() &&
+                testAnyAnswerNotEquals("Q1150", "0") &&
+                testAnswerNotEquals("Q3711", null, "4")
+        Q3750: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q2030", null, "0") &&
+                testAnswerNotEquals("Q3711", null, "4")
+        Q3760: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q2040", null, "0") &&
+                testAnswerNotEquals("Q3711", null, "4")
+        Q3740: ->
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q3711", null, "4")
+        Q3741: ->
+            return testAnswerNotEquals("Q3740", null, "0")
+
+    #
+    # check condition defining if a question can be displayed
+    #
     @checkCondition = (questionKey) ->
-        if (questionKey == "Q3210")
-            return true
-        if (questionKey == "Q3211")
-            return testBooleanAnswerEquals("Q3210", null, true)
-        if (questionKey == "Q3110")
-            return (testStringAnswerValueNotEquals("Q1110", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1110", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1110", "THIRD", "0")) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3120")
-            return (testStringAnswerValueNotEquals("Q1120", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1120", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1120", "THIRD", "0")) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3130")
-            return (testStringAnswerValueNotEquals("Q1130", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1130", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1130", "THIRD", "0")) &&
-                testStringAnswerValueNotEquals("Q3211", "4")
-        if (questionKey == "Q3310")
-            return testNumericValueGreaterThan("Q1600", 0) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3320")
-            return testNumericValueGreaterThan("Q1900", 0) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3330")
-            return testStringAnswerValueNotEquals("Q1210", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3410")
-            return testStringAnswerValueNotEquals("Q1220", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3420")
-            return testStringAnswerValueNotEquals("Q1230", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3510")
-            return testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3530")
-            return testNumericValueGreaterThan("Q1800", 0) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3610")
-            return testStringAnswerValueNotEquals("Q2010", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3620")
-            return testStringAnswerValueNotEquals("Q2020", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3630")
-            return testStringAnswerValueNotEquals("Q1700", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3631")
-            return testBooleanAnswerEquals("Q3630", null, true) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3640")
-            return (testStringAnswerValueNotEquals("Q1160", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1160", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1160", "THIRD", "0")) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3810")
-            return testStringAnswerValueNotEquals("Q1235", null, "0")
-        if (questionKey == "Q3710")
-            return (testStringAnswerValueNotEquals("Q1140", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1140", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1140", "THIRD", "0") ||
-                testStringAnswerValueNotEquals("Q1150", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1150", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1150", "THIRD", "0") ||
-                testStringAnswerValueNotEquals("Q2030", null, "0") ||
-                testStringAnswerValueNotEquals("Q2040", null, "0")) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4")
-        if (questionKey == "Q3711")
-            return testBooleanAnswerEquals("Q3710", null, true)
-        if (questionKey == "Q3720")
-            return (testStringAnswerValueNotEquals("Q1140", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1140", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1140", "THIRD", "0")) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4") &&
-                testStringAnswerValueNotEquals("Q3711", null, "4")
-        if (questionKey == "Q3730")
-            return (testStringAnswerValueNotEquals("Q1150", "FIRST", "0") ||
-                testStringAnswerValueNotEquals("Q1150", "SECOND", "0") ||
-                testStringAnswerValueNotEquals("Q1150", "THIRD", "0")) &&
-                testStringAnswerValueNotEquals("Q3211", null, "4") &&
-                testStringAnswerValueNotEquals("Q3711", null, "4")
-        if (questionKey == "Q3750")
-            return testStringAnswerValueNotEquals("Q2030", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4") &&
-                testStringAnswerValueNotEquals("Q3711", null, "4")
-        if (questionKey == "Q3760")
-            return testStringAnswerValueNotEquals("Q2040", null, "0") &&
-                testStringAnswerValueNotEquals("Q3211", null, "4") &&
-                testStringAnswerValueNotEquals("Q3711", null, "4")
-        if (questionKey == "Q3740")
-            return testStringAnswerValueNotEquals("Q3211", null, "4") &&
-                testStringAnswerValueNotEquals("Q3711", null, "4")
-        if (questionKey == "Q3741")
-            return testStringAnswerValueNotEquals("Q3740", null, "0")
+        hits++;
+        console.log("checkCondition for questionKey = " + questionKey)
+        console.log("checkCondition nb hits = " + hits)
+        testFct = tests[questionKey]
+        if !!testFct
+            res = testFct()
+            if res == false
+                resetAnswerValues(surveyDTOService.getAnswers(questionKey))
+            return res
+        return true
 
     return

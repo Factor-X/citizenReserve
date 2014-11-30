@@ -27,6 +27,11 @@ angular
 .module('app.controllers')
 .config ($routeProvider) ->
     $routeProvider
+    .when('/welcome', {
+            templateUrl: '$/angular/views/welcome.html'
+            controller: 'WelcomeCtrl'
+        }
+    )
     .when('/household-profile', {
             templateUrl: '$/angular/views/household/profile/household-profile.html'
             controller: 'FormCtrl'
@@ -35,17 +40,17 @@ angular
                     return $route.current.params.topic
         }
     )
-    .when('/household-action', {
-            templateUrl: '$/angular/views/household/action/household-action.html'
+    .when('/household-actions', {
+            templateUrl: '$/angular/views/household/actions/household-actions.html'
             controller: 'FormCtrl'
             resolve:
                 topic: ($route) ->
                     return $route.current.params.topic
         }
     )
-    .when('/welcome', {
-            templateUrl: '$/angular/views/welcome.html'
-            controller: 'WelcomeCtrl'
+    .when('/controls-demo', {
+            templateUrl: '$/angular/views/test/controls-demo.html'
+            controller: 'ControlsDemoCtrl'
         }
     )
     .otherwise({ redirectTo: '/welcome' })
