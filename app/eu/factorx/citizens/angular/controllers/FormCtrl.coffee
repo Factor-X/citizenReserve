@@ -24,6 +24,8 @@ angular
         modalInstance = modalService.open({
             templateUrl: '$/angular/views/login_modal.html',
             controller: 'LoginModalCtrl'
+            size: 'sm'
+            windowClass: 'cr-theme-gray'
         })
 
     $scope.openModal = (target) ->
