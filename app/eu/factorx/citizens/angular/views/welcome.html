@@ -12,26 +12,56 @@
 
         <div class="row">
 
-            <div class="col-md-12">
+            <div class="col-md-7">
                 <h2 ng-bind-html="'welcome.choose_message' | translate"></h2>
-            </div>
-        </div>
 
-        <div class="row">
-
-            <div class="col-md-12">
-                <button ng-bind-html="'generic.household' | translate"
+                <button class="btn btn-primary"
+                        ng-bind-html="'generic.household' | translate"
                         ng-click="toHouseHold()"></button>
-            </div>
-        </div>
+                <br/>
+                <br/>
 
-        <div class="row">
-
-            <div class="col-md-12">
-                <button ng-bind-html="'generic.enterprise' | translate"
+                <button class="btn btn-primary"
+                        ng-bind-html="'generic.enterprise' | translate"
                         ng-click="alert('not implemented yet !')"></button>
+            </div>
+
+            <div class="col-md-5">
+
+                <h2 ng-bind-html="'welcome.login_message' | translate"></h2>
+
+                <cr-question label="generic.emailAddress">
+                    <cr-text ng-model="loginParams.email"></cr-text>
+                </cr-question>
+                <cr-question label="generic.password">
+                    <cr-text ng-model="loginParams.password"></cr-text>
+                </cr-question>
+                <br/>
+                <button class="btn btn-primary" ng-click="login()" ng-bind-html="'welcome.button.login' | translate"></button>
+
+                <h3 ng-bind-html="'welcome.forgot_password' | translate"></h3>
+
+                <p ng-bind-html="'welcome.forgot_password.desc' | translate"></p>
+
+                <cr-question label="generic.emailAddress">
+                    <cr-text ng-model="forgotPasswordParams.email"></cr-text>
+                </cr-question>
+                <br/>
+                <button class="btn btn-primary" ng-click="forgotPassword()" ng-bind-html="'welcome.button.forgotPassword' | translate"></button>
             </div>
         </div>
     </div>
+
+    <!-- Controls demo -->
+    <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+    <hr/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-left">
+                <a href="#/controls-demo">Controls demo ></a>
+            </div>
+        </div>
+    </div>
+
 
 </div>

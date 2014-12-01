@@ -1,0 +1,89 @@
+<div class="cr-actions">
+
+    <div class="container">
+
+        <div class="row cr-actions-header">
+
+            <div class="col-md-6">
+                <h1 class="cr-actions-title">Ménage > Actions</h1>
+            </div>
+
+            <div class="col-md-6 cr-navigation">
+
+                <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
+
+                <a
+                    class="cr-actions-profile-link"
+                    ng-bind-html="'nav.back-to-profile' | translate"
+                    href="#/household-profile">
+                </a>
+
+                <a class="cr-actions-register-link"
+                   ng-bind-html="'nav.to-identification' | translate"
+                   ng-click="openModal('household/account/registration')">
+                </a>
+            </div>
+
+        </div>
+
+        <div class="row cr-actions-content">
+
+            <div class="col-md-2 col-sm-4 col-xs-6 col-md-offset-1">
+                <cr-topic
+                    image="household/topics/topic_presence"
+                    view="$/angular/views/household/actions/topics/actions-presence.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-green"
+                    label="topic.presence.label"
+                    ></cr-topic>
+            </div>
+
+
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic_programs"
+                    view="$/angular/views/household/actions/topics/actions-programs.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-blue"
+                    label="topic.programs.label"
+                    ></cr-topic>
+            </div>
+
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic_heating"
+                    view="$/angular/views/household/actions/topics/actions-heating.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-red"
+                    label="topic.heating.label"
+                    ></cr-topic>
+            </div>
+
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <cr-topic
+                    active="true"
+                    image="household/topics/topic_lighting"
+                    view="$/angular/views/household/actions/topics/actions-lighting.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-orange"
+                    label="topic.lighting.label"
+                    ></cr-topic>
+            </div>
+
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <cr-topic
+                    image="household/topics/topic_dinner"
+                    view="$/angular/views/household/actions/topics/actions-dinner.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-magenta"
+                    label="topic.dinner.label"
+                    ></cr-topic>
+            </div>
+
+        </div>
+
+        <!-- TEMP -->
+        <button ng-click="save()">Save</button>
+
+    </div>
+</div>

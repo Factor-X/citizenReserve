@@ -166,6 +166,7 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3720,computeReductionForQuestionCode3720(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
 		reductionDetails.put(QuestionCode.Q3730,computeReductionForQuestionCode3730(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
 		reductionDetails.put(QuestionCode.Q3750,computeReductionForQuestionCode3750(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
+		reductionDetails.put(QuestionCode.Q3760,computeReductionForQuestionCode3760(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
 
 
 
@@ -446,6 +447,49 @@ public class CalculationServiceImpl implements CalculationService {
 
 		return result;
 	}
+
+	//specific for 3760
+	private List<ReductionDTO> computeReductionForQuestionCode3760(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		//
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+
+		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3760).get(Period.FIRST).getBooleanValue()) ) {
+				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+					// YES to 3730 and day is one of the repeat actions one
+					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
+					localResult.setFirstPeriodPowerReduction(ZERO);
+					localResult.setSecondPeriodPowerReduction(ZERO);
+					localResult.setThirdPeriodPowerReduction(ZERO);
+				} else {
+					//play.Logger.debug("DAY: " + day.name() + " set to value ");
+					localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2040).getFirstPeriodPowerReduction());
+					localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2040).getSecondPeriodPowerReduction());
+					localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2040).getThirdPeriodPowerReduction());
+				}
+			} else {
+				// NO to 3730
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
 
 
 

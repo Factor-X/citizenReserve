@@ -8,12 +8,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "accounts")
 @NamedQueries({
-        @NamedQuery(name = Account.FIND_BY_EMAIL, query = "where " + Account.COL_EMAIL + " = :" + Account.COL_EMAIL),
+        @NamedQuery(name = Account.FIND_BY_EMAIL, query = "where email = :" + Account.COL_EMAIL),
+        @NamedQuery(name = Account.FIND_BY_ID, query = "where id = :id"),
 })
 public class Account extends AbstractEntity {
 
     //request
     public static final String FIND_BY_EMAIL = "Account_FIND_BY_EMAIL";
+    public static final String FIND_BY_ID = "Account_FIND_BY_ID";
 
 
     //column

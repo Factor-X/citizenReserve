@@ -38,7 +38,7 @@ public class AccountDTO extends DTO {
     private String sensitizationKit;
 
     @NotNull
-    private String accoutType;
+    private String accountType;
 
     public AccountDTO() {
     }
@@ -92,22 +92,13 @@ public class AccountDTO extends DTO {
     }
 
 
-    @Override
-    public String toString() {
-        return "AccountDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+
+    public String getAccountType() {
+        return accountType;
     }
 
-    public String getAccoutType() {
-        return accoutType;
-    }
-
-    public void setAccoutType(String accoutType) {
-        this.accoutType = accoutType;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     public String getSensitizationKit() {
@@ -140,5 +131,16 @@ public class AccountDTO extends DTO {
 
     public void setOtherEmailAddresses(List<String> otherEmailAddresses) {
         this.otherEmailAddresses = otherEmailAddresses;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

@@ -28,9 +28,10 @@ object ApplicationBuild extends Build {
     "com.google.guava" % "guava" % "14.0",
     "org.postgresql" % "postgresql" % "9.3-1101-jdbc41",
     "de.neuland-bfi" % "jade4j" % "0.4.0",
-    "org.apache.commons" % "commons-lang3" % "3.1","com.liferay" % "org.apache.commons.fileupload" % "1.2.2.LIFERAY-PATCHED-1",
+    "org.apache.commons" % "commons-lang3" % "3.1", "com.liferay" % "org.apache.commons.fileupload" % "1.2.2.LIFERAY-PATCHED-1",
     "com.google.code.maven-play-plugin.com.github.yeungda.jcoffeescript" % "jcoffeescript" % "1.0",
-    "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2"
+    "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
+    "org.jasypt" % "jasypt" % "1.9.2"
   )
 
   lazy val angularCompileTask = TaskKey[Unit]("angular-compile", "Compile angular app")

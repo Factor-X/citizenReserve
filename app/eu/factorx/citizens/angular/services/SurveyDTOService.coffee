@@ -2,10 +2,28 @@
 angular
 .module('app.services')
 .service "surveyDTOService", ($rootScope, $modal) ->
+
     @surveyDTO = {
-        account: {}
+        account:{
+            id: 1
+        }
         answers: []
     }
+
+    @isAuthenticated = () ->
+        return (@surveyDTO.account.id? && @surveyDTO.account.id != null)
+
+    @logout = () ->
+        @surveyDTO = {
+            account:{
+                id: 1
+            }
+            answers: []
+        }
+
+    @hasAccountType = ()->
+        result = (@surveyDTO.account.accountType?)
+        return result
 
     # add the search answer function into DTO
     @getAnswers = (questionCode) ->

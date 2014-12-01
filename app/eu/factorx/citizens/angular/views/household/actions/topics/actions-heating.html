@@ -1,20 +1,20 @@
 <div class="modal-header">
-    <img class="cr-modal-title-icon" src="/assets/images/modal/topic01_title.png" alt=""/>
+    <img class="cr-modal-title-icon" src="/assets/images/modal/topic_heating_title.png" alt=""/>
     <img class="cr-modal-title-separator" src="/assets/images/modal/title_verticalSeparator.png" alt=""/>
-    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'topic.heat.label' | translate"></h3>
+    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'topic.heating.label' | translate"></h3>
 </div>
 <div class="modal-body">
 
 
-    <cr-question label="Q3310.label"  cr-conditionned="Q3310">
+    <cr-question label="Q3310.label"  cr-conditioned="Q3310">
         <cr-boolean ng-model="getAnswerValue('Q3310').booleanValue"></cr-boolean>
     </cr-question>
 
-    <cr-question label="Q3320.label" cr-conditionned="Q3320">
+    <cr-question label="Q3320.label" cr-conditioned="Q3320">
         <cr-boolean ng-model="getAnswerValue('Q3320').booleanValue"></cr-boolean>
     </cr-question>
 
-    <cr-question label="Q3330.label" cr-conditionned="Q3330">
+    <cr-question label="Q3330.label" cr-conditioned="Q3330">
         <cr-boolean ng-model="getAnswerValue('Q3330').booleanValue"></cr-boolean>
     </cr-question>
 
