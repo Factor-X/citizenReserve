@@ -3,29 +3,30 @@
 </div>
 <div class="modal-body">
 
+
     <!-- Q5110 generic.firstName -->
     <cr-question label="generic.firstName">
-        <cr-text ng-model="getAccount().firstName" ></cr-text>
+        <cr-text ng-model="getAccount().firstName" name="firstname"></cr-text>
     </cr-question>
 
     <!-- Q5120 generic.lastName -->
     <cr-question label="generic.lastName">
-        <cr-text ng-model="getAccount().lastName" ></cr-text>
+        <cr-text ng-model="getAccount().lastName" name="lastname"></cr-text>
     </cr-question>
 
     <!-- Q5130 generic.emailAddress -->
     <cr-question label="generic.emailAddress">
-        <cr-text ng-model="getAccount().email" ></cr-text>
+        <cr-text ng-model="getAccount().email" name="email"></cr-text>
     </cr-question>
 
     <!-- Q5140 generic.password -->
     <cr-question label="generic.password">
-        <cr-text ng-model="getAccount().password" ></cr-text>
+        <cr-text ng-model="getAccount().password" type="password" name="password"></cr-text>
     </cr-question>
 
     <!-- Q5150 generic.zip -->
     <cr-question label="generic.zip">
-        <cr-text ng-model="getAccount().zipCode" ></cr-text>
+        <cr-text ng-model="getAccount().zipCode" name="zip"></cr-text>
     </cr-question>
 
     <!-- Q5210 account.powerprovider.label -->
@@ -51,6 +52,11 @@
 
     <p ng-bind-html="'account.info.terms&conditions.label' | translate"></p>
 
+
+
 </div>
 <div class="modal-footer">
+
+    <button class="btn btn-primary" ng-click="save()" ng-bind-html="'generic.save' | translate"></button>
+    <p ng-show="errorMessage.length > 0">{{errorMessage}}</p>
 </div>

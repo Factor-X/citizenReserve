@@ -31,10 +31,10 @@
                 <h2 ng-bind-html="'welcome.login_message' | translate"></h2>
 
                 <cr-question label="generic.emailAddress">
-                    <cr-text ng-model="loginParams.email"></cr-text>
+                    <cr-text ng-model="loginParams.email" name="email"></cr-text>
                 </cr-question>
                 <cr-question label="generic.password">
-                    <cr-text ng-model="loginParams.password"></cr-text>
+                    <cr-text ng-model="loginParams.password" name="password" type="password"></cr-text>
                 </cr-question>
                 <br/>
                 <button class="btn btn-primary" ng-click="login()" ng-bind-html="'welcome.button.login' | translate"></button>
@@ -44,7 +44,7 @@
                 <p ng-bind-html="'welcome.forgot_password.desc' | translate"></p>
 
                 <cr-question label="generic.emailAddress">
-                    <cr-text ng-model="forgotPasswordParams.email"></cr-text>
+                    <cr-text ng-model="forgotPasswordParams.email"  name="email"></cr-text>
                 </cr-question>
                 <br/>
                 <button class="btn btn-primary" ng-click="forgotPassword()" ng-bind-html="'welcome.button.forgotPassword' | translate"></button>
