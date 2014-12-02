@@ -29,7 +29,7 @@ angular
             downloadService.postJson '/login', dto, (result)->
                 $scope.loading=false
                 if result.success
-                    surveyDTOService.surveyDTO = result.data
+                    surveyDTOService.login(result.data)
                     if result.data.account.accountType == 'household'
                        $scope.$root.redirectTo('/household-profile')
                     #TODO to complete
