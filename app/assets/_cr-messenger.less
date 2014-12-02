@@ -6,6 +6,31 @@
 
         &.message-error {
             color: #d22323;
+
+            .messenger-message-inner:before {
+                font-family: 'FontAwesome';
+                content: '\f00d';
+                font-size: 1.5em;
+                float: left;
+                display: inline-block;
+                width: 2em;
+                height: 2em;
+            }
+        }
+
+        &.message-success {
+            color: #229913;
+
+            .messenger-message-inner:before {
+                font-family: 'FontAwesome';
+                content: '\f00c';
+                font-size: 1.5em;
+                float: left;
+                display: inline-block;
+                width: 2em;
+                height: 2em;
+            }
+
         }
 
         &.message-info {
@@ -24,6 +49,17 @@
 
         &.message-warning {
             color: #ff7800;
+
+
+            .messenger-message-inner:before {
+                font-family: 'FontAwesome';
+                content: '\f071';
+                font-size: 1.5em;
+                float: left;
+                display: inline-block;
+                width: 2em;
+                height: 2em;
+            }
         }
 
         .messenger-close {

@@ -73,7 +73,7 @@ angular.module('app.controllers').config(function($routeProvider) {
   return;
 });
 Messenger.options = {
-  extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right cr-messenger',
+  extraClasses: 'messenger-fixed messenger-on-top messenger-on-center cr-messenger',
   theme: 'block'
 };angular.module('app.services').service("directiveService", function($sce) {
   this.autoScope = function(s) {
@@ -125,6 +125,32 @@ Messenger.options = {
     return s.html = function(v) {
       return $sce.trustAsHtml(v);
     };
+  };
+  return;
+});angular.module('app.services').service("$flash", function($filter) {
+  this.success = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'success'
+    });
+  };
+  this.info = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'info'
+    });
+  };
+  this.error = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'error'
+    });
+  };
+  this.warning = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'warning'
+    });
   };
   return;
 });angular.module('app.services').service("downloadService", function($http, $q, messageFlash) {
@@ -1649,7 +1675,7 @@ Messenger.options = {
   return $scope.isAuthenticated = function() {
     return surveyDTOService.isAuthenticated();
   };
-});angular.module('app.controllers').controller("ControlsDemoCtrl", function($scope, modalService, $log, gettextCatalog) {
+});angular.module('app.controllers').controller("ControlsDemoCtrl", function($scope, modalService, $log, gettextCatalog, $flash) {
   $scope.setLanguage = function(lang) {
     return gettextCatalog.setCurrentLanguage(lang);
   };
@@ -1792,7 +1818,11 @@ Messenger.options = {
         }
       });
       return modalInstance.result.then(function(result) {
-        return $log.info(result);
+        $log.info(result);
+        $flash.success('success');
+        $flash.info('info');
+        $flash.error('error');
+        return $flash.warning('warning');
       }, function() {
         $scope.x.sel = o;
         return $log.info('Modal dismissed at: ' + new Date());
