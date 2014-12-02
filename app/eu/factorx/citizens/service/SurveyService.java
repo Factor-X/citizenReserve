@@ -17,7 +17,7 @@ public interface SurveyService {
 
     List<Survey> findSurveysByAccount(Account account);
 
-    List<Survey> findAllSurveys();
+    int countSurveys();
 
     List<Answer> findAnswersByQuestionCode(QuestionCode questionCode);
 
