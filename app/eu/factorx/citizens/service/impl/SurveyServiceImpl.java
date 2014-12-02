@@ -53,8 +53,8 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<Survey> findAllSurveys() {
-        return Ebean.find(Survey.class).where().isNull(AbstractEntity.DELETION_DATE).findList();
+    public int countSurveys() {
+        return Ebean.find(Survey.class).where().isNull(AbstractEntity.DELETION_DATE).findRowCount();
     }
 
     @Override
