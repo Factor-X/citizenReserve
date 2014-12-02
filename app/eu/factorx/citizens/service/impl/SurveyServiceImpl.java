@@ -2,7 +2,10 @@ package eu.factorx.citizens.service.impl;
 
 import com.avaje.ebean.Ebean;
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.technical.AbstractEntity;
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 
@@ -46,6 +49,19 @@ public class SurveyServiceImpl implements SurveyService {
             return list.get(0);
         }
 
+        return null;
+    }
+
+    @Override
+    public List<Survey> findAllSurveys() {
+        return Ebean.find(Survey.class).where().isNull(AbstractEntity.DELETION_DATE).findList();
+    }
+
+    @Override
+    public List<Answer> findAnswersByQuestionCode(QuestionCode questionCode) {
+        Ebean.createNamedQuery(Answer.class, Answer.FIND_BY_QUESTION_CODE)
+                .setParameter(Answer.QUESTION_CODE, questionCode)
+                .findList();
         return null;
     }
 }

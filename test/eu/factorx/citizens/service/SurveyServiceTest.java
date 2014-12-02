@@ -2,6 +2,7 @@ package eu.factorx.citizens.service;
 
 import com.avaje.ebean.Ebean;
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.type.AccountType;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.survey.Survey;
@@ -44,4 +45,22 @@ public class SurveyServiceTest {
         Ebean.delete(foundSurvey);
     }
 
+    @Test
+    public void testFindAnswersByQuestionCode() throws Exception {
+        Survey survey = new Survey();
+        Account account = new Account(AccountType.HOUSEHOLD, "emailTest", "passwordTest", "firstNameTest", "lastNameTest", "zipCodeTest", "powerProviderTest");
+        survey.setAccount(account);
+
+        survey.addAnswer(QuestionCode.Q1300, null, 4d);
+        surveyService.saveSurvey(survey);
+
+        List<Answer> answers = surveyService.findAnswersByQuestionCode(QuestionCode.Q1300);
+        Assert.assertEquals(1, answers.size());
+
+        survey.markAsDeleted();
+        surveyService.saveSurvey();
+
+
+
+    }
 }

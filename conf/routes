@@ -17,3 +17,6 @@ POST        /registration          @eu.factorx.citizens.controllers.AccountContr
 GET         /authenticated         @eu.factorx.citizens.controllers.AccountController.testAuthentication()
 POST        /forgotPassword        @eu.factorx.citizens.controllers.AccountController.forgotPassword()
 POST        /logout                @eu.factorx.citizens.controllers.AccountController.logout()
+
+# Stats
+GET         /stats/nb_participants  @eu.factorx.citizens.controllers.SurveyController.getParticipantsNumber()

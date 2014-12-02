@@ -12,7 +12,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class AbstractEntity extends Model implements Comparator<AbstractEntity> {
 
-    public static final String DELETATION_DATE = "deletionDate";
+    public static final String DELETION_DATE = "deletionDate";
     @Id
 	@GeneratedValue
 	protected Long id;
