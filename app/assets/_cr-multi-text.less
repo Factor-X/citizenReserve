@@ -1,0 +1,22 @@
+
+.cr-multi-text {
+    .cr-multi-text-input {
+        min-width: 100%;
+        max-width: 100%;
+        width: 100%;
+
+        &:not(:first-of-type) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        &:not(:last-of-type) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &.cr-multi-text-input-empty:not(:focus) {
+            background: #eee;
+        }
+    }
+}

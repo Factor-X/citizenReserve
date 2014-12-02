@@ -10,6 +10,8 @@ import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 
+import java.util.Date;
+
 /**
  * Created by florian on 27/11/14.
  */
@@ -19,6 +21,15 @@ public class SurveyController extends AbstractController {
     private SurveyService surveyService = new SurveyServiceImpl();
 
     /*package*/ void saveSurvey(SurveyDTO dto, Account account) {
+
+        //delete the last survey
+        Survey lastValidSurvey = surveyService.findValidSurveyByAccount(account);
+
+        if(lastValidSurvey!=null){
+            lastValidSurvey.setDeletionDate(new Date());
+
+            surveyService.saveSurvey(lastValidSurvey);
+        }
 
         Survey survey = new Survey(account);
 

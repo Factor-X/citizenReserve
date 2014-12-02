@@ -1,0 +1,9 @@
+<div class="cr-multi-text">
+
+    <input ng-repeat="i in getRange()"
+           type="text"
+           class="form-control cr-multi-text-input"
+           ng-class="{'cr-multi-text-input-empty': !ngModel[i]}"
+           ng-model="ngModel[i]"/>
+
+</div>

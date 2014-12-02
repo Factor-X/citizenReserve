@@ -5,6 +5,7 @@ import play.data.validation.Constraints;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountDTO extends DTO {
@@ -32,7 +33,7 @@ public class AccountDTO extends DTO {
     @NotNull
     private String powerComsumerCategory;
 
-    private List<String> otherEmailAddresses;
+    private List<String> otherEmailAddresses = new ArrayList<>();
 
     @NotNull
     private String sensitizationKit;

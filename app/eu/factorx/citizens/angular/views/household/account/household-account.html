@@ -98,7 +98,10 @@
                                ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
                 </cr-question>
 
-                <!-- TODO Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+                <!-- Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+                <cr-question label="account.otheremails.label">
+                    <cr-multi-text ng-model="getAccount().otherEmailAddresses"></cr-multi-text>
+                </cr-question>
 
                 <!-- agreement -->
                 <cr-question label="account.info.terms&conditions.label">

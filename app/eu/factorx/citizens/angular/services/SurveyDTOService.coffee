@@ -4,7 +4,9 @@ angular
 .service "surveyDTOService", ($rootScope, $modal) ->
 
     @surveyDTO = {
-        account:{}
+        account:{
+            otherEmailAddresses:[]
+        }
         answers: []
     }
 
@@ -16,7 +18,9 @@ angular
 
     @logout = () ->
         @surveyDTO = {
-            account:{}
+            account:{
+                otherEmailAddresses:[]
+            }
             answers: []
         }
 

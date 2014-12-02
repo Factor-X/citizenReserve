@@ -57,7 +57,7 @@ angular
 
     $scope.o = {
         errorMessage:""
-        repeatPassword:""
+        repeatPassword:$scope.getAccount().password
         acceptAgreement:false
     }
 
@@ -65,6 +65,8 @@ angular
         $scope.noSubmitYet=false
         if $scope.checkValidity()
             $scope.loading=true
+            console.log "je save ce dto : "
+            console.log surveyDTOService.surveyDTO
             downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
                 $scope.loading=false
                 if result.success

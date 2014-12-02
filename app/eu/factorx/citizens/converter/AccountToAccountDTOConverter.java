@@ -25,7 +25,7 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
         dto.setZipCode(account.getZipCode());
 
         //add fake password
-        dto.setPassword("********");
+        dto.setPassword("------");
 
         dto.setPowerProvider(account.getPowerProvider());
         dto.setPowerComsumerCategory(account.getPowerComsumerCategory());
