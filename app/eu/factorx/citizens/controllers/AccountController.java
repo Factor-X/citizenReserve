@@ -36,6 +36,32 @@ public class AccountController extends AbstractController {
 
     @Transactional
     @Security.Authenticated(SecuredController.class)
+    public Result changeEmail() {
+
+        ChangeEmailDTO dto = extractDTOFromRequest(ChangeEmailDTO.class);
+
+        Account account = securedController.getCurrentUser();
+
+        //control password
+        if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
+            throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
+        }
+
+        //add password
+        account.setEmail(dto.getEmail());
+
+        //save
+        accountService.saveOrUpdate(account);
+
+        //update context
+        securedController.storeIdentifier(account);
+
+        //return
+        return ok(new ResultDTO());
+    }
+
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
     public Result changePassword() {
 
         ChangePasswordDTO dto = extractDTOFromRequest(ChangePasswordDTO.class);

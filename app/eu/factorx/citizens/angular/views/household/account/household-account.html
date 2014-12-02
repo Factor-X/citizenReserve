@@ -47,9 +47,14 @@
                 <!-- Q5130 generic.emailAddress -->
                 <cr-question label="generic.emailAddress">
                     <cr-text ng-model="getAccount().email" name="email"
-                             ng-validation="validation.emailAddress"></cr-text>
+                             ng-validation="validation.emailAddress"
+                             ng-disabled="isAuthenticated() == true"></cr-text>
                     <p class="cr-error" ng-show="validation.emailAddress.valid == false && noSubmitYet == false">
                         {{'account.errorMessage.emailAddress' | translate}}</p>
+                    <button class="btn btn-primary"
+                            ng-show="isAuthenticated() == true"
+                            ng-bind-html="'account.button.changeEmail' | translate"
+                            ng-click="openModal('household/account/account-change-email','ModalChangeEmailCtrl')"></button>
                 </cr-question>
 
                 <!-- Q5140 generic.password -->

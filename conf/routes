@@ -18,6 +18,7 @@ GET         /authenticated                 @eu.factorx.citizens.controllers.Acco
 POST        /forgotPassword                @eu.factorx.citizens.controllers.AccountController.forgotPassword()
 POST        /logout                        @eu.factorx.citizens.controllers.AccountController.logout()
 POST        /account/changePassword        @eu.factorx.citizens.controllers.AccountController.changePassword()
+POST        /account/changeEmail           @eu.factorx.citizens.controllers.AccountController.changeEmail()
 
 #calulation routes
 #GET         /effective             @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
