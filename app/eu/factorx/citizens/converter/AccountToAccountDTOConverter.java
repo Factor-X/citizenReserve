@@ -4,7 +4,6 @@ import eu.factorx.citizens.dto.AccountDTO;
 import eu.factorx.citizens.model.account.Account;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -31,7 +30,7 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
             dto.setOtherEmailAddresses(Arrays.asList(StringUtils.split(account.getOtherEmailAdresses(), ";")));
         }
         dto.setSensitizationKit(account.getSensitizationKit());
-        dto.setAccoutType(account.getAccountType().getString());
+        dto.setAccountType(account.getAccountType().getString());
 
 		return dto;
 	}

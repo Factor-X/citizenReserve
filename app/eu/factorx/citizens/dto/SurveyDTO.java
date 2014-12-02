@@ -29,5 +29,11 @@ public class SurveyDTO extends DTO {
 		this.answers = answers;
 	}
 
-
+    @Override
+    public String toString() {
+        return "SurveyDTO{" +
+                "account=" + account +
+                ", answers=" + answers +
+                '}';
+    }
 }

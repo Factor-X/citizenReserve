@@ -1,9 +1,50 @@
 angular
 .module('app.controllers')
-.controller "WelcomeCtrl", ($scope, modalService, $log,$location,surveyDTOService) ->
+.controller "WelcomeCtrl", ($scope, modalService, $log,$location,surveyDTOService,downloadService) ->
 
     $scope.toHouseHold = ->
-        surveyDTOService.getAccount().accoutType = 'household'
+        surveyDTOService.getAccount().accountType = 'household'
         $scope.$root.redirectTo('/household-profile')
+
+
+    $scope.loginParams={
+        email:""
+        password:""
+    }
+
+    $scope.forgotPasswordParams={
+        email:""
+    }
+
+    $scope.loading=false
+
+    $scope.login = ->
+        if $scope.loading==false
+            dto =
+                email: $scope.loginParams.email
+                password: $scope.loginParams.password
+
+            $scope.loading=true
+
+            downloadService.postJson '/login', dto, (result)->
+                $scope.loading=false
+                if result.success
+                    surveyDTOService.surveyDTO = result.data
+                    if result.data.account.accountType == 'household'
+                       $scope.$root.redirectTo('/household-profile')
+                    #TODO to complete
+
+    $scope.forgotPassword =->
+        if $scope.loading==false
+            dto =
+                email: $scope.forgotPasswordParams.email
+
+            $scope.loading=true
+
+            downloadService.postJson '/forgotPassword', dto, (result)->
+                $scope.loading=false
+                if result.success
+                    #TODO display success message
+                    $scope.forgotPasswordParams.email=null
 
 

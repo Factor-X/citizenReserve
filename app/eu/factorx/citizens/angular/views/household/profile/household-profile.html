@@ -5,23 +5,24 @@
         <div class="row cr-profile-header">
 
             <div class="col-md-6">
-                <h1>Ménage > Profil de consommation</h1>
+                <h1 class="cr-profile-title">Ménage > Profil de consommation</h1>
             </div>
 
             <div class="col-md-6 cr-navigation">
-                <button ng-click="load()"> Login</button>
 
-                <button ng-bind-html="'nav.to-actions' | translate"
-                        ng-click="$root.redirectTo('/household-actions')">
-                </button>
+                <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
+
+                <a class="cr-profile-actions-link"
+                   ng-bind-html="'nav.to-actions' | translate"
+                   href="#/household-actions">
+                </a>
             </div>
 
         </div>
 
         <div class="row cr-profile-content">
 
-            <div class="col-md-1">&nbsp;</div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
+            <div class="col-md-2 col-sm-4 col-xs-6 col-md-offset-1">
                 <cr-topic
                         image="household/topics/topic_presence"
                         view="$/angular/views/household/profile/topics/profile-presence.html"
@@ -76,7 +77,6 @@
                         active="{{ isTopicCompleted('dinner') }}"
                         ></cr-topic>
             </div>
-            <div class="col-md-1">&nbsp;</div>
 
         </div>
     </div>
