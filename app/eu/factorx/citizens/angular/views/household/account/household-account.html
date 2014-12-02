@@ -1,0 +1,124 @@
+<div class="cr-account">
+    <div class="container">
+
+        <div class="row cr-actions-header">
+
+            <div class="col-md-6">
+                <h1 class="cr-actions-title">Ménage > Account</h1>
+            </div>
+
+            <div class="col-md-6 cr-navigation">
+
+                <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
+
+                <a
+                        class="cr-actions-profile-link"
+                        ng-bind-html="'nav.back-to-action' | translate"
+                        href="#/household-actions">
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+
+
+                <!-- Q5110 generic.firstName -->
+                <cr-question label="generic.firstName">
+                    <cr-text ng-model="getAccount().firstName" name="firstname"
+                             ng-validation="validation.firstName"></cr-text>
+                    <p class="cr-error" ng-show="validation.firstName.valid == false && noSubmitYet == false">
+                        {{'account.errorMessage.firstName' | translate}}</p>
+                </cr-question>
+
+                <!-- Q5120 generic.lastName -->
+                <cr-question label="generic.lastName">
+                    <cr-text ng-model="getAccount().lastName" name="lastname"
+                             ng-validation="validation.lastName"></cr-text>
+                    <p class="cr-error" ng-show="validation.lastName.valid == false && noSubmitYet == false">
+                        {{'account.errorMessage.lastName' | translate}}</p>
+                </cr-question>
+
+                <!-- Q5130 generic.emailAddress -->
+                <cr-question label="generic.emailAddress">
+                    <cr-text ng-model="getAccount().email" name="email"
+                             ng-validation="validation.emailAddress"></cr-text>
+                    <p class="cr-error" ng-show="validation.emailAddress.valid == false && noSubmitYet == false">
+                        {{'account.errorMessage.emailAddress' | translate}}</p>
+                </cr-question>
+
+                <!-- Q5140 generic.password -->
+                <cr-question label="generic.password">
+                    <cr-text ng-model="getAccount().password" type="password" name="password"
+                             ng-validation="validation.password"
+                             ng-disabled="isAuthenticated() == true"></cr-text>
+                    <p class="cr-error" ng-show="validation.password.valid == false && noSubmitYet == false">
+                        {{'account.errorMessage.password' | translate}}</p>
+                    <button class="btn btn-primary"
+                            ng-show="isAuthenticated() == true"
+                            ng-bind-html="'account.button.changePassword' | translate"
+                            ng-click="openModal('household/account/account-change-password','ModalChangePasswordCtrl')"></button>
+                </cr-question>
+
+                <!-- repeat password -->
+                <cr-question label="account.info.repeatPassword"
+                             ng-hide="isAuthenticated() == true">
+                    <cr-text ng-model="o.repeatPassword" type="password" name="password"
+                             ng-validation="validation.repeatPassword"></cr-text>
+                    <p class="cr-error" ng-show="validation.repeatPassword.valid == false && noSubmitYet == false">
+                        {{'account.errorMessage.repeatPassword' | translate}}</p>
+                </cr-question>
+
+                <!-- Q5150 generic.zip -->
+                <cr-question label="generic.zip">
+                    <cr-text ng-model="getAccount().zipCode" name="zip" ng-validation="validation.zip"></cr-text>
+                    <p class="cr-error" ng-show="validation.zip.valid == false && noSubmitYet == false">
+                        {{'account.errorMessage.zip' | translate}}</p>
+                </cr-question>
+
+                <!-- Q5210 account.powerprovider.label -->
+                <cr-question label="account.powerprovider.label">
+                    <cr-slider ng-steps="getOptions('Q5210')" ng-model="getAccount().powerProvider"
+                               vertical="true"></cr-slider>
+                </cr-question>
+
+                <!-- Q5220 account.powerconsumercategory.labe -->
+                <cr-question label="account.powerconsumercategory.label">
+                    <cr-slider ng-steps="getOptions('powerconsumercategory')"
+                               ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
+                </cr-question>
+
+                <!-- TODO Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+
+                <!-- agreement -->
+                <cr-question label="account.info.terms&conditions.label">
+                    <button class="btn btn-primary"
+                            ng-bind-html="'account.info.term.button.consult' | translate"
+                            ng-click="openModal('household/terms')">
+                    </button>
+                    <cr-boolean ng-model="validation.terms.valid"></cr-boolean>
+                </cr-question>
+                <p class="cr-error" ng-show="validation.terms.valid == false && noSubmitYet == false">
+                    {{'account.errorMessage.terms' | translate}}</p>
+
+                <!-- advertisemnt -->
+                <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
+
+
+                <button class="btn btn-primary" ng-disabled="loading == true" ng-click="save()" ng-bind-html="'generic.save' | translate"></button>
+                <img ng-show="loading == true" ng-src="/assets/images/modal-loading.gif" />
+            </div>
+
+            <div class="col-md-2">
+            </div>
+        </div>
+        <div class="row cr-actions-footer">
+        </div>
+
+    </div>
+</div>

@@ -183,4 +183,20 @@ public class Account extends AbstractEntity {
         result = 31 * result + (sensitizationKit != null ? sensitizationKit.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +super.toString()+
+                "accountType=" + accountType +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", powerProvider='" + powerProvider + '\'' +
+                ", powerComsumerCategory='" + powerComsumerCategory + '\'' +
+                ", otherEmailAdresses='" + otherEmailAdresses + '\'' +
+                ", sensitizationKit='" + sensitizationKit + '\'' +
+                '}';
+    }
 }

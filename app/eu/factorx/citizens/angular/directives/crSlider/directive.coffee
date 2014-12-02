@@ -123,11 +123,11 @@ angular
             scope.updateComputedOptionsFiltered()
 
         $(elem).mouseenter () ->
-            $scroller = $(".cr-slider-not-null-box", this)
+            $scroller = $(".cr-slider-not-null-box-holder", this)
             $scroller.stop(true)
 
         $(elem).mouseleave () ->
-            $scroller = $(".cr-slider-not-null-box", this)
+            $scroller = $(".cr-slider-not-null-box-holder", this)
             w = $scroller[0].scrollWidth
             idx = -1
             for o in scope.computedOptions

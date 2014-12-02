@@ -27,6 +27,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account saveOrUpdate(Account account) {
+
         boolean edit = true;
         if (account.getId() == null) {
             Account existingAccount = findByEmail(account.getEmail());
@@ -39,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
             account.setPassword(generateEncryptingPassword(account.getPassword()));
         }
         if (edit) {
-            account.refresh();
+            account.update();
         } else {
             account.save();
         }

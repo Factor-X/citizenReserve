@@ -4,20 +4,19 @@ angular
 .service "surveyDTOService", ($rootScope, $modal) ->
 
     @surveyDTO = {
-        account:{
-            id: 1
-        }
+        account:{}
         answers: []
     }
+
+    @login = (surveyDTO) ->
+        @surveyDTO = surveyDTO
 
     @isAuthenticated = () ->
         return (@surveyDTO.account.id? && @surveyDTO.account.id != null)
 
     @logout = () ->
         @surveyDTO = {
-            account:{
-                id: 1
-            }
+            account:{}
             answers: []
         }
 
