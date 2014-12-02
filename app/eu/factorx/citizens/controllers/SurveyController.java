@@ -14,6 +14,8 @@ import play.mvc.Result;
 
 import java.util.List;
 
+import java.util.Date;
+
 /**
  * Created by florian on 27/11/14.
  */
@@ -23,6 +25,15 @@ public class SurveyController extends AbstractController {
     private SurveyService surveyService = new SurveyServiceImpl();
 
     /*package*/ void saveSurvey(SurveyDTO dto, Account account) {
+
+        //delete the last survey
+        Survey lastValidSurvey = surveyService.findValidSurveyByAccount(account);
+
+        if(lastValidSurvey!=null){
+            lastValidSurvey.setDeletionDate(new Date());
+
+            surveyService.saveSurvey(lastValidSurvey);
+        }
 
         Survey survey = new Survey(account);
 
@@ -52,14 +63,14 @@ public class SurveyController extends AbstractController {
 
     @Transactional
     public Result getParticipantsNumber() {
-        List<Survey> allSurveys = surveyService.findAllSurveys();
-        for (Survey survey : allSurveys) {
-            survey.getAnswers()
-        }
-        int nbParticipants = 0;
-        for (Survey survey : allSurveys) {
-            survey.getAnswers();
-        }
+//        List<Survey> allSurveys = surveyService.findAllSurveys();
+//        for (Survey survey : allSurveys) {
+//            survey.getAnswers()
+//        }
+//        int nbParticipants = 0;
+//        for (Survey survey : allSurveys) {
+//            survey.getAnswers();
+//        }
         return ok("54");
     }
 

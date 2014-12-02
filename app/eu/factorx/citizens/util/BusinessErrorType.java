@@ -8,5 +8,6 @@ public enum BusinessErrorType {
     CONVERSION_DTO_ERROR, // fatal error during data transmission
     WRONG_CREDENTIALS, // worng email and / or password
     EMAIL_DOESNT_EXIT, //this email doesn't exist => used for 'forgot password'
+    WRONG_OLD_PASSWORD, //The old password is wrong
     NOT_CONNECTED // you are not connected => wrong authentication
 }

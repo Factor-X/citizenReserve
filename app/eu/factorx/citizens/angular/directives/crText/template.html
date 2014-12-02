@@ -1,15 +1,17 @@
 <div class="cr-text" ng-switch="getMultiline() == 'true'">
 
     <textarea
-        ng-switch-when="true"
-        ng-attr-name="{{ getName() }}"
-        class="form-control cr-text-textarea"
-        ng-model="$parent.ngModel"></textarea>
+            ng-switch-when="true"
+            ng-attr-name="{{ getName() }}"
+            class="form-control cr-text-textarea"
+            ng-model="$parent.ngModel"
+            ng-disabled="getDisabled() == true"></textarea>
 
     <input
-        ng-switch-default
-        ng-attr-name="{{ getName() }}"
-        class="form-control cr-text-input"
-        ng-model="$parent.ngModel"/>
+            ng-switch-default
+            ng-attr-name="{{ getName() }}"
+            class="form-control cr-text-input"
+            ng-model="$parent.ngModel"
+            ng-disabled="getDisabled() == true"/>
 
 </div>

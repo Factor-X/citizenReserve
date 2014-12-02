@@ -24,6 +24,9 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
 		dto.setEmail(account.getEmail());
         dto.setZipCode(account.getZipCode());
 
+        //add fake password
+        dto.setPassword("------");
+
         dto.setPowerProvider(account.getPowerProvider());
         dto.setPowerComsumerCategory(account.getPowerComsumerCategory());
         if(account.getOtherEmailAdresses()!=null) {

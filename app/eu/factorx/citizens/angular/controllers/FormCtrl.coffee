@@ -30,10 +30,10 @@ angular
         surveyDTOService.isAuthenticated()
 
 
-    $scope.openModal = (target) ->
+    $scope.openModal = (target, controller = 'ModalTopicCtrl') ->
         modalInstance = modalService.open({
             templateUrl: '$/angular/views/' + target + '.html',
-            controller: 'ModalTopicCtrl',
+            controller: controller,
             size: 'lg'
         })
 
@@ -50,3 +50,10 @@ angular
             if !$scope.isQuestionAnswered(questionKey)
                 return false
         return true
+
+    $scope.getPotentialReduction = ->
+        downloadService.getJson '/logout', surveyDTOService.surveyDTO, (result) ->
+            if result.success
+                $location.path('/welcome')
+                surveyDTOService.logout()
+        surveyDTOService.surveyDTO

@@ -59,9 +59,8 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public List<Answer> findAnswersByQuestionCode(QuestionCode questionCode) {
-        Ebean.createNamedQuery(Answer.class, Answer.FIND_BY_QUESTION_CODE)
+        return Ebean.createNamedQuery(Answer.class, Answer.FIND_BY_QUESTION_CODE)
                 .setParameter(Answer.QUESTION_CODE, questionCode)
                 .findList();
-        return null;
     }
 }

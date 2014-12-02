@@ -34,6 +34,54 @@ public class AccountController extends AbstractController {
     private SurveyController surveyController = new SurveyController();
     private SecuredController securedController = new SecuredController();
 
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result changeEmail() {
+
+        ChangeEmailDTO dto = extractDTOFromRequest(ChangeEmailDTO.class);
+
+        Account account = securedController.getCurrentUser();
+
+        //control password
+        if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
+            throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
+        }
+
+        //add password
+        account.setEmail(dto.getEmail());
+
+        //save
+        accountService.saveOrUpdate(account);
+
+        //update context
+        securedController.storeIdentifier(account);
+
+        //return
+        return ok(new ResultDTO());
+    }
+
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result changePassword() {
+
+        ChangePasswordDTO dto = extractDTOFromRequest(ChangePasswordDTO.class);
+
+        Account account = securedController.getCurrentUser();
+
+        //control password
+        if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
+            throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
+        }
+
+        //add password
+        account.setPassword(dto.getNewPassword());
+
+        //save
+        accountService.saveOrUpdate(account);
+
+        //return
+        return ok(new ResultDTO());
+    }
 
 
     /**
@@ -89,7 +137,7 @@ public class AccountController extends AbstractController {
     }
 
     @Transactional
-    public Result forgotPassword(){
+    public Result forgotPassword() {
 
         ForgotPasswordDTO dto = extractDTOFromRequest(ForgotPasswordDTO.class);
 
@@ -97,7 +145,7 @@ public class AccountController extends AbstractController {
         //load account by email
         Account account = accountService.findByEmail(dto.getEmail());
 
-        if(account==null){
+        if (account == null) {
             throw new MyRuntimeException(BusinessErrorType.EMAIL_DOESNT_EXIT);
         }
 
@@ -126,7 +174,7 @@ public class AccountController extends AbstractController {
 
         SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
 
-        if(dto.getAccount().getId()!=null){
+        if (dto.getAccount().getId() != null) {
             return updateAccountAndSaveData();
         }
 
@@ -176,7 +224,7 @@ public class AccountController extends AbstractController {
 
     private Result updateAccountAndSaveData() {
 
-        if(!securedController.isAuthenticated()){
+        if (!securedController.isAuthenticated()) {
             return securedController.onUnauthorized(ctx());
         }
 

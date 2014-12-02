@@ -32,6 +32,7 @@ defaultResolve =
     testConnection: ($http, $rootScope, $location, downloadService,surveyDTOService) ->
         # if the current user is null...
         if not surveyDTOService.hasAccountType()
+            console.log "je nai pas daccount type : "+surveyDTOService.surveyDTO
             downloadService.getJson '/authenticated',(result) ->
                 if result.success
                     surveyDTOService.surveyDTO = result.data
@@ -77,6 +78,15 @@ angular
             }, defaultResolve)
         }
     )
+    .when('/household-account', {
+            templateUrl: '$/angular/views/household/account/household-account.html'
+            controller: 'RegistrationCtrl'
+            resolve: angular.extend({
+                topic: ($route) ->
+                    return $route.current.params.topic
+            }, defaultResolve)
+        }
+    )
     .when('/controls-demo', {
             templateUrl: '$/angular/views/test/controls-demo.html'
             controller: 'ControlsDemoCtrl'
@@ -84,3 +94,9 @@ angular
     )
     .otherwise({ redirectTo: '/welcome' })
     return
+
+
+Messenger.options = {
+    extraClasses : 'messenger-fixed messenger-on-bottom messenger-on-right cr-messenger',
+    theme : 'block'
+}
