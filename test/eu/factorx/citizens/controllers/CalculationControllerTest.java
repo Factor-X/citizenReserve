@@ -1,24 +1,18 @@
-package eu.factorx.citizens.controller;
+package eu.factorx.citizens.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import eu.factorx.citizens.controllers.routes;
 import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 
 import play.Logger;
 import play.libs.Json;
@@ -26,8 +20,6 @@ import play.mvc.Result;
 import play.test.FakeRequest;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import org.junit.Test;
 
 
 public class CalculationControllerTest {
