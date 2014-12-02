@@ -98,6 +98,6 @@ angular
 
 
 Messenger.options = {
-    extraClasses : 'messenger-fixed messenger-on-bottom messenger-on-right cr-messenger',
+    extraClasses : 'messenger-fixed messenger-on-top messenger-on-center cr-messenger',
     theme : 'block'
 }
