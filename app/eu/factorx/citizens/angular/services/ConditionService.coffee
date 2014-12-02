@@ -15,6 +15,12 @@ angular
             return false
         return answerValue != stringValue
 
+    testAnswerEquals = (questionKey, periodKey, stringValue) ->
+        answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).stringValue
+        if (answerValue == null)
+            return false
+        return answerValue == stringValue
+
     testAnyAnswerNotEquals = (questionKey, stringValue) ->
         for periodKey in ["FIRST", "SECOND", "THIRD"]
             if testAnswerNotEquals(questionKey, periodKey, stringValue)
@@ -137,5 +143,16 @@ angular
                 resetAnswerValues(surveyDTOService.getAnswers(questionKey))
             return res
         return true
+
+
+    tooltips =
+        Q1400: ->
+            if testAnswerEquals('Q1400', null, '5')
+                return 'Q1400.option5.warning'
+            return null
+
+    @getTooltip = (questionKey) ->
+        return tooltips[questionKey]
+
 
     return
