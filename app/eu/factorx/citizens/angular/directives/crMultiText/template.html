@@ -1,9 +1,7 @@
 <div class="cr-multi-text">
-
-    <input ng-repeat="i in getRange()"
+    <input ng-repeat="i in getRange() track by $index"
            type="text"
            class="form-control cr-multi-text-input"
-           ng-class="{'cr-multi-text-input-empty': !ngModel[i]}"
-           ng-model="ngModel[i]"/>
-
+           ng-class="{'cr-multi-text-input-empty': !ngModel[$index], 'cr-multi-text-input-invalid': !validation[$index] }"
+           ng-model="ngModel[$index]"/>
 </div>

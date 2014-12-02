@@ -2,16 +2,16 @@
 
     <textarea
             ng-switch-when="true"
-            ng-attr-name="{{ getName() }}"
+            ng-attr-name="{{ $parent.getName() }}"
             class="form-control cr-text-textarea"
             ng-model="$parent.ngModel"
             ng-disabled="getDisabled() == true"></textarea>
 
     <input
             ng-switch-default
-            ng-attr-name="{{ getName() }}"
+            ng-attr-name="{{ $parent.getName() }}"
             class="form-control cr-text-input"
             ng-model="$parent.ngModel"
-            ng-disabled="getDisabled() == true"/>
+            ng-disabled="$parent.getDisabled() == true"/>
 
 </div>

@@ -90,6 +90,7 @@ angular
     .when('/controls-demo', {
             templateUrl: '$/angular/views/test/controls-demo.html'
             controller: 'ControlsDemoCtrl'
+            resolve: {}
         }
     )
     .otherwise({ redirectTo: '/welcome' })
