@@ -7,26 +7,37 @@
     <!-- Q5110 generic.firstName -->
     <cr-question label="generic.firstName">
         <cr-text ng-model="getAccount().firstName" name="firstname"></cr-text>
+        <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.firstName | translate}}</p>
     </cr-question>
 
     <!-- Q5120 generic.lastName -->
     <cr-question label="generic.lastName">
         <cr-text ng-model="getAccount().lastName" name="lastname"></cr-text>
+        <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.lastName}}</p>
     </cr-question>
 
     <!-- Q5130 generic.emailAddress -->
     <cr-question label="generic.emailAddress">
         <cr-text ng-model="getAccount().email" name="email"></cr-text>
+        <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.emailAddress}}</p>
     </cr-question>
 
     <!-- Q5140 generic.password -->
     <cr-question label="generic.password">
         <cr-text ng-model="getAccount().password" type="password" name="password"></cr-text>
+        <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.password}}</p>
+    </cr-question>
+
+    <!-- repeat password -->
+    <cr-question label="account.info.repeatPassword">
+        <cr-text ng-model="o.repeatPassword" type="password" name="password"></cr-text>
+        <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.repeatPassword}}</p>
     </cr-question>
 
     <!-- Q5150 generic.zip -->
     <cr-question label="generic.zip">
         <cr-text ng-model="getAccount().zipCode" name="zip"></cr-text>
+        <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.zip}}</p>
     </cr-question>
 
     <!-- Q5210 account.powerprovider.label -->
@@ -39,18 +50,21 @@
         <cr-slider ng-steps="getOptions('powerconsumercategory')" ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
     </cr-question>
 
-    <!--Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+    <!-- TODO Q5310  account.otheremails.label DTO : otherEmailAddresses -->
 
     <!-- Q5410 account.powerconsumercategory.labe -->
     <cr-question label="account.info.summaryemail.label">
         <cr-slider ng-steps="getOptions('sensitizationkit')" ng-model="getAccount().sensitizationKit" vertical="true"></cr-slider>
     </cr-question>
 
+    <!-- TODO agreement -->
+    <p ng-bind-html="'account.info.terms&conditions.label' | translate"></p>
+    <p ng-hide="validation.firstName == true || noSubmitYet == true">{{account.errorMessage.terms}}</p>
+
     <!-- advertisemnt -->
     <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
 
 
-    <p ng-bind-html="'account.info.terms&conditions.label' | translate"></p>
 
 
 
@@ -58,5 +72,5 @@
 <div class="modal-footer">
 
     <button class="btn btn-primary" ng-click="save()" ng-bind-html="'generic.save' | translate"></button>
-    <p ng-show="errorMessage.length > 0">{{errorMessage}}</p>
+    <p ng-show="o.errorMessage.length > 0">{{o.errorMessage}}</p>
 </div>

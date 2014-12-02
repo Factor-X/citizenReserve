@@ -11,10 +11,10 @@ public class AccountDTO extends DTO {
 
     private Long id;
 
-    @Size(min = 2,max = 30)
+    @Size(min = 2,max = 100)
     private String firstName;
 
-    @Size(min = 2,max = 30)
+    @Size(min = 2,max = 100)
     private String lastName;
 
     @Constraints.Email
