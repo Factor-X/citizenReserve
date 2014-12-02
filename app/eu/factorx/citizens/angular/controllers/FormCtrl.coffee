@@ -50,3 +50,15 @@ angular
             if !$scope.isQuestionAnswered(questionKey)
                 return false
         return true
+
+    $scope.potentialReduction = {}
+
+    $scope.getPotentialReduction = ->
+        downloadService.postJson '/reduction/potential', surveyDTOService.surveyDTO, (result) ->
+            if result.success
+                $scope.potentialReduction = result.data
+            else
+                console.log(result.data)
+
+
+    $scope.getPotentialReduction()

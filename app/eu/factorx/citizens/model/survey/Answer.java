@@ -9,7 +9,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "answers")
+@NamedQueries({
+        @NamedQuery(name = Answer.FIND_BY_QUESTION_CODE, query = "where questionCode = :questionCode and survey.deletionDate is null"),
+})
 public class Answer extends AbstractEntity {
+
+    public static final String QUESTION_CODE = "questionCode";
+
+    public static final String FIND_BY_QUESTION_CODE = "Answer.findByQuestionCode";
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Survey survey;

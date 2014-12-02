@@ -1,7 +1,9 @@
 package eu.factorx.citizens.service;
 
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.type.QuestionCode;
 
 import java.util.List;
 
@@ -14,5 +16,9 @@ public interface SurveyService {
     Survey findValidSurveyByAccount(Account account);
 
     List<Survey> findSurveysByAccount(Account account);
+
+    List<Survey> findAllSurveys();
+
+    List<Answer> findAnswersByQuestionCode(QuestionCode questionCode);
 
 }

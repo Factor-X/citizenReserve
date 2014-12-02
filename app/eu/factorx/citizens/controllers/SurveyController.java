@@ -9,6 +9,10 @@ import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import play.db.ebean.Transactional;
+import play.mvc.Result;
+
+import java.util.List;
 
 import java.util.Date;
 
@@ -55,4 +59,20 @@ public class SurveyController extends AbstractController {
 
         surveyService.saveSurvey(survey);
     }
+
+
+    @Transactional
+    public Result getParticipantsNumber() {
+//        List<Survey> allSurveys = surveyService.findAllSurveys();
+//        for (Survey survey : allSurveys) {
+//            survey.getAnswers()
+//        }
+//        int nbParticipants = 0;
+//        for (Survey survey : allSurveys) {
+//            survey.getAnswers();
+//        }
+        return ok("54");
+    }
+
+
 }

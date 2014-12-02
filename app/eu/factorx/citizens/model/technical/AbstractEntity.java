@@ -1,24 +1,30 @@
 package eu.factorx.citizens.model.technical;
 
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
 import play.db.ebean.Model;
 
-import javax.persistence.Embedded;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Comparator;
 import java.util.Date;
 
 @MappedSuperclass
 public abstract class AbstractEntity extends Model implements Comparator<AbstractEntity> {
 
-    public static final String DELETATION_DATE = "deletionDate";
+    public static final String DELETION_DATE = "deletionDate";
     @Id
 	@GeneratedValue
 	protected Long id;
 
-	@Embedded
-	protected TechnicalSegment technicalSegment;
+    @Version
+    private long version;
+
+    @CreatedTimestamp
+    private Date creationDate;
+
+    @UpdatedTimestamp
+    @Version
+    private Date lastUpdateDate;
 
 	protected Date deletionDate;
 
@@ -30,15 +36,31 @@ public abstract class AbstractEntity extends Model implements Comparator<Abstrac
 		this.id = id;
 	}
 
-	public TechnicalSegment getTechnicalSegment() {
-		return technicalSegment;
-	}
+    public long getVersion() {
+        return version;
+    }
 
-	public void setTechnicalSegment(TechnicalSegment technicalSegment) {
-		this.technicalSegment = technicalSegment;
-	}
+    public void setVersion(long version) {
+        this.version = version;
+    }
 
-	public Date getDeletionDate() {
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public Date getDeletionDate() {
 		return deletionDate;
 	}
 
@@ -74,13 +96,6 @@ public abstract class AbstractEntity extends Model implements Comparator<Abstrac
 		return false;
 	}
 
-	@Override
-	public String toString() {
-		return "AbstractEntity{" +
-				"id=" + id +
-				", technicalSegment=" + technicalSegment +
-				'}';
-	}
 }
 
 
