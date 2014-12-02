@@ -2,13 +2,11 @@ package eu.factorx.citizens.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.factorx.citizens.controllers.AbstractController;
-import eu.factorx.citizens.dto.AnswerDTO;
-import eu.factorx.citizens.dto.AnswerValueDTO;
-import eu.factorx.citizens.dto.ReductionDTO;
-import eu.factorx.citizens.dto.SurveyDTO;
+import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.CalculationService;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import play.api.Play;
@@ -56,20 +54,55 @@ public class CalculationController extends AbstractController {
 
     } // end of action calculate potential reduction
 
+
 	// TODO - to be implemented
-	@BodyParser.Of(BodyParser.Json.class)
-	List<ReductionDTO> calculateEffectiveReduction (SurveyDTO dto, Account account) {
+	//@BodyParser.Of(BodyParser.Json.class)
+	public Result calculateEffectiveReduction () {
+
+		JsonNode json = request().body().asJson();
+		if (json == null) {
+			return badRequest("empty json");
+		}
+		//play.Logger.debug(json.asText());
+
+
+		SurveyDTO survey = extractDTOFromRequest(SurveyDTO.class);
+
 
 		// Validate incoming DTO - TODO
 		try {
-			calculationService.validateData(dto.getAnswers());
+			calculationService.validateData(survey.getAnswers());
 		} catch (Exception e) {
 			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
 		}
 
-		List<ReductionDTO> result = calculationService.calculateEffectiveReduction(dto.getAnswers());
+		EffectiveReductionDTO effectiveReductionResult = new EffectiveReductionDTO();
 
-		return (result);
+		List<ReductionDTO> result = calculationService.calculateEffectiveReduction(survey.getAnswers());
+
+		//add result to DTO
+		effectiveReductionResult.setReductions(result);
+
+
+		for (ReductionDay day : ReductionDay.values()) {
+
+			play.Logger.debug("Effective DAYS:" + day.ordinal());
+			play.Logger.debug("Effective Reduction FIRST:" + result.get(day.ordinal()).getFirstPeriodPowerReduction());
+			play.Logger.debug("Effective Reduction SECOND:" + result.get(day.ordinal()).getSecondPeriodPowerReduction());
+			play.Logger.debug("Effective Reduction THIRD:" + result.get(day.ordinal()).getThirdPeriodPowerReduction());
+
+			play.Logger.debug("Effective Reduction Average:" + result.get(day.ordinal()).getAveragePowerReduction());
+			play.Logger.debug("Effective Reduction Energy ratio:" + result.get(day.ordinal()).getEnergyReduction());
+
+//			System.out.println("Effective Reduction FIRST:" + result.get(day.ordinal()).getFirstPeriodPowerReduction());
+//			System.out.println("Effective Reduction SECOND:" + result.get(day.ordinal()).getSecondPeriodPowerReduction());
+//			System.out.println("Effective Reduction THIRD:" + result.get(day.ordinal()).getThirdPeriodPowerReduction());
+//
+//			System.out.println("Effective Reduction Average:" + result.get(day.ordinal()).getAveragePowerReduction());
+//			System.out.println("Effective Reduction Energy ratio:" + result.get(day.ordinal()).getEnergyReduction());
+		}
+
+		return ok(effectiveReductionResult);
 
 	} // end of action calculate effective reduction
 

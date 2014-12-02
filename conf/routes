@@ -18,5 +18,5 @@ GET         /authenticated         @eu.factorx.citizens.controllers.AccountContr
 POST        /forgotPassword        @eu.factorx.citizens.controllers.AccountController.forgotPassword()
 POST        /logout                @eu.factorx.citizens.controllers.AccountController.logout()
 #calulation routes
-#GET         /effective             @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
-GET         /potential             @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
+GET         /reduction/effective             @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
+GET         /reduction/potential             @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
