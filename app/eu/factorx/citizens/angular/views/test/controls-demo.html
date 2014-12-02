@@ -26,18 +26,18 @@
                             <i class="fa fa-gear"></i> Text
                         </tab-heading>
 
-                        <cr-question label="Q6000"> {{x.firstName}}
+                        <cr-question label="Q6000">
                             <cr-text ng-model="x.firstName"></cr-text>
                         </cr-question>
-                        <cr-question label="Q6000"> {{x.firstName}}
+                        <cr-question label="Q6000">
                             <cr-text multiline="true" ng-model="x.comment"></cr-text>
                         </cr-question>
-                        <cr-question label="Q6000"> {{x.firstName}}
+                        <cr-question label="Q6000">
                             <cr-text type="password" ng-model="x.password"></cr-text>
                         </cr-question>
 
-                        <cr-question label="Q6000"> {{x.firstName}}
-                            <cr-multi-text ng-model="x.items"></cr-multi-text>
+                        <cr-question label="Q6000">
+                            <cr-multi-text ng-model="x.items" regex="^[^@]*$"></cr-multi-text>
                         </cr-question>
 
                     </tab>
@@ -60,7 +60,8 @@
                         </tab-heading>
 
                         <cr-question label="Q6000">
-                            <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax" ng-min="x.doubleRange.min" ng-max="x.doubleRange.max"></cr-double-range>
+                            <cr-double-range ng-range-min="x.doubleRange.rangeMin" ng-range-max="x.doubleRange.rangeMax"
+                                             ng-min="x.doubleRange.min" ng-max="x.doubleRange.max"></cr-double-range>
                         </cr-question>
                     </tab>
 
@@ -78,7 +79,8 @@
                         </cr-question>
 
                         <cr-question label="Q6000">
-                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.options" free-allowed="true"></cr-radio>
+                            <cr-radio ng-model="x.radio.value" ng-options="x.radio.options"
+                                      free-allowed="true"></cr-radio>
                         </cr-question>
                     </tab>
 
@@ -92,7 +94,8 @@
                             <cr-slider ng-model="x.slider.value" ng-steps="x.slider.steps"></cr-slider>
                         </cr-question>
                         <cr-question label="GOOD (labels by filter)">
-                            <cr-slider ng-model="x.slider.value" ng-steps="x.slider.simpleSteps" filter="toHour"></cr-slider>
+                            <cr-slider ng-model="x.slider.value" ng-steps="x.slider.simpleSteps"
+                                       filter="toHour"></cr-slider>
                         </cr-question>
                         <cr-question label="Q6000">
                             <cr-slider ng-model="x.continuousSlider.value" min="10" max="2000" step="10"></cr-slider>
@@ -105,7 +108,6 @@
                     </tab>
 
 
-
                     <tab select="alertMe()">
                         <tab-heading>
                             <i class="fa fa-gear"></i> YES/NO
@@ -113,9 +115,12 @@
 
                         <cr-question label="Q6000">
                             <cr-boolean ng-model="x.yesno.value"></cr-boolean>
-                            <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value1" min="10" max="2000" step="10"></cr-slider>
-                            <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value2" min="10" max="2000" step="10"></cr-slider>
-                            <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value3" min="10" max="2000" step="10"></cr-slider>
+                            <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value1" min="10"
+                                       max="2000" step="10"></cr-slider>
+                            <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value2" min="10"
+                                       max="2000" step="10"></cr-slider>
+                            <cr-slider ng-visible="x.yesno.value" ng-model="x.continuousSlider.value3" min="10"
+                                       max="2000" step="10"></cr-slider>
                         </cr-question>
                     </tab>
 
@@ -126,47 +131,47 @@
 
                         <div class="col-md-3 col-sm-4 col-xs-6">
                             <cr-topic
-                                    image="household/topics/topic_presence"
-                                    view="$/angular/views/household/profile/topics/profile-presence.html"
-                                    controller="ModalTopicCtrl"
-                                    window-class="cr-theme-green"
-                                    ></cr-topic>
+                                image="household/topics/topic_presence"
+                                view="$/angular/views/household/profile/topics/profile-presence.html"
+                                controller="ModalTopicCtrl"
+                                window-class="cr-theme-green"
+                                ></cr-topic>
                         </div>
 
 
-                        <div class="col-md-3 col-sm-4 col-xs-6" >
+                        <div class="col-md-3 col-sm-4 col-xs-6">
                             <cr-topic
-                                    image="household/topics/topic_programs"
-                                    view="$/angular/views/household/profile/topics/profile-programs.html"
-                                    controller="ModalTopicCtrl"
-                                    window-class="cr-theme-blue"
-                                    ></cr-topic>
+                                image="household/topics/topic_programs"
+                                view="$/angular/views/household/profile/topics/profile-programs.html"
+                                controller="ModalTopicCtrl"
+                                window-class="cr-theme-blue"
+                                ></cr-topic>
                         </div>
 
                         <div class="col-md-3 col-sm-4 col-xs-6">
                             <cr-topic
-                                    image="household/topics/topic_heating"
-                                    view="$/angular/views/household/profile/topics/profile-heating.html"
-                                    controller="ModalTopicCtrl"
-                                    window-class="cr-theme-red"
-                                    ></cr-topic>
-                        </div>
-
-                        <div class="col-md-3 col-sm-4 col-xs-6" >
-                            <cr-topic
-                                    active="true"
-                                    image="household/topics/topic_lighting"
-                                    view="$/angular/views/household/profile/topics/profile-lighting.html"
-                                    controller="ModalTopicCtrl"
-                                    window-class="cr-theme-orange"></cr-topic>
+                                image="household/topics/topic_heating"
+                                view="$/angular/views/household/profile/topics/profile-heating.html"
+                                controller="ModalTopicCtrl"
+                                window-class="cr-theme-red"
+                                ></cr-topic>
                         </div>
 
                         <div class="col-md-3 col-sm-4 col-xs-6">
                             <cr-topic
-                                    image="household/topics/topic_dinner"
-                                    view="$/angular/views/household/profile/topics/profile-dinner.html"
-                                    controller="ModalTopicCtrl"
-                                    window-class="cr-theme-magenta"></cr-topic>
+                                active="true"
+                                image="household/topics/topic_lighting"
+                                view="$/angular/views/household/profile/topics/profile-lighting.html"
+                                controller="ModalTopicCtrl"
+                                window-class="cr-theme-orange"></cr-topic>
+                        </div>
+
+                        <div class="col-md-3 col-sm-4 col-xs-6">
+                            <cr-topic
+                                image="household/topics/topic_dinner"
+                                view="$/angular/views/household/profile/topics/profile-dinner.html"
+                                controller="ModalTopicCtrl"
+                                window-class="cr-theme-magenta"></cr-topic>
                         </div>
                     </tab>
                 </tabset>

@@ -11,7 +11,7 @@ angular
         sel: 'Human'
         items: [
             'Human'
-            'Bat'
+            'B@t'
             '-'
             'Vampire'
         ]
