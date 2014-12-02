@@ -30,6 +30,12 @@ public class CalculationServiceImpl implements CalculationService {
 	static final Double THREEQUARTERDOUBLE = THREEQUARTER * 2;
 
 
+	// TODO validate incoming information method
+	@Override
+	public void validateData (List<AnswerDTO> surveyAnswers) {
+
+	}
+
     @Override
     public ReductionDTO calculatePotentialReduction(List<AnswerDTO> surveyAnswers) {
 

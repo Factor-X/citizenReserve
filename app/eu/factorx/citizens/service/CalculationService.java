@@ -11,4 +11,6 @@ public interface CalculationService {
 
 	List<ReductionDTO> calculateEffectiveReduction(List<AnswerDTO> surveyAnswers);
 
+	void validateData (List<AnswerDTO> surveyAnswers);
+
 }
