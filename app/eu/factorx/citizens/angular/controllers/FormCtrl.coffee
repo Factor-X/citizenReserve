@@ -9,7 +9,7 @@ angular
             'programs': ['Q1110', 'Q1120', 'Q1130']
             'dinner': ['Q1140', 'Q1150']
             'heating': ['Q1600', 'Q1900', 'Q1210']
-            'lighting': ['Q1160', 'Q1220', 'Q1230', 'Q1700', 'Q1750']
+            'lighting': ['Q1160', 'Q1220', 'Q1230', 'Q1700', 'Q1750', 'Q1800', 'Q2010', 'Q2020', 'Q2030', 'Q2040']
 
     $scope.save = () ->
         downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
@@ -40,7 +40,7 @@ angular
     $scope.isQuestionAnswered = (questionKey) ->
         for answer in surveyDTOService.getAnswers(questionKey)
             for answerValue in answer.answerValues
-                if (!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue)
+                if (!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue == 0)
                     return true
         return false
 

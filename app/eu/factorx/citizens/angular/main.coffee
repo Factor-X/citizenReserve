@@ -84,3 +84,9 @@ angular
     )
     .otherwise({ redirectTo: '/welcome' })
     return
+
+
+Messenger.options = {
+    extraClasses : 'messenger-fixed messenger-on-bottom messenger-on-right cr-messenger',
+    theme : 'block'
+}

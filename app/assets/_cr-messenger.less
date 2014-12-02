@@ -1,0 +1,38 @@
+.cr-messenger {
+    .messenger-message {
+        margin-right: 15px;
+        background: #ffffff;
+        border: solid 1px #999;
+
+        &.message-error {
+            color: #d22323;
+        }
+
+        &.message-info {
+            color: #1494d0;
+
+            .messenger-message-inner:before {
+                font-family: 'FontAwesome';
+                content: '\f129';
+                font-size: 1.5em;
+                float: left;
+                display: inline-block;
+                width: 2em;
+                height: 2em;
+            }
+        }
+
+        &.message-warning {
+            color: #ff7800;
+        }
+
+        .messenger-close {
+            background: transparent;
+            border: none;
+            float: right;
+        }
+
+        .messenger-message-inner {
+        }
+    }
+}

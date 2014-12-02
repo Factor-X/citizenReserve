@@ -26,11 +26,12 @@
     }
 }
 
-
 .cr-slider {
     background: transparent;
     display: block;
     width: 100%;
+    max-width: 100%;
+
     ::selection {
         background: transparent; /* WebKit/Blink Browsers */
     }
@@ -53,10 +54,18 @@
         }
         .cr-slider-not-null-box {
             display: table-cell;
-            position: relative;
             width: 100%;
-            overflow-x: auto;
+
             overflow-y: hidden;
+
+            .cr-slider-not-null-box-holder {
+                overflow-x: auto;
+                width: 100%;
+                height: 80px;
+                position: relative;
+
+            }
+
         }
 
         .cr-slider-section {
