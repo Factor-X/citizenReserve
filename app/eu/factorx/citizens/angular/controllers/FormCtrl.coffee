@@ -51,9 +51,14 @@ angular
                 return false
         return true
 
+    $scope.potentialReduction = {}
+
     $scope.getPotentialReduction = ->
-        downloadService.getJson '/logout', surveyDTOService.surveyDTO, (result) ->
+        downloadService.postJson '/reduction/potential', surveyDTOService.surveyDTO, (result) ->
             if result.success
-                $location.path('/welcome')
-                surveyDTOService.logout()
-        surveyDTOService.surveyDTO
+                $scope.potentialReduction = result.data
+            else
+                console.log(result.data)
+
+
+    $scope.getPotentialReduction()

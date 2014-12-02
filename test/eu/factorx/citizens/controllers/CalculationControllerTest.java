@@ -1,26 +1,18 @@
-package eu.factorx.citizens.controller;
+package eu.factorx.citizens.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import eu.factorx.citizens.controllers.routes;
-import eu.factorx.citizens.dto.AccountDTO;
-import eu.factorx.citizens.dto.AnswerDTO;
-import eu.factorx.citizens.dto.ReductionDTO;
-import eu.factorx.citizens.dto.SurveyDTO;
+import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.type.QuestionCode;
+import eu.factorx.citizens.model.type.ReductionDay;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 
 import play.Logger;
 import play.libs.Json;
@@ -28,8 +20,6 @@ import play.mvc.Result;
 import play.test.FakeRequest;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import org.junit.Test;
 
 
 public class CalculationControllerTest {
@@ -100,15 +90,104 @@ public class CalculationControllerTest {
 			Assert.assertEquals(new Double(375), potentialReduction.getFirstPeriodPowerReduction());
 			Assert.assertEquals(new Double(1798), potentialReduction.getSecondPeriodPowerReduction());
 			Assert.assertEquals(new Double(2678), potentialReduction.getThirdPeriodPowerReduction());
-
 			Assert.assertEquals(new Double(1617), potentialReduction.getAveragePowerReduction());
-
 			Assert.assertEquals(new Double(4.851), potentialReduction.getEnergyReduction());
 
 		} // end of controller test method
 
+	@Test
+	public void _002_calculateEffectiveReductionActionSuccess() {
 
-		/*******************************************************************************/
+
+		// prepare account data
+		AccountDTO account= new AccountDTO();
+		account.setFirstName("gaston");
+		account.setLastName("hollands");
+		account.setEmail("gaston.hollands@factorx.eu");
+
+		// prepare answers data
+		List<AnswerDTO> answers = prepareData();
+
+		SurveyDTO survey = new SurveyDTO ();
+		survey.setAccount(account);
+		survey.setAnswers(answers);
+
+		// ConnectionFormDTO
+		//ConnectionFormDTO cfDto = new ConnectionFormDTO("user1", "password", InterfaceTypeCode.ENTERPRISE.getKey(), "");
+
+		//Json node
+		JsonNode node = Json.toJson(survey);
+
+		// perform save
+		// Fake request
+
+		// Fake request
+		FakeRequest fr = new FakeRequest();
+		fr.withHeader("Content-type", "application/json");
+		fr.withJsonBody(node);
+
+		// Call controller action
+		Result result = callAction(
+				routes.ref.CalculationController.calculateEffectiveReduction(),
+				fr
+		); // callAction
+
+		// test results
+
+		// expecting an HTTP 200 return code
+		assertEquals(200, status(result));
+
+		// get EffectiveReductionDTO
+		Logger.info("results: " + new String(contentAsBytes(result)));
+		String content = new String(contentAsBytes(result));
+		JsonNode jsonResponse = Json.parse(content);
+
+		EffectiveReductionDTO effectiveReduction = EffectiveReductionDTO.getDTO(jsonResponse,EffectiveReductionDTO.class);
+
+		for (ReductionDay day : ReductionDay.values()) {
+
+			play.Logger.debug("DAY : " + day.ordinal());
+			play.Logger.debug("Effective Reduction FIRST:" + effectiveReduction.getReductions().get(day.ordinal()).getFirstPeriodPowerReduction());
+			play.Logger.debug("Effective Reduction SECOND:" + effectiveReduction.getReductions().get(day.ordinal()).getSecondPeriodPowerReduction());
+			play.Logger.debug("Effective Reduction THIRD:" + effectiveReduction.getReductions().get(day.ordinal()).getThirdPeriodPowerReduction());
+			play.Logger.debug("Effective Reduction Average:" + effectiveReduction.getReductions().get(day.ordinal()).getAveragePowerReduction());
+			play.Logger.debug("Effective Reduction Energy ratio:" + effectiveReduction.getReductions().get(day.ordinal()).getEnergyReduction());
+		}
+
+		Assert.assertEquals(new Double(275), effectiveReduction.getReductions().get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(1698), effectiveReduction.getReductions().get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(2578), effectiveReduction.getReductions().get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(275), effectiveReduction.getReductions().get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(1698), effectiveReduction.getReductions().get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(2578), effectiveReduction.getReductions().get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(275), effectiveReduction.getReductions().get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(1590), effectiveReduction.getReductions().get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(2470), effectiveReduction.getReductions().get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(275), effectiveReduction.getReductions().get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(1590), effectiveReduction.getReductions().get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(2470), effectiveReduction.getReductions().get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(1517), effectiveReduction.getReductions().get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.551), effectiveReduction.getReductions().get(ReductionDay.DAY1.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(1517), effectiveReduction.getReductions().get(ReductionDay.DAY2.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.551), effectiveReduction.getReductions().get(ReductionDay.DAY2.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(1445), effectiveReduction.getReductions().get(ReductionDay.DAY3.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.335), effectiveReduction.getReductions().get(ReductionDay.DAY3.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(1445), effectiveReduction.getReductions().get(ReductionDay.DAY4.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.335), effectiveReduction.getReductions().get(ReductionDay.DAY4.ordinal()).getEnergyReduction());
+
+
+	} // end of controller test method
+
+
+
+	/*******************************************************************************/
 		/**** TODO - next methods should be common to service and controller tests *****/
 		/*******************************************************************************/
 

@@ -82,10 +82,12 @@
 
         <div class="row cr-profile-result">
             <div class="col-md-12">
-                <span>Mon potentiel en W:{}</span>
-                <span>Mon Potentiel en kWh par jour sur la période 17h-20h:</span>
+                <p>Mon potentiel en W: {{ potentialReduction.averagePowerReduction }}</p>
+                <p>Mon Potentiel en kWh par jour sur la période 17h-20h: {{ potentialReduction.energyReduction }}</p>
+                <button class="btn btn-primary" ng-click="getPotentialReduction()">Refresh</button>
 
             </div>
+
     </div>
 
 </div>
