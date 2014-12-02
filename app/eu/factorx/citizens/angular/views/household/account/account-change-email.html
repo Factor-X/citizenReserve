@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title cr-modal-title-text" ng-bind-html="'account.button.changeEmail' | translate"></h3>
+</div>
+<div class="modal-body">
+
+    <cr-question label="account.info.oldPassword">
+        <cr-text ng-model="o.oldPassword" type="password" name="password"
+                 ng-validation="validation.oldPassword"></cr-text>
+        <p class="cr-error" ng-show="validation.oldPassword.valid == false && noSubmitYet == false">
+            {{'account.errorMessage.password' | translate}}</p>
+    </cr-question>
+    <cr-question label="account.info.newEmail">
+        <cr-text ng-model="o.newEmail" name="email"
+                 ng-validation="validation.newEmail"></cr-text>
+        <p class="cr-error" ng-show="validation.newEmail.valid == false && noSubmitYet == false">
+            {{'account.errorMessage.emailAddress' | translate}}</p>
+    </cr-question>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="loading == true" ng-click="save()"
+            ng-bind-html="'generic.save' | translate"></button>
+    <img ng-show="loading == true" ng-src="/assets/images/modal-loading.gif"/>
+</div>

@@ -30,10 +30,10 @@ angular
         surveyDTOService.isAuthenticated()
 
 
-    $scope.openModal = (target) ->
+    $scope.openModal = (target, controller = 'ModalTopicCtrl') ->
         modalInstance = modalService.open({
             templateUrl: '$/angular/views/' + target + '.html',
-            controller: 'ModalTopicCtrl',
+            controller: controller,
             size: 'lg'
         })
 

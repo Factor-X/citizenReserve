@@ -32,6 +32,7 @@ defaultResolve =
     testConnection: ($http, $rootScope, $location, downloadService,surveyDTOService) ->
         # if the current user is null...
         if not surveyDTOService.hasAccountType()
+            console.log "je nai pas daccount type : "+surveyDTOService.surveyDTO
             downloadService.getJson '/authenticated',(result) ->
                 if result.success
                     surveyDTOService.surveyDTO = result.data
@@ -71,6 +72,15 @@ angular
     .when('/household-actions', {
             templateUrl: '$/angular/views/household/actions/household-actions.html'
             controller: 'FormCtrl'
+            resolve: angular.extend({
+                topic: ($route) ->
+                    return $route.current.params.topic
+            }, defaultResolve)
+        }
+    )
+    .when('/household-account', {
+            templateUrl: '$/angular/views/household/account/household-account.html'
+            controller: 'RegistrationCtrl'
             resolve: angular.extend({
                 topic: ($route) ->
                     return $route.current.params.topic

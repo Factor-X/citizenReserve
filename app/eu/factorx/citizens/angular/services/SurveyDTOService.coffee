@@ -5,10 +5,13 @@ angular
 
     @surveyDTO = {
         account:{
-            id: 1
+            otherEmailAddresses:[]
         }
         answers: []
     }
+
+    @login = (surveyDTO) ->
+        @surveyDTO = surveyDTO
 
     @isAuthenticated = () ->
         return (@surveyDTO.account.id? && @surveyDTO.account.id != null)
@@ -16,7 +19,7 @@ angular
     @logout = () ->
         @surveyDTO = {
             account:{
-                id: 1
+                otherEmailAddresses:[]
             }
             answers: []
         }
