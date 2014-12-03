@@ -228,12 +228,8 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
-        //create action list
-        HashMap<TopicEnum, List<String>> actions = surveyService.getActions(account);
-
-        Logger.error("actions:"+actions);
-
-        //TODO send email
+        //send email
+        sendSummaryEmail(account);
 
         //save account into context
         securedController.storeIdentifier(account);
@@ -272,8 +268,44 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
+        //TODO TEMP send email
+        sendSummaryEmail(account);
+
         //TODO return summary
         return ok(new SummaryDTO());
+
+    }
+
+
+    private void sendSummaryEmail(Account account) {
+
+        //create action list
+        HashMap<TopicEnum, List<String>> actions = surveyService.getActions(account);
+
+        Logger.error("actions:" + actions);
+
+        //convert action to string
+        String actionString = emailController.generateActionsTable(account);
+
+        HashMap<EmailParams, String> paramsMap = new HashMap<>();
+
+        for (EmailParams emailParams : EmailEnum.FORGOT_PASSWORD.getExpectedParams()) {
+            if (emailParams.getName().equals("firstName")) {
+                paramsMap.put(emailParams, account.getFirstName());
+            } else if (emailParams.getName().equals("lastName")) {
+                paramsMap.put(emailParams, account.getLastName());
+            } else if (emailParams.getName().equals("reductionSum")) {
+                // TODO
+                paramsMap.put(emailParams, "0");
+            } else if (emailParams.getName().equals("actionTable")) {
+                paramsMap.put(emailParams, actionString);
+            } else if (emailParams.getName().equals("personal_access_url")) {
+                // TODO
+                paramsMap.put(emailParams, "0");
+            }
+        }
+
+        emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap);
 
     }
 

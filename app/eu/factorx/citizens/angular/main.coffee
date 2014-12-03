@@ -2,7 +2,7 @@
 # Modules
 #
 
-angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider']
+angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider', 'tc.chartjs']
 
 angular.module 'app.filters', []
 
@@ -37,7 +37,7 @@ defaultResolve =
                 if result.success
                     surveyDTOService.surveyDTO = result.data
                 else
-                    $state.transitionTo 'root', {}, {inherit: true}
+                    $state.go 'root'
 
 testAuthenticationResolve =
     testConnection: ($http, $rootScope, $state, downloadService, surveyDTOService) ->
@@ -45,7 +45,7 @@ testAuthenticationResolve =
             if result.success
                 surveyDTOService.surveyDTO = result.data
                 if result.data.account.accountType == 'household'
-                    $state.transitionTo 'root.householdProfile'
+                    $state.go 'root.householdProfile'
 
 changeLanguageResolve =
     changeLanguage: ($stateParams, gettextCatalog) ->
@@ -55,7 +55,7 @@ changeLanguageResolve =
 angular
 .module('app.controllers')
 .config ($stateProvider, $urlRouterProvider) ->
-    langPrefix = '/{lang:fr|nl|en}'
+    langPrefix = '/:lang'
 
     $stateProvider
     .state 'root',

@@ -1,7 +1,11 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.survey.TopicEnum;
+import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.TranslationService;
 import eu.factorx.citizens.service.VelocityGeneratorService;
+import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.service.impl.TranslationServiceImpl;
 import eu.factorx.citizens.service.impl.VelocityGeneratorServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
@@ -14,6 +18,7 @@ import play.Configuration;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,11 +29,13 @@ public class EmailController extends AbstractController {
 
     private final String hostname = Configuration.root().getString("citizens-reserve.hostname");
     private final static String VELOCITY_BASIC_EMAIL = "basicEmailStructure.vm";
+    private final static String VELOCITY_LIST_ACTION = "listAction.vm";
 
     private final TranslationService translationService = new TranslationServiceImpl();
     private final VelocityGeneratorService velocityGeneratorService = new VelocityGeneratorServiceImpl();
     private final TranslationHelp translationHelp = new TranslationHelp(translationService);
     private final EmailService emailService;
+    private final SurveyService surveyService = new SurveyServiceImpl();
 
 
     public EmailController() {
@@ -73,6 +80,18 @@ public class EmailController extends AbstractController {
 
         EmailMessage emailMessage = new EmailMessage(to, title, velocityContent);
         emailService.send(emailMessage);
+    }
+
+    public String generateActionsTable(Account account) {
+
+        HashMap<TopicEnum, List<String>> actions = surveyService.getActions(account);
+
+        Map<String, Object> values = new HashMap<>();
+        values.put("actions", actions);
+        values.put("translationHelper", translationHelp);
+        values.put("hostname", hostname);
+
+        return velocityGeneratorService.generate(VELOCITY_LIST_ACTION, values);
     }
 
 

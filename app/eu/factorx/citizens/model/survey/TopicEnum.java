@@ -1,5 +1,7 @@
 package eu.factorx.citizens.model.survey;
 
+import eu.factorx.citizens.model.type.AccountType;
+
 import java.util.Arrays;
 
 /**
@@ -8,19 +10,21 @@ import java.util.Arrays;
 public enum TopicEnum {
 
 
-    HOUSEHOLD_ACTION_PRESENCE("action", "household", "Q3210", "Q3211"),
-    HOUSEHOLD_ACTION_DINNER("action", "dinner", "Q3710", "Q3711", "Q3720", "Q3730", "Q3750", "Q3760", "Q3740", "Q3741"),
-    HOUSEHOLD_ACTION_HEATING("action", "heating", "Q3310", "Q3320", "Q3330"),
-    HOUSEHOLD_ACTION_PROGRAMS("action", "programs", "Q3110", "Q3120", "Q3130"),
-    HOUSEHOLD_ACTION_LIGHTING("action", "lighting", "Q3410", "Q3420", "Q3510", "Q3530", "Q3610", "Q3620", "Q3630", "Q3631", "Q3640", "Q3810");
+    HOUSEHOLD_ACTION_PRESENCE("action", AccountType.HOUSEHOLD, "presence","Q3210", "Q3211"),
+    HOUSEHOLD_ACTION_DINNER("action", AccountType.HOUSEHOLD, "dinner", "Q3710", "Q3711", "Q3720", "Q3730", "Q3750", "Q3760", "Q3740", "Q3741"),
+    HOUSEHOLD_ACTION_HEATING("action", AccountType.HOUSEHOLD, "heating", "Q3310", "Q3320", "Q3330"),
+    HOUSEHOLD_ACTION_PROGRAMS("action", AccountType.HOUSEHOLD, "programs", "Q3110", "Q3120", "Q3130"),
+    HOUSEHOLD_ACTION_LIGHTING("action", AccountType.HOUSEHOLD, "lighting", "Q3410", "Q3420", "Q3510", "Q3530", "Q3610", "Q3620", "Q3630", "Q3631", "Q3640", "Q3810");
 
 
     private String questionType;
     private String topicName;
+    private AccountType accountType;
     private String[] questionCodeList;
 
-    private TopicEnum(String questionType, String topicName, String... questionCodeList) {
+    private TopicEnum(String questionType, AccountType accountType, String topicName, String... questionCodeList) {
         this.questionType = questionType;
+        this.accountType = accountType;
         this.topicName = topicName;
         this.questionCodeList = questionCodeList;
     }
@@ -31,6 +35,10 @@ public enum TopicEnum {
 
     public String getTopicName() {
         return topicName;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
     }
 
     public String[] getQuestionCodeList() {

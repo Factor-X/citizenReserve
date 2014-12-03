@@ -8,7 +8,13 @@ public enum EmailEnum {
     FORGOT_PASSWORD("email.forgotPassword.subject", "email.forgotPassword.content",
             new EmailParams(0, "firstName"),
             new EmailParams(1, "lastName"),
-            new EmailParams(2, "newPassword"));
+            new EmailParams(2, "newPassword")),
+    SUMMARY("email.registration.subject", "email.registration.content",
+            new EmailParams(0, "firstName"),
+            new EmailParams(1, "lastName"),
+            new EmailParams(2, "reductionSum"),
+            new EmailParams(3, "actionTable"),
+            new EmailParams(4, "personal_access_url"));
 
 
     private String subjectKey;
