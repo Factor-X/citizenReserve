@@ -49,9 +49,10 @@ public class CalculationServiceImpl implements CalculationService {
 		// Sortir
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3210) == null) {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3210, null, false));
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
 		}
 
-		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3211) == null) {
+		if ((byQuestionCodeAndPeriod.get(QuestionCode.Q3211) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue() == null)) {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
 		}
 
@@ -114,7 +115,7 @@ public class CalculationServiceImpl implements CalculationService {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3630, null, false));
 		}
 
-		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3631) == null) {
+		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3631) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3631).get(Period.FIRST).getStringValue() == null)) {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3631, null, "0"));
 		}
 
@@ -133,7 +134,7 @@ public class CalculationServiceImpl implements CalculationService {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3710, null, false));
 		}
 
-		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3711) == null) {
+		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3711) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue() == null)) {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
 		}
 
