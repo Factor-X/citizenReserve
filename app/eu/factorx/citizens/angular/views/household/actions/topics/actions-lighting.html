@@ -37,7 +37,7 @@
 
 
     <cr-question label="Q3631.label" cr-conditioned="Q3631">
-        <cr-boolean ng-model="getAnswerValue('Q3631').booleanValue"></cr-boolean>
+        <cr-slider ng-model="getAnswerValue('Q3631').stringValue" ng-steps="getNumericOptions('Q3631',1,4,1)"></cr-slider>
     </cr-question>
 
 
