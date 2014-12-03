@@ -11,10 +11,9 @@
     </cr-question>
 
 
-    <cr-question label="Q3711.label" cr-conditioned="Q3711">
-        <cr-boolean ng-model="getAnswerValue('Q3711').booleanValue"></cr-boolean>
+    <cr-question label="Q3711.label" cr-conditioned="Q3711" >
+        <cr-slider ng-model="getAnswerValue('Q3711').stringValue" ng-steps="getNumericOptions('Q3711',1,4,1)"></cr-slider>
     </cr-question>
-
 
     <cr-question label="Q3720.label" cr-conditioned="Q3720">
         <cr-boolean ng-model="getAnswerValue('Q3720').booleanValue"></cr-boolean>
@@ -34,14 +33,13 @@
         <cr-boolean ng-model="getAnswerValue('Q3760').booleanValue"></cr-boolean>
     </cr-question>
 
-
-    <cr-question label="Q3740.label" cr-conditioned="Q3740">
-        <cr-boolean ng-model="getAnswerValue('Q3740').booleanValue"></cr-boolean>
+    <cr-question label="Q3740.label" cr-conditioned="Q3740" >
+        <cr-slider ng-model="getAnswerValue('Q3740').stringValue" ng-steps="getNumericOptions('Q3740',1,4,1)"></cr-slider>
     </cr-question>
 
 
-    <cr-question label="Q3741.label" cr-conditioned="Q3741">
-        <cr-boolean ng-model="getAnswerValue('Q3741').booleanValue"></cr-boolean>
+    <cr-question label="Q3741.label" cr-conditioned="Q3741" >
+        <cr-slider ng-model="getAnswerValue('Q3741').stringValue" ng-steps="getNumericOptions('Q3741',1,4,1)"></cr-slider>
     </cr-question>
 
 

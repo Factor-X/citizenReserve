@@ -82,7 +82,10 @@
 
         <div class="row cr-profile-result">
             <div class="col-md-12">
-                <p>Puissance effaçable potentielle: {{ 10256.235 | numberToI18N: {nbDecimal: 0} }}</p>
+                <!--
+                <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReduction | numberToI18N: {nbDecimal: 0} }}</p>
+                -->
+                <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReduction }}</p>
                 <p>Mon Potentiel en kWh par jour sur la période 17h-20h: {{ potentialReduction.energyReduction }} Watt</p>
                 <button class="btn btn-primary" ng-click="getPotentialReduction()">Refresh</button>
             </div>
