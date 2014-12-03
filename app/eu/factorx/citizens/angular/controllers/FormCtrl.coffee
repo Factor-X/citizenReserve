@@ -1,8 +1,6 @@
 angular
 .module('app.controllers')
-.controller "FormCtrl", ($scope, modalService, $log, topic, downloadService, surveyDTOService, conditionService, $location) ->
-    $scope.topic = topic
-
+.controller "FormCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, conditionService,$location) ->
     $scope.topicQuestions =
         profile:
             'presence': ['Q1300', 'Q1400', 'Q1500']

@@ -13,14 +13,14 @@
                 <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
 
                 <a
-                        class="cr-actions-profile-link"
-                        ng-bind-html="'nav.back-to-profile' | translate"
-                        href="#/household-profile">
+                    class="cr-actions-profile-link"
+                    ng-bind-html="'nav.back-to-profile' | translate"
+                    ui-sref="root.householdProfile">
                 </a>
 
                 <a class="cr-actions-register-link"
                    ng-bind-html="'nav.to-identification' | translate"
-                   href="#/household-account">
+                   ui-sref="root.householdAccount">
                 </a>
             </div>
 
@@ -30,53 +30,53 @@
 
             <div class="col-md-2 col-sm-4 col-xs-6 col-md-offset-1">
                 <cr-topic
-                        image="household/topics/topic_presence"
-                        view="$/angular/views/household/actions/topics/actions-presence.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-green"
-                        label="topic.presence.label"
-                        ></cr-topic>
+                    image="household/topics/topic_presence"
+                    view="$/angular/views/household/actions/topics/actions-presence.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-green"
+                    label="topic.presence.label"
+                    ></cr-topic>
             </div>
 
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_programs"
-                        view="$/angular/views/household/actions/topics/actions-programs.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-blue"
-                        label="topic.programs.label"
-                        ></cr-topic>
+                    image="household/topics/topic_programs"
+                    view="$/angular/views/household/actions/topics/actions-programs.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-blue"
+                    label="topic.programs.label"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_heating"
-                        view="$/angular/views/household/actions/topics/actions-heating.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-red"
-                        label="topic.heating.label"
-                        ></cr-topic>
+                    image="household/topics/topic_heating"
+                    view="$/angular/views/household/actions/topics/actions-heating.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-red"
+                    label="topic.heating.label"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_lighting"
-                        view="$/angular/views/household/actions/topics/actions-lighting.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-orange"
-                        label="topic.lighting.label"
-                        ></cr-topic>
+                    image="household/topics/topic_lighting"
+                    view="$/angular/views/household/actions/topics/actions-lighting.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-orange"
+                    label="topic.lighting.label"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_dinner"
-                        view="$/angular/views/household/actions/topics/actions-dinner.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-magenta"
-                        label="topic.dinner.label"
-                        ></cr-topic>
+                    image="household/topics/topic_dinner"
+                    view="$/angular/views/household/actions/topics/actions-dinner.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-magenta"
+                    label="topic.dinner.label"
+                    ></cr-topic>
             </div>
 
         </div>
@@ -84,19 +84,27 @@
         <div class="row cr-profile-result">
             <div class="col-md-12">
                 <p>Day 1 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
-                <p>Day 1 - Mon effectif en kWh par jour sur la période 17h-20h: {{ effectiveReduction.reductions[0].energyReduction }}</p>
+
+                <p>Day 1 - Mon effectif en kWh par jour sur la période 17h-20h: {{
+                    effectiveReduction.reductions[0].energyReduction }}</p>
             </div>
             <div class="col-md-12">
                 <p>Day 2 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
-                <p>Day 2 - Mon effectif en kWh par jour sur la période 17h-20h: {{ effectiveReduction.reductions[1].energyReduction }}</p>
+
+                <p>Day 2 - Mon effectif en kWh par jour sur la période 17h-20h: {{
+                    effectiveReduction.reductions[1].energyReduction }}</p>
             </div>
             <div class="col-md-12">
                 <p>Day 3 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
-                <p>Day 3 - Mon effectif en kWh par jour sur la période 17h-20h: {{ effectiveReduction.reductions[2].energyReduction }}</p>
+
+                <p>Day 3 - Mon effectif en kWh par jour sur la période 17h-20h: {{
+                    effectiveReduction.reductions[2].energyReduction }}</p>
             </div>
             <div class="col-md-12">
                 <p>Day 4 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
-                <p>Day 4 - Mon effectif en kWh par jour sur la période 17h-20h: {{ effectiveReduction.reductions[3].energyReduction }}</p>
+
+                <p>Day 4 - Mon effectif en kWh par jour sur la période 17h-20h: {{
+                    effectiveReduction.reductions[3].energyReduction }}</p>
             </div>
             <div class="col-md-12">
                 <button class="btn btn-primary" ng-click="getEffectiveReduction()">Refresh</button>
