@@ -6,6 +6,15 @@ angular
     link: (scope, elem, attrs, ngModel) ->
         console.log scope
 
+        if $(elem).closest('.modal').length > 0
+            scope.$lbl = conditionService.getTooltip(attrs.crTootipOnRespond)()
+            scope.$oldLbl = scope.$lbl
+
+        scope.$on '$destroy', () ->
+            if scope.$trip
+                scope.$trip.stop()
+                scope.$trip = null
+
         scope.$$childHead.$watch 'ngModel', (n, o) ->
             scope.$lbl = conditionService.getTooltip(attrs.crTootipOnRespond)()
             if scope.$lbl != scope.$oldLbl
