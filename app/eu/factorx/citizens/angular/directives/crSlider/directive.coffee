@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "crSlider", (directiveService, $filter) ->
+.directive "crSlider", (directiveService, $filter, $timeout) ->
     restrict: "E"
     scope: directiveService.autoScope
         ngModel: '='
@@ -122,28 +122,38 @@ angular
             scope.expanded = !scope.expanded
             scope.updateComputedOptionsFiltered()
 
-        $(elem).mouseenter () ->
-            $scroller = $(".cr-slider-not-null-box-holder", this)
-            $scroller.stop(true)
 
-        $(elem).mouseleave () ->
-            $scroller = $(".cr-slider-not-null-box-holder", this)
-            w = $scroller[0].scrollWidth
-            idx = -1
-            for o in scope.computedOptions
-                if `o.value == scope.ngModel`
-                    break
-                idx++
-            cnt = scope.computedOptions.length - 1
-            offset = 1.0 * idx / cnt
+        scope.scrollToSelected = (delayed) ->
+            if `scope.getVertical() != 'true'`
+                $scroller = $(".cr-slider-not-null-box-holder", elem)
+                w = $scroller[0].scrollWidth
+                idx = -1
+                for o in scope.computedOptions
+                    if `o.value == scope.ngModel`
+                        break
+                    idx++
+                cnt = scope.computedOptions.length - 1
+                offset = 1.0 * idx / cnt
 
-            target = w * offset - $scroller.width() / 2
+                target = w * offset - $scroller.width() / 2
 
-            if target < 0
-                target = 0
-            if target > w - $scroller.width() / 2 - 50
-                target = w - $scroller.width() / 2 - 50
+                if target < 0
+                    target = 0
+                if target > w - $scroller.width() / 2 - 50
+                    target = w - $scroller.width() / 2 - 50
 
-            if Math.abs(target - $scroller.scrollLeft()) > 1
-                $scroller.delay(1000).animate({scrollLeft: target}, { easing: 'easeInOutBack'})
+                if Math.abs(target - $scroller.scrollLeft()) > 1
+                    v = $scroller
+                    if delayed
+                        v = v.delay(1000)
+                    v = v.animate({scrollLeft: target}, { easing: 'easeInOutBack'})
+        $timeout () ->
+            $(elem).mouseenter () ->
+                $scroller = $(".cr-slider-not-null-box-holder", this)
+                $scroller.stop(true)
 
+            $(elem).mouseleave () ->
+                scope.scrollToSelected true
+
+            scope.scrollToSelected false
+        , 0
