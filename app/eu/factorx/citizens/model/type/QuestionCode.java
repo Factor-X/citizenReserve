@@ -48,7 +48,8 @@ public enum QuestionCode {
 	Q3740,
 	Q3741,
 	Q3750,
-	Q3760;
+	Q3760,
+    Q9999;
 
 	/**
 	 * Nominal power of the electrical machine on which the question relates, in Watt

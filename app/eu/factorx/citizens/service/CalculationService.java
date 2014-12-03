@@ -9,8 +9,6 @@ public interface CalculationService {
 
 	ReductionDTO calculatePotentialReduction(List<AnswerDTO> surveyAnswers);
 
-    ReductionDTO calculateAveragePotentialReduction();
-
 	List<ReductionDTO> calculateEffectiveReduction(List<AnswerDTO> surveyAnswers);
 
 	void validateData (List<AnswerDTO> surveyAnswers);
