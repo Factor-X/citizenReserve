@@ -1,7 +1,7 @@
 package eu.factorx.citizens;
 
 import eu.factorx.citizens.dto.technical.ExceptionsDTO;
-import org.apache.commons.lang3.StringEscapeUtils;
+import eu.factorx.citizens.util.exception.MyRuntimeException;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -15,15 +15,27 @@ import java.util.*;
 
 public class Global extends GlobalSettings {
 
-    public static final String   BUNDLES_LOCATION = "translation/";
-    public static final String[] BUNDLES          = {"Messages", "Interfaces", "Surveys"};
-    public static final String[] LANGUAGES        = {"fr", "nl"};
+    public static final String BUNDLES_LOCATION = "translation/";
+    public static final String[] BUNDLES = {"Messages", "Interfaces", "Surveys", "Email"};
+    //IMPORTANT : the first language is the reference language ('fr')
+    public static final String[] LANGUAGES = {"fr", "nl"};
 
+    //first key : language
+    //second key : message key
+    //value : translatable message
     public static final Map<String, Map<String, String>> TRANSLATIONS = new HashMap<>();
 
     @Override
     public F.Promise<SimpleResult> onError(Http.RequestHeader request, Throwable t) {
-        ExceptionsDTO exceptionsDTO = new ExceptionsDTO(t.getCause().getMessage());
+
+        final ExceptionsDTO exceptionsDTO;
+
+        if (t.getCause() instanceof MyRuntimeException) {
+            Logger.error("JE SUIS MyRuntimeException !!!!!!");
+            exceptionsDTO = new ExceptionsDTO(((MyRuntimeException) t.getCause()).getBusinessErrorType().getMessageReference());
+        } else {
+            exceptionsDTO = new ExceptionsDTO(t.getCause().getMessage());
+        }
 
         Logger.error("ERROR into global : " + exceptionsDTO.getMessage());
 
@@ -37,7 +49,10 @@ public class Global extends GlobalSettings {
         System.out.println("Global.onStart - START");
 
         // Put all translations in memory
+        int languageCounter = 0;
         for (String lang : LANGUAGES) {
+
+            //first language = reference language
             HashMap<String, String> translationCache = new HashMap<>();
             TRANSLATIONS.put(lang, translationCache);
             for (String bundleName : BUNDLES) {
@@ -54,6 +69,20 @@ public class Global extends GlobalSettings {
                     translationCache.put(key, value);
                 }
             }
+
+            if (languageCounter > 0) {
+
+                //complete hole by comparison with reference language
+                for (Map.Entry<String, String> reference : TRANSLATIONS.get(LANGUAGES[0]).entrySet()) {
+                    if (!translationCache.containsKey(reference.getKey())) {
+                        translationCache.put(reference.getKey(), reference.getValue());
+                    }
+
+                }
+
+            }
+
+            languageCounter++;
         }
         Logger.info("Global.onStart - END");
     }

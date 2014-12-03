@@ -18,7 +18,7 @@ angular.module 'app', [
 ]
 
 angular.module('app').run (gettextCatalog) ->
-    gettextCatalog.setCurrentLanguage('fr')
+    gettextCatalog.setCurrentLanguage('nl')
     gettextCatalog.loadRemote("/translations")
 
 
@@ -29,7 +29,7 @@ angular.module('app').run (gettextCatalog) ->
 # if not, try to connection
 # if not return to the welcome page
 defaultResolve =
-    testConnection: ($http, $rootScope, $state, downloadService, surveyDTOService) ->
+    testConnection: ($http, $rootScope,$stateParams, $state, downloadService, surveyDTOService) ->
         # if the current user is null...
         if not surveyDTOService.hasAccountType()
             console.log "je nai pas daccount type : " + surveyDTOService.surveyDTO
@@ -37,25 +37,24 @@ defaultResolve =
                 if result.success
                     surveyDTOService.surveyDTO = result.data
                 else
-                    $state.transitionTo 'root', {}, {inherit: true}
+                    $state.go 'root', $stateParams
 
 testAuthenticationResolve =
-    testConnection: ($http, $rootScope, $state, downloadService, surveyDTOService) ->
+    testConnection: ($http, $rootScope, $state, $stateParams, downloadService, surveyDTOService) ->
         downloadService.getJson '/authenticated', (result) ->
             if result.success
                 surveyDTOService.surveyDTO = result.data
                 if result.data.account.accountType == 'household'
-                    $state.transitionTo 'root.householdProfile'
+                    $state.go 'root.householdProfile', $stateParams
 
 changeLanguageResolve =
     changeLanguage: ($stateParams, gettextCatalog) ->
-        console.log 'language'
         gettextCatalog.setCurrentLanguage($stateParams.lang)
 
 angular
 .module('app.controllers')
 .config ($stateProvider, $urlRouterProvider) ->
-    langPrefix = '/:lang'
+    langPrefix = '/{lang}'
 
     $stateProvider
     .state 'root',
@@ -63,7 +62,7 @@ angular
         template: '<div ui-view></div>'
         controller: ($scope, $state, $stateParams) ->
             l = $stateParams.lang
-            if l =='fr' or l == 'nl' or l == 'en'
+            if l == 'fr' or l == 'nl' or l == 'en'
                 if $state.current.name != 'root.welcome'
                     $state.go 'root.welcome'
             else

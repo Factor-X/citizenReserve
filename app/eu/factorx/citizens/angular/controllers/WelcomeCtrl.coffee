@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService) ->
+.controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService,$flash) ->
     $scope.toHouseHold = ->
         surveyDTOService.getAccount().accountType = 'household'
         $state.go 'root.householdProfile'
@@ -28,9 +28,12 @@ angular
             downloadService.postJson '/login', dto, (result)->
                 $scope.loading = false
                 if result.success
+                    $flash.success 'account.login.success'
                     surveyDTOService.login(result.data)
                     if result.data.account.accountType == 'household'
                         $state.go 'root.householdProfile'
+                else
+                    $flash.error result.data.message
     #TODO to complete
 
     $scope.forgotPassword = ->
@@ -43,7 +46,9 @@ angular
             downloadService.postJson '/forgotPassword', dto, (result)->
                 $scope.loading = false
                 if result.success
-                    #TODO display success message
+                    $flash.success 'account.forgotPassword.success'
                     $scope.forgotPasswordParams.email = null
+                else
+                    $flash.error result.data.message
 
 

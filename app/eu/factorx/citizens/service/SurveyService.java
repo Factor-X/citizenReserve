@@ -3,8 +3,10 @@ package eu.factorx.citizens.service;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.model.type.QuestionCode;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface SurveyService {
@@ -20,5 +22,7 @@ public interface SurveyService {
     int countSurveys();
 
     List<Answer> findAnswersByQuestionCode(QuestionCode questionCode);
+
+    HashMap<TopicEnum, List<String>> getActions(Account account);
 
 }

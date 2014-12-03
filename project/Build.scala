@@ -31,7 +31,8 @@ object ApplicationBuild extends Build {
     "org.apache.commons" % "commons-lang3" % "3.1", "com.liferay" % "org.apache.commons.fileupload" % "1.2.2.LIFERAY-PATCHED-1",
     "com.google.code.maven-play-plugin.com.github.yeungda.jcoffeescript" % "jcoffeescript" % "1.0",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
-    "org.jasypt" % "jasypt" % "1.9.2"
+    "org.jasypt" % "jasypt" % "1.9.2",
+    "org.apache.velocity" % "velocity" % "1.7"
   )
 
   lazy val angularCompileTask = TaskKey[Unit]("angular-compile", "Compile angular app")
