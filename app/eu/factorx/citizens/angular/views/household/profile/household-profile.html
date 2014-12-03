@@ -14,7 +14,7 @@
 
                 <a class="cr-profile-actions-link"
                    ng-bind-html="'nav.to-actions' | translate"
-                   href="#/household-actions">
+                   ui-sref="root.householdActions">
                 </a>
             </div>
 
@@ -24,58 +24,58 @@
 
             <div class="col-md-2 col-sm-4 col-xs-6 col-md-offset-1">
                 <cr-topic
-                        image="household/topics/topic_presence"
-                        view="$/angular/views/household/profile/topics/profile-presence.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-green"
-                        label="topic.presence.label"
-                        active="{{ isProfileTopicCompleted('presence') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_presence"
+                    view="$/angular/views/household/profile/topics/profile-presence.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-green"
+                    label="topic.presence.label"
+                    active="{{ isProfileTopicCompleted('presence') }}"
+                    ></cr-topic>
             </div>
 
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_programs"
-                        view="$/angular/views/household/profile/topics/profile-programs.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-blue"
-                        label="topic.programs.label"
-                        active="{{ isProfileTopicCompleted('programs') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_programs"
+                    view="$/angular/views/household/profile/topics/profile-programs.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-blue"
+                    label="topic.programs.label"
+                    active="{{ isProfileTopicCompleted('programs') }}"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_heating"
-                        view="$/angular/views/household/profile/topics/profile-heating.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-red"
-                        label="topic.heating.label"
-                        active="{{ isProfileTopicCompleted('heating') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_heating"
+                    view="$/angular/views/household/profile/topics/profile-heating.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-red"
+                    label="topic.heating.label"
+                    active="{{ isProfileTopicCompleted('heating') }}"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_lighting"
-                        view="$/angular/views/household/profile/topics/profile-lighting.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-orange"
-                        label="topic.lighting.label"
-                        active="{{ isProfileTopicCompleted('lighting') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_lighting"
+                    view="$/angular/views/household/profile/topics/profile-lighting.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-orange"
+                    label="topic.lighting.label"
+                    active="{{ isProfileTopicCompleted('lighting') }}"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_dinner"
-                        view="$/angular/views/household/profile/topics/profile-dinner.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-magenta"
-                        label="topic.dinner.label"
-                        active="{{ isProfileTopicCompleted('dinner') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_dinner"
+                    view="$/angular/views/household/profile/topics/profile-dinner.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-magenta"
+                    label="topic.dinner.label"
+                    active="{{ isProfileTopicCompleted('dinner') }}"
+                    ></cr-topic>
             </div>
 
         </div>
@@ -86,10 +86,21 @@
                 <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReduction | numberToI18N: {nbDecimal: 0} }}</p>
                 -->
                 <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReduction }}</p>
-                <p>Mon Potentiel en kWh par jour sur la période 17h-20h: {{ potentialReduction.energyReduction }} Watt</p>
+
+                <p>Mon Potentiel en kWh par jour sur la période 17h-20h: {{ potentialReduction.energyReduction }}
+                    Watt</p>
                 <button class="btn btn-primary" ng-click="getPotentialReduction()">Refresh</button>
             </div>
         </div>
+
+        <!--<div class="row cr-profile-chart">-->
+            <!--<div class="col-md-8">-->
+                <!--<canvas tc-chartjs-line chart-options="options" chart-data="data" chart-legend="legend"></canvas>-->
+            <!--</div>-->
+            <!--<div class="col-md-4">-->
+                <!--<div tc-chartjs-legend chart-legend="legend"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
     </div>
 
