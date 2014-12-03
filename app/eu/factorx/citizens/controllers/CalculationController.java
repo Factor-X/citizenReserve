@@ -13,6 +13,7 @@ import play.api.Play;
 import play.mvc.BodyParser;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalculationController extends AbstractController {
@@ -35,7 +36,7 @@ public class CalculationController extends AbstractController {
 
 		// Validate incoming DTO - TODO
 		try {
-			calculationService.validateData(survey.getAnswers());
+			calculationService.validateProfile(survey.getAnswers());
 		} catch (Exception e) {
 			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
 		}
@@ -70,11 +71,14 @@ public class CalculationController extends AbstractController {
 
 
 		// Validate incoming DTO - TODO
+		List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
 		try {
-			calculationService.validateData(survey.getAnswers());
+			missingActions = calculationService.validateActions(survey.getAnswers());
 		} catch (Exception e) {
 			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
 		}
+
+		survey.getAnswers().addAll(missingActions);
 
 		EffectiveReductionDTO effectiveReductionResult = new EffectiveReductionDTO();
 
