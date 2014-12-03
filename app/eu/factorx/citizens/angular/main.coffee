@@ -2,7 +2,7 @@
 # Modules
 #
 
-angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider']
+angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider', 'tc.chartjs']
 
 angular.module 'app.filters', []
 
@@ -55,7 +55,7 @@ changeLanguageResolve =
 angular
 .module('app.controllers')
 .config ($stateProvider, $urlRouterProvider) ->
-    langPrefix = '/{lang:fr|nl|en}'
+    langPrefix = '/:lang'
 
     $stateProvider
     .state 'root',

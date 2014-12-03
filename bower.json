@@ -33,7 +33,8 @@
     "angular-gettext": "~1.1.4",
     "venturocket-angular-slider": "~0.3.2",
     "trip.js": "~2.0.2",
-    "ui-router": "~0.2.13"
+    "ui-router": "~0.2.13",
+    "tc-angular-chartjs": "~1.0.9"
   },
   "resolutions": {
     "angular": "=1.3.5"
