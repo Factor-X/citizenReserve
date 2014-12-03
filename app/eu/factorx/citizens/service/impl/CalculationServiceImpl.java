@@ -987,4 +987,8 @@ public class CalculationServiceImpl implements CalculationService {
 		return result;
 	}
 
+    @Override
+    public ReductionDTO calculateAveragePotentialReduction() {
+        return surveySer;
+    }
 }

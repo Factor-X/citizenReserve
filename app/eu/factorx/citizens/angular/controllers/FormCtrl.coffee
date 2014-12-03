@@ -67,7 +67,7 @@ angular
             else
                 console.log(result.data)
 
-    $scope.getPotentialReduction()
+#    $scope.getPotentialReduction()
 
     $scope.effectiveReduction = {}
 
@@ -78,4 +78,4 @@ angular
         else
           console.log(result.data)
 
-    $scope.getEffectiveReduction()
+#    $scope.getEffectiveReduction()
