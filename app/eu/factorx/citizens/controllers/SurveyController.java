@@ -63,7 +63,6 @@ public class SurveyController extends AbstractController {
         surveyService.saveSurvey(survey);
     }
 
-
     @Transactional
     public Result getParticipantsNumber() {
         int nbSurveys = surveyService.countSurveys();
