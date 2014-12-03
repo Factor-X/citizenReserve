@@ -5,7 +5,7 @@ angular.module('app.services', []);
 angular.module('app.controllers', ['app.services', 'ngRoute', 'ngLocale', 'gettext']);
 angular.module('app', ['app.directives', 'app.filters', 'app.services', 'app.controllers']);
 angular.module('app').run(function(gettextCatalog) {
-  gettextCatalog.setCurrentLanguage('fr');
+  gettextCatalog.setCurrentLanguage('nl');
   return gettextCatalog.loadRemote("/translations");
 });
 defaultResolve = {
@@ -276,6 +276,9 @@ Messenger.options = {
       },
       answers: []
     };
+  };
+  this.setAccount = function(account) {
+    return this.surveyDTO.account.id = account.id;
   };
   this.hasAccountType = function() {
     var result;
@@ -1940,6 +1943,7 @@ angular.module('app').run(function($rootScope, $location) {
       return downloadService.postJson('/registration', surveyDTOService.surveyDTO, function(result) {
         $scope.loading = false;
         if (result.success) {
+          surveyDTOService.setAccount(result.data.account);
           return console.log("je suis un success");
         } else {
           return console.log("je suis un echec");

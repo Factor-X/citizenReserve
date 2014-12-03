@@ -24,6 +24,9 @@ angular
             answers: []
         }
 
+    @setAccount =(account) ->
+        @surveyDTO.account.id = account.id
+
     @hasAccountType = ()->
         result = (@surveyDTO.account.accountType?)
         return result

@@ -7,6 +7,7 @@ import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.util.BusinessErrorType;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 
+import play.Logger;
 import play.mvc.Controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -50,6 +51,11 @@ public abstract class AbstractController extends Controller {
        }
        throw new MyRuntimeException("The questionKey : "+questionKey+" is unknown");
    }
+
+    public String getIpAddress(){
+        String remote = request().remoteAddress();
+        return remote;
+    }
 
 
 }

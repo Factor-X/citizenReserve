@@ -70,6 +70,7 @@ angular
             downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
                 $scope.loading=false
                 if result.success
+                    surveyDTOService.setAccount(result.data.account)
                     console.log "je suis un success"
                 else
                     console.log "je suis un echec"

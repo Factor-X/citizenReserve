@@ -6,18 +6,25 @@ import eu.factorx.citizens.converter.SurveyToSurveyDTOConverter;
 import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.AccountServiceImpl;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
-import eu.factorx.citizens.util.KeyGenerator;
+import eu.factorx.citizens.util.email.EmailEnum;
+import eu.factorx.citizens.util.email.EmailParams;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import eu.factorx.citizens.util.security.KeyGenerator;
+import eu.factorx.citizens.util.security.LoginAttemptManager;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by florian on 20/11/14.
@@ -33,6 +40,7 @@ public class AccountController extends AbstractController {
     //controller
     private SurveyController surveyController = new SurveyController();
     private SecuredController securedController = new SecuredController();
+    private EmailController emailController = new EmailController();
 
     @Transactional
     @Security.Authenticated(SecuredController.class)
@@ -107,10 +115,16 @@ public class AccountController extends AbstractController {
     public Result login() {
         LoginDTO loginDTO = extractDTOFromRequest(LoginDTO.class);
 
+        //test attempts
+        if (LoginAttemptManager.tooManyAttempts(loginDTO.getEmail(), getIpAddress())) {
+            throw new MyRuntimeException(BusinessErrorType.TOO_MANY_ATTEMPT);
+        }
+
         //login
         Account account = accountService.findByEmail(loginDTO.getEmail());
 
         if (account == null || !accountService.controlPassword(loginDTO.getPassword(), account)) {
+            LoginAttemptManager.failedAttemptLogin(loginDTO.getEmail(), getIpAddress());
             throw new MyRuntimeException(BusinessErrorType.WRONG_CREDENTIALS);
         }
 
@@ -155,16 +169,19 @@ public class AccountController extends AbstractController {
         account.setPassword(password);
 
         //send email
-        /* TODO
-        Map<String, Object> values = new HashMap<>();
-        values.put("request", calculatorInstance.getVerificationRequest());
-        values.put("user", securedController.getCurrentUser());
+        //create listParam
+        HashMap<EmailParams, String> paramsMap = new HashMap<>();
+        for (EmailParams emailParams : EmailEnum.FORGOT_PASSWORD.getExpectedParams()) {
+            if (emailParams.getName().equals("firstName")) {
+                paramsMap.put(emailParams, account.getFirstName());
+            } else if (emailParams.getName().equals("lastName")) {
+                paramsMap.put(emailParams, account.getLastName());
+            } else if (emailParams.getName().equals("newPassword")) {
+                paramsMap.put(emailParams, password);
+            }
+        }
 
-        String velocityContent = velocityGeneratorService.generate("verification/" + emailToSend, values);
-
-        EmailMessage email = new EmailMessage(emailTargets, emailTitle, velocityContent);
-        emailService.send(email);
-        */
+        emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap);
 
         return ok(new ResultDTO());
     }
@@ -211,6 +228,10 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
+        //create action list
+        HashMap<TopicEnum, List<String>> actions = surveyService.getActions(account);
+
+        Logger.error("actions:"+actions);
 
         //TODO send email
 
@@ -218,7 +239,7 @@ public class AccountController extends AbstractController {
         securedController.storeIdentifier(account);
 
         //TODO return summary
-        return ok(new SummaryDTO());
+        return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
     }
 
