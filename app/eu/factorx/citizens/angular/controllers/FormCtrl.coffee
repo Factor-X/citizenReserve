@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "FormCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, conditionService, $location) ->
+.controller "FormCtrl", ($scope, modalService, $filter, $log, downloadService, surveyDTOService, conditionService, $location) ->
     $scope.topicQuestions =
         profile:
             'presence': ['Q1300', 'Q1400', 'Q1500']
@@ -78,95 +78,85 @@ angular
     $scope.getEffectiveReduction()
 
 
-    $scope.data =
-        labels: [
-            "17h"
-            "18h30"
-            "20h"
-        ]
-        datasets: [
-            {
-                label: "My First dataset"
-                fillColor: "rgba(220,220,220,0.2)"
-                strokeColor: "rgba(220,220,220,1)"
-                pointColor: "rgba(220,220,220,1)"
-                pointStrokeColor: "#fff"
-                pointHighlightFill: "#fff"
-                pointHighlightStroke: "rgba(220,220,220,1)"
-                data: [
-                    65
-                    81
-                    40
-                ]
-            }
-            {
-                label: "My Second dataset"
-                fillColor: "rgba(151,187,205,0.2)"
-                strokeColor: "rgba(151,187,205,1)"
-                pointColor: "rgba(151,187,205,1)"
-                pointStrokeColor: "#fff"
-                pointHighlightFill: "#fff"
-                pointHighlightStroke: "rgba(151,187,205,1)"
-                data: [
-                    28
-                    19
-                    90
-                ]
-            }
-        ]
-
-
-    # Chart.js Options
     $scope.options =
+        chart:
+            type: 'lineChart',
+            forceY: [0]
+            height: 450,
+            margin:
+                top: 20,
+                right: 20,
+                bottom: 60,
+                left: 55
+            x: (d) ->
+                return d.x
+            y: (d) ->
+                return d.y
+            showValues: true
+            transitionDuration: 500,
+            xAxis:
+                axisLabel: ''
+                tickValues: [17, 18, 19, 20]
+                showMaxMin: false
+                tickFormat: (d)->
+                    return $filter('toHour')(parseInt(d))
+            yAxis:
+                axisLabel: '',
+                axisLabelDistance: 30
+                showMaxMin: false
+                tickFormat: (d)->
+                    return $filter('toWatts')(parseInt(d))
 
-    # Sets the chart to be responsive
-        responsive: true
-
-    #/Boolean - Whether grid lines are shown across the chart
-        scaleShowGridLines: true
-
-    #String - Colour of the grid lines
-        scaleGridLineColor: "rgba(0,0,0,.05)"
-
-    #Number - Width of the grid lines
-        scaleGridLineWidth: 1
-
-    #Boolean - Whether the line is curved between points
-        bezierCurve: true
-
-    #Number - Tension of the bezier curve between points
-        bezierCurveTension: 0.4
-
-    #Boolean - Whether to show a dot for each point
-        pointDot: false
-
-    #Number - Radius of each point dot in pixels
-        pointDotRadius: 4
-
-    #Number - Pixel width of point dot stroke
-        pointDotStrokeWidth: 1
-
-    #Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-        pointHitDetectionRadius: 20
-
-    #Boolean - Whether to show a stroke for datasets
-        datasetStroke: true
-
-    #Number - Pixel width of dataset stroke
-        datasetStrokeWidth: 2
-
-    #Boolean - Whether to fill the dataset with a colour
-        datasetFill: true
-
-        showTooltips: false
-
-    # Function - on animation progress
-        onAnimationProgress: ->
+    calcParabolaParameters = (x1, y1, x2, y2, x3, y3) ->
+        denom = (x1 - x2) * (x1 - x3) * (x2 - x3)
+        A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom
+        B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom
+        C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom
+        return {a:A, b:B, c:C}
 
 
-            # Function - on animation complete
-        onAnimationComplete: ->
+    arr1 = calcParabolaParameters(17.5,100,18.5,120,19.5,110)
+    arr2 = calcParabolaParameters(17.5,90,18.5,105,19.5,100)
 
-
-            #String - A legend template
-        legendTemplate: "<ul class=\"tc-chart-js-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+    $scope.data = [
+        {
+            key: "MEAN OF ALL",
+            color: '#d22323'
+            area: true
+            values: [
+                { x: 17, y: 100 },
+                { x: 18, y: 100 },
+                { x: 18, y: 120 },
+                { x: 19, y: 120 },
+                { x: 19, y: 110 },
+                { x: 20, y: 110 },
+            ]
+        },
+        {
+            key: "YOU",
+            color: '#229913'
+            area: true
+            values: [
+                { x: 17, y: 90 },
+                { x: 18, y: 90 },
+                { x: 18, y: 105 },
+                { x: 19, y: 105 },
+                { x: 19, y: 100 },
+                { x: 20, y: 100 },
+            ]
+        },
+        {
+            key: "TREND ALL"
+            color: '#F22626'
+            values: _.map(_.range(17, 20.05, 0.1), (x) ->
+                return { x: x, y: arr1.a * x*x + arr1.b*x + arr1.c }
+            )
+        },
+        {
+            key: "TREND YOU"
+            color: '#28DB15'
+            values: _.map(_.range(17, 20.05, 0.1), (x) ->
+                return { x: x, y: arr2.a * x*x + arr2.b*x + arr2.c }
+            )
+        }
+    ];
