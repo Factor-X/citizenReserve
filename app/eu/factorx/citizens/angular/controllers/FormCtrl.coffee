@@ -53,8 +53,10 @@ angular
 
     $scope.isProfileCompleted = ->
         $scope.topicQuestions.profile
-#        for topicIdentifier of $scope.topicQuestions.profile
-        return
+        for topicIdentifier of $scope.topicQuestions.profile
+            if (!$scope.isProfileTopicCompleted(topicIdentifier))
+                return false
+        return true
 
     $scope.potentialReduction = {}
 
