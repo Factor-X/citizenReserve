@@ -14,7 +14,7 @@
 
                 <a class="cr-profile-actions-link"
                    ng-bind-html="'nav.to-actions' | translate"
-                   href="#/household-actions">
+                   ui-sref="root.householdActions">
                 </a>
             </div>
 
@@ -29,7 +29,7 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-green"
                         label="topic.presence.label"
-                        active="{{ isTopicCompleted('presence') }}"
+                        active="{{ isProfileTopicCompleted('presence') }}"
                         ></cr-topic>
             </div>
 
@@ -41,7 +41,7 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-blue"
                         label="topic.programs.label"
-                        active="{{ isTopicCompleted('programs') }}"
+                        active="{{ isProfileTopicCompleted('programs') }}"
                         ></cr-topic>
             </div>
 
@@ -52,7 +52,7 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-red"
                         label="topic.heating.label"
-                        active="{{ isTopicCompleted('heating') }}"
+                        active="{{ isProfileTopicCompleted('heating') }}"
                         ></cr-topic>
             </div>
 
@@ -63,7 +63,7 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-orange"
                         label="topic.lighting.label"
-                        active="{{ isTopicCompleted('lighting') }}"
+                        active="{{ isProfileTopicCompleted('lighting') }}"
                         ></cr-topic>
             </div>
 
@@ -74,11 +74,23 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-magenta"
                         label="topic.dinner.label"
-                        active="{{ isTopicCompleted('dinner') }}"
+                        active="{{ isProfileTopicCompleted('dinner') }}"
                         ></cr-topic>
             </div>
 
         </div>
+
+        <div class="row cr-profile-result">
+            <div class="col-md-12">
+                <!--
+                <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReduction | numberToI18N: {nbDecimal: 0} }}</p>
+                -->
+                <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReduction }}</p>
+                <p>Mon Potentiel en kWh par jour sur la période 17h-20h: {{ potentialReduction.energyReduction }} Watt</p>
+                <button class="btn btn-primary" ng-click="getPotentialReduction()">Refresh</button>
+            </div>
+        </div>
+
     </div>
 
 </div>

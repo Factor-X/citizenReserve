@@ -1,38 +1,101 @@
 .cr-messenger {
-    .messenger-message {
-        margin-right: 15px;
-        background: #ffffff;
-        border: solid 1px #999;
 
-        &.message-error {
-            color: #d22323;
-        }
+    &.messenger.messenger-fixed.messenger-on-top.messenger-on-top {
+        top: 5px;
+    }
 
-        &.message-info {
-            color: #1494d0;
+    .messenger-message-slot {
+        position: relative;
+
+        .messenger-message {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            border: 1px solid rgba(0, 0, 0, .2);
+            border-radius: 6px;
+            margin-bottom: 5px;
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                display: inline-block;
+                border-radius: 6px 6px 0 0;
+                background-image: url('/assets/images/modal/title_gradientBG.png');
+                background-size: 100% 100%;
+                height: 8px;
+            }
 
             .messenger-message-inner:before {
                 font-family: 'FontAwesome';
-                content: '\f129';
                 font-size: 1.5em;
                 float: left;
                 display: inline-block;
                 width: 2em;
                 height: 2em;
             }
-        }
 
-        &.message-warning {
-            color: #ff7800;
-        }
+            &.message-error {
+                color: #d22323;
+                background: lighten(#d22323, 50%);
 
-        .messenger-close {
-            background: transparent;
-            border: none;
-            float: right;
-        }
+                &:before {
+                    background-color: #d22323;
+                }
 
-        .messenger-message-inner {
+                .messenger-message-inner:before {
+                    content: '\f00d';
+                }
+            }
+
+            &.message-success {
+                color: #229913;
+                background: lighten(#229913, 50%);
+
+                &:before {
+                    background-color: #229913;
+                }
+
+                .messenger-message-inner:before {
+                    content: '\f00c';
+                }
+
+            }
+
+            &.message-info {
+                color: #1494d0;
+                background: lighten(#1494d0, 50%);
+
+                &:before {
+                    background-color: #1494d0;
+                }
+
+                .messenger-message-inner:before {
+                    content: '\f129';
+                }
+            }
+
+            &.message-warning {
+                color: #ff7800;
+                background: lighten(#ff7800, 50%);
+
+                &:before {
+                    background-color: #ff7800;
+                }
+
+                .messenger-message-inner:before {
+                    content: '\f071';
+                }
+            }
+
+            .messenger-close {
+                background: transparent;
+                border: none;
+                float: right;
+            }
+
+            .messenger-message-inner {
+            }
         }
     }
 }

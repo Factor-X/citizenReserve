@@ -5,10 +5,17 @@ import eu.factorx.citizens.dto.AnswerValueDTO;
 import eu.factorx.citizens.dto.SurveyDTO;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
+import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import play.db.ebean.Transactional;
+import play.mvc.Result;
+
+import java.util.Iterator;
+import java.util.List;
 
 import java.util.Date;
 
@@ -55,4 +62,19 @@ public class SurveyController extends AbstractController {
 
         surveyService.saveSurvey(survey);
     }
+
+    @Transactional
+    public Result getParticipantsNumber() {
+        int nbSurveys = surveyService.countSurveys();
+        List<Answer> answers = surveyService.findAnswersByQuestionCode(QuestionCode.Q1300);
+        int nbParticipants = 0;
+        for (Answer answer : answers) {
+            Iterator<AnswerValue> answerValueIterator = answer.getAnswerValues().iterator();
+            if (answerValueIterator.hasNext()) {
+                nbParticipants += answerValueIterator.next().getDoubleValue();
+            }
+        }
+        return ok("{'nbSurveys':'" + nbSurveys + "','nbParticipants':'" + nbParticipants + "'}");
+    }
+
 }

@@ -21,5 +21,8 @@ POST        /account/changePassword        @eu.factorx.citizens.controllers.Acco
 POST        /account/changeEmail           @eu.factorx.citizens.controllers.AccountController.changeEmail()
 
 #calulation routes
-#GET         /effective             @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
-GET         /potential                     @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
+POST         /reduction/effective           @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
+POST         /reduction/potential           @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
+
+# Stats
+GET         /stats/nb_participants         @eu.factorx.citizens.controllers.SurveyController.getParticipantsNumber()

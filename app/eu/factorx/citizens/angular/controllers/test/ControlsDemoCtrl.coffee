@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ControlsDemoCtrl", ($scope, modalService, $log, gettextCatalog) ->
+.controller "ControlsDemoCtrl", ($scope, modalService, $log, gettextCatalog, $flash) ->
     #
     # Initialize
     #
@@ -11,7 +11,7 @@ angular
         sel: 'Human'
         items: [
             'Human'
-            'Bat'
+            'B@t'
             '-'
             'Vampire'
         ]
@@ -88,6 +88,10 @@ angular
 
             modalInstance.result.then (result) ->
                 $log.info(result)
+                $flash.success 'success'
+                $flash.info 'info'
+                $flash.error 'error'
+                $flash.warning 'warning'
             , () ->
                 $scope.x.sel = o
                 $log.info('Modal dismissed at: ' + new Date())

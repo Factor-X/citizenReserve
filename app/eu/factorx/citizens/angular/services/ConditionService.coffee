@@ -1,8 +1,6 @@
 angular
 .module('app.services')
 .service "conditionService", (surveyDTOService) ->
-    svc = this
-    hits = 0
     testAnswerIsTrue = (questionKey, periodKey) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).booleanValue
         if (answerValue == null)
@@ -41,14 +39,12 @@ angular
         for answer in answers
             for answerValue in answer.answerValues
                 if !!answerValue.stringValue
-                    console.log("reset stringValue")
                     answerValue.stringValue = null
                 if !!answerValue.doubleValue
-                    console.log("reset doubleValue")
                     answerValue.doubleValue = null
                 if !!answerValue.booleanValue
-                    console.log("reset booleanValue")
                     answerValue.booleanValue = null
+        return
 
     tests =
         Q3211: ->
@@ -133,9 +129,6 @@ angular
     # check condition defining if a question can be displayed
     #
     @checkCondition = (questionKey) ->
-        hits++;
-        console.log("checkCondition for questionKey = " + questionKey)
-        console.log("checkCondition nb hits = " + hits)
         testFct = tests[questionKey]
         if !!testFct
             res = testFct()

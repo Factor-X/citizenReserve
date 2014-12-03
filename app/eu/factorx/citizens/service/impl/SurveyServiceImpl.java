@@ -5,6 +5,8 @@ import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.technical.AbstractEntity;
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
@@ -52,6 +54,18 @@ public class SurveyServiceImpl implements SurveyService {
         }
 
         return null;
+    }
+
+    @Override
+    public int countSurveys() {
+        return Ebean.find(Survey.class).where().isNull(AbstractEntity.DELETION_DATE).findRowCount();
+    }
+
+    @Override
+    public List<Answer> findAnswersByQuestionCode(QuestionCode questionCode) {
+        return Ebean.createNamedQuery(Answer.class, Answer.FIND_BY_QUESTION_CODE)
+                .setParameter(Answer.QUESTION_CODE, questionCode)
+                .findList();
     }
 
 
