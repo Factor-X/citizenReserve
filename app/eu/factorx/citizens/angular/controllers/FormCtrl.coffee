@@ -60,5 +60,15 @@ angular
             else
                 console.log(result.data)
 
-
     $scope.getPotentialReduction()
+
+    $scope.effectiveReduction = {}
+
+    $scope.getEffectiveReduction = ->
+      downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
+        if result.success
+          $scope.effectiveReduction = result.data
+        else
+          console.log(result.data)
+
+    $scope.getEffectiveReduction()
