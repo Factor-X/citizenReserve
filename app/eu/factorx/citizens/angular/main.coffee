@@ -2,7 +2,7 @@
 # Modules
 #
 
-angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider', 'tc.chartjs']
+angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-rangeSlider']
 
 angular.module 'app.filters', []
 
@@ -62,10 +62,10 @@ angular
         url: langPrefix
         template: '<div ui-view></div>'
         controller: ($scope, $state, $stateParams) ->
-
             l = $stateParams.lang
             if l =='fr' or l == 'nl' or l == 'en'
-                $state.go 'root.welcome'
+                if $state.current.name != 'root.welcome'
+                    $state.go 'root.welcome'
             else
                 $state.go 'root.welcome', {lang: 'fr'}
 

@@ -5,11 +5,11 @@ import eu.factorx.citizens.service.TranslationService;
 /**
  * Created by florian on 3/12/14.
  */
-public class TranslationHelp {
+public class TranslationHelper {
 
     private TranslationService translationService;
 
-    public TranslationHelp(TranslationService translationService) {
+    public TranslationHelper(TranslationService translationService) {
         this.translationService = translationService;
     }
 
