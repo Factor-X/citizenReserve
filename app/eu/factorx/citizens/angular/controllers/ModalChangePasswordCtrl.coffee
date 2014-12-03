@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ModalChangePasswordCtrl", ($scope, modalService, $log,  downloadService, $modalInstance) ->
+.controller "ModalChangePasswordCtrl", ($scope, modalService, $log,  downloadService, $modalInstance,$flash) ->
 
     $scope.noSubmitYet=true
     $scope.loading=false
@@ -37,12 +37,10 @@ angular
             downloadService.postJson '/account/changePassword', dto, (result) ->
                 $scope.loading=false
                 if result.success
-                    # TODO message
-                    console.log "je suis un success"
+                    $flash.success 'account.changePassword.success'
                     $scope.close()
                 else
-                    # TODO message
-                    console.log "je suis un echec"
+                    $flash.error result.data.message
 
 
     $scope.checkValidity = () ->

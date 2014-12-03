@@ -7,11 +7,14 @@
             </td>
             <td>
                 <ul>
-                    <li>
-                        #foreach ($questionCode in $mapEntry.value)
-                            $translationHelper.getMessage($questionCode)
-                        #end
-                    </li>
+                    #foreach ($questionCode in $mapEntry.value)
+                        <li>
+
+                            #set ($questionTransductionName = ${questionCode} + ".label")
+                            $translationHelper.getMessage($questionTransductionName)
+
+                        </li>
+                    #end
                 </ul>
             </td>
         </tr>

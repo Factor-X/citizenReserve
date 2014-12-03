@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "RegistrationCtrl", ($scope, modalService, $log,  downloadService, surveyDTOService, optionService,$location) ->
+.controller "RegistrationCtrl", ($scope, modalService, $log,  downloadService, surveyDTOService, optionService,$location,$flash) ->
 
     $scope.noSubmitYet=true
     $scope.loading=false
@@ -29,6 +29,7 @@ angular
             if result.success
                 $location.path('/welcome')
                 surveyDTOService.logout()
+                $flash.success 'logout.success'
         return
 
     $scope.validation = {
@@ -71,9 +72,9 @@ angular
                 $scope.loading=false
                 if result.success
                     surveyDTOService.setAccount(result.data.account)
-                    console.log "je suis un success"
+                    $flash.success 'account.save.success'
                 else
-                    console.log "je suis un echec"
+                    $flash.error result.data.message
 
 
     $scope.checkValidity = () ->

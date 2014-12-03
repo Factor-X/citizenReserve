@@ -5,9 +5,9 @@ import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.model.technical.AbstractEntity;
 import eu.factorx.citizens.model.type.QuestionCode;
-import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 
@@ -92,18 +92,19 @@ public class SurveyServiceImpl implements SurveyService {
                 for (String questionCode : topicEnum.getQuestionCodeList()) {
                     if (answer.getQuestionCode().name().equals(questionCode)) {
 
-                        if (!result.containsKey(answer)) {
-                            result.put(topicEnum, new ArrayList<String>());
-                        }
+
                         if (answer.getAnswerValues().size() > 0) {
+                            if (!result.containsKey(topicEnum)) {
+                                result.put(topicEnum, new ArrayList<String>());
+                            }
                             for (AnswerValue answerValue : answer.getAnswerValues()) {
 
                                 //if the answer is boolean, expect true
-                                if(answerValue.getBooleanValue()!=null && answerValue.getBooleanValue()){
+                                if (answerValue.getBooleanValue() != null && answerValue.getBooleanValue()) {
                                     result.get(topicEnum).add(questionCode);
                                 }
                                 //if the answer is a number, expect more than 0
-                                else if(answerValue.getDoubleValue()!=null && answerValue.getDoubleValue()>0){
+                                else if (answerValue.getDoubleValue() != null && answerValue.getDoubleValue() > 0) {
                                     result.get(topicEnum).add(questionCode);
                                 }
                                 //stop after 1 loop => only on answerValue by answer

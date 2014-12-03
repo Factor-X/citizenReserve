@@ -272,7 +272,7 @@ public class AccountController extends AbstractController {
         sendSummaryEmail(account);
 
         //TODO return summary
-        return ok(new SummaryDTO());
+        return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
     }
 
@@ -289,7 +289,7 @@ public class AccountController extends AbstractController {
 
         HashMap<EmailParams, String> paramsMap = new HashMap<>();
 
-        for (EmailParams emailParams : EmailEnum.FORGOT_PASSWORD.getExpectedParams()) {
+        for (EmailParams emailParams : EmailEnum.SUMMARY.getExpectedParams()) {
             if (emailParams.getName().equals("firstName")) {
                 paramsMap.put(emailParams, account.getFirstName());
             } else if (emailParams.getName().equals("lastName")) {
@@ -305,7 +305,7 @@ public class AccountController extends AbstractController {
             }
         }
 
-        emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap);
+        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap);
 
     }
 

@@ -33,7 +33,7 @@ public class EmailController extends AbstractController {
 
     private final TranslationService translationService = new TranslationServiceImpl();
     private final VelocityGeneratorService velocityGeneratorService = new VelocityGeneratorServiceImpl();
-    private final TranslationHelp translationHelp = new TranslationHelp(translationService);
+    private final TranslationHelper translationHelper = new TranslationHelper(translationService);
     private final EmailService emailService;
     private final SurveyService surveyService = new SurveyServiceImpl();
 
@@ -73,7 +73,7 @@ public class EmailController extends AbstractController {
         Map<String, Object> values = new HashMap<>();
         values.put("hostname", hostname);
         values.put("contentKey", emailEnum.getContentKey());
-        values.put("translationHelper", translationHelp);
+        values.put("translationHelper", translationHelper);
         values.put("contentParams", params);
 
         String velocityContent = velocityGeneratorService.generate(VELOCITY_BASIC_EMAIL, values);
@@ -88,7 +88,7 @@ public class EmailController extends AbstractController {
 
         Map<String, Object> values = new HashMap<>();
         values.put("actions", actions);
-        values.put("translationHelper", translationHelp);
+        values.put("translationHelper", translationHelper);
         values.put("hostname", hostname);
 
         return velocityGeneratorService.generate(VELOCITY_LIST_ACTION, values);
