@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "crText", (directiveService) ->
+.directive "crText", (directiveService, $timeout) ->
     restrict: "E"
     scope: directiveService.autoScope
         ngModel: '='
@@ -15,8 +15,10 @@ angular
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
 
-        if scope.getType()
-            $('input', elem).attr('type', scope.getType())
+        $timeout () ->
+            if scope.getType()
+                $('input', elem).attr('type', scope.getType())
+        , 0
 
         if scope.getValidation()?
             scope.$watch 'getModel()', ->
