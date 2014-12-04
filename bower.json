@@ -34,9 +34,11 @@
     "venturocket-angular-slider": "~0.3.2",
     "trip.js": "~2.0.2",
     "ui-router": "~0.2.13",
-    "tc-angular-chartjs": "~1.0.9"
+    "tc-angular-chartjs": "~1.0.9",
+    "angular-nvd3": "~0.0.9"
   },
   "resolutions": {
-    "angular": "=1.3.5"
+    "angular": "=1.3.5",
+    "d3": "~3.4"
   }
 }

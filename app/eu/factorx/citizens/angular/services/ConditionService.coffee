@@ -1,11 +1,26 @@
 angular
 .module('app.services')
 .service "conditionService", (surveyDTOService) ->
+
+    getNumericValue  = (questionKey, periodKey) ->
+        answer = surveyDTOService.getAnswerValue(questionKey, periodKey)
+        if (answer.doubleValue != null)
+            return answer.doubleValue
+        else if (answer.stringValue != null && parseFloat(answer.stringValue))
+            return parseFloat(answer.stringValue)
+        return 0
+
     testAnswerIsTrue = (questionKey, periodKey) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).booleanValue
         if (answerValue == null)
             return false
         return answerValue
+
+    testAnswerNotNull = (questionKey, periodKey) ->
+        answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).booleanValue
+        if (answerValue == null)
+            return false
+        return true
 
     testAnswerNotEquals = (questionKey, periodKey, stringValue) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).stringValue
@@ -153,30 +168,57 @@ angular
             if testAnswerEquals('Q1400', null, '5')
                 return 'Q1400.option5.warning'
             return null
-        Q1110:->
-            if false #TODO
-                return 'Q1110.label.toomany.warning'
-            return null
-        Q1900:->
+        Q1110:
+            # display only on the first period
+            FIRST:->
+                val = getNumericValue('Q1110','FIRST') + getNumericValue('Q1110','SECOND') + getNumericValue('Q1110','THIRD')
+                if  val >= 5
+                    return 'Q1110.label.toomany.warning'
+                return null
+
+            SECOND:->
+                val = getNumericValue('Q1110','FIRST') + getNumericValue('Q1110','SECOND') + getNumericValue('Q1110','THIRD')
+                if  val >= 5
+                    return 'Q1110.label.toomany.warning'
+                return null
+
+            THIRD:->
+                val = getNumericValue('Q1110','FIRST') + getNumericValue('Q1110','SECOND') + getNumericValue('Q1110','THIRD')
+                if  val >= 5
+                    return 'Q1110.label.toomany.warning'
+                return null
+        Q1900: ->
             if testAnswerIsLowerThan('Q1900', null, '100')
                 return 'Q1900.low-value.warning'
             return null
-        Q1800:->
+        Q1800: ->
             if testAnswerIsLowerThan('Q1800', null, '10')
                 return 'Q1800.low-value.warning'
             return null
-        Q3420:->
-            return 'Q3420.tooltip'
-        Q3510:->
-            return 'Q3510.tooltip'
-        Q3740:->
-            return 'Q3740.tooltip'
-        Q3211:->
-            return 'Q3211.tooltip'
+        Q3420: ->
+            if testAnswerNotNull('Q3420', null)
+                return 'Q3420.tooltip'
+            return null
+        Q3510: ->
+            if testAnswerNotNull('Q3510', null)
+                return 'Q3510.tooltip'
+            return null
+        Q3740: ->
+            if testAnswerNotNull('Q3740', null)
+                return 'Q3740.tooltip'
+            return null
+        Q3211: ->
+            if testAnswerNotNull('Q3211', null)
+                return 'Q3211.tooltip'
+            return null
 
 
-    @getTooltip = (questionKey,periodKey) ->
-        return tooltips[questionKey]
+    @getTooltip = (questionKey,periodKey=null) ->
+        if periodKey==null
+            return tooltips[questionKey]
+        else if tooltips[questionKey]?
+            return tooltips[questionKey][periodKey]
+        return null
 
 
     return

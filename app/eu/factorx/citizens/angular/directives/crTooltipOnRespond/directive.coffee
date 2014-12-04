@@ -10,7 +10,7 @@ angular
         questionKey =o.key
         periodKey =o.period
 
-        if conditionService.getTooltip(questionKey)?
+        if conditionService.getTooltip(questionKey,periodKey)?
 
             if $(elem).closest('.modal').length > 0
                 scope.$lbl = conditionService.getTooltip(questionKey,periodKey)()

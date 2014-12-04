@@ -1,17 +1,23 @@
 package eu.factorx.citizens;
 
+import akka.actor.Cancellable;
 import eu.factorx.citizens.dto.technical.ExceptionsDTO;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
+import play.libs.Akka;
 import play.libs.F;
 import play.mvc.Http;
 import play.mvc.Results;
 import play.mvc.SimpleResult;
+import scala.concurrent.duration.Duration;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Global extends GlobalSettings {
 
@@ -46,7 +52,7 @@ public class Global extends GlobalSettings {
 
     @Override
     public void beforeStart(Application app) {
-        System.out.println("Global.onStart - START");
+		Logger.info("Global.beforeStart - START");
 
         // Put all translations in memory
         int languageCounter = 0;
@@ -84,7 +90,38 @@ public class Global extends GlobalSettings {
 
             languageCounter++;
         }
-        Logger.info("Global.onStart - END");
+        Logger.info("Global.beforeStart - END");
     }
+
+	@Override
+	public void onStart(Application app) {
+
+		Logger.info("Global.onStart - START");
+
+
+		// start Akka task every 24 hours to compute consolidation statistics
+		Cancellable schedule = Akka.system().scheduler().schedule(
+				Duration.create(10, TimeUnit.SECONDS),
+				Duration.create(1, TimeUnit.MINUTES),
+				new Runnable() {
+					public void run() {
+						try {
+							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+							Date date = new Date();
+							Logger.info("Consolidation Batch Started @" + dateFormat.format(date));
+							// run batch here
+							date = new Date();
+							Logger.info("Consolidation Batch Ended @" + dateFormat.format(date));
+
+						} catch (Exception e) {
+							Logger.info("batch exception...", e);
+						}
+					}
+				},
+				Akka.system().dispatchers().defaultGlobalDispatcher()
+		);
+
+		Logger.info("Global.onStart - END");
+	}
 
 }
