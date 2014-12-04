@@ -12,6 +12,8 @@ import java.util.Date;
 public abstract class AbstractEntity extends Model implements Comparator<AbstractEntity> {
 
     public static final String DELETION_DATE = "deletionDate";
+    public static final String LAST_UPDATE_DATE = "lastUpdateDate";
+
     @Id
 	@GeneratedValue
 	protected Long id;

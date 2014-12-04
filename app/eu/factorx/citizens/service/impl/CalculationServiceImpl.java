@@ -1,15 +1,20 @@
 package eu.factorx.citizens.service.impl;
 
 
+import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.AnswerValueDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
+import eu.factorx.citizens.model.batch.GlobalPotentialReduction;
+import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Period;
 
+import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.CalculationService;
-import play.api.Logger;
+import eu.factorx.citizens.service.SurveyService;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +34,7 @@ public class CalculationServiceImpl implements CalculationService {
 	static final Double FOUR = 4.0;
 	static final Double THREEQUARTERDOUBLE = THREEQUARTER * 2;
 
-
-	// TODO validate incoming information method
+    // TODO validate incoming information method
 	@Override
 	public void validateProfile (List<AnswerDTO> surveyAnswers) {
 

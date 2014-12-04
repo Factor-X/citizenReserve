@@ -1,13 +1,16 @@
 package eu.factorx.citizens.controllers;
 
+import com.avaje.ebean.Ebean;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.AnswerValueDTO;
 import eu.factorx.citizens.dto.SurveyDTO;
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.batch.BatchResult;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.model.type.QuestionCode;
+import eu.factorx.citizens.service.BatchService;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
@@ -19,9 +22,6 @@ import java.util.List;
 
 import java.util.Date;
 
-/**
- * Created by florian on 27/11/14.
- */
 public class SurveyController extends AbstractController {
 
     //service
@@ -75,6 +75,10 @@ public class SurveyController extends AbstractController {
             }
         }
         return ok("{'nbSurveys':'" + nbSurveys + "','nbParticipants':'" + nbParticipants + "'}");
+    }
+
+    public Result getGlobalReductionData() {
+        BatchResult batchResult = Ebean.find(Batch.cl)
     }
 
 }

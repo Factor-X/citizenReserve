@@ -2,6 +2,7 @@ package eu.factorx.citizens;
 
 import akka.actor.Cancellable;
 import eu.factorx.citizens.dto.technical.ExceptionsDTO;
+import eu.factorx.citizens.service.impl.BatchServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import play.Application;
 import play.GlobalSettings;
@@ -110,6 +111,7 @@ public class Global extends GlobalSettings {
 							Date date = new Date();
 							Logger.info("Consolidation Batch Started @" + dateFormat.format(date));
 							// run batch here
+                            new BatchServiceImpl().run();
 							date = new Date();
 							Logger.info("Consolidation Batch Ended @" + dateFormat.format(date));
 
