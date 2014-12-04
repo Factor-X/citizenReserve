@@ -37,6 +37,7 @@ public class BatchServiceImpl implements BatchService {
         batchResultSet.save();
     }
 
+    @Override
     public BatchResult findLastBatchResult() {
         return Ebean.find(BatchResult.class).where().eq(AbstractEntity.LAST_UPDATE_DATE, getLastBatchResultDate()).findUnique();
     }
