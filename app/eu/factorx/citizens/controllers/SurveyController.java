@@ -53,8 +53,6 @@ public class SurveyController extends AbstractController {
                     survey.addAnswer(getQuestionCodeByQuestionKey(answerDTO.getQuestionKey()), getPeriodByPeriodKey(answerDTO.getPeriodKey()), answerValueDTO.getDoubleValue());
                 } else if (answerValueDTO.getStringValue() != null) {
                     survey.addAnswer(getQuestionCodeByQuestionKey(answerDTO.getQuestionKey()), getPeriodByPeriodKey(answerDTO.getPeriodKey()), answerValueDTO.getStringValue());
-                } else {
-                    //throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
                 }
             }
 
@@ -78,7 +76,8 @@ public class SurveyController extends AbstractController {
     }
 
     public Result getGlobalReductionData() {
-        BatchResult batchResult = Ebean.find(Batch.cl)
+        //BatchResult batchResult = Ebean.find(Batch.cl)
+        return ok();
     }
 
 }

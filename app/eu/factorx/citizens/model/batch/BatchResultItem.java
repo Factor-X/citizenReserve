@@ -1,13 +1,18 @@
 package eu.factorx.citizens.model.batch;
 
 import eu.factorx.citizens.model.survey.Period;
+import eu.factorx.citizens.model.technical.AbstractEntity;
 import eu.factorx.citizens.model.type.ReductionDay;
+import play.db.ebean.Model;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "batchresultitem")
-public class BatchResultItem {
+public class BatchResultItem extends Model{
+
+    @Id
+    private Long id;
 
     @Enumerated(value = EnumType.STRING)
     private ReductionDay day;
@@ -28,6 +33,14 @@ public class BatchResultItem {
         this.period = period;
         this.powerReduction = powerReduction;
         this.batchResult = batchResult;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public ReductionDay getDay() {

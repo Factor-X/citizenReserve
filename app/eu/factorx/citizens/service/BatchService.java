@@ -8,4 +8,5 @@ public interface BatchService {
 
     BatchResult findLastBatchResult();
 
+    java.util.List<BatchResult> findBatchToDisplayForSuperAdmin();
 }

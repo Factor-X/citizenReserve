@@ -50,6 +50,9 @@ public class Account extends AbstractEntity {
 
     private String sensitizationKit;
 
+    @Column(columnDefinition = "boolean default false",nullable = false)
+    private boolean superAdmin = false;
+
     public Account() {
     }
 
@@ -141,6 +144,14 @@ public class Account extends AbstractEntity {
 
     public void setSensitizationKit(String sensitizationKit) {
         this.sensitizationKit = sensitizationKit;
+    }
+
+    public boolean isSuperAdmin() {
+        return superAdmin;
+    }
+
+    public void setSuperAdmin(boolean superAdmin) {
+        this.superAdmin = superAdmin;
     }
 
     @Override

@@ -101,6 +101,8 @@ public class AccountController extends AbstractController {
     @Security.Authenticated(SecuredController.class)
     public Result testAuthentication() {
 
+        Logger.error("current user : "+securedController.getCurrentUser());
+
         Survey survey = surveyService.findValidSurveyByAccount(securedController.getCurrentUser());
 
         if (survey == null) {
@@ -113,6 +115,15 @@ public class AccountController extends AbstractController {
 
     @Transactional
     public Result login() {
+        return login(false);
+    }
+
+    @Transactional
+    public Result loginSuperAdmin(){
+        return login(true);
+    }
+
+    private Result login(boolean onlyForSuperAdmin) {
         LoginDTO loginDTO = extractDTOFromRequest(LoginDTO.class);
 
         //test attempts
@@ -126,6 +137,11 @@ public class AccountController extends AbstractController {
         if (account == null || !accountService.controlPassword(loginDTO.getPassword(), account)) {
             LoginAttemptManager.failedAttemptLogin(loginDTO.getEmail(), getIpAddress());
             throw new MyRuntimeException(BusinessErrorType.WRONG_CREDENTIALS);
+        }
+
+        //test superAdmin
+        if(onlyForSuperAdmin && !account.isSuperAdmin()){
+            throw new MyRuntimeException(BusinessErrorType.WRONG_RIGHT);
         }
 
         //build and return result

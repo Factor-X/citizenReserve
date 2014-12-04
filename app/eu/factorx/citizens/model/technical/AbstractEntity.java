@@ -2,6 +2,7 @@ package eu.factorx.citizens.model.technical;
 
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import eu.factorx.citizens.model.batch.BatchResult;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
@@ -97,6 +98,7 @@ public abstract class AbstractEntity extends Model implements Comparator<Abstrac
 		}
 		return false;
 	}
+
 
 }
 
