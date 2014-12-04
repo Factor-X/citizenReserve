@@ -31,6 +31,12 @@ angular
             return false
         return answerValue > numericValue
 
+    testAnswerIsLowerThan = (questionKey, periodKey, numericValue) ->
+        answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).doubleValue
+        if (answerValue == null)
+            return false
+        return answerValue < numericValue
+
     testIsNotAlwaysOut = ->
         answerValue = surveyDTOService.getAnswerValue("Q3211", null).stringValue
         return (answerValue != "4")
@@ -139,12 +145,37 @@ angular
 
 
     tooltips =
+        Q1300: ->
+            if testAnswerEquals('Q1300', null, '20')
+                return 'Q1300.label.option20.warning'
+            return null
         Q1400: ->
             if testAnswerEquals('Q1400', null, '5')
                 return 'Q1400.option5.warning'
             return null
+        Q1110:->
+            if false #TODO
+                return 'Q1110.label.toomany.warning'
+            return null
+        Q1900:->
+            if testAnswerIsLowerThan('Q1900', null, '100')
+                return 'Q1900.low-value.warning'
+            return null
+        Q1800:->
+            if testAnswerIsLowerThan('Q1800', null, '10')
+                return 'Q1800.low-value.warning'
+            return null
+        Q3420:->
+            return 'Q3420.tooltip'
+        Q3510:->
+            return 'Q3510.tooltip'
+        Q3740:->
+            return 'Q3740.tooltip'
+        Q3211:->
+            return 'Q3211.tooltip'
 
-    @getTooltip = (questionKey) ->
+
+    @getTooltip = (questionKey,periodKey) ->
         return tooltips[questionKey]
 
 
