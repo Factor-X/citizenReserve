@@ -1,4 +1,4 @@
-<div class="cr-directives-demo">
+<div class="cr-directives-demo tc-super-admin">
 
 
     <div class="container">
@@ -8,7 +8,7 @@
 
             </div>
             <div class="col-md-3">
-                <a ng-click="logout()" > Logout</a>
+                <a ng-click="logout()"> Logout</a>
             </div>
         </div>
         <div class="row">
@@ -19,14 +19,64 @@
                         <tab-heading>
                             <i class="fa fa-gear"></i> Réductions
                         </tab-heading>
+                        <table style="width: 100%">
+                            <tr style="border-bottom:1px solid #b0b0b0;">
+                                <th rowspan="2" colspan="3"></th>
+                                <th rowspan="2" colspan="3" style="border-left : 1px solid #b0b0b0;">Potential</th>
+                                <th colspan="12" style="border-left : 1px solid #b0b0b0;">Effective</th>
+                            </tr>
+                            <tr  style="border-bottom:1px solid #b0b0b0;">
+                                <th colspan="3" style="border-left : 1px solid #b0b0b0;">Day 1</th>
+                                <th colspan="3" style="border-left : 1px solid #b0b0b0;">Day 2</th>
+                                <th colspan="3" style="border-left : 1px solid #b0b0b0;">Day 3</th>
+                                <th colspan="3" style="border-left : 1px solid #b0b0b0;">Day 4</th>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>survey Nb</th>
+                                <th>17-18H</th>
+                                <th>18-19H</th>
+                                <th>19-20H</th>
+                                <th>17-18H</th>
+                                <th>18-19H</th>
+                                <th>19-20H</th>
+                                <th>17-18H</th>
+                                <th>18-19H</th>
+                                <th>19-20H</th>
+                                <th>17-18H</th>
+                                <th>18-19H</th>
+                                <th>19-20H</th>
+                                <th>17-18H</th>
+                                <th>18-19H</th>
+                                <th>19-20H</th>
+                            </tr>
+                            <tr ng-repeat="batch in batchs | orderBy:'date':'reverse'">
+                                <td>{{batch.date | date:"yyyy-MM-dd" }}</td>
+                                <td>  {{batch.potentialBatch.nbSurveys}} </td>
+
+                                <td>  {{getValue(batch.potentialBatch.batchResultItemList, null,"FIRST") | number:2}} </td>
+                                <td>  {{getValue(batch.potentialBatch.batchResultItemList, null,"SECONDE") | number:2}} </td>
+                                <td>  {{getValue(batch.potentialBatch.batchResultItemList, null,"THIRD") | number:2}} </td>
+
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY1","FIRST") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY1","SECONDE") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY1","THIRD") | number:2}} </td>
+
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY2","FIRST") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY2","SECONDE") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY2","THIRD") | number:2}} </td>
+
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY3","FIRST") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY3","SECONDE") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY3","THIRD") | number:2}} </td>
+
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY4","FIRST") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY4","SECONDE") | number:2}} </td>
+                                <td>  {{getValue(batch.effectiveBatch.batchResultItemList, "DAY4","THIRD") | number:2}} </td>
+
+                            </tr>
+                        </table>
                     </tab>
-
-                    <table>
-                        <tr ng-repeat="batch in ">
-
-                        </tr>
-                    </table>
-
                 </tabset>
             </div>
         </div>

@@ -57,7 +57,6 @@ create table batchresult (
   reduction_type            varchar(9),
   nb_surveys                integer,
   nb_errors                 integer,
-  batch_result_set_id       bigint,
   constraint ck_batchresult_reduction_type check (reduction_type in ('POTENTIAL','EFFECTIVE')),
   constraint pk_batchresult primary key (id))
 ;
@@ -76,6 +75,8 @@ create table batchresultitem (
 create table batch_result_set (
   id                        bigint not null,
   deletion_date             timestamp,
+  potential_bach_id         bigint,
+  effective_bach_id         bigint,
   version                   bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
@@ -110,12 +111,14 @@ alter table answers add constraint fk_answers_survey_1 foreign key (survey_id) r
 create index ix_answers_survey_1 on answers (survey_id);
 alter table answervalues add constraint fk_answervalues_answer_2 foreign key (answer_id) references answers (id);
 create index ix_answervalues_answer_2 on answervalues (answer_id);
-alter table batchresult add constraint fk_batchresult_batchResultSet_3 foreign key (batch_result_set_id) references batch_result_set (id);
-create index ix_batchresult_batchResultSet_3 on batchresult (batch_result_set_id);
-alter table batchresultitem add constraint fk_batchresultitem_batchResult_4 foreign key (batch_result_id) references batchresult (id);
-create index ix_batchresultitem_batchResult_4 on batchresultitem (batch_result_id);
-alter table surveys add constraint fk_surveys_account_5 foreign key (account_id) references accounts (id);
-create index ix_surveys_account_5 on surveys (account_id);
+alter table batchresultitem add constraint fk_batchresultitem_batchResult_3 foreign key (batch_result_id) references batchresult (id);
+create index ix_batchresultitem_batchResult_3 on batchresultitem (batch_result_id);
+alter table batch_result_set add constraint fk_batch_result_set_potentialB_4 foreign key (potential_bach_id) references batchresult (id);
+create index ix_batch_result_set_potentialB_4 on batch_result_set (potential_bach_id);
+alter table batch_result_set add constraint fk_batch_result_set_effectiveB_5 foreign key (effective_bach_id) references batchresult (id);
+create index ix_batch_result_set_effectiveB_5 on batch_result_set (effective_bach_id);
+alter table surveys add constraint fk_surveys_account_6 foreign key (account_id) references accounts (id);
+create index ix_surveys_account_6 on surveys (account_id);
 
 
 

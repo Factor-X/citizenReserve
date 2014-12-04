@@ -31,8 +31,8 @@ public class BatchServiceImpl implements BatchService {
     public void run() {
 
         BatchResultSet batchResultSet = new BatchResultSet();
-        batchResultSet.addBatchResult(calculateGlobalPotentialReduction());
-        batchResultSet.addBatchResult(calculateGlobalEffectiveReduction());
+        batchResultSet.setPotentialBach(calculateGlobalPotentialReduction());
+        batchResultSet.setEffectiveBach(calculateGlobalEffectiveReduction());
 
         batchResultSet.save();
     }
@@ -40,11 +40,6 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public BatchResult findLastBatchResult() {
         return Ebean.find(BatchResult.class).where().eq(AbstractEntity.LAST_UPDATE_DATE, getLastBatchResultDate()).findUnique();
-    }
-
-    @Override
-    public List<BatchResult> findBatchToDisplayForSuperAdmin() {
-        return Ebean.find(BatchResult.class).findList();
     }
 
     private Date getLastBatchResultDate() {
@@ -70,7 +65,8 @@ public class BatchServiceImpl implements BatchService {
             try {
                 reductionDTO = calculationService.calculatePotentialReduction(surveyAnswersDTOs);
             } catch (Exception e) {
-                Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+                e.printStackTrace();
+                //Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
                 nbErrors++;
                 continue;
             }
@@ -98,10 +94,10 @@ public class BatchServiceImpl implements BatchService {
         double secondDayResult_p2 = 0;
         double secondDayResult_p3 = 0;
 
+
         double thirdDayResult_p1 = 0;
         double thirdDayResult_p2 = 0;
         double thirdDayResult_p3 = 0;
-
         double fourthDayResult_p1 = 0;
         double fourthDayResult_p2 = 0;
         double fourthDayResult_p3 = 0;
@@ -120,7 +116,8 @@ public class BatchServiceImpl implements BatchService {
             try {
                 reductionDTOs = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
             } catch (Exception e) {
-                Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+                e.printStackTrace();
+                //Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
                 nbErrors++;
                 continue;
             }

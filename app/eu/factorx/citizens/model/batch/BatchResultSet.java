@@ -1,13 +1,10 @@
 package eu.factorx.citizens.model.batch;
 
 import eu.factorx.citizens.model.technical.AbstractEntity;
-import play.db.ebean.Model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by florian on 4/12/14.
@@ -15,29 +12,36 @@ import java.util.List;
 @Entity
 public class BatchResultSet extends AbstractEntity {
 
-    @OneToMany(mappedBy = "batchResultSet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BatchResult> results = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    private BatchResult potentialBach;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private BatchResult effectiveBach;
 
     public BatchResultSet() {
     }
 
-    public void addBatchResult(BatchResult batchResult) {
-        results.add(batchResult);
+    public BatchResult getPotentialBach() {
+        return potentialBach;
     }
 
-    public List<BatchResult> getResults() {
-        return results;
+    public void setPotentialBach(BatchResult potentialBach) {
+        this.potentialBach = potentialBach;
     }
 
-    public void setResults(List<BatchResult> results) {
-        this.results = results;
+    public BatchResult getEffectiveBach() {
+        return effectiveBach;
+    }
+
+    public void setEffectiveBach(BatchResult effectiveBach) {
+        this.effectiveBach = effectiveBach;
     }
 
     @Override
     public String toString() {
         return "BatchResultSet{" +
-                "results=" + results +
+                "potentialBach=" + potentialBach +
+                ", effectiveBach=" + effectiveBach +
                 '}';
     }
 }
