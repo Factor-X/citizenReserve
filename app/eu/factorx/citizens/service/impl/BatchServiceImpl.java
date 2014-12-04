@@ -3,6 +3,7 @@ package eu.factorx.citizens.service.impl;
 import com.avaje.ebean.Ebean;
 import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
 import eu.factorx.citizens.dto.AnswerDTO;
+import eu.factorx.citizens.dto.EffectiveReductionDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.batch.BatchResult;
 import eu.factorx.citizens.model.batch.BatchResultSet;
@@ -111,6 +112,22 @@ public class BatchServiceImpl implements BatchService {
             for (Answer answer : survey.getAnswers()) {
                 surveyAnswersDTOs.add(answerToAnswerDTOConverter.convert(answer));
             }
+
+			/****************************/
+			/* add unselected actions to perform calculation */
+
+			// Validate incoming DTO - TODO
+			List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
+			try {
+				missingActions = calculationService.validateActions(surveyAnswersDTOs);
+			} catch (Exception e) {
+				//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+			}
+
+			surveyAnswersDTOs.addAll(missingActions);
+
+
+			/*****************************/
 
             List<ReductionDTO> reductionDTOs;
             try {
