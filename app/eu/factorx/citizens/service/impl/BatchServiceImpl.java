@@ -1,12 +1,11 @@
 package eu.factorx.citizens.service.impl;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.OrderBy;
-import com.avaje.ebean.Query;
 import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.batch.BatchResult;
+import eu.factorx.citizens.model.batch.BatchResultSet;
 import eu.factorx.citizens.model.batch.PowerReductionType;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Period;
@@ -30,8 +29,12 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public void run() {
-        Ebean.save(calculateGlobalPotentialReduction());
-        Ebean.save(calculateGlobalEffectiveReduction());
+
+        BatchResultSet batchResultSet = new BatchResultSet();
+        batchResultSet.setPotentialBach(calculateGlobalPotentialReduction());
+        batchResultSet.setEffectiveBach(calculateGlobalEffectiveReduction());
+
+        batchResultSet.save();
     }
 
     @Override
@@ -62,7 +65,8 @@ public class BatchServiceImpl implements BatchService {
             try {
                 reductionDTO = calculationService.calculatePotentialReduction(surveyAnswersDTOs);
             } catch (Exception e) {
-                Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+                e.printStackTrace();
+                //Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
                 nbErrors++;
                 continue;
             }
@@ -90,10 +94,10 @@ public class BatchServiceImpl implements BatchService {
         double secondDayResult_p2 = 0;
         double secondDayResult_p3 = 0;
 
+
         double thirdDayResult_p1 = 0;
         double thirdDayResult_p2 = 0;
         double thirdDayResult_p3 = 0;
-
         double fourthDayResult_p1 = 0;
         double fourthDayResult_p2 = 0;
         double fourthDayResult_p3 = 0;
@@ -112,7 +116,8 @@ public class BatchServiceImpl implements BatchService {
             try {
                 reductionDTOs = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
             } catch (Exception e) {
-                Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+                e.printStackTrace();
+                //Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
                 nbErrors++;
                 continue;
             }
@@ -135,7 +140,7 @@ public class BatchServiceImpl implements BatchService {
             nbSurveys++;
         }
 
-        BatchResult batchResult = new BatchResult(PowerReductionType.POTENTIAL, nbSurveys, nbErrors);
+        BatchResult batchResult = new BatchResult(PowerReductionType.EFFECTIVE, nbSurveys, nbErrors);
 
         batchResult.addResultItem(ReductionDay.DAY1, Period.FIRST, firstDayResult_p1);
         batchResult.addResultItem(ReductionDay.DAY1, Period.SECOND, firstDayResult_p2);

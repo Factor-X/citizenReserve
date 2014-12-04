@@ -8,4 +8,5 @@ public interface BatchService {
 
     BatchResult findLastBatchResult();
 
+
 }

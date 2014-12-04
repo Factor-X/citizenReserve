@@ -4,6 +4,7 @@ import eu.factorx.citizens.dto.technical.ExceptionsDTO;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.service.impl.AccountServiceImpl;
+import eu.factorx.citizens.util.BusinessErrorType;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.Http;
@@ -21,8 +22,7 @@ public class SecuredController extends Security.Authenticator {
 
     @Override
     public Result onUnauthorized(Http.Context ctx) {
-        //TODO translation
-        return unauthorized(new ExceptionsDTO());//BusinessErrorType.NOT_CONNECTED));
+        return unauthorized(new ExceptionsDTO(BusinessErrorType.NOT_CONNECTED.getMessageReference()));
     }
 
     @Override

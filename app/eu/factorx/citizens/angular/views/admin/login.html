@@ -1,0 +1,21 @@
+<div>
+    <div class="container">
+        <div class="row">
+            <h1>Administrator access</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+
+                <cr-question label="generic.emailAddress">
+                    <cr-text ng-model="loginParams.email" name="email"></cr-text>
+                </cr-question>
+                <cr-question label="generic.password">
+                    <cr-text ng-model="loginParams.password" name="password" type="password"></cr-text>
+                </cr-question>
+                <br/>
+                <button class="btn btn-primary" ng-click="login()"
+                        ng-bind-html="'welcome.button.login' | translate"></button>
+            </div>
+        </div>
+    </div>
+</div>

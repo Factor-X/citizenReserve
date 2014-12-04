@@ -10,7 +10,8 @@ public enum BusinessErrorType {
     TOO_MANY_ATTEMPT("too_many_attempt"), //too many attempts, please wait 30 minutes
     EMAIL_EMPTY_PARAMETER("email_empty_parameter"), //one email parameter is empty : {0}
     EMAIL_FATAL_ERROR("email_fatal_error"), //email cannot be send for a unknown error
-    NOT_CONNECTED("not_connected"); // you are not connected => wrong authentication
+    NOT_CONNECTED("not_connected"),  // you are not connected => wrong authentication
+    WRONG_RIGHT("wrong_right");
 
     private String messageReference;
 
