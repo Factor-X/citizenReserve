@@ -29,11 +29,14 @@ angular
         })
 
     $scope.isQuestionAnswered = (questionKey) ->
-        for answer in surveyDTOService.getAnswers(questionKey)
+        answers = surveyDTOService.getAnswers(questionKey)
+        if answers.length == 0
+            return false
+        for answer in answers
             for answerValue in answer.answerValues
-                if (!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue == 0)
-                    return true
-        return false
+                if !((!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue == 0))
+                    return false
+        return true
 
     $scope.isProfileTopicCompleted = (topicIdentifier) ->
         topicQuestionKeys = $scope.topicQuestions.profile[topicIdentifier]
