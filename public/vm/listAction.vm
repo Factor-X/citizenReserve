@@ -1,0 +1,22 @@
+<table>
+    #foreach ($mapEntry in $actions.entrySet())
+        <tr>
+            <td>
+                <img src="${hostname}/assets/images/${mapEntry.key.accountType.name}/topics/topic_${mapEntry.key.topicName}_active.png"
+                     width="80" height="80"/>
+            </td>
+            <td>
+                <ul>
+                    #foreach ($questionCode in $mapEntry.value)
+                        <li>
+
+                            #set ($questionTransductionName = ${questionCode} + ".label")
+                            $translationHelper.getMessage($questionTransductionName)
+
+                        </li>
+                    #end
+                </ul>
+            </td>
+        </tr>
+    #end
+</table>

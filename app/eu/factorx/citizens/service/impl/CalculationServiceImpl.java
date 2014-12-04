@@ -36,11 +36,172 @@ public class CalculationServiceImpl implements CalculationService {
 
     // TODO validate incoming information method
 	@Override
-	public void validateData (List<AnswerDTO> surveyAnswers) {
+	public void validateProfile (List<AnswerDTO> surveyAnswers) {
+
+		Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
+
 
 	}
 
-    @Override
+	// TODO validate incoming information method
+	@Override
+	public List<AnswerDTO> validateActions (List<AnswerDTO> surveyAnswers) {
+
+		List<AnswerDTO> answersDTOs = new ArrayList<AnswerDTO>();
+		Map<QuestionCode, Map<Period, AnswerValueDTO>> byQuestionCodeAndPeriod = convertToMap(surveyAnswers);
+
+		// Sortir
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3210) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3210, null, false));
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
+		}
+
+		if ((byQuestionCodeAndPeriod.get(QuestionCode.Q3211) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue() == null)) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
+		}
+
+		// Programme et electromenager
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3110) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3110, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3120) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3120, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3130) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3130, null, false));
+		}
+
+		//Chauffage et eau chaude
+
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3310) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3310, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3320) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3320, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3330) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3330, null, false));
+		}
+
+
+		//Eclairage & electromenager
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3410) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3410, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3420) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3420, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3510) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3510, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3530) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3530, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3610) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3610, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3620) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3620, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3630) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3630, null, false));
+		}
+
+		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3631) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3631).get(Period.FIRST).getStringValue() == null)) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3631, null, "0"));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3640) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3640, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3810) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3810, null, false));
+		}
+
+
+		//Repas
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3710) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3710, null, false));
+		}
+
+		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3711) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue() == null)) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3720) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3720, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3730) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3740) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3750) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
+		}
+
+		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3760) == null) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		}
+
+		return (answersDTOs);
+
+	}
+
+	/*****************************************************************************/
+
+
+	/************************************** Private methods ***************************/
+
+	// TODO set in common package
+
+	private AnswerDTO createAnswerDTO(QuestionCode questionCode, Period period) {
+		String periodKey = null;
+		if (period != null) {
+			periodKey = period.name();
+		}
+		return new AnswerDTO(questionCode.name(), periodKey);
+	}
+
+	private AnswerDTO buildAnswerDTO(QuestionCode questionCode, Period period, double doubleValue) {
+		AnswerDTO answerDTO = createAnswerDTO(questionCode, period);
+		answerDTO.addDoubleValue(doubleValue);
+		return answerDTO;
+	}
+
+	private AnswerDTO buildAnswerDTO(QuestionCode questionCode, Period period, String stringValue) {
+		AnswerDTO answerDTO = createAnswerDTO(questionCode, period);
+		answerDTO.addStringValue(stringValue);
+		return answerDTO;
+	}
+
+	private AnswerDTO buildAnswerDTO(QuestionCode questionCode, Period period, Boolean booleanValue) {
+		AnswerDTO answerDTO = createAnswerDTO(questionCode, period);
+		answerDTO.addBooleanValue(booleanValue);
+		return answerDTO;
+	}
+
+	/************************************************************************************/
+
+	@Override
     public ReductionDTO calculatePotentialReduction(List<AnswerDTO> surveyAnswers) {
 
 		play.Logger.debug("Entering -> calculatePotentialReduction");

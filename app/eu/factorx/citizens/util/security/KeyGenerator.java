@@ -1,4 +1,4 @@
-package eu.factorx.citizens.util;
+package eu.factorx.citizens.util.security;
 
 import java.util.Random;
 

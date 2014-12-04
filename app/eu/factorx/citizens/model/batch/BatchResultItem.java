@@ -17,7 +17,7 @@ public class BatchResultItem {
 
     private Double powerReduction;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private BatchResult batchResult;
 
     public BatchResultItem() {

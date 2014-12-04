@@ -1,7 +1,11 @@
 package eu.factorx.citizens.service;
 
+import eu.factorx.citizens.model.batch.BatchResult;
+
 public interface BatchService {
 
-    void runBatch();
+    void run();
+
+    BatchResult findLastBatchResult();
 
 }

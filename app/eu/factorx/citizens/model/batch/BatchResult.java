@@ -1,6 +1,7 @@
 package eu.factorx.citizens.model.batch;
 
 import eu.factorx.citizens.model.survey.Period;
+import eu.factorx.citizens.model.technical.AbstractEntity;
 import eu.factorx.citizens.model.type.ReductionDay;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "batchresult")
-public class BatchResult {
+public class BatchResult extends AbstractEntity {
 
     @Enumerated(value = EnumType.STRING)
     private PowerReductionType reductionType;
@@ -18,7 +19,7 @@ public class BatchResult {
 
     private Integer nbErrors = 0;
 
-    @OneToMany(mappedBy = "batchResult")
+    @OneToMany(mappedBy = "batchResult", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BatchResultItem> resultItems = new ArrayList<>();
 
     public BatchResult() {

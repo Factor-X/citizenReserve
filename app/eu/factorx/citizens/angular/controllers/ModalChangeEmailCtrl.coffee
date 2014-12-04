@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ModalChangeEmailCtrl", ($scope, modalService, $log,  downloadService, $modalInstance,surveyDTOService) ->
+.controller "ModalChangeEmailCtrl", ($scope, modalService, $log,  downloadService, $modalInstance,surveyDTOService,$flash) ->
 
     $scope.noSubmitYet=true
     $scope.loading=false
@@ -32,13 +32,11 @@ angular
             downloadService.postJson '/account/changeEmail', dto, (result) ->
                 $scope.loading=false
                 if result.success
-                    # TODO message
-                    console.log "je suis un success"
+                    $flash.success 'account.changeEmail.success'
                     surveyDTOService.getAccount().email = $scope.o.newEmail
                     $scope.close()
                 else
-                    # TODO message
-                    console.log "je suis un echec"
+                    $flash.error result.data.message
 
 
     $scope.checkValidity = () ->

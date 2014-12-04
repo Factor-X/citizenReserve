@@ -1,6 +1,8 @@
 package eu.factorx.citizens.service.impl;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.OrderBy;
+import com.avaje.ebean.Query;
 import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
@@ -9,6 +11,7 @@ import eu.factorx.citizens.model.batch.PowerReductionType;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.technical.AbstractEntity;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.BatchService;
 import eu.factorx.citizens.service.CalculationService;
@@ -16,6 +19,7 @@ import eu.factorx.citizens.service.SurveyService;
 import play.Logger;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BatchServiceImpl implements BatchService {
@@ -25,9 +29,17 @@ public class BatchServiceImpl implements BatchService {
     private CalculationService calculationService = new CalculationServiceImpl();
 
     @Override
-    public void runBatch() {
+    public void run() {
         Ebean.save(calculateGlobalPotentialReduction());
         Ebean.save(calculateGlobalEffectiveReduction());
+    }
+
+    public BatchResult findLastBatchResult() {
+        return Ebean.find(BatchResult.class).where().eq(AbstractEntity.LAST_UPDATE_DATE, getLastBatchResultDate()).findUnique();
+    }
+
+    private Date getLastBatchResultDate() {
+        return Ebean.createNamedQuery(Date.class, "select max(br.lastUpdateDate) from BatchResult br").findUnique();
     }
 
     private BatchResult calculateGlobalPotentialReduction() {

@@ -12,10 +12,9 @@
 
                 <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
 
-                <a
-                    class="cr-actions-profile-link"
-                    ng-bind-html="'nav.back-to-profile' | translate"
-                    ui-sref="root.householdProfile">
+                <a class="cr-actions-profile-link"
+                   ng-bind-html="'nav.back-to-profile' | translate"
+                   ui-sref="root.householdProfile">
                 </a>
 
                 <a class="cr-actions-register-link"
@@ -89,19 +88,19 @@
                     effectiveReduction.reductions[0].energyReduction }}</p>
             </div>
             <div class="col-md-12">
-                <p>Day 2 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
+                <p>Day 2 - Mon effectif en W: {{ effectiveReduction.reductions[1].averagePowerReduction }}</p>
 
                 <p>Day 2 - Mon effectif en kWh par jour sur la période 17h-20h: {{
                     effectiveReduction.reductions[1].energyReduction }}</p>
             </div>
             <div class="col-md-12">
-                <p>Day 3 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
+                <p>Day 3 - Mon effectif en W: {{ effectiveReduction.reductions[2].averagePowerReduction }}</p>
 
                 <p>Day 3 - Mon effectif en kWh par jour sur la période 17h-20h: {{
                     effectiveReduction.reductions[2].energyReduction }}</p>
             </div>
             <div class="col-md-12">
-                <p>Day 4 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>
+                <p>Day 4 - Mon effectif en W: {{ effectiveReduction.reductions[3].averagePowerReduction }}</p>
 
                 <p>Day 4 - Mon effectif en kWh par jour sur la période 17h-20h: {{
                     effectiveReduction.reductions[3].energyReduction }}</p>
