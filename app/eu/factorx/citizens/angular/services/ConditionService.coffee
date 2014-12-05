@@ -187,10 +187,6 @@ angular
                 if  val >= 5
                     return 'Q1110.label.toomany.warning'
                 return null
-        Q1900: ->
-            if testAnswerIsLowerThan('Q1900', null, '100')
-                return 'Q1900.low-value.warning'
-            return null
         Q1800: ->
             if testAnswerIsLowerThan('Q1800', null, '10')
                 return 'Q1800.low-value.warning'
