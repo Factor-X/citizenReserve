@@ -38,10 +38,8 @@ public class Account extends AbstractEntity {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
     private String zipCode;
 
-    @Column(nullable = false)
     private String powerProvider;
 
     private String powerComsumerCategory;

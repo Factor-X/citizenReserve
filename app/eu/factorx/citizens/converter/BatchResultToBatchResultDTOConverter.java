@@ -20,6 +20,7 @@ public class BatchResultToBatchResultDTOConverter implements Converter<BatchResu
         dto.setNbErrors(entity.getNbErrors());
         dto.setNbSurveys(entity.getNbSurveys());
         dto.setReductionTypeKey(entity.getReductionType().name());
+        dto.setNbParticipants(entity.getNbParticipants());
 
         for (BatchResultItem batchResultItem : entity.getResultItems()) {
             dto.addBatchResultItem(converter.convert(batchResultItem));

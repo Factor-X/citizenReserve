@@ -11,8 +11,8 @@ create table accounts (
   password                  varchar(255) not null,
   first_name                varchar(255) not null,
   last_name                 varchar(255) not null,
-  zip_code                  varchar(255) not null,
-  power_provider            varchar(255) not null,
+  zip_code                  varchar(255),
+  power_provider            varchar(255),
   power_comsumer_category   varchar(255),
   other_email_adresses      varchar(255),
   sensitization_kit         varchar(255),
@@ -56,6 +56,7 @@ create table batchresult (
   id                        bigint not null,
   reduction_type            varchar(9),
   nb_surveys                integer,
+  nb_participants           integer,
   nb_errors                 integer,
   constraint ck_batchresult_reduction_type check (reduction_type in ('POTENTIAL','EFFECTIVE')),
   constraint pk_batchresult primary key (id))

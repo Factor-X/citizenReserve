@@ -30,3 +30,7 @@ GET         /stats/nb_participants           @eu.factorx.citizens.controllers.Su
 # ADMIN
 POST        /superAdmin/login                @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()
 GET         /superAdmin/reductionData        @eu.factorx.citizens.controllers.SuperAdminController.getReductionValuesProgression()
+
+# BATCH RESULT
+GET         /batch/last                      @eu.factorx.citizens.controllers.BatchResultController.getLastBatchResultSet()
+GET         /batch/summaryValue              @eu.factorx.citizens.controllers.BatchResultController.getEffectiveReductionSummary()

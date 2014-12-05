@@ -1,9 +1,8 @@
 angular
 .module('app.controllers')
-.controller "RegistrationCtrl", ($scope, modalService, $log,  downloadService, surveyDTOService, optionService,$location,$flash) ->
-
-    $scope.noSubmitYet=true
-    $scope.loading=false
+.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $location, $flash) ->
+    $scope.noSubmitYet = true
+    $scope.loading = false
 
     $scope.getOptions = (questionKey) ->
         return optionService.getOptions(questionKey)
@@ -14,8 +13,8 @@ angular
     $scope.getAccount = () ->
         return surveyDTOService.getAccount()
 
-    $scope.getNumericOptions = (questionKey,min,max,step) ->
-        return optionService.getNumericOptions(questionKey,min,max,step)
+    $scope.getNumericOptions = (questionKey, min, max, step) ->
+        return optionService.getNumericOptions(questionKey, min, max, step)
 
     $scope.openModal = (target, controller = 'ModalTopicCtrl') ->
         modalInstance = modalService.open({
@@ -34,42 +33,43 @@ angular
 
     $scope.validation = {
         firstName:
-            pattern:/^.{2,100}$/
-            valid:false
+            pattern: /^.{2,100}$/
+            valid: false
         lastName:
-            pattern:/^.{2,100}$/
-            valid:false
+            pattern: /^.{2,100}$/
+            valid: false
         emailAddress:
-            pattern:/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            valid:false
+            pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            valid: false
         password:
-            pattern:/^[a-zA-Z0-9-_%]{6,18}$/
-            valid:false
+            pattern: /^[a-zA-Z0-9-_%]{6,18}$/
+            valid: false
         repeatPassword:
             validation: ->
                 return $scope.getAccount().password == $scope.o.repeatPassword
-            valid:false
-        zip:
-            pattern:/^.{4,20}$/
-            valid:false
+            valid: false
         terms:
-            valid:false
+            valid: false
     }
 
+    $scope.zip =
+        pattern: /^.{0,20}$/
+        valid:false
+
     $scope.o = {
-        errorMessage:""
-        repeatPassword:$scope.getAccount().password
-        acceptAgreement:false
+        errorMessage: ""
+        repeatPassword: $scope.getAccount().password
+        acceptAgreement: false
     }
 
     $scope.save = () ->
-        $scope.noSubmitYet=false
+        $scope.noSubmitYet = false
         if $scope.checkValidity()
-            $scope.loading=true
+            $scope.loading = true
             console.log "je save ce dto : "
             console.log surveyDTOService.surveyDTO
             downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
-                $scope.loading=false
+                $scope.loading = false
                 if result.success
                     surveyDTOService.setAccount(result.data.account)
                     $flash.success 'account.save.success'
@@ -79,7 +79,7 @@ angular
 
     $scope.checkValidity = () ->
         for key in Object.keys($scope.validation)
-            if $scope.validation[key].valid==false
+            if $scope.validation[key].valid == false
                 return false
         return true
 

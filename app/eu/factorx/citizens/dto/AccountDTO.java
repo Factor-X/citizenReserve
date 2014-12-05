@@ -24,18 +24,14 @@ public class AccountDTO extends DTO {
     @Size(min = 6,max = 18)
     private String password;
 
-    @Size(min = 4,max = 20)
     private String zipCode;
 
-    @NotNull
     private String powerProvider;
 
-    @NotNull
     private String powerComsumerCategory;
 
     private List<String> otherEmailAddresses = new ArrayList<>();
 
-    @NotNull
     private String sensitizationKit;
 
     @NotNull
