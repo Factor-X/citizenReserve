@@ -25,8 +25,7 @@ POST        /reduction/effective             @eu.factorx.citizens.controllers.Ca
 POST        /reduction/potential             @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
 
 # Stats
-GET         /stats/nb_participants           @eu.factorx.citizens.controllers.SurveyController.getParticipantsNumber()
-GET         /stats/summaryValue              @eu.factorx.citizens.controllers.BatchResultController.getEffectiveReductionSummary()
+GET         /stats/summaryValues             @eu.factorx.citizens.controllers.BatchResultController.getSummaryResults()
 
 # ADMIN
 POST        /superAdmin/login                @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()

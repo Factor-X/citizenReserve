@@ -99,7 +99,16 @@ public abstract class AbstractEntity extends Model implements Comparator<Abstrac
 		return false;
 	}
 
-
+    @Override
+    public String toString() {
+        return "AbstractEntity{" +
+                "id=" + id +
+                ", version=" + version +
+                ", creationDate=" + creationDate +
+                ", lastUpdateDate=" + lastUpdateDate +
+                ", deletionDate=" + deletionDate +
+                '}';
+    }
 }
 
 

@@ -63,20 +63,6 @@ public class SurveyController extends AbstractController {
         surveyService.saveSurvey(survey);
     }
 
-    @Transactional
-    public Result getParticipantsNumber() {
-        int nbSurveys = surveyService.countSurveys();
-        List<Answer> answers = surveyService.findAnswersByQuestionCode(QuestionCode.Q1300);
-        int nbParticipants = 0;
-        for (Answer answer : answers) {
-            Iterator<AnswerValue> answerValueIterator = answer.getAnswerValues().iterator();
-            if (answerValueIterator.hasNext()) {
-                nbParticipants += answerValueIterator.next().getDoubleValue();
-            }
-        }
-        return ok("{'nbSurveys':'" + nbSurveys + "','nbParticipants':'" + nbParticipants + "'}");
-    }
-
     public Result getGlobalReductionData() {
         //BatchResult batchResult = Ebean.find(Batch.cl)
         return ok();

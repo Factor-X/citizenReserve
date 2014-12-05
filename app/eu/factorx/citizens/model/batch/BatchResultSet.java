@@ -40,7 +40,7 @@ public class BatchResultSet extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "BatchResultSet{" +
+        return "BatchResultSet{" +super.toString()+
                 "potentialBach=" + potentialBach +
                 ", effectiveBach=" + effectiveBach +
                 '}';
