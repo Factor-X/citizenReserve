@@ -89,7 +89,10 @@
         <div class="row">
 
             <div class="col-md-12">
-                <h3 ng-bind-html="'actions.outro' | translate"></h3>
+                <div class="col-md-12" ng-show="effectiveReduction.reductions[0].secondPeriodPowerReduction > 0">
+                    <h3 ng-bind-html="'actions.result' | translate | params:[effectiveReduction.reductions[0].secondPeriodPowerReduction]"></h3>
+                    <h5 ng-bind-html="'actions.outro' | translate"></h5>
+                </div>
             </div>
         </div>
 
@@ -118,18 +121,6 @@
                     <i class="fa fa-caret-right fa-2x"></i>
                 </button>
             </div>
-        </div>
-
-        <div class="row cr-profile-result">
-            <div class="col-md-12">
-                <p>{{ effectiveReduction.reductions[0].secondPeriodPowerReduction }}</p>
-                <p translate >actions.result</p>
-                <p ng-bind-html="'actions.result' | translate | params:['caca']"></p>
-            </div>
-            <div class="col-md-12">
-                <button class="btn btn-primary" ng-click="getEffectiveReduction()">Refresh</button>
-            </div>
-
         </div>
 
     </div>
