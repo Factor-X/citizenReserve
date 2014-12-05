@@ -12,6 +12,6 @@
        class="cr-login-link"
        ng-if="isAuthenticated()">
         <i class="fa fa-sign-out"></i>
-        <span>Logout</span>
+        <span ng-bind-html="'logout' | translate"></span>
     </a>
 </div>
