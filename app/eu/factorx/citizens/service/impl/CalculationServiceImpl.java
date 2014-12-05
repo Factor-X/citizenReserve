@@ -8,6 +8,7 @@ import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.CalculationService;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
