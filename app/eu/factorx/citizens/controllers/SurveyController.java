@@ -1,24 +1,18 @@
 package eu.factorx.citizens.controllers;
 
-import com.avaje.ebean.Ebean;
+import eu.factorx.citizens.controllers.technical.SecuredController;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.AnswerValueDTO;
+import eu.factorx.citizens.dto.ResultDTO;
 import eu.factorx.citizens.dto.SurveyDTO;
 import eu.factorx.citizens.model.account.Account;
-import eu.factorx.citizens.model.batch.BatchResult;
 import eu.factorx.citizens.model.survey.Answer;
-import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.survey.Survey;
-import eu.factorx.citizens.model.type.QuestionCode;
-import eu.factorx.citizens.service.BatchService;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
-import eu.factorx.citizens.util.exception.MyRuntimeException;
 import play.db.ebean.Transactional;
 import play.mvc.Result;
-
-import java.util.Iterator;
-import java.util.List;
+import play.mvc.Security;
 
 import java.util.Date;
 
@@ -26,13 +20,27 @@ public class SurveyController extends AbstractController {
 
     //service
     private SurveyService surveyService = new SurveyServiceImpl();
+    //controller
+    private SecuredController securedController = new SecuredController();
+
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result updateSurvey() {
+
+        SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
+
+        saveSurvey(dto, securedController.getCurrentUser());
+
+        return ok(new ResultDTO());
+    }
+
 
     /*package*/ void saveSurvey(SurveyDTO dto, Account account) {
 
         //delete the last survey
         Survey lastValidSurvey = surveyService.findValidSurveyByAccount(account);
 
-        if(lastValidSurvey!=null){
+        if (lastValidSurvey != null) {
             lastValidSurvey.setDeletionDate(new Date());
 
             surveyService.saveSurvey(lastValidSurvey);
@@ -61,20 +69,6 @@ public class SurveyController extends AbstractController {
         }
 
         surveyService.saveSurvey(survey);
-    }
-
-    @Transactional
-    public Result getParticipantsNumber() {
-        int nbSurveys = surveyService.countSurveys();
-        List<Answer> answers = surveyService.findAnswersByQuestionCode(QuestionCode.Q1300);
-        int nbParticipants = 0;
-        for (Answer answer : answers) {
-            Iterator<AnswerValue> answerValueIterator = answer.getAnswerValues().iterator();
-            if (answerValueIterator.hasNext()) {
-                nbParticipants += answerValueIterator.next().getDoubleValue();
-            }
-        }
-        return ok("{'nbSurveys':'" + nbSurveys + "','nbParticipants':'" + nbParticipants + "'}");
     }
 
     public Result getGlobalReductionData() {

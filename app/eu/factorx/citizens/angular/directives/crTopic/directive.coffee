@@ -10,6 +10,7 @@ angular
         ngWindowClass: '='
         ngLabel: '='
         ngDisabled: '='
+        ngCallback: '&'
 
     templateUrl: "$/angular/templates/cr-topic.html"
     replace: true
@@ -29,7 +30,7 @@ angular
                 resolve: {}
             });
 
-            modalInstance.result.then (result) ->
-                $log.info(result)
-            , () ->
-                $log.info('Modal dismissed at: ' + new Date())
+            cb = scope.ngCallback
+            if !cb
+                cb = angular.noop
+            modalInstance.result.then cb, cb

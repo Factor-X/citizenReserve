@@ -83,6 +83,11 @@ angular
         templateUrl: '$/angular/views/household/actions/household-actions.html'
         controller: 'FormCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+    .state 'root.householdResults',
+        url: '/household-results'
+        templateUrl: '$/angular/views/household/results/household-results.html'
+        controller: 'ResultsCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
     .state 'root.householdAccount',
         url: '/household-account'
         templateUrl: '$/angular/views/household/account/household-account.html'

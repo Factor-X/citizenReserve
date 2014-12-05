@@ -12,7 +12,9 @@ GET         /translations                    @eu.factorx.citizens.controllers.Tr
 
 #account
 POST        /login                           @eu.factorx.citizens.controllers.AccountController.login()
+
 #also vali for update
+POST        /survey/update                   @eu.factorx.citizens.controllers.SurveyController.updateSurvey()
 POST        /registration                    @eu.factorx.citizens.controllers.AccountController.createAccountAndSaveData()
 GET         /authenticated                   @eu.factorx.citizens.controllers.AccountController.testAuthentication()
 POST        /forgotPassword                  @eu.factorx.citizens.controllers.AccountController.forgotPassword()
@@ -25,8 +27,7 @@ POST        /reduction/effective             @eu.factorx.citizens.controllers.Ca
 POST        /reduction/potential             @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
 
 # Stats
-GET         /stats/nb_participants           @eu.factorx.citizens.controllers.SurveyController.getParticipantsNumber()
-GET         /stats/summaryValue              @eu.factorx.citizens.controllers.BatchResultController.getEffectiveReductionSummary()
+GET         /stats/summaryValues             @eu.factorx.citizens.controllers.BatchResultController.getSummaryResults()
 
 # ADMIN
 POST        /superAdmin/login                @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()
