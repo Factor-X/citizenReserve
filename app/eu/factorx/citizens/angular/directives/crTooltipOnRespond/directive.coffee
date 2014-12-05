@@ -4,16 +4,15 @@ angular
     restrict: "A"
     require: 'ngModel'
     link: (scope, elem, attrs, ngModel) ->
+        o = $parse(attrs.crTootipOnRespond)(scope)
 
-        o=$parse(attrs.crTootipOnRespond)(scope)
+        questionKey = o.key
+        periodKey = o.period
 
-        questionKey =o.key
-        periodKey =o.period
-
-        if conditionService.getTooltip(questionKey,periodKey)?
+        if conditionService.getTooltip(questionKey, periodKey)?
 
             if $(elem).closest('.modal').length > 0
-                scope.$lbl = conditionService.getTooltip(questionKey,periodKey)()
+                scope.$lbl = conditionService.getTooltip(questionKey, periodKey)()
                 scope.$oldLbl = scope.$lbl
 
             scope.$on '$destroy', () ->
@@ -22,13 +21,14 @@ angular
                     scope.$trip = null
 
             scope.$$childHead.$watch 'ngModel', (n, o) ->
-                scope.$lbl = conditionService.getTooltip(questionKey,periodKey)()
+                scope.$lbl = conditionService.getTooltip(questionKey, periodKey)()
                 if scope.$lbl != scope.$oldLbl
                     if scope.$trip
                         scope.$trip.stop()
                         scope.$trip = null
 
                     if scope.$lbl
+
                         scope.$trip = new Trip([
                             {
                                 sel: $(elem),
@@ -38,7 +38,7 @@ angular
                                 animation: 'bounceInLeft'
                                 showCloseBox: true
                             }
-                        ], {});
+                        ], {overlayHolder: '.modal-body'});
                         scope.$trip.start();
                     scope.$oldLbl = scope.$lbl
 

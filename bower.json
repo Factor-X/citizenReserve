@@ -32,7 +32,7 @@
     "angular-rangeslider": "~0.0.11",
     "angular-gettext": "~1.1.4",
     "venturocket-angular-slider": "~0.3.2",
-    "trip.js": "~2.0.2",
+    "trip.js": "Factor-X/lib-trip-js",
     "ui-router": "~0.2.13",
     "tc-angular-chartjs": "~1.0.9",
     "angular-nvd3": "~0.0.9"

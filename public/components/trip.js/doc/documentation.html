@@ -82,8 +82,8 @@
             <h4>tripTheme</h4>
             <p>
               You can set which theme to use, now Trip.js support
-              <code>white</code>, <code>black</code>, and <code>yeti</code>
-              three themes.
+              <code>white</code>, <code>black</code>, <code>yeti</code> and <code>dark</code>
+              4 themes.
             </p>
             <p>Type :<code class="type">String</code></p>
             <p>Default :<code>'black'</code></p>
@@ -105,6 +105,12 @@
             <p>You can set the basic zIndex for overlay if you want to expose elements.</p>
             <p>Type :<code class="type">Number</code></p>
             <p>Default :<code>99999</code></p>
+          </li>
+          <li>
+            <h4>overlayHolder</h4>
+            <p>You can decide where to be the container of the overlay.</p>
+            <p>Type :<code class="type">String</code></p>
+            <p>Default :<code>'body'</code></p>
           </li>
           <li>
             <h4>enableKeyBinding</h4>
@@ -312,19 +318,12 @@
             <p>Default :<code>1000</code></p>
           </li>
           <li>
-            <h4>callback</h4>
-            <p>
-              You can do whatever you want to do after this step passed. BTW, Trip.js will assign the current
-              <code>tripIndex</code>
-              (start from 0) as the first parameter back to your callback function for later use.
-            </p>
-            <p>Type :<code class="type">Function</code></p>
-            <p>Default :<code>$.noop</code></p>
-          </li>
-          <li>
             <h4>expose</h4>
             <p>You can enable this option to expose your selected element in this trip.</p>
-            <p>Type :<code class="type">Boolean</code></p>
+            <p>Type :<code class="type">Boolean</code> or
+              Type :<code class="type">String</code>(If your element is not present in DOM tree when initialization)
+               or<code class="type">jQuery Object</code>
+            </p>
             <p>Default :<code>false</code></p>
           </li>
           <li>

@@ -22,8 +22,8 @@ block content
                 h4 tripTheme
                 p
                     | You can set which theme to use, now Trip.js support
-                    | <code>white</code>, <code>black</code>, and <code>yeti</code>
-                    | three themes.
+                    | <code>white</code>, <code>black</code>, <code>yeti</code> and <code>dark</code>
+                    | 4 themes.
                 p
                     | Type :
                     code.type
@@ -65,6 +65,17 @@ block content
                     | Default :
                     code
                         | 99999
+            li
+                h4 overlayHolder
+                p You can decide where to be the container of the overlay.
+                p
+                    | Type :
+                    code.type
+                        | String
+                p
+                    | Default :
+                    code
+                        | 'body'
             li
                 h4 enableKeyBinding
                 p You can decide to bind key events for trip navigations or not.
@@ -404,20 +415,6 @@ block content
                     code
                         | 1000
             li
-                h4 callback
-                p
-                    |You can do whatever you want to do after this step passed. BTW, Trip.js will assign the current
-                    | <code>tripIndex</code>
-                    | (start from 0) as the first parameter back to your callback function for later use.
-                p
-                    | Type :
-                    code.type
-                        | Function
-                p
-                    | Default :
-                    code
-                        | $.noop
-            li
                 h4 expose
                 p
                     |You can enable this option to expose your selected element in this trip.
@@ -425,6 +422,14 @@ block content
                     | Type :
                     code.type
                         | Boolean
+                    |  or
+                    | Type :
+                    code.type
+                        | String
+                    | (If your element is not present in DOM tree when initialization)
+                    |  or
+                    code.type
+                        | jQuery Object
                 p
                     | Default :
                     code

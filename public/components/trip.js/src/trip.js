@@ -43,6 +43,7 @@
       tripIndex: 0,
       tripTheme: 'black',
       backToTopWhenEnded: false,
+      overlayHolder: 'body',
       overlayZindex: 99999,
       delay: 1000,
       enableKeyBinding: true,
@@ -154,9 +155,17 @@
      */
     showExpose: function() {
       var o = this.getCurrentTripObject();
-      var $sel = $(o.sel);
       var oldCSS;
       var newCSS;
+      var $sel;
+
+      if (typeof o.expose === 'string') {
+        $sel = $(o.expose);
+      } else if (o.expose instanceof $) {
+        $sel = o.expose;
+      } else {
+        $sel = $(o.sel);
+      }
 
       this.hasExpose = true;
 
@@ -319,7 +328,7 @@
       var tripStop = tripObject.onTripStop || this.settings.onTripStop;
       tripStop(this.tripIndex, tripObject);
 
-      this.settings.onEnd();
+      this.settings.onEnd(this.tripIndex, tripObject);
 
       // We have to reset tripIndex in stop action too
       this.tripIndex = this.settings.tripIndex;
@@ -413,9 +422,17 @@
     prev: function() {
       this.tripDirection = 'prev';
 
+      // When this is executed, it means users click on the arrow key to
+      // navigate back to previous trip. In that scenario, this is the better
+      // place to call onTripEnd before modifying tripIndex.
+      var tripObject = this.getCurrentTripObject();
+      var tripEnd = tripObject.onTripEnd || this.settings.onTripEnd;
+      tripEnd(this.tripIndex, tripObject);
+
       if (!this.isFirst() && this.canGoPrev()) {
         this.decreaseIndex();
       }
+
       this.run();
     },
 
@@ -487,9 +504,11 @@
         this.$root.animate({ scrollTop: 0 }, 'slow');
       }
 
-      this.settings.onEnd();
-      this.tripIndex = this.settings.tripIndex;
+      var tripObject = this.getCurrentTripObject();
+      this.settings.onEnd(this.tripIndex, tripObject);
 
+      // We have to reset tripIndex when trip got finished
+      this.tripIndex = this.settings.tripIndex;
       return false;
     },
 
@@ -839,6 +858,7 @@
     setTripBlockPosition: function(o, horizontalOrVertical) {
       var $tripBlock = this.$tripBlock;
       var $sel = $(o.sel);
+      var $overlayHolder = $(this.settings.overlayHolder);
       var selWidth = $sel && $sel.outerWidth();
       var selHeight = $sel && $sel.outerHeight();
       var blockWidth = $tripBlock.outerWidth();
@@ -861,22 +881,22 @@
           cssVertical = this.CONSTANTS.TRIP_BLOCK_OFFSET_VERTICAL;
           break;
         case 'e':
-          cssHorizontal = $sel.offset().left + selWidth + arrowWidth;
-          cssVertical = $sel.offset().top - ((blockHeight - selHeight) / 2);
+          cssHorizontal = $sel.offset().left - $overlayHolder.offset().left + selWidth + arrowWidth;
+          cssVertical = $sel.offset().top - $overlayHolder.offset().top - ((blockHeight - selHeight) / 2);
           break;
         case 's':
-          cssHorizontal = $sel.offset().left + ((selWidth - blockWidth) / 2);
-          cssVertical = $sel.offset().top + selHeight + arrowHeight;
+          cssHorizontal = $sel.offset().left - $overlayHolder.offset().left + ((selWidth - blockWidth) / 2);
+          cssVertical = $sel.offset().top - $overlayHolder.offset().top + selHeight + arrowHeight;
           break;
         case 'w':
-          cssHorizontal = $sel.offset().left - (arrowWidth + blockWidth);
-          cssVertical = $sel.offset().top - ((blockHeight - selHeight) / 2);
+          cssHorizontal = $sel.offset().left - $overlayHolder.offset().left - (arrowWidth + blockWidth);
+          cssVertical = $sel.offset().top - $overlayHolder.offset().top - ((blockHeight - selHeight) / 2);
           break;
         case 'n':
           /* falls through */
         default:
-          cssHorizontal = $sel.offset().left + ((selWidth - blockWidth) / 2);
-          cssVertical = $sel.offset().top - arrowHeight - blockHeight;
+          cssHorizontal = $sel.offset().left - $overlayHolder.offset().left + ((selWidth - blockWidth) / 2);
+          cssVertical = $sel.offset().top - $overlayHolder.offset().top - arrowHeight - blockHeight;
           break;
       }
 
@@ -1047,7 +1067,7 @@
         var tripBlockHTML = this.settings.tripBlockHTML.join('');
         var $tripBlock = $(tripBlockHTML).addClass(this.settings.tripTheme);
 
-        $('body').append($tripBlock);
+        $(this.settings.overlayHolder).append($tripBlock);
 
         $tripBlock.find('.trip-close').on('click', function(e) {
           e.preventDefault();
@@ -1095,7 +1115,7 @@
             zIndex: this.settings.overlayZindex
           });
 
-        $('body').append($overlay);
+        $(this.settings.overlayHolder).append($overlay);
       }
     },
 
