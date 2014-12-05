@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.service.TranslationService;
 
 /**
@@ -13,8 +14,8 @@ public class TranslationHelper {
         this.translationService = translationService;
     }
 
-    public String getMessage(String key, String... params) {
-        return translationService.getTranslation(key, "fr", params);
+    public String getMessage(String key, LanguageEnum language,String... params) {
+        return translationService.getTranslation(key, language.getAbrv(), params);
     }
 
 }

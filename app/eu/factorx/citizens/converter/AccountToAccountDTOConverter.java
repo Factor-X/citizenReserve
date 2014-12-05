@@ -23,6 +23,7 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
         dto.setLastName(account.getLastName());
 		dto.setEmail(account.getEmail());
         dto.setZipCode(account.getZipCode());
+        dto.setLanguageAbrv(account.getLanguage().getAbrv());
 
         //add fake password
         dto.setPassword("------");

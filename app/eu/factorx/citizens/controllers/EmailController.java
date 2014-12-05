@@ -1,6 +1,7 @@
 package eu.factorx.citizens.controllers;
 
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.TranslationService;
@@ -49,10 +50,7 @@ public class EmailController extends AbstractController {
         }
     }
 
-    public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap) {
-
-        //TODO
-        String lang = "fr";
+    public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap,LanguageEnum lang) {
 
         //control params
         for (EmailParams emailParams : emailEnum.getExpectedParams()) {
@@ -61,7 +59,7 @@ public class EmailController extends AbstractController {
             }
         }
 
-        String title = translationService.getTranslation(emailEnum.getSubjectKey(), lang);
+        String title = translationService.getTranslation(emailEnum.getSubjectKey(), lang.getAbrv());
 
         //build params
         String[] params = new String[emailEnum.getExpectedParams().length];

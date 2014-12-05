@@ -34,10 +34,20 @@ public class AccountDTO extends DTO {
 
     private String sensitizationKit;
 
+    private String languageAbrv;
+
     @NotNull
     private String accountType;
 
     public AccountDTO() {
+    }
+
+    public String getLanguageAbrv() {
+        return languageAbrv;
+    }
+
+    public void setLanguageAbrv(String languageAbrv) {
+        this.languageAbrv = languageAbrv;
     }
 
     public Long getId() {
