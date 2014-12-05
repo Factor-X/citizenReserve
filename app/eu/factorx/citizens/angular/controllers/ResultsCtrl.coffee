@@ -20,6 +20,7 @@ angular
             y: (d) ->
                 return d.y
             showValues: true
+            interactive: false
             transitionDuration: 500,
             xAxis:
                 axisLabel: ''
@@ -58,7 +59,7 @@ angular
             $scope.data = [
 
                 {
-                    key: "YOU",
+                    key: $filter('translate')('results.stack.name'),
                     color: '#229913'
                     area: true
                     values: [
@@ -71,7 +72,7 @@ angular
                     ]
                 },
                 {
-                    key: "TREND YOU"
+                    key: $filter('translate')('results.trend.name')
                     color: '#28DB15'
                     values: _.map(_.range(17, 20.05, 0.1), (x) ->
                         return { x: x, y: arr2.a * x * x + arr2.b * x + arr2.c }
