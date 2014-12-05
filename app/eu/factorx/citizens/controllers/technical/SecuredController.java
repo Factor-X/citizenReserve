@@ -5,7 +5,6 @@ import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.service.impl.AccountServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
-import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -42,7 +41,6 @@ public class SecuredController extends Security.Authenticator {
     }
 
     public boolean isAuthenticated() {
-        Logger.error(getCurrentUser()+"");
         return getCurrentUser() != null;
     }
 }

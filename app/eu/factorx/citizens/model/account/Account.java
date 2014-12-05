@@ -185,8 +185,8 @@ public class Account extends AbstractEntity {
         result = 31 * result + password.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
-        result = 31 * result + zipCode.hashCode();
-        result = 31 * result + powerProvider.hashCode();
+        result = 31 * result + (zipCode != null ? zipCode.hashCode():0);
+        result = 31 * result + (powerProvider!=null? powerProvider.hashCode():0);
         result = 31 * result + (powerComsumerCategory != null ? powerComsumerCategory.hashCode() : 0);
         result = 31 * result + (otherEmailAdresses != null ? otherEmailAdresses.hashCode() : 0);
         result = 31 * result + (sensitizationKit != null ? sensitizationKit.hashCode() : 0);
