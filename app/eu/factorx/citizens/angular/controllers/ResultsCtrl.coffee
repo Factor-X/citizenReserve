@@ -105,7 +105,7 @@ angular
             if result.success
                 summaryResult = result.data
                 if (!!summaryResult)
-                    $scope.totalEffectiveAverageReduction = $filter("number") parseFloat(summaryResult.effectiveReduction), 0
+                    $scope.totalEffectiveAverageReduction = $filter("number") (parseFloat(summaryResult.effectiveReduction)/1000), 0
             else
                 console.log(result.data)
 
