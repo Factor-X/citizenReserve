@@ -6,7 +6,7 @@
 .generate-cr-topic-theme(~'magenta', #831cb2);
 .generate-cr-topic-theme(@name, @color) {
     .cr-theme-@{name} .cr-topic, .cr-theme-@{name}.cr-topic {
-        .cr-topic-text {
+        &:not(.disabled) .cr-topic-text {
             color: @color;
         }
     }
@@ -22,8 +22,12 @@
 
     transition: transform 0.2s cubic-bezier(0.25, 1.0, 0.5, 1.0);
 
-    &:hover {
+    &:hover:not(.disabled) {
         transform: scale(1.1, 1.1)
+    }
+
+    &.disabled .cr-topic-text {
+        color: #999999;
     }
 
     .cr-topic-text {
@@ -72,26 +76,29 @@
     &:hover:not(.disabled) .cr-topic-image-active {
         opacity: 0.0;
     }
-    &:hover:not(.disabled) .cr-topic-image-disabled {
-        opacity: 0.0;
+    &:hover.disabled .cr-topic-image-disabled {
+        opacity: 1.0;
     }
     &:hover:not(.disabled) .cr-topic-image-inactive {
         opacity: 0.0;
     }
 
-    &.active:not(:hover):not(.disabled) .cr-topic-image-hover {
+
+
+
+    &.active:not(:hover) .cr-topic-image-hover {
         opacity: 0.0;
     }
 
-    &.active:not(:hover):not(.disabled) .cr-topic-image-active {
+    &.active:not(:hover) .cr-topic-image-active {
         opacity: 1.0;
     }
 
-    &.active:not(:hover):not(.disabled) .cr-topic-image-disabled {
-        opacity: 1.0;
+    &.active:not(:hover) .cr-topic-image-disabled {
+        opacity: 0.0;
     }
 
-    &.active:not(:hover):not(.disabled) .cr-topic-image-inactive {
+    &.active:not(:hover) .cr-topic-image-inactive {
         opacity: 0.0;
     }
 

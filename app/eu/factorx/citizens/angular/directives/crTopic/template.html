@@ -1,6 +1,7 @@
 <button class="cr-topic {{ getWindowClass() }}"
-        ng-class="{active: (getActive() == 'true'), disabled: (getDisabled() == 'true')}"
+        ng-class="{active: (getActive() == 'true'), disabled: isTrue(getDisabled())}"
         ng-click="open()" >
+
 
     <img class="cr-topic-image-active"
          ng-src="/assets/images/{{getImage()}}_active.png"/>
@@ -15,4 +16,5 @@
          ng-src="/assets/images/{{getImage()}}_hover.png"/>
 
     <div class="cr-topic-text " ng-bind-html="getLabel() | translate"></div>
+
 </button>
