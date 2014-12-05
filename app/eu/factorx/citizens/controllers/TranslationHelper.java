@@ -9,12 +9,14 @@ import eu.factorx.citizens.service.TranslationService;
 public class TranslationHelper {
 
     private TranslationService translationService;
+    private LanguageEnum language;
 
-    public TranslationHelper(TranslationService translationService) {
+    public TranslationHelper(TranslationService translationService,LanguageEnum language) {
         this.translationService = translationService;
+        this.language = language;
     }
 
-    public String getMessage(String key, LanguageEnum language,String... params) {
+    public String getMessage(String key, String... params) {
         return translationService.getTranslation(key, language.getAbrv(), params);
     }
 

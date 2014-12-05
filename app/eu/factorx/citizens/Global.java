@@ -103,7 +103,7 @@ public class Global extends GlobalSettings {
 		// start Akka task every 24 hours to compute consolidation statistics
 		Cancellable schedule = Akka.system().scheduler().schedule(
 				Duration.create(10, TimeUnit.SECONDS),
-				Duration.create(1, TimeUnit.MINUTES),
+				Duration.create(24, TimeUnit.HOURS),
 				new Runnable() {
 					public void run() {
 						try {

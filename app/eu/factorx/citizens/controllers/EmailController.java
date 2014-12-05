@@ -35,7 +35,6 @@ public class EmailController extends AbstractController {
 
     private final TranslationService translationService = new TranslationServiceImpl();
     private final VelocityGeneratorService velocityGeneratorService = new VelocityGeneratorServiceImpl();
-    private final TranslationHelper translationHelper = new TranslationHelper(translationService);
     private final EmailService emailService;
     private final SurveyService surveyService = new SurveyServiceImpl();
 
@@ -51,6 +50,8 @@ public class EmailController extends AbstractController {
     }
 
     public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap,LanguageEnum lang) {
+
+        final TranslationHelper translationHelper = new TranslationHelper(translationService, lang);
 
         //control params
         for (EmailParams emailParams : emailEnum.getExpectedParams()) {
@@ -82,6 +83,9 @@ public class EmailController extends AbstractController {
     }
 
     public String generateActionsTable(Account account) {
+
+
+        final TranslationHelper translationHelper = new TranslationHelper(translationService, account.getLanguage());
 
         HashMap<TopicEnum, List<String>> actions = surveyService.getActionsForSummaryEmail(account);
 
