@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "crLogin", (surveyDTOService, downloadService) ->
+.directive "crLogin", (surveyDTOService, downloadService, $state) ->
     restrict: "E"
     scope: {}
     templateUrl: "$/angular/templates/cr-login.html"
