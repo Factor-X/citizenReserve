@@ -12,11 +12,6 @@
 
                 <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
 
-                <a class="cr-actions-profile-link"
-                   ng-bind-html="'nav.back-to-profile' | translate"
-                   ui-sref="root.householdProfile">
-                </a>
-
                 <a class="cr-actions-register-link"
                    ng-bind-html="'nav.to-identification' | translate"
                    ui-sref="root.householdAccount">
@@ -78,6 +73,18 @@
                     ></cr-topic>
             </div>
 
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 cr-navigation">
+                <button ui-sref="root.householdProfile"
+                        class="cr-mega-button">
+                    <i class="fa fa-caret-left fa-2x"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'nav.back-to-profile' | translate"></span>
+                </button>
+            </div>
         </div>
 
         <div class="row cr-profile-result">

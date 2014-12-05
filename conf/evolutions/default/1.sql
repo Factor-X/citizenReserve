@@ -16,6 +16,7 @@ create table accounts (
   power_comsumer_category   varchar(255),
   other_email_adresses      varchar(255),
   sensitization_kit         varchar(255),
+  super_admin               boolean default false not null,
   version                   bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
@@ -53,24 +54,32 @@ create table answervalues (
 
 create table batchresult (
   id                        bigint not null,
-  deletion_date             timestamp,
   reduction_type            varchar(9),
   nb_surveys                integer,
   nb_errors                 integer,
-  version                   bigint not null,
-  creation_date             timestamp not null,
-  last_update_date          timestamp not null,
+  batch_result_set_id       bigint,
   constraint ck_batchresult_reduction_type check (reduction_type in ('POTENTIAL','EFFECTIVE')),
   constraint pk_batchresult primary key (id))
 ;
 
 create table batchresultitem (
+  id                        bigint not null,
   day                       varchar(4),
   period                    varchar(6),
   power_reduction           float,
   batch_result_id           bigint,
   constraint ck_batchresultitem_day check (day in ('DAY1','DAY2','DAY3','DAY4')),
-  constraint ck_batchresultitem_period check (period in ('FIRST','SECOND','THIRD')))
+  constraint ck_batchresultitem_period check (period in ('FIRST','SECOND','THIRD')),
+  constraint pk_batchresultitem primary key (id))
+;
+
+create table batch_result_set (
+  id                        bigint not null,
+  deletion_date             timestamp,
+  version                   bigint not null,
+  creation_date             timestamp not null,
+  last_update_date          timestamp not null,
+  constraint pk_batch_result_set primary key (id))
 ;
 
 create table surveys (
@@ -91,16 +100,22 @@ create sequence answervalues_seq;
 
 create sequence batchresult_seq;
 
+create sequence batchresultitem_seq;
+
+create sequence batch_result_set_seq;
+
 create sequence surveys_seq;
 
 alter table answers add constraint fk_answers_survey_1 foreign key (survey_id) references surveys (id);
 create index ix_answers_survey_1 on answers (survey_id);
 alter table answervalues add constraint fk_answervalues_answer_2 foreign key (answer_id) references answers (id);
 create index ix_answervalues_answer_2 on answervalues (answer_id);
-alter table batchresultitem add constraint fk_batchresultitem_batchResult_3 foreign key (batch_result_id) references batchresult (id);
-create index ix_batchresultitem_batchResult_3 on batchresultitem (batch_result_id);
-alter table surveys add constraint fk_surveys_account_4 foreign key (account_id) references accounts (id);
-create index ix_surveys_account_4 on surveys (account_id);
+alter table batchresult add constraint fk_batchresult_batchResultSet_3 foreign key (batch_result_set_id) references batch_result_set (id);
+create index ix_batchresult_batchResultSet_3 on batchresult (batch_result_set_id);
+alter table batchresultitem add constraint fk_batchresultitem_batchResult_4 foreign key (batch_result_id) references batchresult (id);
+create index ix_batchresultitem_batchResult_4 on batchresultitem (batch_result_id);
+alter table surveys add constraint fk_surveys_account_5 foreign key (account_id) references accounts (id);
+create index ix_surveys_account_5 on surveys (account_id);
 
 
 
@@ -116,6 +131,8 @@ drop table if exists batchresult cascade;
 
 drop table if exists batchresultitem cascade;
 
+drop table if exists batch_result_set cascade;
+
 drop table if exists surveys cascade;
 
 drop sequence if exists accounts_seq;
@@ -125,6 +142,10 @@ drop sequence if exists answers_seq;
 drop sequence if exists answervalues_seq;
 
 drop sequence if exists batchresult_seq;
+
+drop sequence if exists batchresultitem_seq;
+
+drop sequence if exists batch_result_set_seq;
 
 drop sequence if exists surveys_seq;
 

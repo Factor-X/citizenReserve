@@ -1,12 +1,11 @@
 package eu.factorx.citizens.service.impl;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.OrderBy;
-import com.avaje.ebean.Query;
 import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.batch.BatchResult;
+import eu.factorx.citizens.model.batch.BatchResultSet;
 import eu.factorx.citizens.model.batch.PowerReductionType;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Period;
@@ -30,13 +29,22 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public void run() {
-        Ebean.save(calculateGlobalPotentialReduction());
-        Ebean.save(calculateGlobalEffectiveReduction());
+
+        BatchResultSet batchResultSet = new BatchResultSet();
+        batchResultSet.addBatchResult(calculateGlobalPotentialReduction());
+        batchResultSet.addBatchResult(calculateGlobalEffectiveReduction());
+
+        batchResultSet.save();
     }
 
     @Override
     public BatchResult findLastBatchResult() {
         return Ebean.find(BatchResult.class).where().eq(AbstractEntity.LAST_UPDATE_DATE, getLastBatchResultDate()).findUnique();
+    }
+
+    @Override
+    public List<BatchResult> findBatchToDisplayForSuperAdmin() {
+        return Ebean.find(BatchResult.class).findList();
     }
 
     private Date getLastBatchResultDate() {
@@ -135,7 +143,7 @@ public class BatchServiceImpl implements BatchService {
             nbSurveys++;
         }
 
-        BatchResult batchResult = new BatchResult(PowerReductionType.POTENTIAL, nbSurveys, nbErrors);
+        BatchResult batchResult = new BatchResult(PowerReductionType.EFFECTIVE, nbSurveys, nbErrors);
 
         batchResult.addResultItem(ReductionDay.DAY1, Period.FIRST, firstDayResult_p1);
         batchResult.addResultItem(ReductionDay.DAY1, Period.SECOND, firstDayResult_p2);

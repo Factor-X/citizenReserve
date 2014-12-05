@@ -4,36 +4,42 @@ angular
     restrict: "A"
     require: 'ngModel'
     link: (scope, elem, attrs, ngModel) ->
-        console.log scope
+        o = $parse(attrs.crTootipOnRespond)(scope)
 
-        if $(elem).closest('.modal').length > 0
-            scope.$lbl = conditionService.getTooltip(attrs.crTootipOnRespond)()
-            scope.$oldLbl = scope.$lbl
+        questionKey = o.key
+        periodKey = o.period
 
-        scope.$on '$destroy', () ->
-            if scope.$trip
-                scope.$trip.stop()
-                scope.$trip = null
+        if conditionService.getTooltip(questionKey, periodKey)?
 
-        scope.$$childHead.$watch 'ngModel', (n, o) ->
-            scope.$lbl = conditionService.getTooltip(attrs.crTootipOnRespond)()
-            if scope.$lbl != scope.$oldLbl
+            if $(elem).closest('.modal').length > 0
+                scope.$lbl = conditionService.getTooltip(questionKey, periodKey)()
+                scope.$oldLbl = scope.$lbl
+
+            scope.$on '$destroy', () ->
                 if scope.$trip
                     scope.$trip.stop()
                     scope.$trip = null
 
-                if scope.$lbl
-                    scope.$trip = new Trip([
-                        {
-                            sel: $(elem),
-                            content: $filter('translate')(scope.$lbl),
-                            position: 'w'
-                            delay: 10000
-                            animation: 'bounceInLeft'
-                            showCloseBox: true
-                        }
-                    ], {});
-                    scope.$trip.start();
-                scope.$oldLbl = scope.$lbl
+            scope.$$childHead.$watch 'ngModel', (n, o) ->
+                scope.$lbl = conditionService.getTooltip(questionKey, periodKey)()
+                if scope.$lbl != scope.$oldLbl
+                    if scope.$trip
+                        scope.$trip.stop()
+                        scope.$trip = null
+
+                    if scope.$lbl
+
+                        scope.$trip = new Trip([
+                            {
+                                sel: $(elem),
+                                content: $filter('translate')(scope.$lbl),
+                                position: 'w'
+                                delay: 10000
+                                animation: 'bounceInLeft'
+                                showCloseBox: true
+                            }
+                        ], {overlayHolder: '.modal-body'});
+                        scope.$trip.start();
+                    scope.$oldLbl = scope.$lbl
 
         return

@@ -6,11 +6,11 @@
 <div class="modal-body">
 
     <cr-question label="Q3210.label">
-        <cr-boolean ng-model="getAnswerValue('Q3210').booleanValue"></cr-boolean>
+        <cr-boolean cr-tootip-on-respond="{key:'Q3210',period:null}" ng-model="getAnswerValue('Q3210').booleanValue"></cr-boolean>
     </cr-question>
 
     <cr-question label="Q3211.label" cr-conditioned="Q3211" >
-        <cr-slider ng-model="getAnswerValue('Q3211').stringValue" ng-steps="getNumericOptions('Q3211',1,4,1)"></cr-slider>
+        <cr-slider cr-tootip-on-respond="{key:'Q3211',period:null}" ng-model="getAnswerValue('Q3211').stringValue" ng-steps="getNumericOptions('Q3211',1,4,1)"></cr-slider>
     </cr-question>
 
 </div>

@@ -7,97 +7,97 @@
             <div class="col-md-6">
                 <h1 class="cr-profile-title">Ménage > Profil de consommation</h1>
             </div>
-
-            <div class="col-md-6 cr-navigation">
-
+            <div class="col-md-4 col-md-offset-8 cr-navigation">
                 <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
-
-                <a class="cr-profile-actions-link"
-                   ng-bind-html="'nav.to-actions' | translate"
-                   ui-sref="root.householdActions">
-                </a>
             </div>
-
         </div>
 
         <div class="row cr-profile-content">
 
             <div class="col-md-2 col-sm-4 col-xs-6 col-md-offset-1">
                 <cr-topic
-                        image="household/topics/topic_presence"
-                        view="$/angular/views/household/profile/topics/profile-presence.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-green"
-                        label="topic.presence.label"
-                        active="{{ isProfileTopicCompleted('presence') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_presence"
+                    view="$/angular/views/household/profile/topics/profile-presence.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-green"
+                    label="topic.presence.label"
+                    active="{{ isProfileTopicCompleted('presence') }}"
+                    ></cr-topic>
             </div>
 
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_programs"
-                        view="$/angular/views/household/profile/topics/profile-programs.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-blue"
-                        label="topic.programs.label"
-                        active="{{ isProfileTopicCompleted('programs') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_programs"
+                    view="$/angular/views/household/profile/topics/profile-programs.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-blue"
+                    label="topic.programs.label"
+                    active="{{ isProfileTopicCompleted('programs') }}"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_heating"
-                        view="$/angular/views/household/profile/topics/profile-heating.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-red"
-                        label="topic.heating.label"
-                        active="{{ isProfileTopicCompleted('heating') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_heating"
+                    view="$/angular/views/household/profile/topics/profile-heating.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-red"
+                    label="topic.heating.label"
+                    active="{{ isProfileTopicCompleted('heating') }}"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_lighting"
-                        view="$/angular/views/household/profile/topics/profile-lighting.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-orange"
-                        label="topic.lighting.label"
-                        active="{{ isProfileTopicCompleted('lighting') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_lighting"
+                    view="$/angular/views/household/profile/topics/profile-lighting.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-orange"
+                    label="topic.lighting.label"
+                    active="{{ isProfileTopicCompleted('lighting') }}"
+                    ></cr-topic>
             </div>
 
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <cr-topic
-                        image="household/topics/topic_dinner"
-                        view="$/angular/views/household/profile/topics/profile-dinner.html"
-                        controller="ModalTopicCtrl"
-                        window-class="cr-theme-magenta"
-                        label="topic.dinner.label"
-                        active="{{ isProfileTopicCompleted('dinner') }}"
-                        ></cr-topic>
+                    image="household/topics/topic_dinner"
+                    view="$/angular/views/household/profile/topics/profile-dinner.html"
+                    controller="ModalTopicCtrl"
+                    window-class="cr-theme-magenta"
+                    label="topic.dinner.label"
+                    active="{{ isProfileTopicCompleted('dinner') }}"
+                    ></cr-topic>
             </div>
 
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-8 cr-navigation">
+                <button ui-sref="root.householdActions"
+                        ng-disabled=" !isProfileTopicCompleted('presence') || !isProfileTopicCompleted('programs') || !isProfileTopicCompleted('heating') || !isProfileTopicCompleted('lighting') || !isProfileTopicCompleted('dinner')"
+                        class="cr-mega-button">
+                    <span ng-bind-html="'nav.to-actions' | translate"></span>
+                    <span>&nbsp;</span>
+                    <i class="fa fa-caret-right fa-2x"></i>
+                </button>
+            </div>
         </div>
 
         <div class="row cr-profile-result">
             <div class="col-md-12">
-                <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReductionl | numberToI18N: 0 }} Watt</p>
-                <p>Mon Potentiel par jour sur la période 17h-20h: {{ potentialReduction.energyReduction  | numberToI18N }} kWh</p>
+                <p>Puissance effaçable potentielle: {{ potentialReduction.averagePowerReductionl | numberToI18N: 0 }}
+                    Watt</p>
+
+                <p>Mon Potentiel par jour sur la période 17h-20h: {{ potentialReduction.energyReduction | numberToI18N
+                    }} kWh</p>
                 <button class="btn btn-primary" ng-click="getPotentialReduction()">Refresh</button>
             </div>
         </div>
 
-        <!--<div class="row cr-profile-chart">-->
-        <!--<div class="col-md-8">-->
-        <!--<canvas tc-chartjs-line chart-options="options" chart-data="data" chart-legend="legend"></canvas>-->
-        <!--</div>-->
-        <!--<div class="col-md-4">-->
-        <!--<div tc-chartjs-legend chart-legend="legend"></div>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <nvd3 options='options' data='data'></nvd3>
+        <div class="row">
+            <nvd3 options='options' data='data'></nvd3>
+        </div>
 
     </div>
 

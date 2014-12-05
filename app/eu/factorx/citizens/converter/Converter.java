@@ -8,5 +8,5 @@ import play.db.ebean.Model;
  */
 public interface Converter<T extends Model, U extends DTO> {
 
-	public U convert(T dto);
+	public U convert(T entity);
 }

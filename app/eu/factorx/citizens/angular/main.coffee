@@ -32,8 +32,8 @@ defaultResolve =
     testConnection: ($http, $rootScope,$stateParams, $state, downloadService, surveyDTOService) ->
         # if the current user is null...
         if not surveyDTOService.hasAccountType()
-            console.log "je nai pas daccount type : " + surveyDTOService.surveyDTO
             downloadService.getJson '/authenticated', (result) ->
+                console.log "je nai pas daccount type : authentication : "+result.success
                 if result.success
                     surveyDTOService.surveyDTO = result.data
                 else
@@ -63,7 +63,7 @@ angular
         controller: ($scope, $state, $stateParams) ->
             l = $stateParams.lang
             if l == 'fr' or l == 'nl' or l == 'en'
-                if $state.current.name != 'root.welcome'
+                if $state.current.name == 'root'
                     $state.go 'root.welcome'
             else
                 $state.go 'root.welcome', {lang: 'fr'}
@@ -93,6 +93,16 @@ angular
         templateUrl: '$/angular/views/test/controls-demo.html'
         controller: 'ControlsDemoCtrl'
         resolve: {}
+    .state 'root.superAdminLogin',
+        url: '/admin'
+        templateUrl: '$/angular/views/admin/login.html'
+        controller: 'SuperAdminLoginCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), testAuthenticationResolve)
+    .state 'root.superAdminMain',
+        url: '/admin/main'
+        templateUrl: '$/angular/views/admin/main.html'
+        controller: 'SuperAdminMainCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
 
     $urlRouterProvider.otherwise('/fr/welcome');
 

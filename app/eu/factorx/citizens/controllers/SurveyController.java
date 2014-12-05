@@ -77,4 +77,9 @@ public class SurveyController extends AbstractController {
         return ok("{'nbSurveys':'" + nbSurveys + "','nbParticipants':'" + nbParticipants + "'}");
     }
 
+    public Result getGlobalReductionData() {
+        //BatchResult batchResult = Ebean.find(Batch.cl)
+        return ok();
+    }
+
 }
