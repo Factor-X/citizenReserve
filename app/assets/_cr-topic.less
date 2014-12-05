@@ -50,6 +50,15 @@
         .cr-topic-image();
         opacity: 1.0;
     }
+
+    .cr-topic-image-disabled {
+        .cr-topic-image();
+        opacity: 0.0;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
     .cr-topic-image-hover {
         .cr-topic-image();
         position: absolute;
@@ -57,26 +66,37 @@
         top: 0;
     }
 
-    &:hover .cr-topic-image-hover {
+    &:hover:not(.disabled) .cr-topic-image-hover {
         opacity: 1.0;
     }
-    &:hover .cr-topic-image-active {
+    &:hover:not(.disabled) .cr-topic-image-active {
         opacity: 0.0;
     }
-    &:hover .cr-topic-image-inactive {
+    &:hover:not(.disabled) .cr-topic-image-disabled {
+        opacity: 0.0;
+    }
+    &:hover:not(.disabled) .cr-topic-image-inactive {
         opacity: 0.0;
     }
 
-    &.active:not(:hover) .cr-topic-image-hover {
+    &.active:not(:hover):not(.disabled) .cr-topic-image-hover {
         opacity: 0.0;
     }
 
-    &.active:not(:hover) .cr-topic-image-active {
+    &.active:not(:hover):not(.disabled) .cr-topic-image-active {
         opacity: 1.0;
     }
 
-    &.active:not(:hover) .cr-topic-image-inactive {
+    &.active:not(:hover):not(.disabled) .cr-topic-image-disabled {
+        opacity: 1.0;
+    }
+
+    &.active:not(:hover):not(.disabled) .cr-topic-image-inactive {
         opacity: 0.0;
+    }
+
+    &.disabled .cr-topic-image-disabled {
+        opacity: 1.0;
     }
 
 }

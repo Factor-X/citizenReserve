@@ -9,6 +9,13 @@ angular
             'heating': ['Q1600', 'Q1900', 'Q1210']
             'lighting': ['Q1160', 'Q1220', 'Q1230', 'Q1700', 'Q1750', 'Q1800', 'Q2010', 'Q2020', 'Q2030', 'Q2040',
                          'Q1235']
+        actions:
+            'presence': ['Q3210', 'Q3211']
+            'programs': ['Q3110', 'Q3120', 'Q3130']
+            'heating': ['Q3310', 'Q3320', 'Q3330']
+            'lighting': ['Q3410', 'Q3420', 'Q3510', 'Q3530', 'Q3610', 'Q3620', 'Q3630', 'Q3631', 'Q3640', 'Q3810']
+            'dinner': ['Q3710', 'Q3711', 'Q3720', 'Q3730', 'Q3750', 'Q3760', 'Q3740', 'Q3741']
+
 
     $scope.logout = () ->
         downloadService.postJson '/logout', surveyDTOService.surveyDTO, (result) ->
@@ -46,9 +53,15 @@ angular
         return true
 
     $scope.isProfileCompleted = ->
-        $scope.topicQuestions.profile
         for topicIdentifier of $scope.topicQuestions.profile
             if (!$scope.isProfileTopicCompleted(topicIdentifier))
+                return false
+        return true
+
+    $scope.isActionTopicEmpty = (topicIdentifier) ->
+        topicQuestionKeys = $scope.topicQuestions.actions[topicIdentifier]
+        for questionKey in topicQuestionKeys
+            if conditionService.checkCondition(questionKey)
                 return false
         return true
 
