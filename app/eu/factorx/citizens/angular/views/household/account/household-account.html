@@ -1,18 +1,25 @@
 <div class="cr-account">
     <div class="container">
 
-        <div class="row cr-actions-header">
+        <
+
+        <div class="row cr-profile-header">
 
             <div class="col-md-6">
-                <h1 class="cr-actions-title">Ménage > Account</h1>
+                <h2 ng-bind-html="'register.title' | translate"></h2>
+
+
             </div>
-
-            <div class="col-md-6 cr-navigation">
-
+            <div class="col-md-6">
                 <cr-login></cr-login>
-
             </div>
+        </div>
 
+        <div class="row cr-profile-header">
+
+            <div class="col-md-12">
+                <h3 ng-bind-html="'register.intro' | translate"></h3>
+            </div>
         </div>
 
         <div class="row">
@@ -144,18 +151,18 @@
                 </button>
 
 
-
-
-
-
-
                 <img ng-show="loading == true" ng-src="/assets/images/modal-loading.gif"/>
             </div>
 
             <div class="col-md-2">
             </div>
         </div>
-        <div class="row cr-actions-footer">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <h3 ng-bind-html="'register.outro' | translate"></h3>
+            </div>
         </div>
 
     </div>
