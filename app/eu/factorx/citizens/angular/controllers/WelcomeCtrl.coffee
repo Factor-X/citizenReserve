@@ -1,8 +1,9 @@
 angular
 .module('app.controllers')
-.controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService,$flash) ->
+.controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService,$flash,$stateParams) ->
+
     $scope.toHouseHold = ->
-        surveyDTOService.getAccount().accountType = 'household'
+        surveyDTOService.createPreAccount('household', $stateParams.lang)
         $state.go 'root.householdProfile'
 
 

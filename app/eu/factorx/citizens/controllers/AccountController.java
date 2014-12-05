@@ -5,11 +5,13 @@ import eu.factorx.citizens.converter.AccountToAccountDTOConverter;
 import eu.factorx.citizens.converter.SurveyToSurveyDTOConverter;
 import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.Survey;
-import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.service.AccountService;
+import eu.factorx.citizens.service.CalculationService;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.AccountServiceImpl;
+import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
 import eu.factorx.citizens.util.email.EmailEnum;
@@ -23,6 +25,7 @@ import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class AccountController extends AbstractController {
     //service
     private AccountService accountService = new AccountServiceImpl();
     private SurveyService surveyService = new SurveyServiceImpl();
+    private CalculationService calculationService = new CalculationServiceImpl();
     //converter
     private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
     private SurveyToSurveyDTOConverter surveyToSurveyDTOConverter = new SurveyToSurveyDTOConverter();
@@ -101,7 +105,7 @@ public class AccountController extends AbstractController {
     @Security.Authenticated(SecuredController.class)
     public Result testAuthentication() {
 
-        Logger.error("current user : "+securedController.getCurrentUser());
+        Logger.error("current user : " + securedController.getCurrentUser());
 
         Survey survey = surveyService.findValidSurveyByAccount(securedController.getCurrentUser());
 
@@ -119,7 +123,7 @@ public class AccountController extends AbstractController {
     }
 
     @Transactional
-    public Result loginSuperAdmin(){
+    public Result loginSuperAdmin() {
         return login(true);
     }
 
@@ -140,7 +144,7 @@ public class AccountController extends AbstractController {
         }
 
         //test superAdmin
-        if(onlyForSuperAdmin && !account.isSuperAdmin()){
+        if (onlyForSuperAdmin && !account.isSuperAdmin()) {
             throw new MyRuntimeException(BusinessErrorType.WRONG_RIGHT);
         }
 
@@ -197,7 +201,7 @@ public class AccountController extends AbstractController {
             }
         }
 
-        emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap);
+        emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap,account.getLanguage());
 
         return ok(new ResultDTO());
     }
@@ -232,6 +236,7 @@ public class AccountController extends AbstractController {
         account.setZipCode(dto.getAccount().getZipCode());
         account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
         account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
+        account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
 
         //power data
         account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
@@ -245,7 +250,7 @@ public class AccountController extends AbstractController {
         surveyController.saveSurvey(dto, account);
 
         //send email
-        sendSummaryEmail(account);
+        sendSummaryEmail(account, dto);
 
         //save account into context
         securedController.storeIdentifier(account);
@@ -272,6 +277,7 @@ public class AccountController extends AbstractController {
         account.setZipCode(dto.getAccount().getZipCode());
         account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
         account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
+        account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
 
         //power data
         account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
@@ -284,16 +290,29 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
-        //TODO return summary
         return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
     }
 
 
-    private void sendSummaryEmail(Account account) {
+    private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
 
-        //create action list
+		/****************************/
+		/* add unselected actions to perform calculation */
 
+		// Validate incoming DTO - TODO
+		List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
+		try {
+			missingActions = calculationService.validateActions(surveyDTO.getAnswers());
+		} catch (Exception e) {
+			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+		}
+
+		surveyDTO.getAnswers().addAll(missingActions);
+
+		//create action list
+        List<ReductionDTO> reductionDTOs = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
+        Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
         //convert action to string
         String actionString = emailController.generateActionsTable(account);
 
@@ -305,17 +324,19 @@ public class AccountController extends AbstractController {
             } else if (emailParams.getName().equals("lastName")) {
                 paramsMap.put(emailParams, account.getLastName());
             } else if (emailParams.getName().equals("reductionSum")) {
-                // TODO
-                paramsMap.put(emailParams, "0");
+                paramsMap.put(emailParams, reductionPower.intValue() + "");
             } else if (emailParams.getName().equals("actionTable")) {
                 paramsMap.put(emailParams, actionString);
             } else if (emailParams.getName().equals("personal_access_url")) {
-                // TODO
-                paramsMap.put(emailParams, "0");
+                if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
+                    paramsMap.put(emailParams, "www.citizensreserve.be/nl/myaccount/");
+                } else {
+                    paramsMap.put(emailParams, "www.citizensreserve.be/myaccount/");
+                }
             }
         }
 
-        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap);
+        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap,account.getLanguage());
 
     }
 

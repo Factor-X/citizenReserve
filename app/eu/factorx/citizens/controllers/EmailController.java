@@ -1,6 +1,7 @@
 package eu.factorx.citizens.controllers;
 
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.TopicEnum;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.TranslationService;
@@ -34,7 +35,6 @@ public class EmailController extends AbstractController {
 
     private final TranslationService translationService = new TranslationServiceImpl();
     private final VelocityGeneratorService velocityGeneratorService = new VelocityGeneratorServiceImpl();
-    private final TranslationHelper translationHelper = new TranslationHelper(translationService);
     private final EmailService emailService;
     private final SurveyService surveyService = new SurveyServiceImpl();
 
@@ -49,10 +49,9 @@ public class EmailController extends AbstractController {
         }
     }
 
-    public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap) {
+    public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap,LanguageEnum lang) {
 
-        //TODO
-        String lang = "fr";
+        final TranslationHelper translationHelper = new TranslationHelper(translationService, lang);
 
         //control params
         for (EmailParams emailParams : emailEnum.getExpectedParams()) {
@@ -61,7 +60,7 @@ public class EmailController extends AbstractController {
             }
         }
 
-        String title = translationService.getTranslation(emailEnum.getSubjectKey(), lang);
+        String title = translationService.getTranslation(emailEnum.getSubjectKey(), lang.getAbrv());
 
         //build params
         String[] params = new String[emailEnum.getExpectedParams().length];
@@ -85,14 +84,15 @@ public class EmailController extends AbstractController {
 
     public String generateActionsTable(Account account) {
 
+
+        final TranslationHelper translationHelper = new TranslationHelper(translationService, account.getLanguage());
+
         HashMap<TopicEnum, List<String>> actions = surveyService.getActionsForSummaryEmail(account);
 
         Map<String, Object> values = new HashMap<>();
         values.put("actions", actions);
         values.put("translationHelper", translationHelper);
         values.put("hostname", hostname);
-
-        Logger.info("=>>>>>"+Configuration.root().getString("citizens-reserve.hostname"));
 
         for (Map.Entry<TopicEnum, List<String>> mapEntry : actions.entrySet()) {
             Logger.info("Email data : hostname : "+hostname+"/assets/images/"+mapEntry.getKey().getAccountType().getString()+"/topics/topic_"+mapEntry.getKey().getTopicName()+"_active.png");
