@@ -31,16 +31,14 @@
                 <cr-question label="generic.firstName">
                     <cr-text ng-model="getAccount().firstName" name="firstname"
                              ng-validation="validation.firstName"></cr-text>
-                    <p class="cr-error" ng-show="validation.firstName.valid == false && noSubmitYet == false">
-                        {{'account.errorMessage.firstName' | translate}}</p>
+                    <p class="cr-error" ng-show="validation.firstName.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.firstName' | translate"></p>
                 </cr-question>
 
                 <!-- Q5120 generic.lastName -->
                 <cr-question label="generic.lastName">
                     <cr-text ng-model="getAccount().lastName" name="lastname"
                              ng-validation="validation.lastName"></cr-text>
-                    <p class="cr-error" ng-show="validation.lastName.valid == false && noSubmitYet == false">
-                        {{'account.errorMessage.lastName' | translate}}</p>
+                    <p class="cr-error" ng-show="validation.lastName.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.lastName' | translate"></p>
                 </cr-question>
 
                 <!-- Q5130 generic.emailAddress -->
@@ -48,8 +46,7 @@
                     <cr-text ng-model="getAccount().email" name="email"
                              ng-validation="validation.emailAddress"
                              ng-disabled="isAuthenticated() == true"></cr-text>
-                    <p class="cr-error" ng-show="validation.emailAddress.valid == false && noSubmitYet == false">
-                        {{'account.errorMessage.emailAddress' | translate}}</p>
+                    <p class="cr-error" ng-show="validation.emailAddress.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.emailAddress' | translate"></p>
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
@@ -65,8 +62,7 @@
                     <cr-text ng-model="getAccount().password" type="password" name="password"
                              ng-validation="validation.password"
                              ng-disabled="isAuthenticated() == true"></cr-text>
-                    <p class="cr-error" ng-show="validation.password.valid == false && noSubmitYet == false">
-                        {{'account.errorMessage.password' | translate}}</p>
+                    <p class="cr-error" ng-show="validation.password.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.password' | translate"></p>
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
@@ -82,8 +78,7 @@
                              ng-hide="isAuthenticated() == true">
                     <cr-text ng-model="o.repeatPassword" type="password" name="password"
                              ng-validation="validation.repeatPassword"></cr-text>
-                    <p class="cr-error" ng-show="validation.repeatPassword.valid == false && noSubmitYet == false">
-                        {{'account.errorMessage.repeatPassword' | translate}}</p>
+                    <p class="cr-error" ng-show="validation.repeatPassword.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.repeatPassword' | translate | translate"></p>
                 </cr-question>
 
 
@@ -95,8 +90,7 @@
                 <!-- Q5150 account.zip.label -->
                 <cr-question label="account.zip.label">
                     <cr-text ng-model="getAccount().zipCode" name="zip" ng-validation="zip"></cr-text>
-                    <p class="cr-error" ng-show="validation.zip.valid == false && noSubmitYet == false">
-                        {{'account.errorMessage.zip' | translate}}</p>
+                    <p class="cr-error" ng-show="validation.zip.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.zip' | translate"></p>
                 </cr-question>
 
                 <!-- Q5210 account.powerprovider.label -->
@@ -122,13 +116,10 @@
                     </button>
                     <cr-boolean ng-model="validation.terms.valid"></cr-boolean>
                 </cr-question>
-                <p class="cr-error" ng-show="validation.terms.valid == false && noSubmitYet == false">
-                    {{'account.errorMessage.terms' | translate}}</p>
+                <p class="cr-error" ng-show="validation.terms.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.terms' | translate"></p>
 
                 <!-- advertisemnt -->
                 <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
-
-
 
                 <button
                     class="btn btn-small cr-mega-button pull-left"

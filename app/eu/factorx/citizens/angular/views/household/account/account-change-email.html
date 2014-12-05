@@ -6,14 +6,12 @@
     <cr-question label="account.info.oldPassword">
         <cr-text ng-model="o.oldPassword" type="password" name="password"
                  ng-validation="validation.oldPassword"></cr-text>
-        <p class="cr-error" ng-show="validation.oldPassword.valid == false && noSubmitYet == false">
-            {{'account.errorMessage.password' | translate}}</p>
+        <p class="cr-error" ng-show="validation.oldPassword.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.password' | translate"></p>
     </cr-question>
     <cr-question label="account.info.newEmail">
         <cr-text ng-model="o.newEmail" name="email"
                  ng-validation="validation.newEmail"></cr-text>
-        <p class="cr-error" ng-show="validation.newEmail.valid == false && noSubmitYet == false">
-            {{'account.errorMessage.emailAddress' | translate}}</p>
+        <p class="cr-error" ng-show="validation.newEmail.valid == false && noSubmitYet == false"  ng-bind-html="'account.errorMessage.emailAddress' | translate"></p>
     </cr-question>
 </div>
 <div class="modal-footer">
