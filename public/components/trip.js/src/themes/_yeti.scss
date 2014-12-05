@@ -10,6 +10,7 @@
   @include box-shadow(rgba(0, 0, 0, 0.39) 0 2px 2px 0);
 
   &.n:before {
+    margin-top: -1px; // We have to hide the progress bar
     border-top-color: #008cba;
   }
 

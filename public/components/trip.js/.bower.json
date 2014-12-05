@@ -1,15 +1,14 @@
 {
   "name": "trip.js",
-  "homepage": "https://github.com/EragonJ/Trip.js",
-  "version": "2.0.2",
-  "_release": "2.0.2",
+  "homepage": "https://github.com/Factor-X/lib-trip-js",
+  "version": "2.0.3",
+  "_release": "2.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.2",
-    "commit": "6ecb97f88f9f9c96da1a88d289dc30bc6c2f0330"
+    "tag": "v2.0.3",
+    "commit": "7b8bf358d2d4501f6e0af1601a31ac52de7c9f01"
   },
-  "_source": "git://github.com/EragonJ/Trip.js.git",
-  "_target": "~2.0.2",
-  "_originalSource": "trip.js",
-  "_direct": true
+  "_source": "git://github.com/Factor-X/lib-trip-js.git",
+  "_target": "*",
+  "_originalSource": "Factor-X/lib-trip-js"
 }
