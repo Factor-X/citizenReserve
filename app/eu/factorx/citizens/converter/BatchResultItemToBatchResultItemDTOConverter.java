@@ -3,9 +3,6 @@ package eu.factorx.citizens.converter;
 import eu.factorx.citizens.dto.BatchResultItemDTO;
 import eu.factorx.citizens.model.batch.BatchResultItem;
 
-/**
- * Created by florian on 4/12/14.
- */
 public class BatchResultItemToBatchResultItemDTOConverter implements Converter<BatchResultItem, BatchResultItemDTO> {
     @Override
     public BatchResultItemDTO convert(BatchResultItem entity) {
