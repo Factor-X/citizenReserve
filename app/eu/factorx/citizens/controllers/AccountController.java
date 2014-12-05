@@ -25,6 +25,7 @@ import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -296,7 +297,20 @@ public class AccountController extends AbstractController {
 
     private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
 
-        //create action list
+		/****************************/
+		/* add unselected actions to perform calculation */
+
+		// Validate incoming DTO - TODO
+		List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
+		try {
+			missingActions = calculationService.validateActions(surveyDTO.getAnswers());
+		} catch (Exception e) {
+			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+		}
+
+		surveyDTO.getAnswers().addAll(missingActions);
+
+		//create action list
         List<ReductionDTO> reductionDTOs = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
         Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
         //convert action to string
