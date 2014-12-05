@@ -30,7 +30,7 @@ public class ListDTO extends DTO {
                 '}';
     }
 
-    public void add(BatchResultDTO convert) {
+    public void add(DTO convert) {
         if(list==null){
             list= new ArrayList<>();
         }

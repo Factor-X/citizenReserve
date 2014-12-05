@@ -3,6 +3,7 @@ package eu.factorx.citizens.service.impl;
 import com.avaje.ebean.Ebean;
 import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
 import eu.factorx.citizens.dto.AnswerDTO;
+import eu.factorx.citizens.dto.EffectiveReductionDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.batch.BatchResult;
 import eu.factorx.citizens.model.batch.BatchResultSet;
@@ -31,8 +32,8 @@ public class BatchServiceImpl implements BatchService {
     public void run() {
 
         BatchResultSet batchResultSet = new BatchResultSet();
-        batchResultSet.addBatchResult(calculateGlobalPotentialReduction());
-        batchResultSet.addBatchResult(calculateGlobalEffectiveReduction());
+        batchResultSet.setPotentialBach(calculateGlobalPotentialReduction());
+        batchResultSet.setEffectiveBach(calculateGlobalEffectiveReduction());
 
         batchResultSet.save();
     }
@@ -40,11 +41,6 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public BatchResult findLastBatchResult() {
         return Ebean.find(BatchResult.class).where().eq(AbstractEntity.LAST_UPDATE_DATE, getLastBatchResultDate()).findUnique();
-    }
-
-    @Override
-    public List<BatchResult> findBatchToDisplayForSuperAdmin() {
-        return Ebean.find(BatchResult.class).findList();
     }
 
     private Date getLastBatchResultDate() {
@@ -70,7 +66,8 @@ public class BatchServiceImpl implements BatchService {
             try {
                 reductionDTO = calculationService.calculatePotentialReduction(surveyAnswersDTOs);
             } catch (Exception e) {
-                Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+                e.printStackTrace();
+                //Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
                 nbErrors++;
                 continue;
             }
@@ -98,10 +95,10 @@ public class BatchServiceImpl implements BatchService {
         double secondDayResult_p2 = 0;
         double secondDayResult_p3 = 0;
 
+
         double thirdDayResult_p1 = 0;
         double thirdDayResult_p2 = 0;
         double thirdDayResult_p3 = 0;
-
         double fourthDayResult_p1 = 0;
         double fourthDayResult_p2 = 0;
         double fourthDayResult_p3 = 0;
@@ -116,11 +113,28 @@ public class BatchServiceImpl implements BatchService {
                 surveyAnswersDTOs.add(answerToAnswerDTOConverter.convert(answer));
             }
 
+			/****************************/
+			/* add unselected actions to perform calculation */
+
+			// Validate incoming DTO - TODO
+			List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
+			try {
+				missingActions = calculationService.validateActions(surveyAnswersDTOs);
+			} catch (Exception e) {
+				//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+			}
+
+			surveyAnswersDTOs.addAll(missingActions);
+
+
+			/*****************************/
+
             List<ReductionDTO> reductionDTOs;
             try {
                 reductionDTOs = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
             } catch (Exception e) {
-                Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+                e.printStackTrace();
+                //Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
                 nbErrors++;
                 continue;
             }

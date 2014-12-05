@@ -25,9 +25,6 @@ public class BatchResult extends Model {
     @OneToMany(mappedBy = "batchResult", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BatchResultItem> resultItems = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private BatchResultSet batchResultSet;
-
     public BatchResult() {
     }
 
@@ -43,14 +40,6 @@ public class BatchResult extends Model {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public BatchResultSet getBatchResultSet() {
-        return batchResultSet;
-    }
-
-    public void setBatchResultSet(BatchResultSet batchResultSet) {
-        this.batchResultSet = batchResultSet;
     }
 
     public PowerReductionType getReductionType() {
