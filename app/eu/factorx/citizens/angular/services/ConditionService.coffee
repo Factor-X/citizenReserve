@@ -1,8 +1,7 @@
 angular
 .module('app.services')
 .service "conditionService", (surveyDTOService) ->
-
-    getNumericValue  = (questionKey, periodKey) ->
+    getNumericValue = (questionKey, periodKey) ->
         answer = surveyDTOService.getAnswerValue(questionKey, periodKey)
         if (answer.doubleValue != null)
             return answer.doubleValue
@@ -15,6 +14,12 @@ angular
         if (answerValue == null)
             return false
         return answerValue
+
+    testAnswerIsFalse = (questionKey, periodKey) ->
+        answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).booleanValue
+        if (answerValue == null)
+            return false
+        return !answerValue
 
     testAnswerNotNull = (questionKey, periodKey) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).booleanValue
@@ -126,23 +131,28 @@ angular
             return testAnswerIsTrue("Q3710", null)
         Q3720: ->
             return testIsNotAlwaysOut() &&
-                testAnyAnswerNotEquals("Q1140", "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                ((testAnyAnswerNotEquals("Q1140", "0") &&
+                    testAnswerNotEquals("Q3711", null, "4")) ||
+                    testAnswerIsFalse("Q3710"))
         Q3730: ->
             return testIsNotAlwaysOut() &&
-                testAnyAnswerNotEquals("Q1150", "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                ((testAnyAnswerNotEquals("Q1150", "0") &&
+                    testAnswerNotEquals("Q3711", null, "4")) ||
+                    testAnswerIsFalse("Q3710"))
         Q3750: ->
             return testIsNotAlwaysOut() &&
-                testAnswerNotEquals("Q2030", null, "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                ((testAnswerNotEquals("Q2030", null, "0") &&
+                    testAnswerNotEquals("Q3711", null, "4")) ||
+                    testAnswerIsFalse("Q3710"))
         Q3760: ->
             return testIsNotAlwaysOut() &&
-                testAnswerNotEquals("Q2040", null, "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                ((testAnswerNotEquals("Q2040", null, "0") &&
+                    testAnswerNotEquals("Q3711", null, "4")) ||
+                    testAnswerIsFalse("Q3710"))
         Q3740: ->
             return testIsNotAlwaysOut() &&
-                testAnswerNotEquals("Q3711", null, "4")
+                (testAnswerNotEquals("Q3711", null, "4") ||
+                    testAnswerIsFalse("Q3710"))
         Q3741: ->
             return testAnswerNotEquals("Q3740", null, "0")
 
@@ -169,21 +179,24 @@ angular
                 return 'Q1400.option5.warning'
             return null
         Q1110:
-            # display only on the first period
-            FIRST:->
-                val = getNumericValue('Q1110','FIRST') + getNumericValue('Q1110','SECOND') + getNumericValue('Q1110','THIRD')
+        # display only on the first period
+            FIRST: ->
+                val = getNumericValue('Q1110', 'FIRST') + getNumericValue('Q1110', 'SECOND') + getNumericValue('Q1110',
+                    'THIRD')
                 if  val >= 5
                     return 'Q1110.label.toomany.warning'
                 return null
 
-            SECOND:->
-                val = getNumericValue('Q1110','FIRST') + getNumericValue('Q1110','SECOND') + getNumericValue('Q1110','THIRD')
+            SECOND: ->
+                val = getNumericValue('Q1110', 'FIRST') + getNumericValue('Q1110', 'SECOND') + getNumericValue('Q1110',
+                    'THIRD')
                 if  val >= 5
                     return 'Q1110.label.toomany.warning'
                 return null
 
-            THIRD:->
-                val = getNumericValue('Q1110','FIRST') + getNumericValue('Q1110','SECOND') + getNumericValue('Q1110','THIRD')
+            THIRD: ->
+                val = getNumericValue('Q1110', 'FIRST') + getNumericValue('Q1110', 'SECOND') + getNumericValue('Q1110',
+                    'THIRD')
                 if  val >= 5
                     return 'Q1110.label.toomany.warning'
                 return null
@@ -209,8 +222,8 @@ angular
             return null
 
 
-    @getTooltip = (questionKey,periodKey=null) ->
-        if periodKey==null
+    @getTooltip = (questionKey, periodKey = null) ->
+        if periodKey == null
             return tooltips[questionKey]
         else if tooltips[questionKey]?
             return tooltips[questionKey][periodKey]

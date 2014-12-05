@@ -23,6 +23,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-green"
                     label="topic.presence.label"
+                    ng-disabled="isActionTopicEmpty('presence')"
                     ng-callback="save()"
                     ></cr-topic>
             </div>
@@ -35,6 +36,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-blue"
                     label="topic.programs.label"
+                    ng-disabled="isActionTopicEmpty('programs')"
                     ng-callback="save()"
                     ></cr-topic>
             </div>
@@ -46,6 +48,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-red"
                     label="topic.heating.label"
+                    ng-disabled="isActionTopicEmpty('heating')"
                     ng-callback="save()"
                     ></cr-topic>
             </div>
@@ -57,6 +60,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-orange"
                     label="topic.lighting.label"
+                    ng-disabled="isActionTopicEmpty('lighting')"
                     ng-callback="save()"
                     ></cr-topic>
             </div>
@@ -68,6 +72,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-magenta"
                     label="topic.dinner.label"
+                    ng-disabled="isActionTopicEmpty('dinner')"
                     ng-callback="save()"
                     ></cr-topic>
             </div>
@@ -76,7 +81,7 @@
 
 
         <div class="row">
-            <div class="col-md-412 cr-navigation">
+            <div class="col-md-4 cr-navigation">
                 <button ui-sref="root.householdProfile"
                         class="pull-left cr-mega-button">
                     <i class="fa fa-caret-left fa-2x"></i>

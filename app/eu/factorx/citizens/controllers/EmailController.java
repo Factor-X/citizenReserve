@@ -92,7 +92,11 @@ public class EmailController extends AbstractController {
         values.put("translationHelper", translationHelper);
         values.put("hostname", hostname);
 
-        Logger.info("Email data : hostname"+hostname);
+        Logger.info("=>>>>>"+Configuration.root().getString("citizens-reserve.hostname"));
+
+        for (Map.Entry<TopicEnum, List<String>> mapEntry : actions.entrySet()) {
+            Logger.info("Email data : hostname : "+hostname+"/assets/images/"+mapEntry.getKey().getAccountType().getString()+"/topics/topic_"+mapEntry.getKey().getTopicName()+"_active.png");
+        }
 
         return velocityGeneratorService.generate(VELOCITY_LIST_ACTION, values);
     }

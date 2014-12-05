@@ -9,6 +9,7 @@ angular
         ngController: '='
         ngWindowClass: '='
         ngLabel: '='
+        ngDisabled: '='
         ngCallback: '&'
 
     templateUrl: "$/angular/templates/cr-topic.html"
