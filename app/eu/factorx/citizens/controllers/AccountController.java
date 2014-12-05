@@ -298,7 +298,7 @@ public class AccountController extends AbstractController {
 
         //create action list
         List<ReductionDTO> reductionDTOs = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
-        Double reductionPower = reductionDTOs.get(0).getSecondPeriodPowerReduction();
+        Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
         //convert action to string
         String actionString = emailController.generateActionsTable(account);
 
