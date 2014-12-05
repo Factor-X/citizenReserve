@@ -15,6 +15,7 @@ import eu.factorx.citizens.util.email.messages.EmailMessage;
 import eu.factorx.citizens.util.email.service.EmailService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import play.Configuration;
+import play.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -84,12 +85,14 @@ public class EmailController extends AbstractController {
 
     public String generateActionsTable(Account account) {
 
-        HashMap<TopicEnum, List<String>> actions = surveyService.getActions(account);
+        HashMap<TopicEnum, List<String>> actions = surveyService.getActionsForSummaryEmail(account);
 
         Map<String, Object> values = new HashMap<>();
         values.put("actions", actions);
         values.put("translationHelper", translationHelper);
         values.put("hostname", hostname);
+
+        Logger.info("Email data : hostname"+hostname);
 
         return velocityGeneratorService.generate(VELOCITY_LIST_ACTION, values);
     }

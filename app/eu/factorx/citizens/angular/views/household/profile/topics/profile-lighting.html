@@ -29,7 +29,7 @@
         <cr-slider cr-tootip-on-respond="{key:'Q1750',period:null}" ng-model="getAnswerValue('Q1750').stringValue" ng-steps="getOptions('Q1750')" vertical="true"></cr-slider>
     </cr-question>
     <cr-question label="Q1800.label">
-        <cr-slider cr-tootip-on-respond="{key:'Q1800',period:null}" ng-model="getAnswerValue('Q1800').doubleValue" min="0" max="2000" step="100" filter="toWatts"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1800').doubleValue" min="0" max="2000" step="100" filter="toWatts"></cr-slider>
     </cr-question>
 
     <cr-section label="Q2000.label">

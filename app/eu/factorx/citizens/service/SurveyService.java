@@ -25,7 +25,7 @@ public interface SurveyService {
 
     List<Answer> findAnswersByQuestionCode(QuestionCode questionCode);
 
-    HashMap<TopicEnum, List<String>> getActions(Account account);
+    HashMap<TopicEnum, List<String>> getActionsForSummaryEmail(Account account);
 
     Answer findAnswersByQuestionCodeAndSurvey(QuestionCode questionCode, Survey survey);
 }

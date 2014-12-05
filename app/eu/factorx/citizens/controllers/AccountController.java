@@ -296,10 +296,7 @@ public class AccountController extends AbstractController {
     private void sendSummaryEmail(Account account) {
 
         //create action list
-        HashMap<TopicEnum, List<String>> actions = surveyService.getActions(account);
-
-        Logger.error("actions:" + actions);
-
+        
         //convert action to string
         String actionString = emailController.generateActionsTable(account);
 
