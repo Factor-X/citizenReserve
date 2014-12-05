@@ -25,12 +25,14 @@ angular
         return
 
     $scope.save = () ->
+        $scope.getEffectiveReduction()
         if surveyDTOService.isAuthenticated()
             downloadService.postJson '/survey/update', surveyDTOService.surveyDTO, (result) ->
                 if result.success
                     $flash.success 'account.save.success'
                 else
                     $flash.error result.data.message
+
 
     $scope.fullname = () ->
         return surveyDTOService.account.firstName + ' ' + surveyDTOService.account.lastName
