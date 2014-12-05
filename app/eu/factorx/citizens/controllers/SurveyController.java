@@ -63,27 +63,6 @@ public class SurveyController extends AbstractController {
         surveyService.saveSurvey(survey);
     }
 
-    @Transactional
-    public Result getParticipantsNumber() {
-        int nbSurveys = surveyService.countSurveys();
-        List<Answer> answers = surveyService.findAnswersByQuestionCode(QuestionCode.Q1300);
-        int nbParticipants = 0;
-        for (Answer answer : answers) {
-            Iterator<AnswerValue> answerValueIterator = answer.getAnswerValues().iterator();
-            if (answerValueIterator.hasNext()) {
-                nbParticipants += answerValueIterator.next().getDoubleValue();
-            }
-        }
-
-        response().setHeader("Access-Control-Allow-Origin", "*");
-        response().setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
-        response().setHeader("Access-Control-Max-Age", "3600");
-        response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token");
-        response().setHeader("Access-Control-Allow-Credentials", "true");
-
-        return ok("{'nbSurveys':'" + nbSurveys + "','nbParticipants':'" + nbParticipants + "'}");
-    }
-
     public Result getGlobalReductionData() {
         //BatchResult batchResult = Ebean.find(Batch.cl)
         return ok();
