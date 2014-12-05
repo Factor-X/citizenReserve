@@ -61,7 +61,6 @@ public class BatchResultController extends AbstractController {
 
         for (BatchResultItem batchResultItem : batchResultSet.getEffectiveBach().getResultItems()) {
             if (batchResultItem.getDay().equals(ReductionDay.DAY1) && batchResultItem.getPeriod().equals(Period.SECOND)) {
-
                 reduction = batchResultItem.getPowerReduction();
             }
         }

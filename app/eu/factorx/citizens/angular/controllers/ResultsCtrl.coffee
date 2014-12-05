@@ -80,3 +80,35 @@ angular
                 }
             ];
 
+    $scope.nbSurveys = null
+    $scope.effectiveAverageReduction = null
+    $scope.totalEffectiveAverageReduction = null
+
+    $scope.getNbSurveys = ->
+        downloadService.getJson '/stats/nbSurveys', (result) ->
+            if result.success
+                $scope.nbSurveys = result.data.value
+            else
+                console.log(result.data)
+
+    $scope.getEffectiveReduction = ->
+        downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
+            if result.success
+                $scope.effectiveReduction = result.data
+                if (!! $scope.effectiveReduction)
+                    $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
+            else
+                console.log(result.data)
+
+    $scope.getSummaryResult = ->
+        downloadService.getJson '/stats/summaryValues', (result) ->
+            if result.success
+                summaryResult = result.data
+                if (!!summaryResult)
+                    $scope.totalEffectiveAverageReduction = $filter("number") parseFloat(summaryResult.effectiveReduction), 0
+            else
+                console.log(result.data)
+
+    $scope.getEffectiveReduction()
+    $scope.getNbSurveys()
+    $scope.getSummaryResult();
