@@ -2,7 +2,7 @@
     #foreach ($mapEntry in $actions.entrySet())
         <tr>
             <td>
-                <img src="${hostname}/assets/images/${mapEntry.key.accountType.name}/topics/topic_${mapEntry.key.topicName}_active.png"
+                <img src="${hostname}/assets/images/${mapEntry.key.accountType.string}/topics/topic_${mapEntry.key.topicName}_active.png"
                      width="80" height="80"/>
             </td>
             <td>

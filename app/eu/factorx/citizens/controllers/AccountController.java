@@ -284,9 +284,6 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
-        //TODO TEMP send email
-        sendSummaryEmail(account);
-
         //TODO return summary
         return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
@@ -296,7 +293,7 @@ public class AccountController extends AbstractController {
     private void sendSummaryEmail(Account account) {
 
         //create action list
-        
+
         //convert action to string
         String actionString = emailController.generateActionsTable(account);
 

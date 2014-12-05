@@ -79,6 +79,12 @@
                         {{'account.errorMessage.repeatPassword' | translate}}</p>
                 </cr-question>
 
+
+                <!-- Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+                <cr-question label="account.otheremails.label">
+                    <cr-multi-text ng-model="getAccount().otherEmailAddresses"></cr-multi-text>
+                </cr-question>
+
                 <!-- Q5150 account.zip.label -->
                 <cr-question label="account.zip.label">
                     <cr-text ng-model="getAccount().zipCode" name="zip" ng-validation="zip"></cr-text>
@@ -96,11 +102,6 @@
                 <cr-question label="account.powerconsumercategory.label">
                     <cr-slider ng-steps="getOptions('powerconsumercategory')"
                                ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
-                </cr-question>
-
-                <!-- Q5310  account.otheremails.label DTO : otherEmailAddresses -->
-                <cr-question label="account.otheremails.label">
-                    <cr-multi-text ng-model="getAccount().otherEmailAddresses"></cr-multi-text>
                 </cr-question>
 
                 <!-- agreement -->
