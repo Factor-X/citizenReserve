@@ -10,6 +10,7 @@ import eu.factorx.citizens.service.BatchSetService;
 import eu.factorx.citizens.service.impl.BatchSetServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import play.Logger;
 import play.db.ebean.Transactional;
 import play.mvc.Result;
 
@@ -35,10 +36,20 @@ public class BatchResultController extends AbstractController {
 
     @Transactional
     public Result getEffectiveReductionSummary() {
+
         BatchResultSet batchResultSet = batchSetService.findLast();
 
-        for (BatchResultItem batchResultItem : batchResultSet.getPotentialBach().getResultItems()) {
+        Logger.error(batchResultSet+"");
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+        response().setHeader("Access-Control-Max-Age", "3600");
+        response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token");
+        response().setHeader("Access-Control-Allow-Credentials", "true");
+
+        for (BatchResultItem batchResultItem : batchResultSet.getEffectiveBach().getResultItems()) {
             if (batchResultItem.getDay().equals(ReductionDay.DAY1) && batchResultItem.getPeriod().equals(Period.SECOND)) {
+
                 return ok(new DoubleDTO(batchResultItem.getPowerReduction()));
             }
         }

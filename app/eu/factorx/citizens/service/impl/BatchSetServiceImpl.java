@@ -20,7 +20,7 @@ public class BatchSetServiceImpl implements BatchSetService {
     public BatchResultSet findLast() {
 
         return Ebean.find(BatchResultSet.class)
-                .orderBy("creationDate")
+                .orderBy("creationDate desc")
                 .setMaxRows(1)
                 .findUnique();
     }
