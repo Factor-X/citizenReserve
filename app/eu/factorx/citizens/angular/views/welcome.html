@@ -6,27 +6,34 @@
             <div class="col-md-12">
 
                 <h1 ng-bind-html="'welcome.title' | translate"></h1>
+                <h2 ng-bind-html="'welcome.title2' | translate"></h2>
 
             </div>
         </div>
 
         <div class="row">
 
-            <div class="col-md-7">
-                <h2 ng-bind-html="'welcome.choose_message' | translate"></h2>
+            <div class="col-md-4 col-md-offset-1">
+                <h3 ng-bind-html="'welcome.intro' | translate"></h3>
 
-                <button class="btn btn-primary"
-                        ng-bind-html="'generic.household' | translate"
-                        ng-click="toHouseHold()"></button>
-                <br/>
-                <br/>
+                <div class="well">
+                    <button class="btn cr-theme-green cr-mega-button cr-centered" ng-click="toHouseHold()">
+                        <i class="fa fa-home fa-2x"></i>
+                        <span ng-bind-html="'generic.household' | translate"></span>
+                    </button>
+                    <br/>
+                    <button class="btn cr-theme-orange cr-mega-button cr-centered"
+                            ng-disabled="true"
+                            ng-click="alert('not implemented yet !')">
+                        <i class="fa fa-building fa-2x"></i>
+                        <span ng-bind-html="'generic.enterprise' | translate"></span>
+                    </button>
+                </div>
 
-                <button class="btn btn-primary"
-                        ng-bind-html="'generic.enterprise' | translate"
-                        ng-click="alert('not implemented yet !')"></button>
+                <p ng-bind-html="'welcome.outro' | translate"></p>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4 col-md-offset-2">
 
                 <h2 ng-bind-html="'welcome.login_message' | translate"></h2>
 
@@ -36,18 +43,27 @@
                 <cr-question label="generic.password">
                     <cr-text ng-model="loginParams.password" name="password" type="password"></cr-text>
                 </cr-question>
-                <br/>
-                <button class="btn btn-primary" ng-click="login()" ng-bind-html="'welcome.button.login' | translate"></button>
+                <center>
+                    <button class="btn btn-small cr-mega-button" ng-click="login()">
+                        <i class="fa fa-sign-in"></i>
+                        <span ng-bind-html="'welcome.button.login' | translate"></span>
+                    </button>
+                </center>
 
                 <h3 ng-bind-html="'welcome.forgot_password' | translate"></h3>
 
                 <p ng-bind-html="'welcome.forgot_password.desc' | translate"></p>
 
                 <cr-question label="generic.emailAddress">
-                    <cr-text ng-model="forgotPasswordParams.email"  name="email"></cr-text>
+                    <cr-text ng-model="forgotPasswordParams.email" name="email"></cr-text>
                 </cr-question>
-                <br/>
-                <button class="btn btn-primary" ng-click="forgotPassword()" ng-bind-html="'welcome.button.forgotPassword' | translate"></button>
+                <center>
+                    <button class="btn btn-small cr-mega-button" ng-click="forgotPassword()">
+                        <i class="fa fa-gear"></i>
+                        <span ng-bind-html="'welcome.button.forgotPassword' | translate"></span>
+                    </button>
+                </center>
+
             </div>
         </div>
     </div>
