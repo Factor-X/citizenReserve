@@ -19,6 +19,13 @@
             color: @color;
         }
 
+        &.btn-small {
+            padding: 0.5em 1em;
+            &:hover:not([disabled=disabled]) {
+                box-shadow: inset 0 0 0 2px @color;
+            }
+        }
+
 
     }
 }
@@ -59,4 +66,10 @@
         box-shadow: inset 0 0 0 8px #666666;
     }
 
+    &.btn-small {
+        padding: 0.5em 1em;
+        &:hover:not([disabled=disabled]) {
+            box-shadow: inset 0 0 0 2px #666666;
+        }
+    }
 }

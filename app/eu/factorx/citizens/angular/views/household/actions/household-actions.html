@@ -8,14 +8,8 @@
                 <h1 class="cr-actions-title">Ménage > Actions</h1>
             </div>
 
-            <div class="col-md-6 cr-navigation">
-
-                <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
-
-                <a class="cr-actions-register-link"
-                   ng-bind-html="'nav.to-identification' | translate"
-                   ui-sref="root.householdAccount">
-                </a>
+            <div class="col-md-6">
+                <cr-login></cr-login>
             </div>
 
         </div>
@@ -29,6 +23,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-green"
                     label="topic.presence.label"
+                    ng-callback="save()"
                     ></cr-topic>
             </div>
 
@@ -40,6 +35,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-blue"
                     label="topic.programs.label"
+                    ng-callback="save()"
                     ></cr-topic>
             </div>
 
@@ -50,6 +46,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-red"
                     label="topic.heating.label"
+                    ng-callback="save()"
                     ></cr-topic>
             </div>
 
@@ -60,6 +57,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-orange"
                     label="topic.lighting.label"
+                    ng-callback="save()"
                     ></cr-topic>
             </div>
 
@@ -70,6 +68,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-magenta"
                     label="topic.dinner.label"
+                    ng-callback="save()"
                     ></cr-topic>
             </div>
 
@@ -77,12 +76,18 @@
 
 
         <div class="row">
-            <div class="col-md-4 cr-navigation">
+            <div class="col-md-412 cr-navigation">
                 <button ui-sref="root.householdProfile"
-                        class="cr-mega-button">
+                        class="pull-left cr-mega-button">
                     <i class="fa fa-caret-left fa-2x"></i>
                     <span>&nbsp;</span>
                     <span ng-bind-html="'nav.back-to-profile' | translate"></span>
+                </button>
+                <button ui-sref="root.householdResults"
+                        class="pull-right cr-mega-button">
+                    <span ng-bind-html="'nav.to-results' | translate"></span>
+                    <span>&nbsp;</span>
+                    <i class="fa fa-caret-right fa-2x"></i>
                 </button>
             </div>
         </div>
