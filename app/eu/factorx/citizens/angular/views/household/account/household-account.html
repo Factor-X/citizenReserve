@@ -79,9 +79,9 @@
                         {{'account.errorMessage.repeatPassword' | translate}}</p>
                 </cr-question>
 
-                <!-- Q5150 generic.zip -->
-                <cr-question label="generic.zip">
-                    <cr-text ng-model="getAccount().zipCode" name="zip" ng-validation="validation.zip"></cr-text>
+                <!-- Q5150 account.zip.label -->
+                <cr-question label="account.zip.label">
+                    <cr-text ng-model="getAccount().zipCode" name="zip" ng-validation="zip"></cr-text>
                     <p class="cr-error" ng-show="validation.zip.valid == false && noSubmitYet == false">
                         {{'account.errorMessage.zip' | translate}}</p>
                 </cr-question>

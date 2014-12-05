@@ -2,15 +2,16 @@ package eu.factorx.citizens.model.batch;
 
 import eu.factorx.citizens.model.technical.AbstractEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by florian on 4/12/14.
  */
 @Entity
 public class BatchResultSet extends AbstractEntity {
+    //request
+    public static final String FIND_LAST = "BatchResultSet_FIND_LAST";
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     private BatchResult potentialBach;

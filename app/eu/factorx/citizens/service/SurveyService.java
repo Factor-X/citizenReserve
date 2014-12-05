@@ -27,4 +27,5 @@ public interface SurveyService {
 
     HashMap<TopicEnum, List<String>> getActions(Account account);
 
+    Answer findAnswersByQuestionCodeAndSurvey(QuestionCode questionCode, Survey survey);
 }

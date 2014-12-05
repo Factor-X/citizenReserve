@@ -124,4 +124,14 @@ public class SurveyServiceImpl implements SurveyService {
         }
         return result;
     }
+
+    @Override
+    public Answer findAnswersByQuestionCodeAndSurvey(QuestionCode questionCode, Survey survey) {
+        for (Answer answer : survey.getAnswers()) {
+            if (answer.getQuestionCode().equals(questionCode)) {
+                return answer;
+            }
+        }
+        return null;
+    }
 }

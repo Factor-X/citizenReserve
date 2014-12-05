@@ -16,9 +16,19 @@ public class BatchResultDTO extends DTO {
 
     private Integer nbErrors;
 
+    private Integer nbParticipants;
+
     private List<BatchResultItemDTO> batchResultItemList;
 
     public BatchResultDTO() {
+    }
+
+    public Integer getNbParticipants() {
+        return nbParticipants;
+    }
+
+    public void setNbParticipants(Integer nbParticipants) {
+        this.nbParticipants = nbParticipants;
     }
 
     public String getReductionTypeKey() {

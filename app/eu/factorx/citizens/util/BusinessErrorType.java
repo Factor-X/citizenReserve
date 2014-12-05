@@ -11,7 +11,8 @@ public enum BusinessErrorType {
     EMAIL_EMPTY_PARAMETER("email_empty_parameter"), //one email parameter is empty : {0}
     EMAIL_FATAL_ERROR("email_fatal_error"), //email cannot be send for a unknown error
     NOT_CONNECTED("not_connected"),  // you are not connected => wrong authentication
-    WRONG_RIGHT("wrong_right");
+    WRONG_RIGHT("wrong_right"),
+    DATA_NOT_FOUND("data_not_found");
 
     private String messageReference;
 

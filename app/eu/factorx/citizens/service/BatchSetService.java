@@ -1,6 +1,6 @@
 package eu.factorx.citizens.service;
 
-import eu.factorx.citizens.model.batch.BatchResult;
+import eu.factorx.citizens.model.batch.BatchResultSet;
 
 import java.util.List;
 
@@ -10,4 +10,6 @@ import java.util.List;
 public interface BatchSetService {
 
     public List<eu.factorx.citizens.model.batch.BatchResultSet> findBatchToDisplayForSuperAdmin();
+
+    public BatchResultSet findLast();
 }

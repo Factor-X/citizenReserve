@@ -33,7 +33,8 @@
                             </tr>
                             <tr>
                                 <th>Date</th>
-                                <th>survey Nb</th>
+                                <th>nb survey</th>
+                                <th>nb participants</th>
                                 <th>17-18H</th>
                                 <th>18-19H</th>
                                 <th>19-20H</th>
@@ -53,6 +54,7 @@
                             <tr ng-repeat="batch in batchs | orderBy:'date':'reverse'">
                                 <td>{{batch.date | date:"yyyy-MM-dd" }}</td>
                                 <td>  {{batch.potentialBatch.nbSurveys}} </td>
+                                <td>  {{batch.potentialBatch.nbParticipants}} </td>
 
                                 <td>  {{getValue(batch.potentialBatch.batchResultItemList, null,"FIRST") | number:2}} </td>
                                 <td>  {{getValue(batch.potentialBatch.batchResultItemList, null,"SECONDE") | number:2}} </td>

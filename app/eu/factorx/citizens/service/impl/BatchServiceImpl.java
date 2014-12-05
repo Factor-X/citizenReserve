@@ -9,9 +9,11 @@ import eu.factorx.citizens.model.batch.BatchResult;
 import eu.factorx.citizens.model.batch.BatchResultSet;
 import eu.factorx.citizens.model.batch.PowerReductionType;
 import eu.factorx.citizens.model.survey.Answer;
+import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.model.technical.AbstractEntity;
+import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.BatchService;
 import eu.factorx.citizens.service.CalculationService;
@@ -54,6 +56,7 @@ public class BatchServiceImpl implements BatchService {
 
         int nbSurveys = 0;
         int nbErrors = 0;
+        int nbParticipants=0;
 
         for (Survey survey : surveyService.findAllSurveys()) {
 
@@ -65,6 +68,9 @@ public class BatchServiceImpl implements BatchService {
             ReductionDTO reductionDTO;
             try {
                 reductionDTO = calculationService.calculatePotentialReduction(surveyAnswersDTOs);
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
                 //Logger.error("Calculation of potential reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
@@ -75,10 +81,16 @@ public class BatchServiceImpl implements BatchService {
             firstPeriodResult += reductionDTO.getFirstPeriodPowerReduction();
             secondPeriodResult += reductionDTO.getSecondPeriodPowerReduction();
             thirdPeriodResult += reductionDTO.getThirdPeriodPowerReduction();
+
+            for (AnswerValue answerValue : surveyService.findAnswersByQuestionCodeAndSurvey(QuestionCode.Q1300, survey).getAnswerValues()) {
+                nbParticipants+=answerValue.getDoubleValue();
+                break;
+            }
+
             nbSurveys++;
         }
 
-        BatchResult batchResult = new BatchResult(PowerReductionType.POTENTIAL, nbSurveys, nbErrors);
+        BatchResult batchResult = new BatchResult(PowerReductionType.POTENTIAL, nbSurveys,nbParticipants, nbErrors);
         batchResult.addResultItem(null, Period.FIRST, firstPeriodResult);
         batchResult.addResultItem(null, Period.SECOND, secondPeriodResult);
         batchResult.addResultItem(null, Period.THIRD, thirdPeriodResult);
@@ -105,6 +117,7 @@ public class BatchServiceImpl implements BatchService {
 
         int nbSurveys = 0;
         int nbErrors = 0;
+        int nbParticipants=0;
 
         for (Survey survey : surveyService.findAllSurveys()) {
 
@@ -154,10 +167,15 @@ public class BatchServiceImpl implements BatchService {
             fourthDayResult_p1 += reductionDTOs.get(3).getFirstPeriodPowerReduction();
             fourthDayResult_p2 += reductionDTOs.get(3).getSecondPeriodPowerReduction();
             fourthDayResult_p3 += reductionDTOs.get(3).getThirdPeriodPowerReduction();
+
+            for (AnswerValue answerValue : surveyService.findAnswersByQuestionCodeAndSurvey(QuestionCode.Q1300, survey).getAnswerValues()) {
+                nbParticipants+=answerValue.getDoubleValue();
+                break;
+            }
             nbSurveys++;
         }
 
-        BatchResult batchResult = new BatchResult(PowerReductionType.EFFECTIVE, nbSurveys, nbErrors);
+        BatchResult batchResult = new BatchResult(PowerReductionType.EFFECTIVE, nbSurveys,nbParticipants, nbErrors);
 
         batchResult.addResultItem(ReductionDay.DAY1, Period.FIRST, firstDayResult_p1);
         batchResult.addResultItem(ReductionDay.DAY1, Period.SECOND, firstDayResult_p2);

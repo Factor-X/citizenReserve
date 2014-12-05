@@ -20,6 +20,8 @@ public class BatchResult extends Model {
 
     private Integer nbSurveys = 0;
 
+    private Integer nbParticipants;
+
     private Integer nbErrors = 0;
 
     @OneToMany(mappedBy = "batchResult", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -28,10 +30,19 @@ public class BatchResult extends Model {
     public BatchResult() {
     }
 
-    public BatchResult(PowerReductionType reductionType, Integer nbSurveys, Integer nbErrors) {
+    public BatchResult(PowerReductionType reductionType, Integer nbSurveys, Integer nbParticipants,Integer nbErrors) {
         this.reductionType = reductionType;
         this.nbSurveys = nbSurveys;
+        this.nbParticipants = nbParticipants;
         this.nbErrors = nbErrors;
+    }
+
+    public Integer getNbParticipants() {
+        return nbParticipants;
+    }
+
+    public void setNbParticipants(Integer nbParticipants) {
+        this.nbParticipants = nbParticipants;
     }
 
     public Long getId() {
