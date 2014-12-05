@@ -80,7 +80,7 @@ public class SurveyServiceImpl implements SurveyService {
      * value : a list of the question name reference
      */
     @Override
-    public HashMap<TopicEnum, List<String>> getActions(Account account) {
+    public HashMap<TopicEnum, List<String>> getActionsForSummaryEmail(Account account) {
 
         HashMap<TopicEnum, List<String>> result = new HashMap<>();
 
