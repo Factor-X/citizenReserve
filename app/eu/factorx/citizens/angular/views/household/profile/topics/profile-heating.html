@@ -8,7 +8,7 @@
         <cr-slider cr-tootip-on-respond="{key:'Q1600',period:null}" ng-model="getAnswerValue('Q1600').doubleValue" min="0" max="1000" step="10" filter="toSquareMeters"></cr-slider>
     </cr-question>
     <cr-question label="Q1900.label">
-        <cr-slider cr-tootip-on-respond="{key:'Q1900',period:null}" ng-model="getAnswerValue('Q1900').doubleValue" min="0" max="20000" step="500" filter="toWatts"></cr-slider>
+        <cr-slider ng-model="getAnswerValue('Q1900').doubleValue" min="0" max="20000" step="500" filter="toWatts"></cr-slider>
     </cr-question>
 
     <cr-question label="Q1210.label">
