@@ -2,15 +2,25 @@
 
     <div class="container">
 
-        <div class="row cr-results-header">
+        <div class="row cr-profile-header">
 
             <div class="col-md-6">
-                <h1 class="cr-profile-title">Ménage > Profil de consommation</h1>
+                <h2 ng-bind-html="'results.title' | translate"></h2>
+
+
             </div>
             <div class="col-md-6">
                 <cr-login></cr-login>
             </div>
         </div>
+
+        <div class="row cr-profile-header">
+
+            <div class="col-md-12">
+                <h3 ng-bind-html="'results.intro' | translate"></h3>
+            </div>
+        </div>
+
 
         <div class="row" class="graphHolder" ng-if="data.length > 0">
             <nvd3 options='$parent.options' data='$parent.data'></nvd3>
@@ -27,6 +37,14 @@
             </div>
         </div>
 
+        
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <h3 ng-bind-html="'result.outro' | translate"></h3>
+            </div>
+        </div>
 
     </div>
 

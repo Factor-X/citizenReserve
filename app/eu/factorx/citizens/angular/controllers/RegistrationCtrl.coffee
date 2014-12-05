@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $location, $flash) ->
+.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $state, $flash) ->
     $scope.noSubmitYet = true
     $scope.loading = false
 
@@ -26,7 +26,7 @@ angular
     $scope.logout = () ->
         downloadService.postJson '/logout', surveyDTOService.surveyDTO, (result) ->
             if result.success
-                $location.path('/welcome')
+                $state.go('root.welcome')
                 surveyDTOService.logout()
                 $flash.success 'logout.success'
         return
@@ -73,6 +73,7 @@ angular
                 if result.success
                     surveyDTOService.setAccount(result.data.account)
                     $flash.success 'account.save.success'
+                    $state.go 'root.householdResults'
                 else
                     $flash.error result.data.message
 

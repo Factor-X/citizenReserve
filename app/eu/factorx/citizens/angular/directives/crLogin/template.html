@@ -1,6 +1,15 @@
-<a class="pull-right"
-   ng-click="logout()"
-   ng-show="isAuthenticated()">
-    <i class="fa fa-sign-out"></i>
-    <span>Logout</span>
-</a>
+<div class="pull-right">
+
+
+    <a ui-sref="root.householdAccount"
+       ng-if="isAuthenticated()">
+        <i class="fa fa-user"></i>
+        <span>{{ $parent.fullname() }}</span>
+    </a>
+
+    <a ng-click="logout()"
+       ng-if="isAuthenticated()">
+        <i class="fa fa-sign-out"></i>
+        <span>Logout</span>
+    </a>
+</div>
