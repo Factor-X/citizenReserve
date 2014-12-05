@@ -9,13 +9,7 @@
 
             <div class="col-md-6 cr-navigation">
 
-                <a class="cr-profile-login-link" ng-click="logout()" ng-show="isAuthenticated()"> Logout</a>
-
-                <a
-                        class="cr-actions-profile-link"
-                        ng-bind-html="'nav.back-to-action' | translate"
-                        ui-sref="root.householdActions">
-                </a>
+                <cr-login></cr-login>
 
             </div>
 
@@ -51,10 +45,14 @@
                              ng-disabled="isAuthenticated() == true"></cr-text>
                     <p class="cr-error" ng-show="validation.emailAddress.valid == false && noSubmitYet == false">
                         {{'account.errorMessage.emailAddress' | translate}}</p>
-                    <button class="btn btn-primary"
+                    <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
-                            ng-bind-html="'account.button.changeEmail' | translate"
-                            ng-click="openModal('household/account/account-change-email','ModalChangeEmailCtrl')"></button>
+
+                            ng-click="openModal('household/account/account-change-email','ModalChangeEmailCtrl')">
+                        <i class="fa fa-gear"></i>
+                        <span>&nbsp;</span>
+                        <span ng-bind-html="'account.button.changeEmail' | translate"></span>
+                    </button>
                 </cr-question>
 
                 <!-- Q5140 generic.password -->
@@ -64,10 +62,14 @@
                              ng-disabled="isAuthenticated() == true"></cr-text>
                     <p class="cr-error" ng-show="validation.password.valid == false && noSubmitYet == false">
                         {{'account.errorMessage.password' | translate}}</p>
-                    <button class="btn btn-primary"
+                    <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
-                            ng-bind-html="'account.button.changePassword' | translate"
-                            ng-click="openModal('household/account/account-change-password','ModalChangePasswordCtrl')"></button>
+
+                            ng-click="openModal('household/account/account-change-password','ModalChangePasswordCtrl')">
+                        <i class="fa fa-gear"></i>
+                        <span>&nbsp;</span>
+                        <span ng-bind-html="'account.button.changePassword' | translate"></span>
+                    </button>
                 </cr-question>
 
                 <!-- repeat password -->
@@ -105,9 +107,12 @@
 
                 <!-- agreement -->
                 <cr-question label="account.info.terms&conditions.label">
-                    <button class="btn btn-primary"
-                            ng-bind-html="'account.info.term.button.consult' | translate"
+                    <button class="btn btn-small cr-theme-magenta cr-mega-button"
+
                             ng-click="openModal('household/terms')">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>&nbsp;</span>
+                        <span ng-bind-html="'account.info.term.button.consult' | translate"></span>
                     </button>
                     <cr-boolean ng-model="validation.terms.valid"></cr-boolean>
                 </cr-question>
@@ -118,8 +123,32 @@
                 <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
 
 
-                <button class="btn btn-primary" ng-disabled="loading == true" ng-click="save()" ng-bind-html="'generic.save' | translate"></button>
-                <img ng-show="loading == true" ng-src="/assets/images/modal-loading.gif" />
+
+                <button
+                    class="btn btn-small cr-mega-button pull-left"
+                    ui-sref="root.householdActions">
+
+                    <i class="fa fa-caret-left fa-2x"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'nav.back-to-action' | translate"></span>
+
+                </button>
+
+
+                <button class="btn btn-small cr-theme-green cr-mega-button pull-right" ng-disabled="loading == true"
+                        ng-click="save()">
+                    <i class="fa fa-save"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'generic.save' | translate"></span>
+                </button>
+
+
+
+
+
+
+
+                <img ng-show="loading == true" ng-src="/assets/images/modal-loading.gif"/>
             </div>
 
             <div class="col-md-2">
