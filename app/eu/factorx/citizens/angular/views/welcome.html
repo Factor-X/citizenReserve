@@ -41,7 +41,7 @@
                     <cr-text ng-model="loginParams.email" name="email"></cr-text>
                 </cr-question>
                 <cr-question label="generic.password">
-                    <cr-text ng-model="loginParams.password" name="password" type="password"></cr-text>
+                    <cr-text ng-model="loginParams.password" name="password" type="password" ng-return="login()"></cr-text>
                 </cr-question>
                 <center>
                     <button class="btn btn-small cr-mega-button" ng-click="login()">
