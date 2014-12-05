@@ -1,6 +1,17 @@
-<a class="pull-right"
-   ng-click="logout()"
-   ng-show="isAuthenticated()">
-    <i class="fa fa-sign-out"></i>
-    <span>Logout</span>
-</a>
+<div class="cr-login pull-right">
+
+
+    <a ui-sref="root.householdAccount"
+       class="cr-login-link"
+       ng-if="isAuthenticated()">
+        <i class="fa fa-user"></i>
+        <span>{{ $parent.fullname() }}</span>
+    </a>
+
+    <a ng-click="logout()"
+       class="cr-login-link"
+       ng-if="isAuthenticated()">
+        <i class="fa fa-sign-out"></i>
+        <span>Logout</span>
+    </a>
+</div>

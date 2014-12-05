@@ -9,6 +9,7 @@ angular
         ngName: '='
         ngValidation: '='
         ngDisabled: '='
+        ngReturn: '&'
     require: 'ngModel'
     templateUrl: "$/angular/templates/cr-text.html"
     replace: true
@@ -16,6 +17,11 @@ angular
         directiveService.autoScopeImpl scope
 
         $timeout () ->
+            $('input', elem).keydown (e) ->
+                if e.keyCode == 13
+                    if scope.ngReturn
+                        scope.ngReturn()
+
             if scope.getType()
                 $('input', elem).attr('type', scope.getType())
         , 0

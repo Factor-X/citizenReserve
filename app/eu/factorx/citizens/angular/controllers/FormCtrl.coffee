@@ -32,6 +32,9 @@ angular
                 else
                     $flash.error result.data.message
 
+    $scope.fullname = () ->
+        return surveyDTOService.account.firstName + ' ' + surveyDTOService.account.lastName
+
     $scope.isAuthenticated = ->
         return surveyDTOService.isAuthenticated()
 
