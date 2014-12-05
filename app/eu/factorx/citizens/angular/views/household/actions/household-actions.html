@@ -84,8 +84,17 @@
                     <span ng-bind-html="'nav.back-to-profile' | translate"></span>
                 </button>
                 <button ui-sref="root.householdResults"
+                        ng-show="isAuthenticated()"
                         class="pull-right cr-mega-button">
                     <span ng-bind-html="'nav.to-results' | translate"></span>
+                    <span>&nbsp;</span>
+                    <i class="fa fa-caret-right fa-2x"></i>
+                </button>
+
+                <button ui-sref="root.householdAccount"
+                        ng-hide="isAuthenticated()"
+                        class="pull-right cr-mega-button">
+                    <span ng-bind-html="'nav.to-identification' | translate"></span>
                     <span>&nbsp;</span>
                     <i class="fa fa-caret-right fa-2x"></i>
                 </button>

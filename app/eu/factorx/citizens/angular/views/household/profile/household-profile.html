@@ -73,10 +73,20 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 col-md-offset-8 cr-navigation">
+            <div class="col-md-12">
+
+                <button ui-sref="root.welcome"
+                        ng-show="!isAuthenticated()"
+                        class="cr-mega-button pull-left">
+                    <i class="fa fa-caret-left fa-2x"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'nav.back-to-welcome' | translate"></span>
+                </button>
+
+
                 <button ui-sref="root.householdActions"
                         ng-disabled=" !isProfileTopicCompleted('presence') || !isProfileTopicCompleted('programs') || !isProfileTopicCompleted('heating') || !isProfileTopicCompleted('lighting') || !isProfileTopicCompleted('dinner')"
-                        class="cr-mega-button">
+                        class="cr-mega-button pull-right">
                     <span ng-bind-html="'nav.to-actions' | translate"></span>
                     <span>&nbsp;</span>
                     <i class="fa fa-caret-right fa-2x"></i>
