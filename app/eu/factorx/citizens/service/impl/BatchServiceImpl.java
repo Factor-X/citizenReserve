@@ -90,7 +90,7 @@ public class BatchServiceImpl implements BatchService {
             nbSurveys++;
         }
 
-        BatchResult batchResult = new BatchResult(PowerReductionType.POTENTIAL, nbSurveys, nbErrors,nbParticipants);
+        BatchResult batchResult = new BatchResult(PowerReductionType.POTENTIAL, nbSurveys,nbParticipants, nbErrors);
         batchResult.addResultItem(null, Period.FIRST, firstPeriodResult);
         batchResult.addResultItem(null, Period.SECOND, secondPeriodResult);
         batchResult.addResultItem(null, Period.THIRD, thirdPeriodResult);
@@ -175,7 +175,7 @@ public class BatchServiceImpl implements BatchService {
             nbSurveys++;
         }
 
-        BatchResult batchResult = new BatchResult(PowerReductionType.EFFECTIVE, nbSurveys, nbErrors,nbParticipants);
+        BatchResult batchResult = new BatchResult(PowerReductionType.EFFECTIVE, nbSurveys,nbParticipants, nbErrors);
 
         batchResult.addResultItem(ReductionDay.DAY1, Period.FIRST, firstDayResult_p1);
         batchResult.addResultItem(ReductionDay.DAY1, Period.SECOND, firstDayResult_p2);
