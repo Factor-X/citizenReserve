@@ -20,7 +20,6 @@ import eu.factorx.citizens.util.exception.MyRuntimeException;
 import eu.factorx.citizens.util.security.KeyGenerator;
 import eu.factorx.citizens.util.security.LoginAttemptManager;
 import org.apache.commons.lang3.StringUtils;
-import play.Logger;
 import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -104,8 +103,6 @@ public class AccountController extends AbstractController {
     @Transactional
     @Security.Authenticated(SecuredController.class)
     public Result testAuthentication() {
-
-        Logger.error("current user : " + securedController.getCurrentUser());
 
         Survey survey = surveyService.findValidSurveyByAccount(securedController.getCurrentUser());
 
@@ -297,7 +294,9 @@ public class AccountController extends AbstractController {
 
     private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
 
-		/****************************/
+        String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
+
+        /****************************/
 		/* add unselected actions to perform calculation */
 
 		// Validate incoming DTO - TODO
@@ -336,7 +335,7 @@ public class AccountController extends AbstractController {
             }
         }
 
-        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap,account.getLanguage());
+        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap,account.getLanguage(),emailsToCC);
 
     }
 
