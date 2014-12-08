@@ -58,19 +58,19 @@ angular
 
             $scope.data = [
 
-                {
-                    key: $filter('translate')('results.stack.name'),
-                    color: '#229913'
-                    area: true
-                    values: [
-                        { x: 17, y: v1 },
-                        { x: 18, y: v1 },
-                        { x: 18, y: v2 },
-                        { x: 19, y: v2 },
-                        { x: 19, y: v3 },
-                        { x: 20, y: v3 },
-                    ]
-                },
+#                {
+#                    key: $filter('translate')('results.stack.name'),
+#                    color: '#229913'
+#                    area: true
+#                    values: [
+#                        { x: 17, y: v1 },
+#                        { x: 18, y: v1 },
+#                        { x: 18, y: v2 },
+#                        { x: 19, y: v2 },
+#                        { x: 19, y: v3 },
+#                        { x: 20, y: v3 },
+#                    ]
+#                },
                 {
                     key: $filter('translate')('results.trend.name')
                     color: '#28DB15'
