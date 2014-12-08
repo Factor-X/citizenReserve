@@ -335,7 +335,9 @@ public class AccountController extends AbstractController {
             }
         }
 
-        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap,account.getLanguage(),emailsToCC);
+        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap,account.getLanguage());
+
+        //TODO send email to other email addresses
 
     }
 
