@@ -241,7 +241,7 @@ public class AccountController extends AbstractController {
         //power data
         account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
         account.setPowerProvider(dto.getAccount().getPowerProvider());
-        account.setSensitizationKit(dto.getAccount().getSensitizationKit());
+        account.setSensitizationKit(dto.getAccount().isSensitizationKit());
 
         //save
         accountService.saveOrUpdate(account);
@@ -282,7 +282,7 @@ public class AccountController extends AbstractController {
         //power data
         account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
         account.setPowerProvider(dto.getAccount().getPowerProvider());
-        account.setSensitizationKit(dto.getAccount().getSensitizationKit());
+        account.setSensitizationKit(dto.getAccount().isSensitizationKit());
 
         //save
         accountService.saveOrUpdate(account);

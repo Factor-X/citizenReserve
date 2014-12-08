@@ -12,16 +12,16 @@ public class AccountDTO extends DTO {
 
     private Long id;
 
-    @Size(min = 2,max = 100)
+    @Size(min = 2, max = 100)
     private String firstName;
 
-    @Size(min = 2,max = 100)
+    @Size(min = 2, max = 100)
     private String lastName;
 
     @Constraints.Email
     private String email;
 
-    @Size(min = 6,max = 18)
+    @Size(min = 6, max = 18)
     private String password;
 
     private String zipCode;
@@ -32,7 +32,7 @@ public class AccountDTO extends DTO {
 
     private List<String> otherEmailAddresses = new ArrayList<>();
 
-    private String sensitizationKit;
+    private boolean sensitizationKit;
 
     private String languageAbrv;
 
@@ -99,7 +99,6 @@ public class AccountDTO extends DTO {
     }
 
 
-
     public String getAccountType() {
         return accountType;
     }
@@ -108,13 +107,6 @@ public class AccountDTO extends DTO {
         this.accountType = accountType;
     }
 
-    public String getSensitizationKit() {
-        return sensitizationKit;
-    }
-
-    public void setSensitizationKit(String sensitizationKit) {
-        this.sensitizationKit = sensitizationKit;
-    }
 
     public String getPowerProvider() {
         return powerProvider;
@@ -140,14 +132,21 @@ public class AccountDTO extends DTO {
         this.otherEmailAddresses = otherEmailAddresses;
     }
 
+    public boolean isSensitizationKit() {
+        return sensitizationKit;
+    }
+
+    public void setSensitizationKit(boolean sensitizationKit) {
+        this.sensitizationKit = sensitizationKit;
+    }
 
     @Override
     public String toString() {
         return "AccountDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            '}';
     }
 }
