@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "FormCtrl", ($scope, modalService, $filter, $log, downloadService, surveyDTOService, conditionService, $location, $flash) ->
+.controller "FormCtrl", ($scope, modalService, $filter, $log, downloadService, surveyDTOService, conditionService, $location, $flash, $filter) ->
     $scope.topicQuestions =
         profile:
             'presence': ['Q1300', 'Q1400', 'Q1500']
@@ -67,7 +67,9 @@ angular
     $scope.isProfileCompleted = ->
         for topicIdentifier of $scope.topicQuestions.profile
             if (!$scope.isProfileTopicCompleted(topicIdentifier))
+                console.log("isProfileCompleted = false")
                 return false
+        console.log("isProfileCompleted = true")
         return true
 
     $scope.isActionTopicEmpty = (topicIdentifier) ->
@@ -78,22 +80,28 @@ angular
         return true
 
     $scope.potentialReduction = {}
+    $scope.potentialAveragePowerReduction = null
 
     $scope.getPotentialReduction = ->
         downloadService.postJson '/reduction/potential', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 $scope.potentialReduction = result.data
+                if (!! $scope.potentialReduction)
+                    $scope.potentialAveragePowerReduction = $filter("number") parseFloat($scope.potentialReduction.averagePowerReduction), 0
             else
                 console.log(result.data)
 
     $scope.getPotentialReduction()
 
     $scope.effectiveReduction = {}
+    $scope.effectiveAverageReduction = null
 
     $scope.getEffectiveReduction = ->
         downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 $scope.effectiveReduction = result.data
+                if (!! $scope.effectiveReduction)
+                    $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
             else
                 console.log(result.data)
 

@@ -48,6 +48,8 @@ public class Account extends AbstractEntity {
 
     private String sensitizationKit;
 
+    private LanguageEnum language;
+
     @Column(columnDefinition = "boolean default false",nullable = false)
     private boolean superAdmin = false;
 
@@ -62,6 +64,15 @@ public class Account extends AbstractEntity {
         this.lastName = lastName;
         this.zipCode = zipCode;
         this.powerProvider = powerProvider;
+    }
+
+
+    public LanguageEnum getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(LanguageEnum language) {
+        this.language = language;
     }
 
     public AccountType getAccountType() {

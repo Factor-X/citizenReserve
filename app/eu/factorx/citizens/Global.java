@@ -20,6 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 public class Global extends GlobalSettings {
 
     public static final String BUNDLES_LOCATION = "translation/";
@@ -98,12 +103,17 @@ public class Global extends GlobalSettings {
 	public void onStart(Application app) {
 
 		Logger.info("Global.onStart - START");
+		startBatchProcessing();
+		startKeepAliveRequest(app);
+		Logger.info("Global.onStart - END");
+	}
 
+	private void startBatchProcessing () {
 
 		// start Akka task every 24 hours to compute consolidation statistics
 		Cancellable schedule = Akka.system().scheduler().schedule(
 				Duration.create(10, TimeUnit.SECONDS),
-				Duration.create(1, TimeUnit.MINUTES),
+				Duration.create(24, TimeUnit.HOURS),
 				new Runnable() {
 					public void run() {
 						try {
@@ -111,7 +121,7 @@ public class Global extends GlobalSettings {
 							Date date = new Date();
 							Logger.info("Consolidation Batch Started @" + dateFormat.format(date));
 							// run batch here
-                            new BatchServiceImpl().run();
+							new BatchServiceImpl().run();
 							date = new Date();
 							Logger.info("Consolidation Batch Ended @" + dateFormat.format(date));
 
@@ -123,7 +133,40 @@ public class Global extends GlobalSettings {
 				Akka.system().dispatchers().defaultGlobalDispatcher()
 		);
 
-		Logger.info("Global.onStart - END");
+	}
+
+	private void startKeepAliveRequest (Application app) {
+
+		// run keepalive only in prod environment to avoid calls during test and dev targets
+		if (app.isProd()) {
+			final String citizensHostname = System.getenv().get("hostname");
+			if (citizensHostname != null) {
+
+				Akka.system().scheduler().schedule(
+						Duration.create(10, TimeUnit.SECONDS),
+						Duration.create(1, TimeUnit.MINUTES),
+						new Runnable() {
+							public void run() {
+								try {
+									play.Logger.info("Getting " + citizensHostname + " for keep-alive ...");
+									HttpClient httpClient = new DefaultHttpClient();
+									HttpGet httpGet = new HttpGet(citizensHostname);
+									HttpResponse response = httpClient.execute(httpGet);
+									play.Logger.info("Got " + citizensHostname + " for keep-alive.");
+								} catch (Exception e) {
+									play.Logger.info("Getting " + citizensHostname + " for keep-alive ended with an exception", e);
+								}
+							}
+						},
+						Akka.system().dispatchers().defaultGlobalDispatcher()
+				);
+				play.Logger.info("Akka keep-alive now runs.");
+			} else {
+				play.Logger.info("Akka keep-alive won't run because the environment variable 'AwacHostname' does not exist.");
+			}
+		} // end of app.isProd()
+
+
 	}
 
 }

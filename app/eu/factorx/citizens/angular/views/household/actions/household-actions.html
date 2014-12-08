@@ -90,7 +90,7 @@
 
             <div class="col-md-12">
                 <div class="col-md-12" ng-show="effectiveReduction.reductions[0].secondPeriodPowerReduction > 0">
-                    <h3 ng-bind-html="'actions.result' | translate | params:[effectiveReduction.reductions[0].secondPeriodPowerReduction ]"></h3>
+                    <h3 ng-bind-html="'actions.result' | translate | params:[effectiveAverageReduction]"></h3>
                     <p class="cr-outro" ng-bind-html="'actions.outro' | translate"></p>
                 </div>
             </div>
@@ -122,37 +122,6 @@
                 </button>
             </div>
         </div>
-
-        <!--<div class="row cr-profile-result">-->
-            <!--<div class="col-md-12">-->
-                <!--<p>Day 1 - Mon effectif en W: {{ effectiveReduction.reductions[0].averagePowerReduction }}</p>-->
-
-                <!--<p>Day 1 - Mon effectif en kWh par jour sur la période 17h-20h: {{-->
-                    <!--effectiveReduction.reductions[0].energyReduction }}</p>-->
-            <!--</div>-->
-            <!--<div class="col-md-12">-->
-                <!--<p>Day 2 - Mon effectif en W: {{ effectiveReduction.reductions[1].averagePowerReduction }}</p>-->
-
-                <!--<p>Day 2 - Mon effectif en kWh par jour sur la période 17h-20h: {{-->
-                    <!--effectiveReduction.reductions[1].energyReduction }}</p>-->
-            <!--</div>-->
-            <!--<div class="col-md-12">-->
-                <!--<p>Day 3 - Mon effectif en W: {{ effectiveReduction.reductions[2].averagePowerReduction }}</p>-->
-
-                <!--<p>Day 3 - Mon effectif en kWh par jour sur la période 17h-20h: {{-->
-                    <!--effectiveReduction.reductions[2].energyReduction }}</p>-->
-            <!--</div>-->
-            <!--<div class="col-md-12">-->
-                <!--<p>Day 4 - Mon effectif en W: {{ effectiveReduction.reductions[3].averagePowerReduction }}</p>-->
-
-                <!--<p>Day 4 - Mon effectif en kWh par jour sur la période 17h-20h: {{-->
-                    <!--effectiveReduction.reductions[3].energyReduction }}</p>-->
-            <!--</div>-->
-            <!--<div class="col-md-12">-->
-                <!--<button class="btn btn-primary" ng-click="getEffectiveReduction()">Refresh</button>-->
-            <!--</div>-->
-
-        <!--</div>-->
 
     </div>
 </div>

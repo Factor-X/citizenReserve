@@ -16,11 +16,13 @@ create table accounts (
   power_comsumer_category   varchar(255),
   other_email_adresses      varchar(255),
   sensitization_kit         varchar(255),
+  language                  integer,
   super_admin               boolean default false not null,
   version                   bigint not null,
   creation_date             timestamp not null,
   last_update_date          timestamp not null,
   constraint ck_accounts_account_type check (account_type in ('HOUSEHOLD')),
+  constraint ck_accounts_language check (language in (0,1)),
   constraint uq_accounts_email unique (email),
   constraint pk_accounts primary key (id))
 ;

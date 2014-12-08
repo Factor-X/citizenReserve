@@ -16,8 +16,9 @@
 
         <div class="row cr-profile-header">
 
-            <div class="col-md-12">
-                <p class="cr-intro" ng-bind-html="'results.intro' | translate"></p>
+            <div class="col-md-12" >
+                <p class="cr-intro" ng-bind-html="'results.intro' | translate | params:[nbSurveys]"></p>
+                <p class="cr-intro" ng-bind-html="'result.result' | translate | params:[effectiveAverageReduction, totalEffectiveAverageReduction]"></p>
             </div>
         </div>
 
@@ -37,11 +38,7 @@
             </div>
         </div>
 
-        <p>{{ 'a' | translate:'{ value: "bb" }' }}</p>
-
-
         <div class="row">
-
             <div class="col-md-12">
                 <p class="cr-outro" ng-bind-html="'result.outro' | translate"></p>
             </div>

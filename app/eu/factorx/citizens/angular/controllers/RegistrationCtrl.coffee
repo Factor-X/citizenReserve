@@ -1,6 +1,7 @@
 angular
 .module('app.controllers')
 .controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $state, $flash) ->
+
     $scope.noSubmitYet = true
     $scope.loading = false
 
@@ -59,7 +60,7 @@ angular
     $scope.o = {
         errorMessage: ""
         repeatPassword: $scope.getAccount().password
-        acceptAgreement: false
+        acceptAgreement: surveyDTOService.isAuthenticated()
     }
 
     $scope.save = () ->

@@ -1,10 +1,7 @@
 package eu.factorx.citizens.controllers;
 
 import eu.factorx.citizens.controllers.technical.SecuredController;
-import eu.factorx.citizens.dto.AnswerDTO;
-import eu.factorx.citizens.dto.AnswerValueDTO;
-import eu.factorx.citizens.dto.ResultDTO;
-import eu.factorx.citizens.dto.SurveyDTO;
+import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.Survey;
@@ -76,4 +73,7 @@ public class SurveyController extends AbstractController {
         return ok();
     }
 
+    public Result getNbSurveys() {
+        return ok(new DoubleDTO(new Double(surveyService.countSurveys())));
+    }
 }

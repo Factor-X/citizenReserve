@@ -28,6 +28,7 @@ POST        /reduction/potential             @eu.factorx.citizens.controllers.Ca
 
 # Stats
 GET         /stats/summaryValues             @eu.factorx.citizens.controllers.BatchResultController.getSummaryResults()
+GET         /stats/nbSurveys                 @eu.factorx.citizens.controllers.SurveyController.getNbSurveys()
 
 # ADMIN
 POST        /superAdmin/login                @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()
