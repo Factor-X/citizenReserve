@@ -1073,6 +1073,14 @@ public class CalculationServiceImpl implements CalculationService {
 			result.setThirdPeriodPowerReduction(value);
 		}
 
+		if (Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q1500).get(Period.FIRST).getStringValue())>2) { // if someone house between 19h00 and 20h00
+			result.setFirstPeriodPowerReduction(ZERO);
+			result.setSecondPeriodPowerReduction(ZERO);
+			result.setThirdPeriodPowerReduction(ZERO);
+		}
+
+
+
 		return result;
 	}
 
