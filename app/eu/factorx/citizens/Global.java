@@ -4,6 +4,9 @@ import akka.actor.Cancellable;
 import eu.factorx.citizens.dto.technical.ExceptionsDTO;
 import eu.factorx.citizens.service.impl.BatchServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -99,10 +102,13 @@ public class Global extends GlobalSettings {
 
 		Logger.info("Global.onStart - START");
 
-
 		// start Akka task every 24 hours to compute consolidation statistics
-		Cancellable schedule = Akka.system().scheduler().schedule(
-				Duration.create(10, TimeUnit.SECONDS),
+        DateTime now = new DateTime();
+        DateTime nextExecution = now.plusDays(1).withHourOfDay(0).withMinuteOfHour(5);
+        Logger.info("Next execution of BatchService will occur on " + nextExecution.toString(DateTimeFormat.fullDateTime()));
+        org.joda.time.Duration duration = new org.joda.time.Duration(now, nextExecution);
+        Cancellable schedule = Akka.system().scheduler().schedule(
+				Duration.create(duration.getStandardSeconds(), TimeUnit.SECONDS),
 				Duration.create(24, TimeUnit.HOURS),
 				new Runnable() {
 					public void run() {
