@@ -120,7 +120,8 @@ angular
             return testIsNotAlwaysOut() &&
                 testAnyAnswerNotEquals("Q1160", "0")
         Q3810: ->
-            return testAnswerNotEquals("Q1235", null, "0")
+            return testIsNotAlwaysOut() &&
+                testAnswerNotEquals("Q1235", null, "0")
         Q3710: ->
             return testIsNotAlwaysOut() &&
                 (testAnyAnswerNotEquals("Q1140", "0") ||
