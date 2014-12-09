@@ -33,7 +33,7 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
         if(account.getOtherEmailAdresses()!=null) {
             dto.setOtherEmailAddresses(Arrays.asList(StringUtils.split(account.getOtherEmailAdresses(), ";")));
         }
-        dto.setSensitizationKit(account.getSensitizationKit());
+        dto.setSensitizationKit(account.isSensitizationKit());
         dto.setAccountType(account.getAccountType().getString());
 
 		return dto;

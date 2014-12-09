@@ -21,6 +21,7 @@ import java.util.List;
 public class EmailMessage {
 
 	private List<String> toAddress;
+    private List<String> toCC;
 	private String subject;
 	private String content;
 	private HashMap<String, ByteArrayOutputStream> attachmentFilenameList;
@@ -113,4 +114,17 @@ public class EmailMessage {
 	}
 
 
+    public void setEmailsToCC(String[] emailsToCC) {
+        if(toCC==null){
+            toCC = new ArrayList<>();
+        }
+        for (String s : emailsToCC) {
+            toCC.add(s);
+        }
+
+    }
+
+    public List<String> getToCC() {
+        return toCC;
+    }
 }

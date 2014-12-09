@@ -49,7 +49,7 @@ public class EmailController extends AbstractController {
         }
     }
 
-    public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap,LanguageEnum lang) {
+    public void sendEmail(String to, EmailEnum emailEnum, HashMap<EmailParams, String> paramsMap, LanguageEnum lang, String... emailsToCC) {
 
         final TranslationHelper translationHelper = new TranslationHelper(translationService, lang);
 
@@ -79,6 +79,7 @@ public class EmailController extends AbstractController {
         String velocityContent = velocityGeneratorService.generate(VELOCITY_BASIC_EMAIL, values);
 
         EmailMessage emailMessage = new EmailMessage(to, title, velocityContent);
+        emailMessage.setEmailsToCC(emailsToCC);
         emailService.send(emailMessage);
     }
 

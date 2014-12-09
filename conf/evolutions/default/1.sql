@@ -15,7 +15,7 @@ create table accounts (
   power_provider            varchar(255),
   power_comsumer_category   varchar(255),
   other_email_adresses      varchar(255),
-  sensitization_kit         varchar(255),
+  sensitization_kit         boolean default false not null,
   language                  integer,
   super_admin               boolean default false not null,
   version                   bigint not null,

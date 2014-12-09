@@ -37,12 +37,12 @@ angular
 
     $scope.data = []
 
-    downloadService.getJson '/batch/last', (result) ->
+    downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
         if result.success
 
-            v1 = result.data.effectiveBatch.batchResultItemList[0].powerReduction
-            v2 = result.data.effectiveBatch.batchResultItemList[1].powerReduction
-            v3 = result.data.effectiveBatch.batchResultItemList[2].powerReduction
+            v1 = result.data.reductions[0].firstPeriodPowerReduction
+            v2 = result.data.reductions[0].secondPeriodPowerReduction
+            v3 = result.data.reductions[0].thirdPeriodPowerReduction
 
             console.log v1, v2, v3
 
@@ -58,19 +58,19 @@ angular
 
             $scope.data = [
 
-                {
-                    key: $filter('translate')('results.stack.name'),
-                    color: '#229913'
-                    area: true
-                    values: [
-                        { x: 17, y: v1 },
-                        { x: 18, y: v1 },
-                        { x: 18, y: v2 },
-                        { x: 19, y: v2 },
-                        { x: 19, y: v3 },
-                        { x: 20, y: v3 },
-                    ]
-                },
+#                {
+#                    key: $filter('translate')('results.stack.name'),
+#                    color: '#229913'
+#                    area: true
+#                    values: [
+#                        { x: 17, y: v1 },
+#                        { x: 18, y: v1 },
+#                        { x: 18, y: v2 },
+#                        { x: 19, y: v2 },
+#                        { x: 19, y: v3 },
+#                        { x: 20, y: v3 },
+#                    ]
+#                },
                 {
                     key: $filter('translate')('results.trend.name')
                     color: '#28DB15'

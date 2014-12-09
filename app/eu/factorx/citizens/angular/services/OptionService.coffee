@@ -2,11 +2,9 @@
 angular
 .module('app.services')
 .service "optionService", ($rootScope, $modal, gettextCatalog, $filter) ->
-
     options = {}
 
-    @getNumericOptions = (questionKey,min, max, step) ->
-
+    @getNumericOptions = (questionKey, min, max, step) ->
         if options[questionKey]?
             return options[questionKey]
 
@@ -20,7 +18,7 @@ angular
         maxF = parseFloat(max) + parseFloat(step)
         stepF = parseFloat(step)
         for element in _.range(minF, maxF, stepF)
-            optionList.push {value: element+"", label: element+""}
+            optionList.push {value: element + "", label: element + ""}
 
         options[questionKey] = optionList
 
@@ -36,18 +34,26 @@ angular
             return pattern.test(key)
         )
 
-        list.sort()
-        optionList = [
-            {
-                value: null
-                label: null
-            }
-        ]
+        optionList = []
 
         for opt in list
             optionList.push {value: cleanKey(questionKey, opt), label: $filter('translate')(opt)}
 
+
+        optionList = _.sortBy(optionList, (item) ->
+            return parseFloat(item.value)
+        )
+
+        optionList.splice(0, 0, {
+            value: null
+            label: null
+        })
+
+
         options[questionKey] = optionList
+
+        console.log "OPTION LISt : " + questionKey
+        console.log optionList
 
         return optionList
 
