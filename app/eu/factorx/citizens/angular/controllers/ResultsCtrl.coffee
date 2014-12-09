@@ -37,12 +37,12 @@ angular
 
     $scope.data = []
 
-    downloadService.getJson '/batch/last', (result) ->
+    downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
         if result.success
 
-            v1 = result.data.effectiveBatch.batchResultItemList[0].powerReduction
-            v2 = result.data.effectiveBatch.batchResultItemList[1].powerReduction
-            v3 = result.data.effectiveBatch.batchResultItemList[2].powerReduction
+            v1 = result.data.reductions[0].firstPeriodPowerReduction
+            v2 = result.data.reductions[0].secondPeriodPowerReduction
+            v3 = result.data.reductions[0].thirdPeriodPowerReduction
 
             console.log v1, v2, v3
 
