@@ -37,7 +37,7 @@ angular
         optionList = []
 
         for opt in list
-            optionList.push {value: cleanKey(questionKey, opt), label: $filter('translate')(opt)}
+            optionList.push {value: cleanKey(questionKey, opt), label: opt}
 
 
         optionList = _.sortBy(optionList, (item) ->
