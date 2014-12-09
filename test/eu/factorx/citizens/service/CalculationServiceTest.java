@@ -78,7 +78,7 @@ public class CalculationServiceTest {
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1230, null, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1700, null, "3"));
 
-        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1750, null, "2"));
+        answersDTOs.add(buildAnswerDTO(QuestionCode.Q1750, null, "1"));
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q1800, null, 15)); // TODO: 15 (Watt) is not a typical value for this question!!
 
         answersDTOs.add(buildAnswerDTO(QuestionCode.Q2010, null, "0"));

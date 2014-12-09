@@ -27,6 +27,7 @@ public class CalculationServiceImpl implements CalculationService {
 	static final Double THREEQUARTER = (4.0 * 3.0);
 	static final Double FOUR = 4.0;
 	static final Double THREEQUARTERDOUBLE = THREEQUARTER * 2;
+	static final Double ONE = 1.0;
 
     // TODO validate incoming information method
 	@Override
@@ -133,7 +134,7 @@ public class CalculationServiceImpl implements CalculationService {
 		}
 
 		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3711) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue() == null)) {
-			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "1"));
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3720) == null) {
@@ -1132,11 +1133,12 @@ public class CalculationServiceImpl implements CalculationService {
 	private ReductionDTO computeReductionForQuestionCode1750(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod) {
 
 		Double value = ZERO;
+		Double adjust = ONE;
 
 		value =
 				(
 						(	QuestionCode.Q1750.getNominalPower()
-							* ((Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q1750).get(Period.FIRST).getStringValue())) / FOUR)
+							* ((ONE + (Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q1750).get(Period.FIRST).getStringValue()))) / FOUR)
 						)
 							* (byQuestionCodeAndPeriod.get(QuestionCode.Q1300).get(Period.FIRST).getDoubleValue() / HALF) // nb of people in house
 				);
