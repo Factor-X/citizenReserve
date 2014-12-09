@@ -138,8 +138,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, true));
-		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "1"));
-		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "1"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -186,6 +186,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -263,6 +265,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -339,6 +343,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -413,6 +419,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -488,6 +496,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -563,6 +573,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -637,6 +649,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -712,6 +726,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -787,6 +803,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -861,6 +879,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -935,6 +955,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1010,6 +1032,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -1086,6 +1110,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1161,6 +1187,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -1237,6 +1265,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1312,6 +1342,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 
@@ -1387,6 +1419,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1461,6 +1495,11 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
+
+
+
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1536,6 +1575,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1611,6 +1652,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1686,6 +1729,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1760,6 +1805,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
@@ -1834,6 +1881,8 @@ public class CalculationServiceTest {
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true));
 		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
 
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
 
@@ -1875,6 +1924,98 @@ public class CalculationServiceTest {
 
 		Assert.assertEquals(new Double(1517), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getAveragePowerReduction());
 		Assert.assertEquals(new Double(4.551), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(1445), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.335), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(1445), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(4.335), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getEnergyReduction());
+
+	}
+
+	// 3740 & 3741
+	@Test
+	public void testCalculateEffectiveReductionCase024() throws Exception {
+
+		play.Logger.debug("Entering Calculate Effective Reduction test Case 023...");
+		List<AnswerDTO> answersDTOs = buildSampleActionsConsumerProfile001();
+
+		// Sortir
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3210, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
+
+		// Programme et electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3110, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3120, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3130, null, true));
+
+		//Chauffage et eau chaude
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3310, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3320, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3330, null, true));
+
+		//Eclairage & electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3410, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3420, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3510, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3530, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3610, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3620, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3630, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3631, null, "2"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3640, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3810, null, true));
+
+		//Repas
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3710, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "1"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3720, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "2"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "2"));
+
+		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
+
+//		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+//		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+//		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+//
+//		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+//		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+//		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+//
+//		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+//		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+//		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+//
+//		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+//		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+//		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+
+		Assert.assertEquals(new Double(5275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(6698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(7578), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(5275), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(6698), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(7578), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(1590), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(2470), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(1590), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(2470), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(6517), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(19.551), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(6517), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(19.551), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getEnergyReduction());
 
 		Assert.assertEquals(new Double(1445), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getAveragePowerReduction());
 		Assert.assertEquals(new Double(4.335), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getEnergyReduction());

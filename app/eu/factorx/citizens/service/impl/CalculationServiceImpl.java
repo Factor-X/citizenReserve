@@ -145,8 +145,13 @@ public class CalculationServiceImpl implements CalculationService {
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3740) == null) {
-			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, false));
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
 		}
+
+		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3741) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue() == null)) {
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
+		}
+
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3750) == null) {
 			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, false));
@@ -332,6 +337,7 @@ public class CalculationServiceImpl implements CalculationService {
 		reductionDetails.put(QuestionCode.Q3730,computeReductionForQuestionCode3730(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
 		reductionDetails.put(QuestionCode.Q3750,computeReductionForQuestionCode3750(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
 		reductionDetails.put(QuestionCode.Q3760,computeReductionForQuestionCode3760(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
+		reductionDetails.put(QuestionCode.Q3740,computeReductionForQuestionCode3740(byQuestionCodeAndPeriod, potentialReductionDetails)); // TODO refactor to unique method
 
 
 
@@ -366,6 +372,7 @@ public class CalculationServiceImpl implements CalculationService {
 
 		return result;
 	}
+
 
 
 
@@ -609,6 +616,42 @@ public class CalculationServiceImpl implements CalculationService {
 
 		return result;
 	}
+
+	//specific for 3740
+	private List<ReductionDTO> computeReductionForQuestionCode3740(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {
+
+
+		List<ReductionDTO> result = new ArrayList<ReductionDTO>();
+
+		Double value = ZERO;
+
+		//
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue());
+
+		//play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		for (ReductionDay day : ReductionDay.values()) {
+			ReductionDTO localResult = new ReductionDTO();
+
+			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()!=null))
+					&& ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+				// YES to 3740
+				localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+				localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+				localResult.setThirdPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+			} else {
+				// NO to 3740
+				localResult.setFirstPeriodPowerReduction(ZERO);
+				localResult.setSecondPeriodPowerReduction(ZERO);
+				localResult.setThirdPeriodPowerReduction(ZERO);
+			}
+			// add localResult to return list
+			result.add(day.ordinal(),localResult);
+		}
+
+		return result;
+	}
+
 
 	//specific for 3750
 	private List<ReductionDTO> computeReductionForQuestionCode3750(Map<QuestionCode,Map<Period,AnswerValueDTO>> byQuestionCodeAndPeriod, Map <QuestionCode,ReductionDTO> potentialReductionDetails) {

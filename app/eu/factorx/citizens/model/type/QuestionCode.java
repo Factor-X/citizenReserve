@@ -45,7 +45,7 @@ public enum QuestionCode {
 	Q3711,
 	Q3720,
 	Q3730,
-	Q3740,
+	Q3740(2500),
 	Q3741,
 	Q3750,
 	Q3760,
