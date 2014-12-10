@@ -44,17 +44,16 @@ angular
             v2 = result.data.reductions[0].secondPeriodPowerReduction
             v3 = result.data.reductions[0].thirdPeriodPowerReduction
 
-            console.log v1, v2, v3
 
-            calcParabolaParameters = (x1, y1, x2, y2, x3, y3) ->
-                denom = (x1 - x2) * (x1 - x3) * (x2 - x3)
-                A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom
-                B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom
-                C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom
-                return {a: A, b: B, c: C}
+            result = regression('polynomial', [
+                [17,v1],
+                [18,v1],
+                [18,v2],
+                [19,v2],
+                [19,v3],
+                [20,v3]
+            ], 2)
 
-
-            arr2 = calcParabolaParameters(17.5, v1, 18.5, v2, 19.5, v3)
 
             $scope.data = [
 
@@ -75,7 +74,7 @@ angular
                     key: $filter('translate')('results.trend.name')
                     color: '#28DB15'
                     values: _.map(_.range(17, 20.05, 0.1), (x) ->
-                        return { x: x, y: arr2.a * x * x + arr2.b * x + arr2.c }
+                        return { x: x, y: result.equation[2] * x * x + result.equation[1] * x + result.equation[0] }
                     )
                 }
             ];
