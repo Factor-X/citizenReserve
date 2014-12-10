@@ -31,7 +31,7 @@
                         window-class="cr-theme-green"
                         label="topic.presence.label"
                         active="{{ isProfileTopicCompleted('presence') }}"
-                        ng-callback="getPotentialReduction()"
+                        ng-callback="save()"
                         ></cr-topic>
             </div>
 
@@ -44,7 +44,7 @@
                         window-class="cr-theme-blue"
                         label="topic.programs.label"
                         active="{{ isProfileTopicCompleted('programs') }}"
-                        ng-callback="getPotentialReduction()"
+                        ng-callback="save()"
                         ></cr-topic>
             </div>
 
@@ -56,7 +56,7 @@
                         window-class="cr-theme-red"
                         label="topic.heating.label"
                         active="{{ isProfileTopicCompleted('heating') }}"
-                        ng-callback="getPotentialReduction()"
+                        ng-callback="save()"
                         ></cr-topic>
             </div>
 
@@ -68,7 +68,7 @@
                         window-class="cr-theme-orange"
                         label="topic.lighting.label"
                         active="{{ isProfileTopicCompleted('lighting') }}"
-                        ng-callback="getPotentialReduction()"
+                        ng-callback="save()"
                         ></cr-topic>
             </div>
 
@@ -80,7 +80,7 @@
                         window-class="cr-theme-magenta"
                         label="topic.dinner.label"
                         active="{{ isProfileTopicCompleted('dinner') }}"
-                        ng-callback="getPotentialReduction()"
+                        ng-callback="save()"
                         ></cr-topic>
             </div>
 

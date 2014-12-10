@@ -16,15 +16,8 @@ angular
             'lighting': ['Q3410', 'Q3420', 'Q3510', 'Q3530', 'Q3610', 'Q3620', 'Q3630', 'Q3631', 'Q3640', 'Q3810']
             'dinner': ['Q3710', 'Q3711', 'Q3720', 'Q3730', 'Q3750', 'Q3760', 'Q3740', 'Q3741']
 
-    $scope.logout = () ->
-        downloadService.postJson '/logout', surveyDTOService.surveyDTO, (result) ->
-            if result.success
-                $location.path('/welcome')
-                surveyDTOService.logout()
-                $flash.success 'logout.success'
-        return
-
     $scope.save = () ->
+        $scope.getPotentialReduction()
         $scope.getEffectiveReduction()
         if surveyDTOService.isAuthenticated()
             downloadService.postJson '/survey/update', surveyDTOService.surveyDTO, (result) ->
@@ -83,15 +76,15 @@ angular
     $scope.potentialAveragePowerReduction = null
 
     $scope.getPotentialReduction = ->
+        if (!$scope.isProfileCompleted())
+            return
         downloadService.postJson '/reduction/potential', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 $scope.potentialReduction = result.data
-                if (!! $scope.potentialReduction)
+                if (!!$scope.potentialReduction)
                     $scope.potentialAveragePowerReduction = $filter("number") parseFloat($scope.potentialReduction.averagePowerReduction), 0
             else
                 console.log(result.data)
-
-    $scope.getPotentialReduction()
 
     $scope.effectiveReduction = {}
     $scope.effectiveAverageReduction = null
@@ -100,10 +93,11 @@ angular
         downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 $scope.effectiveReduction = result.data
-                if (!! $scope.effectiveReduction)
+                if (!!$scope.effectiveReduction)
                     $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
             else
                 console.log(result.data)
 
+    $scope.getPotentialReduction()
     $scope.getEffectiveReduction()
 
