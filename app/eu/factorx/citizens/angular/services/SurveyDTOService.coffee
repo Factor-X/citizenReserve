@@ -10,6 +10,8 @@ angular
         answers: []
     }
 
+    console.log "SURVEY DTO", this
+
     @createPreAccount = (accountType, lang) ->
         @surveyDTO.account.accountType = accountType
         @surveyDTO.account.languageAbrv = lang
