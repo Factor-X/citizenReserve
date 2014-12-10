@@ -15,10 +15,11 @@
 .cr-topic {
     display: block;
     margin: 20px auto;
-    background-size: 128px 128px;
+    padding: 0;
     border: none;
     background-color: transparent;
     position: relative;
+    font-size: 0;
 
     transition: transform 0.2s cubic-bezier(0.25, 1.0, 0.5, 1.0);
 
@@ -30,10 +31,14 @@
         color: #999999;
     }
 
+
+
+
     .cr-topic-text {
         text-align: center;
         margin-top: 2em;
         height: 4em;
+        font-size: 14px;
     }
 
     .cr-topic-image {
@@ -44,6 +49,9 @@
         opacity: 0.0;
     }
 
+
+
+
     .cr-topic-image-active {
         .cr-topic-image();
         position: absolute;
@@ -53,6 +61,7 @@
     .cr-topic-image-inactive {
         .cr-topic-image();
         opacity: 1.0;
+        
     }
 
     .cr-topic-image-disabled {
@@ -69,6 +78,9 @@
         left: 0;
         top: 0;
     }
+
+
+
 
     &:hover:not(.disabled) .cr-topic-image-hover {
         opacity: 1.0;
