@@ -30,6 +30,7 @@ public class EmailController extends AbstractController {
 
 
     private final String hostname = Configuration.root().getString("citizens-reserve.hostname");
+	private final String citizensReserveHome = Configuration.root().getString("citizens-reserve.home");
     private final static String VELOCITY_BASIC_EMAIL = "basicEmailStructure.vm";
     private final static String VELOCITY_LIST_ACTION = "listAction.vm";
 
@@ -75,6 +76,7 @@ public class EmailController extends AbstractController {
         values.put("contentKey", emailEnum.getContentKey());
         values.put("translationHelper", translationHelper);
         values.put("contentParams", params);
+		values.put("citizensReserveHome", citizensReserveHome);
 
         String velocityContent = velocityGeneratorService.generate(VELOCITY_BASIC_EMAIL, values);
 

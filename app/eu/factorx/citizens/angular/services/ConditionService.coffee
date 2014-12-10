@@ -33,6 +33,12 @@ angular
             return false
         return answerValue != stringValue
 
+    testAnswerNotEqualsOrNull = (questionKey, periodKey, stringValue) ->
+        answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).stringValue
+        if (answerValue == null)
+            return true
+        return answerValue != stringValue
+
     testAnswerEquals = (questionKey, periodKey, stringValue) ->
         answerValue = surveyDTOService.getAnswerValue(questionKey, periodKey).stringValue
         if (answerValue == null)
@@ -134,23 +140,23 @@ angular
             return testAnswerIsTrue("Q3710", null)
         Q3720: ->
             return testIsNotAlwaysOut() &&
-                testAnyAnswerNotEquals("Q1140", "0") &&
+                testAnswerNotEqualsOrNull("Q1140", "0") &&
                 testAnswerNotEquals("Q3711", null, "4")
         Q3730: ->
             return testIsNotAlwaysOut() &&
                 testAnyAnswerNotEquals("Q1150", "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                testAnswerNotEqualsOrNull("Q3711", null, "4")
         Q3750: ->
             return testIsNotAlwaysOut() &&
                 testAnswerNotEquals("Q2030", null, "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                testAnswerNotEqualsOrNull("Q3711", null, "4")
         Q3760: ->
             return testIsNotAlwaysOut() &&
                 testAnswerNotEquals("Q2040", null, "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                testAnswerNotEqualsOrNull("Q3711", null, "4")
         Q3740: ->
             return testIsNotAlwaysOut() &&
-                testAnswerNotEquals("Q3711", null, "4")
+                testAnswerNotEqualsOrNull("Q3711", null, "4")
         Q3741: ->
             return testAnswerNotEquals("Q3740", null, "0")
 
