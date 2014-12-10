@@ -29,11 +29,11 @@ angular.module('app').run (gettextCatalog) ->
 # if not, try to connection
 # if not return to the welcome page
 defaultResolve =
-    testConnection: ($http, $rootScope,$stateParams, $state, downloadService, surveyDTOService) ->
+    testConnection: ($http, $rootScope, $stateParams, $state, downloadService, surveyDTOService) ->
         # if the current user is null...
         if not surveyDTOService.hasAccountType()
             downloadService.getJson '/authenticated', (result) ->
-                console.log "je nai pas daccount type : authentication : "+result.success
+                console.log "je nai pas daccount type : authentication : " + result.success
                 if result.success
                     surveyDTOService.surveyDTO = result.data
                 else
