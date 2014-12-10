@@ -70,14 +70,4 @@ angular
 
         return answerValue
 
-    @isQuestionAnswered = (questionKey) ->
-        answers = @getAnswers(questionKey)
-        if answers.length == 0
-            return false
-        for answer in answers
-            for answerValue in answer.answerValues
-                if !((!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue == 0))
-                    return false
-        return true
-
     return
