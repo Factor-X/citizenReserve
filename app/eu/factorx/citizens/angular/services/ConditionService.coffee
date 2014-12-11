@@ -140,7 +140,7 @@ angular
             return testAnswerIsTrue("Q3710", null)
         Q3720: ->
             return testIsNotAlwaysOut() &&
-                testAnswerNotEqualsOrNull("Q1140", "0") &&
+                testAnyAnswerNotEquals("Q1140", "0") &&
                 testAnswerNotEquals("Q3711", null, "4")
         Q3730: ->
             return testIsNotAlwaysOut() &&

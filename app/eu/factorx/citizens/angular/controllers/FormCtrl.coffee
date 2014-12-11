@@ -42,6 +42,8 @@ angular
 
     $scope.isQuestionAnswered = (questionKey) ->
         answers = surveyDTOService.getAnswers(questionKey)
+        if questionKey == 'Q1140'
+            console.log("Q1140 Answers: ", answers)
         if answers.length == 0
             return false
         for answer in answers
@@ -54,7 +56,9 @@ angular
         topicQuestionKeys = $scope.topicQuestions.profile[topicIdentifier]
         for questionKey in topicQuestionKeys
             if !$scope.isQuestionAnswered(questionKey)
+                console.log("isProfileTopicCompleted(" + topicIdentifier + ") = false (question " + questionKey + " is not completed!)")
                 return false
+        console.log("isProfileTopicCompleted(" + topicIdentifier + ") = true")
         return true
 
     $scope.isProfileCompleted = ->
@@ -85,6 +89,8 @@ angular
                     $scope.potentialAveragePowerReduction = $filter("number") parseFloat($scope.potentialReduction.averagePowerReduction), 0
             else
                 console.log(result.data)
+            return
+        return
 
     $scope.effectiveReduction = {}
     $scope.effectiveAverageReduction = null
@@ -97,6 +103,8 @@ angular
                     $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
             else
                 console.log(result.data)
+            return
+        return
 
     $scope.getPotentialReduction()
     $scope.getEffectiveReduction()
