@@ -44,7 +44,6 @@ angular
             v2 = result.data.reductions[0].secondPeriodPowerReduction
             v3 = result.data.reductions[0].thirdPeriodPowerReduction
 
-
             result = regression('polynomial', [
                 [17,v1],
                 [18,v1],
