@@ -795,10 +795,10 @@ public class CalculationServiceImpl implements CalculationService {
 			QuestionCode key = item.getKey();
 			ReductionDTO value = item.getValue();
 
-			play.Logger.debug(">> Summary : [" + key.name() + "]");
-			play.Logger.debug(">>>>>> First : [" + value.getFirstPeriodPowerReduction() + "]");
-			play.Logger.debug(">>>>>> Secon : [" + value.getSecondPeriodPowerReduction() + "]");
-			play.Logger.debug(">>>>>> Third : [" + value.getThirdPeriodPowerReduction() + "]");
+//			play.Logger.debug(">> Summary : [" + key.name() + "]");
+//			play.Logger.debug(">>>>>> First : [" + value.getFirstPeriodPowerReduction() + "]");
+//			play.Logger.debug(">>>>>> Secon : [" + value.getSecondPeriodPowerReduction() + "]");
+//			play.Logger.debug(">>>>>> Third : [" + value.getThirdPeriodPowerReduction() + "]");
 			firstPeriodTotal+=value.getFirstPeriodPowerReduction();
 			secondPeriodTotal+=value.getSecondPeriodPowerReduction();
 			thirdPeriodTotal+=value.getThirdPeriodPowerReduction();

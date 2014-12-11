@@ -1,7 +1,7 @@
 # simple download service
 angular
 .module('app.services')
-.service "surveyDTOService", ($rootScope, $modal) ->
+.service "surveyDTOService", (downloadService, $flash) ->
 
     @surveyDTO = {
         account:{
@@ -35,7 +35,6 @@ angular
         result = (@surveyDTO.account.accountType?)
         return result
 
-    # add the search answer function into DTO
     @getAnswers = (questionCode) ->
         return _.where(@surveyDTO.answers, {questionKey: questionCode})
 
@@ -69,5 +68,22 @@ angular
             answerValue = answer.answerValues[0]
 
         return answerValue
+
+    @saveSurvey = ->
+        downloadService.postJson '/survey/update', @surveyDTO, (result) ->
+            if result.success
+                $flash.success 'account.save.success'
+            else
+                $flash.error result.data.message
+
+    @isQuestionCompleted = (questionKey) ->
+        answers = @getAnswers(questionKey)
+        if answers.length == 0
+            return false
+        for answer in answers
+            for answerValue in answer.answerValues
+                if !((!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue == 0))
+                    return false
+        return true
 
     return

@@ -40,7 +40,7 @@ angular
             size: 'lg'
         })
 
-    $scope.isQuestionAnswered = (questionKey) ->
+    $scope.isQuestionCompleted = (questionKey) ->
         answers = surveyDTOService.getAnswers(questionKey)
         if answers.length == 0
             return false
@@ -53,7 +53,7 @@ angular
     $scope.isProfileTopicCompleted = (topicIdentifier) ->
         topicQuestionKeys = $scope.topicQuestions.profile[topicIdentifier]
         for questionKey in topicQuestionKeys
-            if !$scope.isQuestionAnswered(questionKey)
+            if !$scope.isQuestionCompleted(questionKey)
                 return false
         return true
 
