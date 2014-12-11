@@ -165,11 +165,9 @@ angular
         testFct = tests[questionKey]
         if !!testFct
             res = testFct()
-            console.log("checkCondition(" + questionKey + ") => " + res)
             if res == false
                 resetAnswerValues(surveyDTOService.getAnswers(questionKey))
             return res
-        console.log("checkCondition(" + questionKey + ") => NO TEST (true)")
         return true
 
 
