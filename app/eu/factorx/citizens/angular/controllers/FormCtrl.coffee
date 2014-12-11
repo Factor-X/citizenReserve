@@ -99,9 +99,8 @@ angular
         downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 $scope.effectiveReduction = result.data
-                console.log("averagePowerReduction = " + $scope.effectiveReduction.reductions[0].averagePowerReduction)
-                console.log("averagePowerReduction (filtered) = " + $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0)
                 if (!!$scope.effectiveReduction)
+                    console.log("")
                     $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
             else
                 console.log(result.data)
