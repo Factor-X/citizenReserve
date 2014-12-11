@@ -129,8 +129,6 @@ angular
             return testIsNotAlwaysOut() &&
                 testAnswerNotEquals("Q1235", null, "0")
         Q3710: ->
-            test2030 = testAnswerNotEquals("Q2030", null, "0")
-            console.log("test2030 = " + test2030)
             return testIsNotAlwaysOut() &&
                 (testAnyAnswerNotEquals("Q1140", "0") ||
                     testAnyAnswerNotEquals("Q1150", "0") ||
@@ -141,7 +139,7 @@ angular
         Q3720: ->
             return testIsNotAlwaysOut() &&
                 testAnyAnswerNotEquals("Q1140", "0") &&
-                testAnswerNotEquals("Q3711", null, "4")
+                testAnswerNotEqualsOrNull("Q3711", null, "4")
         Q3730: ->
             return testIsNotAlwaysOut() &&
                 testAnyAnswerNotEquals("Q1150", "0") &&
