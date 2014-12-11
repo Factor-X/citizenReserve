@@ -129,8 +129,6 @@ angular
             return testIsNotAlwaysOut() &&
                 testAnswerNotEquals("Q1235", null, "0")
         Q3710: ->
-            test2030 = testAnswerNotEquals("Q2030", null, "0")
-            console.log("test2030 = " + test2030)
             return testIsNotAlwaysOut() &&
                 (testAnyAnswerNotEquals("Q1140", "0") ||
                     testAnyAnswerNotEquals("Q1150", "0") ||
@@ -170,11 +168,9 @@ angular
         testFct = tests[questionKey]
         if !!testFct
             res = testFct()
-            console.log("checkCondition(" + questionKey + ") => " + res)
             if res == false
                 resetAnswerValues(surveyDTOService.getAnswers(questionKey))
             return res
-        console.log("checkCondition(" + questionKey + ") => NO TEST (true)")
         return true
 
 
