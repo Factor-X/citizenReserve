@@ -528,7 +528,6 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
-
 		Double GlobalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 
 		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
@@ -625,6 +624,9 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue());
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
+
+		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
 
 		//play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
 
@@ -632,7 +634,8 @@ public class CalculationServiceImpl implements CalculationService {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()!=null))
-					&& ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
+					&& ((maxDays.intValue() >= (day.ordinal()+1)))
+				) {
 				// YES to 3740
 				localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
 				localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
