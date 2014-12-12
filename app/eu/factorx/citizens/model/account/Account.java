@@ -49,6 +49,7 @@ public class Account extends AbstractEntity {
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean sensitizationKit;
 
+	@Enumerated(value = EnumType.ORDINAL)
     private LanguageEnum language;
 
     @Column(columnDefinition = "boolean default false", nullable = false)

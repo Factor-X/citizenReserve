@@ -10,8 +10,10 @@ angular
         answers: []
     }
 
-    @createPreAccount = (accountType, lang) ->
+    @createPreAccount = (accountType) ->
         @surveyDTO.account.accountType = accountType
+
+    @setLanguage = (lang) ->
         @surveyDTO.account.languageAbrv = lang
 
     @login = (surveyDTO) ->

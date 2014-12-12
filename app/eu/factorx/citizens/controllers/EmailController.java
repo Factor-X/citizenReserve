@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.TopicEnum;
@@ -15,8 +16,8 @@ import eu.factorx.citizens.util.email.EmailParams;
 import eu.factorx.citizens.util.email.messages.EmailMessage;
 import eu.factorx.citizens.util.email.service.EmailService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import org.apache.commons.lang3.tuple.Pair;
 import play.Configuration;
-import play.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -90,16 +91,12 @@ public class EmailController extends AbstractController {
 
         final TranslationHelper translationHelper = new TranslationHelper(translationService, account.getLanguage());
 
-        HashMap<TopicEnum, List<String>> actions = surveyService.getActionsForSummaryEmail(account);
+        HashMap<TopicEnum, List<Pair<String,String>>> actions = surveyService.getActionsForSummaryEmail(account);
 
         Map<String, Object> values = new HashMap<>();
         values.put("actions", actions);
         values.put("translationHelper", translationHelper);
         values.put("hostname", hostname);
-
-        for (Map.Entry<TopicEnum, List<String>> mapEntry : actions.entrySet()) {
-            Logger.info("Email data : hostname : "+hostname+"/assets/images/"+mapEntry.getKey().getAccountType().getString()+"/topics/topic_"+mapEntry.getKey().getTopicName()+"_active.png");
-        }
 
         return velocityGeneratorService.generate(VELOCITY_LIST_ACTION, values);
     }

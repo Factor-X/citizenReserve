@@ -82,21 +82,23 @@ angular
             if result.success
                 $scope.potentialReduction = result.data
                 if (!!$scope.potentialReduction)
-                    $scope.potentialAveragePowerReduction = $filter("number") parseFloat($scope.potentialReduction.averagePowerReduction), 0
+                    apr = parseFloat($scope.potentialReduction.averagePowerReduction)
+                    $scope.potentialAveragePowerReduction = $filter("number")(apr, 0)
             else
                 console.log(result.data)
             return
         return
 
-    $scope.effectiveReduction = {}
     $scope.effectiveAverageReduction = null
+    $scope.formattedEffectiveAverageReduction = null
 
     $scope.getEffectiveReduction = ->
         downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
             if result.success
-                $scope.effectiveReduction = result.data
-                if (!!$scope.effectiveReduction)
-                    $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
+                effectiveReduction = result.data
+                if (!!effectiveReduction)
+                    $scope.effectiveAverageReduction = parseFloat(effectiveReduction.reductions[0].averagePowerReduction)
+                    $scope.formattedEffectiveAverageReduction = $filter("number")($scope.effectiveAverageReduction, 0)
             else
                 console.log(result.data)
             return

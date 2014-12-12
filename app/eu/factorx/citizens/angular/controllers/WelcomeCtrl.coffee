@@ -3,7 +3,7 @@ angular
 .controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService,$flash,$stateParams) ->
 
     $scope.toHouseHold = ->
-        surveyDTOService.createPreAccount('household', $stateParams.lang)
+        surveyDTOService.createPreAccount('household')
         $state.go 'root.householdProfile'
 
 

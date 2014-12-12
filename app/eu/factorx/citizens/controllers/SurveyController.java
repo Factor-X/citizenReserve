@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.controllers.technical.SecuredController;
 import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.account.Account;
@@ -17,8 +18,6 @@ public class SurveyController extends AbstractController {
 
     //service
     private SurveyService surveyService = new SurveyServiceImpl();
-    //controller
-    private SecuredController securedController = new SecuredController();
 
     @Transactional
     @Security.Authenticated(SecuredController.class)

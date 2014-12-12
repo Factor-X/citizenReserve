@@ -134,7 +134,7 @@ public class CalculationServiceImpl implements CalculationService {
 		}
 
 		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3711) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue() == null)) {
-			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "1"));
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3720) == null) {
@@ -239,7 +239,7 @@ public class CalculationServiceImpl implements CalculationService {
 		effectiveReductionDetails = calculateEffectiveReductionDetails(surveyAnswers, potentialReductionDetails, potentialReductionSummary);
 		effectiveReductionSummary = calculateEffectiveSummary(effectiveReductionDetails);
 
-		//dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
+		dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
 
 		return effectiveReductionSummary;
 	}
@@ -528,7 +528,6 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
-
 		Double GlobalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 
 		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
@@ -536,9 +535,9 @@ public class CalculationServiceImpl implements CalculationService {
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
-					// YES to 3730 and day is one of the repeat actions one
+			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3720).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3720).get(Period.FIRST).getBooleanValue()) )) {
+				if ( ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
+					// YES to 3720 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
 					localResult.setSecondPeriodPowerReduction(ZERO);
@@ -556,7 +555,7 @@ public class CalculationServiceImpl implements CalculationService {
 					}
 				}
 			} else {
-				// NO to 3730
+				// NO to 3720
 				localResult.setFirstPeriodPowerReduction(ZERO);
 				localResult.setSecondPeriodPowerReduction(ZERO);
 				localResult.setThirdPeriodPowerReduction(ZERO);
@@ -578,32 +577,29 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 
-		Double GlobalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
+		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
 
-		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+		play.Logger.debug("Number of days : " + maxDays);
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+			// chek if Q3730 != null and Q3730 == true
+			if (((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
+
+				if ( maxDays.intValue() >= (day.ordinal()+1) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
 					localResult.setSecondPeriodPowerReduction(ZERO);
 					localResult.setThirdPeriodPowerReduction(ZERO);
 				} else {
-					if ((day.ordinal()+1) > GlobalActionDaysNumber) {
 						//play.Logger.debug("DAY: " + day.name() + " set to value ");
 						localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1150).getFirstPeriodPowerReduction());
 						localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1150).getSecondPeriodPowerReduction());
 						localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1150).getThirdPeriodPowerReduction());
-					} else {
-						localResult.setFirstPeriodPowerReduction(ZERO);
-						localResult.setSecondPeriodPowerReduction(ZERO);
-						localResult.setThirdPeriodPowerReduction(ZERO);
-					}
 				}
 			} else {
 				// NO to 3730
@@ -627,24 +623,34 @@ public class CalculationServiceImpl implements CalculationService {
 		Double value = ZERO;
 
 		//
-		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue());
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue()); // combien de jour d'affilé pour 4740
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue()); // combien de jour d'alerte
+
+		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
 
 		//play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()!=null))
-					&& ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
-				// YES to 3740
-				localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
-				localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
-				localResult.setThirdPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
-			} else {
-				// NO to 3740
+			if (globalActionDaysNumber>=(day.ordinal()+1)) {
 				localResult.setFirstPeriodPowerReduction(ZERO);
 				localResult.setSecondPeriodPowerReduction(ZERO);
 				localResult.setThirdPeriodPowerReduction(ZERO);
+			} else {
+				if (((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue() != null))
+						&& ((maxDays.intValue() >= (day.ordinal() + 1)))
+						) {
+					// YES to 3740
+					localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower() * Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+					localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower() * Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+					localResult.setThirdPeriodPowerReduction(QuestionCode.Q3740.getNominalPower() * Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+				} else {
+					// NO to 3740
+					localResult.setFirstPeriodPowerReduction(ZERO);
+					localResult.setSecondPeriodPowerReduction(ZERO);
+					localResult.setThirdPeriodPowerReduction(ZERO);
+				}
 			}
 			// add localResult to return list
 			result.add(day.ordinal(),localResult);
@@ -662,35 +668,30 @@ public class CalculationServiceImpl implements CalculationService {
 
 		Double value = ZERO;
 
-		Double GlobalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
-
-		//
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
 
-		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+		play.Logger.debug("Number of days : " + maxDays.intValue());
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3750).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3750).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+
+				if ( ((day.ordinal()+1) <= maxDays.intValue()) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
 					localResult.setSecondPeriodPowerReduction(ZERO);
 					localResult.setThirdPeriodPowerReduction(ZERO);
 				} else {
-					if ((day.ordinal()+1) > GlobalActionDaysNumber) {
 						//play.Logger.debug("DAY: " + day.name() + " set to value ");
 						localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2030).getFirstPeriodPowerReduction());
 						localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2030).getSecondPeriodPowerReduction());
 						localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2030).getThirdPeriodPowerReduction());
-					} else {
-						localResult.setFirstPeriodPowerReduction(ZERO);
-						localResult.setSecondPeriodPowerReduction(ZERO);
-						localResult.setThirdPeriodPowerReduction(ZERO);
 					}
-				}
+
 			} else {
 				// NO to 3730
 				localResult.setFirstPeriodPowerReduction(ZERO);
@@ -712,33 +713,28 @@ public class CalculationServiceImpl implements CalculationService {
 
 		Double value = ZERO;
 
-		Double GlobalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
-		//
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
+		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
+		play.Logger.debug("Number of days : " + maxDays.intValue());
 
-		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3760).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3760).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+
+				if ( ((day.ordinal()+1) <= maxDays.intValue()) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
 					localResult.setSecondPeriodPowerReduction(ZERO);
 					localResult.setThirdPeriodPowerReduction(ZERO);
 				} else {
-					if ((day.ordinal()+1) > GlobalActionDaysNumber) {
 						//play.Logger.debug("DAY: " + day.name() + " set to value ");
 						localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2040).getFirstPeriodPowerReduction());
 						localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2040).getSecondPeriodPowerReduction());
 						localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q2040).getThirdPeriodPowerReduction());
-					} else {
-						localResult.setFirstPeriodPowerReduction(ZERO);
-						localResult.setSecondPeriodPowerReduction(ZERO);
-						localResult.setThirdPeriodPowerReduction(ZERO);
-					}
 				}
 			} else {
 				// NO to 3730

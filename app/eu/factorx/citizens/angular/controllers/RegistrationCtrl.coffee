@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $state, $flash) ->
+.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $state, $flash,$stateParams) ->
 
     $scope.noSubmitYet = true
     $scope.loading = false
@@ -50,7 +50,7 @@ angular
                 return $scope.getAccount().password == $scope.o.repeatPassword
             valid: false
         terms:
-            valid: false
+            valid: surveyDTOService.isAuthenticated()
     }
 
     $scope.zip =
@@ -67,7 +67,11 @@ angular
         $scope.noSubmitYet = false
         if $scope.checkValidity()
             $scope.loading = true
-            console.log "je save ce dto : "
+
+            # add the language
+            surveyDTOService.setLanguage($stateParams.lang)
+
+            console.log "DTO to save"
             console.log surveyDTOService.surveyDTO
             downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
                 $scope.loading = false

@@ -1,16 +1,11 @@
 package eu.factorx.citizens.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import eu.factorx.citizens.controllers.AbstractController;
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.dto.*;
-import eu.factorx.citizens.model.account.Account;
-import eu.factorx.citizens.model.survey.Answer;
-import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.CalculationService;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
-import play.api.Play;
-import play.mvc.BodyParser;
 import play.mvc.Result;
 
 import java.util.ArrayList;

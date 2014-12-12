@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.controllers.technical.SecuredController;
 import eu.factorx.citizens.converter.AccountToAccountDTOConverter;
 import eu.factorx.citizens.converter.SurveyToSurveyDTOConverter;
@@ -30,315 +31,315 @@ import java.util.List;
 
 /**
  * Created by florian on 20/11/14.
+ * account controller
  */
 public class AccountController extends AbstractController {
 
-	//service
-	private AccountService               accountService               = new AccountServiceImpl();
-	private SurveyService                surveyService                = new SurveyServiceImpl();
-	private CalculationService           calculationService           = new CalculationServiceImpl();
-	//converter
-	private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
-	private SurveyToSurveyDTOConverter   surveyToSurveyDTOConverter   = new SurveyToSurveyDTOConverter();
-	//controller
-	private SurveyController             surveyController             = new SurveyController();
-	private SecuredController            securedController            = new SecuredController();
-	private EmailController              emailController              = new EmailController();
-
-	@Transactional
-	@Security.Authenticated(SecuredController.class)
-	public Result changeEmail() {
+    //service
+    private AccountService accountService = new AccountServiceImpl();
+    private SurveyService surveyService = new SurveyServiceImpl();
+    private CalculationService calculationService = new CalculationServiceImpl();
+    //converter
+    private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
+    private SurveyToSurveyDTOConverter surveyToSurveyDTOConverter = new SurveyToSurveyDTOConverter();
+    //controller
+    private SurveyController surveyController = new SurveyController();
+    private EmailController emailController = new EmailController();
 
-		ChangeEmailDTO dto = extractDTOFromRequest(ChangeEmailDTO.class);
-
-		Account account = securedController.getCurrentUser();
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result changeEmail() {
 
-		//control password
-		if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
-			throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
-		}
+        ChangeEmailDTO dto = extractDTOFromRequest(ChangeEmailDTO.class);
 
-		//add password
-		account.setEmail(dto.getEmail());
+        Account account = securedController.getCurrentUser();
 
-		//save
-		accountService.saveOrUpdate(account);
+        //control password
+        if (!accountService.controlPassword(dto.getOldPassword(), account)) {
+            throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
+        }
 
-		//update context
-		securedController.storeIdentifier(account);
-
-		//return
-		return ok(new ResultDTO());
-	}
+        //test if the email address is already used
+        Account accountWithSameEmail = accountService.findByEmail(dto.getEmail());
 
-	@Transactional
-	@Security.Authenticated(SecuredController.class)
-	public Result changePassword() {
+        if (accountWithSameEmail != null && !accountWithSameEmail.equals(account)) {
+            throw new MyRuntimeException(BusinessErrorType.EMAIL_ALREADY_USED, account.getEmail());
+        }
 
-		ChangePasswordDTO dto = extractDTOFromRequest(ChangePasswordDTO.class);
+        //add password
+        account.setEmail(dto.getEmail());
 
-		Account account = securedController.getCurrentUser();
+        //save
+        accountService.saveOrUpdate(account);
 
-		//control password
-		if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
-			throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
-		}
+        //update context
+        securedController.storeIdentifier(account);
 
-		//add password
-		account.setPassword(dto.getNewPassword());
+        //return
+        return ok(new ResultDTO());
+    }
 
-		//save
-		accountService.saveOrUpdate(account);
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result changePassword() {
 
-		//return
-		return ok(new ResultDTO());
-	}
+        ChangePasswordDTO dto = extractDTOFromRequest(ChangePasswordDTO.class);
 
+        Account account = securedController.getCurrentUser();
 
-	/**
-	 * return survey if the user is connected
-	 *
-	 * @return
-	 */
-	@Transactional
-	@Security.Authenticated(SecuredController.class)
-	public Result testAuthentication() {
+        //control password
+        if (!accountService.controlPassword(dto.getOldPassword(), account)) {
+            throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
+        }
 
-		Survey survey = surveyService.findValidSurveyByAccount(securedController.getCurrentUser());
+        //add password
+        account.setPassword(dto.getNewPassword());
 
-		if (survey == null) {
-			throw new MyRuntimeException("there is no not deleted survey for account " + securedController.getCurrentUser().getId());
-		}
+        //save
+        accountService.saveOrUpdate(account);
 
-		//build dto
-		return ok(surveyToSurveyDTOConverter.convert(survey));
-	}
+        //return
+        return ok(new ResultDTO());
+    }
 
-	@Transactional
-	public Result login() {
-		return login(false);
-	}
 
-	@Transactional
-	public Result loginSuperAdmin() {
-		return login(true);
-	}
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result testAuthentication() {
 
-	private Result login(boolean onlyForSuperAdmin) {
-		LoginDTO loginDTO = extractDTOFromRequest(LoginDTO.class);
+        Survey survey = surveyService.findValidSurveyByAccount(securedController.getCurrentUser());
 
-		//test attempts
-		if (LoginAttemptManager.tooManyAttempts(loginDTO.getEmail(), getIpAddress())) {
-			throw new MyRuntimeException(BusinessErrorType.TOO_MANY_ATTEMPT);
-		}
+        if (survey == null) {
+            throw new MyRuntimeException("there is no not deleted survey for account " + securedController.getCurrentUser().getId());
+        }
 
-		//login
-		Account account = accountService.findByEmail(loginDTO.getEmail());
+        //build dto
+        return ok(surveyToSurveyDTOConverter.convert(survey));
+    }
 
-		if (account == null || !accountService.controlPassword(loginDTO.getPassword(), account)) {
-			LoginAttemptManager.failedAttemptLogin(loginDTO.getEmail(), getIpAddress());
-			throw new MyRuntimeException(BusinessErrorType.WRONG_CREDENTIALS);
-		}
+    @Transactional
+    public Result login() {
+        return login(false);
+    }
 
-		//test superAdmin
-		if (onlyForSuperAdmin && !account.isSuperAdmin()) {
-			throw new MyRuntimeException(BusinessErrorType.WRONG_RIGHT);
-		}
+    @Transactional
+    public Result loginSuperAdmin() {
+        return login(true);
+    }
 
-		//build and return result
-		Survey survey = surveyService.findValidSurveyByAccount(account);
+    private Result login(boolean onlyForSuperAdmin) {
+        LoginDTO loginDTO = extractDTOFromRequest(LoginDTO.class);
 
-		if (survey == null) {
-			throw new MyRuntimeException("there is no not deleted survey for account " + account.getId());
-		}
+        //test attempts
+        if (LoginAttemptManager.tooManyAttempts(loginDTO.getEmail(), getIpAddress())) {
+            throw new MyRuntimeException(BusinessErrorType.TOO_MANY_ATTEMPT);
+        }
 
-		//save account into context
-		securedController.storeIdentifier(account);
+        //login
+        Account account = accountService.findByEmail(loginDTO.getEmail());
 
-		//build dto
-		return ok(surveyToSurveyDTOConverter.convert(survey));
-	}
+        if (account == null || !accountService.controlPassword(loginDTO.getPassword(), account)) {
+            LoginAttemptManager.failedAttemptLogin(loginDTO.getEmail(), getIpAddress());
+            throw new MyRuntimeException(BusinessErrorType.WRONG_CREDENTIALS);
+        }
 
+        //test superAdmin
+        if (onlyForSuperAdmin && !account.isSuperAdmin()) {
+            throw new MyRuntimeException(BusinessErrorType.WRONG_RIGHT);
+        }
 
-	@Transactional
-	@Security.Authenticated(SecuredController.class)
-	public Result logout() {
-		session().clear();
-		return ok(new ResultDTO());
-	}
+        //build and return result
+        Survey survey = surveyService.findValidSurveyByAccount(account);
 
-	@Transactional
-	public Result forgotPassword() {
+        if (survey == null) {
+            throw new MyRuntimeException("there is no not deleted survey for account " + account.getId());
+        }
 
-		ForgotPasswordDTO dto = extractDTOFromRequest(ForgotPasswordDTO.class);
+        //save account into context
+        securedController.storeIdentifier(account);
 
+        //build dto
+        return ok(surveyToSurveyDTOConverter.convert(survey));
+    }
 
-		//load account by email
-		Account account = accountService.findByEmail(dto.getEmail());
 
-		if (account == null) {
-			throw new MyRuntimeException(BusinessErrorType.EMAIL_DOESNT_EXIT);
-		}
+    @Transactional
+    @Security.Authenticated(SecuredController.class)
+    public Result logout() {
+        session().clear();
+        return ok(new ResultDTO());
+    }
 
-		//change password
-		String password = KeyGenerator.generateRandomPassword(12);
+    @Transactional
+    public Result forgotPassword() {
 
-		account.setPassword(password);
+        ForgotPasswordDTO dto = extractDTOFromRequest(ForgotPasswordDTO.class);
 
-		//send email
-		//create listParam
-		HashMap<EmailParams, String> paramsMap = new HashMap<>();
-		for (EmailParams emailParams : EmailEnum.FORGOT_PASSWORD.getExpectedParams()) {
-			if (emailParams.getName().equals("firstName")) {
-				paramsMap.put(emailParams, account.getFirstName());
-			} else if (emailParams.getName().equals("lastName")) {
-				paramsMap.put(emailParams, account.getLastName());
-			} else if (emailParams.getName().equals("newPassword")) {
-				paramsMap.put(emailParams, password);
-			}
-		}
 
-		emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap, account.getLanguage());
+        //load account by email
+        Account account = accountService.findByEmail(dto.getEmail());
 
-		return ok(new ResultDTO());
-	}
+        if (account == null) {
+            throw new MyRuntimeException(BusinessErrorType.EMAIL_DOESNT_EXIT);
+        }
 
-	@Transactional
-	public Result createAccountAndSaveData() {
+        //change password
+        String password = KeyGenerator.generateRandomPassword(12);
 
-		SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
+        account.setPassword(password);
 
-		if (dto.getAccount().getId() != null) {
-			return updateAccountAndSaveData();
-		}
+        //send email
+        //create listParam
+        HashMap<EmailParams, String> paramsMap = new HashMap<>();
+        for (EmailParams emailParams : EmailEnum.FORGOT_PASSWORD.getExpectedParams()) {
+            if (emailParams.getName().equals("firstName")) {
+                paramsMap.put(emailParams, account.getFirstName());
+            } else if (emailParams.getName().equals("lastName")) {
+                paramsMap.put(emailParams, account.getLastName());
+            } else if (emailParams.getName().equals("newPassword")) {
+                paramsMap.put(emailParams, password);
+            }
+        }
 
-		//test if the account is already create
-		Account account = null;
+        emailController.sendEmail(account.getEmail(), EmailEnum.FORGOT_PASSWORD, paramsMap, account.getLanguage());
 
-		//create new account
-		//control email
-		account = accountService.findByEmail(dto.getAccount().getEmail());
+        return ok(new ResultDTO());
+    }
 
-		if (account != null) {
-			throw new MyRuntimeException(BusinessErrorType.EMAIL_ALREADY_USED, account.getEmail());
-		}
+    @Transactional
+    public Result createAccountAndSaveData() {
 
-		account = new Account();
+        SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
 
-		//build account
-		account.setPassword(dto.getAccount().getPassword());
-		account.setEmail(dto.getAccount().getEmail());
-		account.setFirstName(dto.getAccount().getFirstName());
-		account.setLastName(dto.getAccount().getLastName());
-		account.setZipCode(dto.getAccount().getZipCode());
-		account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
-		account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
-		account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
+        if (dto.getAccount().getId() != null) {
+            return updateAccountAndSaveData();
+        }
 
-		//power data
-		account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
-		account.setPowerProvider(dto.getAccount().getPowerProvider());
-		account.setSensitizationKit(dto.getAccount().isSensitizationKit());
+        //test if the account is already create
+        //create new account
+        //control email
+        Account account = accountService.findByEmail(dto.getAccount().getEmail());
 
-		//save
-		accountService.saveOrUpdate(account);
+        if (account != null) {
+            throw new MyRuntimeException(BusinessErrorType.EMAIL_ALREADY_USED, account.getEmail());
+        }
 
-		//save data
-		surveyController.saveSurvey(dto, account);
+        account = new Account();
 
-		//send email
-		sendSummaryEmail(account, dto);
+        //build account
+        account.setPassword(dto.getAccount().getPassword());
+        account.setEmail(dto.getAccount().getEmail());
+        account.setFirstName(dto.getAccount().getFirstName());
+        account.setLastName(dto.getAccount().getLastName());
+        account.setZipCode(dto.getAccount().getZipCode());
+        account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
+        account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
+        account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
 
-		//save account into context
-		securedController.storeIdentifier(account);
+        //power data
+        account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
+        account.setPowerProvider(dto.getAccount().getPowerProvider());
+        account.setSensitizationKit(dto.getAccount().isSensitizationKit());
 
-		//TODO return summary
-		return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
+        //save
+        accountService.saveOrUpdate(account);
 
-	}
+        //save data
+        surveyController.saveSurvey(dto, account);
 
-	private Result updateAccountAndSaveData() {
+        //send email
+        sendSummaryEmail(account, dto);
 
-		if (!securedController.isAuthenticated()) {
-			return securedController.onUnauthorized(ctx());
-		}
+        //save account into context
+        securedController.storeIdentifier(account);
 
-		SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
+        return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
-		//load user
-		Account account = securedController.getCurrentUser();
+    }
 
-		//current data
-		account.setFirstName(dto.getAccount().getFirstName());
-		account.setLastName(dto.getAccount().getLastName());
-		account.setZipCode(dto.getAccount().getZipCode());
-		account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
-		account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
-		account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
+    private Result updateAccountAndSaveData() {
 
-		//power data
-		account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
-		account.setPowerProvider(dto.getAccount().getPowerProvider());
-		account.setSensitizationKit(dto.getAccount().isSensitizationKit());
+        if (!securedController.isAuthenticated()) {
+            return securedController.onUnauthorized(ctx());
+        }
 
-		//save
-		accountService.saveOrUpdate(account);
+        SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
 
-		//save data
-		surveyController.saveSurvey(dto, account);
+        //load user
+        Account account = securedController.getCurrentUser();
 
-		return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
+        //current data
+        account.setFirstName(dto.getAccount().getFirstName());
+        account.setLastName(dto.getAccount().getLastName());
+        account.setZipCode(dto.getAccount().getZipCode());
+        account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
+        account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
+        account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
 
-	}
+        //power data
+        account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
+        account.setPowerProvider(dto.getAccount().getPowerProvider());
+        account.setSensitizationKit(dto.getAccount().isSensitizationKit());
 
+        //save
+        accountService.saveOrUpdate(account);
 
-	private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
+        //save data
+        surveyController.saveSurvey(dto, account);
 
-		String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
+        //send email
+        sendSummaryEmail(account, dto);
 
-		/****************************/
-		/* add unselected actions to perform calculation */
+        return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
-		// Validate incoming DTO - TODO
-		List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
-		try {
-			missingActions = calculationService.validateActions(surveyDTO.getAnswers());
-		} catch (Exception e) {
-			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
-		}
+    }
 
-		surveyDTO.getAnswers().addAll(missingActions);
 
-		//create action list
-		List<ReductionDTO> reductionDTOs = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
-		Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
-		//convert action to string
-		String actionString = emailController.generateActionsTable(account);
+    private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
 
-		HashMap<EmailParams, String> paramsMap = new HashMap<>();
+        String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
 
-		for (EmailParams emailParams : EmailEnum.SUMMARY.getExpectedParams()) {
-			if (emailParams.getName().equals("firstName")) {
-				paramsMap.put(emailParams, account.getFirstName());
-			} else if (emailParams.getName().equals("lastName")) {
-				paramsMap.put(emailParams, account.getLastName());
-			} else if (emailParams.getName().equals("reductionSum")) {
-				paramsMap.put(emailParams, reductionPower.intValue() + "");
-			} else if (emailParams.getName().equals("actionTable")) {
-				paramsMap.put(emailParams, actionString);
-			} else if (emailParams.getName().equals("personal_access_url")) {
-				if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
-					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.nl"));
-				} else {
-					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.default"));
-				}
-			}
-		}
+        /****************************/
+        /* add unselected actions to perform calculation */
 
-		emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap, account.getLanguage(),emailsToCC);
+        // Validate incoming DTO
+        List<AnswerDTO> missingActions = new ArrayList<>();
+        try {
+            missingActions = calculationService.validateActions(surveyDTO.getAnswers());
+        } catch (Exception e) {
+            e.printStackTrace();
+            //throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+        }
 
-		//TODO send email to other email addresses
+        surveyDTO.getAnswers().addAll(missingActions);
 
-	}
+        //create action list
+        List<ReductionDTO> reductionDTOs = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
+        Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
+        //convert action to string
+        String actionString = emailController.generateActionsTable(account);
+
+        HashMap<EmailParams, String> paramsMap = new HashMap<>();
+
+        for (EmailParams emailParams : EmailEnum.SUMMARY.getExpectedParams()) {
+            if (emailParams.getName().equals("firstName")) {
+                paramsMap.put(emailParams, account.getFirstName());
+            } else if (emailParams.getName().equals("lastName")) {
+                paramsMap.put(emailParams, account.getLastName());
+            } else if (emailParams.getName().equals("reductionSum")) {
+                paramsMap.put(emailParams, reductionPower.intValue() + "");
+            } else if (emailParams.getName().equals("actionTable")) {
+                paramsMap.put(emailParams, actionString);
+            } else if (emailParams.getName().equals("personal_access_url")) {
+                if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
+                    paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.nl"));
+                } else {
+                    paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.default"));
+                }
+            }
+        }
+
+        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap, account.getLanguage(), emailsToCC);
+    }
 
 }
