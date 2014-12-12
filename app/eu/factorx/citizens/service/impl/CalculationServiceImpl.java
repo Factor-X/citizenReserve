@@ -528,31 +528,29 @@ public class CalculationServiceImpl implements CalculationService {
 
 		//
 		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue());
-		Double GlobalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
 
 		play.Logger.debug("Number of days : " + reductionDaysNumber.intValue());
+
+		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
 
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3720).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3720).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
+
+				if ( maxDays.intValue() >= (day.ordinal()+1) ) {
+
 					// YES to 3720 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
 					localResult.setSecondPeriodPowerReduction(ZERO);
 					localResult.setThirdPeriodPowerReduction(ZERO);
 				} else {
-					if ((day.ordinal()+1) > GlobalActionDaysNumber) {
 						//play.Logger.debug("DAY: " + day.name() + " set to value ");
 						localResult.setFirstPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1140).getFirstPeriodPowerReduction());
 						localResult.setSecondPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1140).getSecondPeriodPowerReduction());
 						localResult.setThirdPeriodPowerReduction(potentialReductionDetails.get(QuestionCode.Q1140).getThirdPeriodPowerReduction());
-					} else {
-						localResult.setFirstPeriodPowerReduction(ZERO);
-						localResult.setSecondPeriodPowerReduction(ZERO);
-						localResult.setThirdPeriodPowerReduction(ZERO);
-					}
 				}
 			} else {
 				// NO to 3720
