@@ -10,8 +10,11 @@
                     #foreach ($questionCode in $mapEntry.value)
                         <li>
 
-                            #set ($questionTransductionName = ${questionCode} + ".label")
+                            #set ($questionTransductionName = ${questionCode.getLeft()} + ".label")
                             $translationHelper.getMessage($questionTransductionName)
+                            #if( $questionCode.getRight() )
+                                ${questionCode.getRight()}
+                            #end
 
                         </li>
                     #end

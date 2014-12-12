@@ -10,9 +10,11 @@ import eu.factorx.citizens.model.technical.AbstractEntity;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SurveyServiceImpl implements SurveyService {
@@ -80,9 +82,9 @@ public class SurveyServiceImpl implements SurveyService {
      * value : a list of the question name reference
      */
     @Override
-    public HashMap<TopicEnum, List<String>> getActionsForSummaryEmail(Account account) {
+    public HashMap<TopicEnum, List<Pair<String, String>>> getActionsForSummaryEmail(Account account) {
 
-        HashMap<TopicEnum, List<String>> result = new HashMap<>();
+        HashMap<TopicEnum, List<Pair<String, String>>> result = new LinkedHashMap<>();
 
         //load my survey
         Survey survey = findValidSurveyByAccount(account);
@@ -92,25 +94,40 @@ public class SurveyServiceImpl implements SurveyService {
         }
 
         //loading by topic
-        for (Answer answer : survey.getAnswers()) {
-            for (TopicEnum topicEnum : TopicEnum.values()) {
-                for (String questionCode : topicEnum.getQuestionCodeList()) {
+
+        for (TopicEnum topicEnum : TopicEnum.values()) {
+            for (String questionCode : topicEnum.getQuestionCodeList()) {
+                for (Answer answer : survey.getAnswers()) {
                     if (answer.getQuestionCode().name().equals(questionCode)) {
 
 
                         if (answer.getAnswerValues().size() > 0) {
-                            if (!result.containsKey(topicEnum)) {
-                                result.put(topicEnum, new ArrayList<String>());
-                            }
                             for (AnswerValue answerValue : answer.getAnswerValues()) {
 
                                 //if the answer is boolean, expect true
                                 if (answerValue.getBooleanValue() != null && answerValue.getBooleanValue()) {
-                                    result.get(topicEnum).add(questionCode);
+
+                                    if (!result.containsKey(topicEnum)) {
+                                        result.put(topicEnum, new ArrayList<Pair<String, String>>());
+                                    }
+
+                                    result.get(topicEnum).add(Pair.of(questionCode, (String) null));
                                 }
-                                //if the answer is a number, expect more than 0
-                                else if (answerValue.getDoubleValue() != null && answerValue.getDoubleValue() > 0) {
-                                    result.get(topicEnum).add(questionCode);
+                                //specific management
+                                if (questionCode.equals(QuestionCode.Q3711.name()) ||
+                                        questionCode.equals(QuestionCode.Q3740.name()) ||
+                                        questionCode.equals(QuestionCode.Q3741.name()) ||
+                                        questionCode.equals(QuestionCode.Q3631.name()) ||
+                                        questionCode.equals(QuestionCode.Q3211.name())) {
+                                    if (!answerValue.getStringValue().equals("0")) {
+
+                                        if (!result.containsKey(topicEnum)) {
+                                            result.put(topicEnum, new ArrayList<Pair<String, String>>());
+                                        }
+
+                                        result.get(topicEnum).add(Pair.of(questionCode, answerValue.getStringValue()));
+
+                                    }
                                 }
                                 //stop after 1 loop => only on answerValue by answer
                                 break;

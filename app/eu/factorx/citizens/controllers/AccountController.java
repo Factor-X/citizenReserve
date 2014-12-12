@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * Created by florian on 20/11/14.
+ * account controller
  */
 public class AccountController extends AbstractController {
 
@@ -54,7 +55,7 @@ public class AccountController extends AbstractController {
         Account account = securedController.getCurrentUser();
 
         //control password
-        if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
+        if (!accountService.controlPassword(dto.getOldPassword(), account)) {
             throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
         }
 
@@ -87,7 +88,7 @@ public class AccountController extends AbstractController {
         Account account = securedController.getCurrentUser();
 
         //control password
-        if (accountService.controlPassword(dto.getOldPassword(), account) == false) {
+        if (!accountService.controlPassword(dto.getOldPassword(), account)) {
             throw new MyRuntimeException(BusinessErrorType.WRONG_OLD_PASSWORD);
         }
 
@@ -102,11 +103,6 @@ public class AccountController extends AbstractController {
     }
 
 
-    /**
-     * return survey if the user is connected
-     *
-     * @return
-     */
     @Transactional
     @Security.Authenticated(SecuredController.class)
     public Result testAuthentication() {
@@ -220,11 +216,9 @@ public class AccountController extends AbstractController {
         }
 
         //test if the account is already create
-        Account account = null;
-
         //create new account
         //control email
-        account = accountService.findByEmail(dto.getAccount().getEmail());
+        Account account = accountService.findByEmail(dto.getAccount().getEmail());
 
         if (account != null) {
             throw new MyRuntimeException(BusinessErrorType.EMAIL_ALREADY_USED, account.getEmail());
@@ -259,7 +253,6 @@ public class AccountController extends AbstractController {
         //save account into context
         securedController.storeIdentifier(account);
 
-        //TODO return summary
         return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
     }
@@ -294,6 +287,9 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
+        //send email
+        sendSummaryEmail(account, dto);
+
         return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 
     }
@@ -306,11 +302,12 @@ public class AccountController extends AbstractController {
         /****************************/
         /* add unselected actions to perform calculation */
 
-        // Validate incoming DTO - TODO
-        List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
+        // Validate incoming DTO
+        List<AnswerDTO> missingActions = new ArrayList<>();
         try {
             missingActions = calculationService.validateActions(surveyDTO.getAnswers());
         } catch (Exception e) {
+            e.printStackTrace();
             //throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
         }
 
@@ -343,9 +340,6 @@ public class AccountController extends AbstractController {
         }
 
         emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap, account.getLanguage(), emailsToCC);
-
-        //TODO send email to other email addresses
-
     }
 
 }
