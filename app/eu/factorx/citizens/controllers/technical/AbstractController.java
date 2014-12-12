@@ -38,7 +38,12 @@ public abstract class AbstractController extends Controller {
 
         //control dto
         try {
-            validation(DTOclass, dto, securedController.getCurrentUser().getLanguage());
+            if(securedController.isAuthenticated()) {
+                validation(DTOclass, dto, securedController.getCurrentUser().getLanguage());
+            }
+            else{
+                validation(DTOclass, dto, LanguageEnum.getDefaultLanguage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyRuntimeException(BusinessErrorType.FATAL_ERROR, e.getMessage());

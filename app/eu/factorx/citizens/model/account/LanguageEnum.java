@@ -9,9 +9,14 @@ public enum LanguageEnum {
     NEERDERLANDS("nl");
 
     private String abrv;
+    private static LanguageEnum defaultLanguage;
 
     LanguageEnum(String abrv) {
         this.abrv = abrv;
+    }
+
+    public static LanguageEnum getDefaultLanguage() {
+        return LanguageEnum.FRANCAIS;
     }
 
     public String getAbrv() {
