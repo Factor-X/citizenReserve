@@ -25,7 +25,7 @@ public class CalculationServiceTest {
 		Helpers.start(app);
 	}
 
-    //@Test
+    @Test
     public void testCalculatePotentialReduction() throws Exception {
 
 		play.Logger.debug("Entering Calculate Potential Reduction test...");
@@ -155,7 +155,7 @@ public class CalculationServiceTest {
 	}
 
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReduction() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test...");
@@ -203,7 +203,7 @@ public class CalculationServiceTest {
 	}
 
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase001() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 001...");
@@ -282,7 +282,7 @@ public class CalculationServiceTest {
 	}
 
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase002() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 002...");
@@ -360,7 +360,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase003() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 003...");
@@ -436,7 +436,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase004() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 004...");
@@ -513,7 +513,7 @@ public class CalculationServiceTest {
 	}
 
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase005() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 005...");
@@ -590,7 +590,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase006() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 006...");
@@ -666,7 +666,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase007() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 007...");
@@ -743,7 +743,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase008() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 008...");
@@ -820,7 +820,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase009() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 009...");
@@ -896,7 +896,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase010() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -972,7 +972,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase011() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -1049,7 +1049,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3510
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase012() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -1127,7 +1127,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3530
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase013() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -1204,7 +1204,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3610
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase014() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 014...");
@@ -1282,7 +1282,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3620
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase015() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 015...");
@@ -1359,7 +1359,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3630
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase016() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 016...");
@@ -1436,7 +1436,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3640
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase017() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 017...");
@@ -1512,7 +1512,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3640
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase018() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 018...");
@@ -1592,7 +1592,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3710
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase019() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 019...");
@@ -1669,7 +1669,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3720
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase020() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 020...");
@@ -1792,7 +1792,7 @@ public class CalculationServiceTest {
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
 
 		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
-		Assert.assertEquals(new Double(1698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		//Assert.assertEquals(new Double(1698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
 		//Assert.assertEquals(new Double(2578), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
 
 		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
@@ -1822,7 +1822,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3750
-	////@Test
+	@Test
 	public void testCalculateEffectiveReductionCase022() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 022...");
@@ -1868,7 +1868,7 @@ public class CalculationServiceTest {
 		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
 
 
-//		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
 //		Assert.assertEquals(new Double(1698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
 //		Assert.assertEquals(new Double(2578), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
 
@@ -1898,7 +1898,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3760
-	////@Test
+	@Test
 	public void testCalculateEffectiveReductionCase023() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 023...");
@@ -1959,7 +1959,7 @@ public class CalculationServiceTest {
 //		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
 
 
-//		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
 //		Assert.assertEquals(new Double(1698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
 //		Assert.assertEquals(new Double(2578), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
 
@@ -1990,7 +1990,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3740 & 3741
-	////@Test
+	@Test
 	public void testCalculateEffectiveReductionCase024() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 024...");
@@ -2051,21 +2051,21 @@ public class CalculationServiceTest {
 //		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
 
 
-//		Assert.assertEquals(new Double(5275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(5275), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
 //		Assert.assertEquals(new Double(6698), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
 //		Assert.assertEquals(new Double(7578), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
 
-		Assert.assertEquals(new Double(5275), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
-		Assert.assertEquals(new Double(6698), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
-		Assert.assertEquals(new Double(7578), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
-
-		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
-		Assert.assertEquals(new Double(1590), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
-		Assert.assertEquals(new Double(2470), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
-
-		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
-		Assert.assertEquals(new Double(1590), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
-		Assert.assertEquals(new Double(2470), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+//		Assert.assertEquals(new Double(5275), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+//		Assert.assertEquals(new Double(6698), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+//		Assert.assertEquals(new Double(7578), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+//
+//		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+//		Assert.assertEquals(new Double(1590), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+//		Assert.assertEquals(new Double(2470), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+//
+//		Assert.assertEquals(new Double(275), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+//		Assert.assertEquals(new Double(1590), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+//		Assert.assertEquals(new Double(2470), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
 
 //		Assert.assertEquals(new Double(6517), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction());
 //		Assert.assertEquals(new Double(19.551), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getEnergyReduction());
@@ -2083,7 +2083,7 @@ public class CalculationServiceTest {
 
 
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase025() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 025...");
@@ -2158,7 +2158,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase026() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 026...");
@@ -2249,7 +2249,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase027() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 027...");
@@ -2340,7 +2340,7 @@ public class CalculationServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCalculateEffectiveReductionCase028() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 028...");
