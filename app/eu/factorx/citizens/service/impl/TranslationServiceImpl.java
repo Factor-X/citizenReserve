@@ -1,7 +1,9 @@
 package eu.factorx.citizens.service.impl;
 
 import eu.factorx.citizens.Global;
+import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.service.TranslationService;
+import eu.factorx.citizens.util.BusinessErrorType;
 import play.Logger;
 
 /**
@@ -24,5 +26,11 @@ public class TranslationServiceImpl implements TranslationService {
             }
         }
         return null;
+    }
+
+    @Override
+    public String getTranslation(BusinessErrorType errorType, LanguageEnum language, String... params) {
+
+        return getTranslation(errorType.getMessageReference(),language.getAbrv(),params);
     }
 }

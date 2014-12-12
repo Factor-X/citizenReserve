@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.controllers.technical.SecuredController;
 import eu.factorx.citizens.converter.AccountToAccountDTOConverter;
 import eu.factorx.citizens.converter.SurveyToSurveyDTOConverter;
@@ -43,7 +44,6 @@ public class AccountController extends AbstractController {
     private SurveyToSurveyDTOConverter surveyToSurveyDTOConverter = new SurveyToSurveyDTOConverter();
     //controller
     private SurveyController surveyController = new SurveyController();
-    private SecuredController securedController = new SecuredController();
     private EmailController emailController = new EmailController();
 
     @Transactional

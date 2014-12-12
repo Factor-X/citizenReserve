@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.TopicEnum;
@@ -17,7 +18,6 @@ import eu.factorx.citizens.util.email.service.EmailService;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import org.apache.commons.lang3.tuple.Pair;
 import play.Configuration;
-import play.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
