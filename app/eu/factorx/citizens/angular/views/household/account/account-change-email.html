@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
 
-    <cr-question label="account.info.oldPassword">
+    <cr-question label="account.info.currentPassword">
         <cr-text ng-model="o.oldPassword" type="password" name="password"
                  ng-validation="validation.oldPassword"></cr-text>
         <p class="cr-error" ng-show="validation.oldPassword.valid == false && noSubmitYet == false" ng-bind-html="'account.errorMessage.password' | translate"></p>
