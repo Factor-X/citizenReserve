@@ -39,7 +39,6 @@ angular
         for opt in list
             optionList.push {value: cleanKey(questionKey, opt), label: opt}
 
-
         optionList = _.sortBy(optionList, (item) ->
             return parseFloat(item.value)
         )
@@ -49,11 +48,7 @@ angular
             label: null
         })
 
-
         options[questionKey] = optionList
-
-        console.log "OPTION LISt : " + questionKey
-        console.log optionList
 
         return optionList
 

@@ -86,4 +86,12 @@ angular
                     return false
         return true
 
+    @getAveragePotentialPowerReduction = ->
+        downloadService.postJson '/reduction/potential', @surveyDTO, (result) ->
+            if result.success
+                return $filter("number") parseFloat(result.data.potentialReduction.averagePowerReduction), 0
+            return
+        return
+
+
     return

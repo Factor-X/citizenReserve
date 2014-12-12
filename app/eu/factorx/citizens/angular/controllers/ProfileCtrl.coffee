@@ -16,15 +16,37 @@ angular
     $scope.profileCompleted = false
     $scope.potentialReduction = null
 
+    $scope.onLoad = ->
+        updateTopicState(topic)
+        updateProfileState()
+        if $scope.profileCompleted
+            $scope.potentialReduction = surveyDTOService.getAveragePotentialPowerReduction()
+
     $scope.onTopicClose = (topic) ->
-        console.log("onTopicClose: " + topic)
-        topic.completed = isTopicCompleted(topic)
-        if topic.completed
-            $scope.profileCompleted = isProfileCompleted()
-            if $scope.profileCompleted
-               $scope.getPotentialReduction()
         if surveyDTOService.isAuthenticated()
             surveyDTOService.saveSurvey()
+        updateTopicState(topic)
+        updateProfileState()
+        if $scope.profileCompleted
+            $scope.potentialReduction = surveyDTOService.getAveragePotentialPowerReduction()
+
+    updateTopicState = (topic) ->
+        completed = true
+        for questionKey in topic.questions
+            if !surveyDTOService.isQuestionCompleted(questionKey)
+                completed = false
+                break
+        topic.completed = completed
+        return
+
+    updateProfileState = () ->
+        completed = true
+        for topicKey of $scope.topics
+            if !$scope.topics[topicKey].completed
+                completed = false
+                break
+        $scope.profileCompleted = completed
+        return
 
     $scope.openModal = (target, controller = 'ModalTopicCtrl') ->
         modalService.open({
@@ -32,29 +54,4 @@ angular
             controller: controller,
             size: 'lg'
         })
-
-    isTopicCompleted = (topic) ->
-        res = true
-        for questionKey in topic.questions
-            if !surveyDTOService.isQuestionCompleted(questionKey)
-                res = false
-                break
-        return res
-
-    isProdileCompleted = () ->
-        res = true
-        for topic of $scope.topics
-            if !topic.completed
-                res = false
-                break
-        console.log("isProfileCompleted = " + res)
-        $scope.isCompleted = res
-        return res
-
-    $scope.getPotentialReduction = ->
-        downloadService.postJson '/reduction/potential', surveyDTOService.surveyDTO, (result) ->
-            if result.success
-                $scope.potentialReduction = $filter("number") parseFloat(result.data.potentialReduction.averagePowerReduction), 0
-
-    $scope.getPotentialReduction()
 

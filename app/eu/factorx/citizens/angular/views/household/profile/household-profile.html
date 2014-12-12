@@ -89,10 +89,10 @@
         <div class="row">
 
             <div class="col-md-12">
-                <div class="col-md-12" ng-hide="isCompleted">
+                <div class="col-md-12" ng-hide="profileCompleted">
                     <h3 class="cr-outro" ng-bind-html="'profile.outro_1' | translate"></h3>
                 </div>
-                <div class="col-md-12" ng-show="isCompleted">
+                <div class="col-md-12" ng-show="profileCompleted">
                     <h3 ng-bind-html="'profile.result' | translate | params:[potentialReduction]"></h3>
                     <p class="cr-outro" ng-bind-html="'profile.outro_2' | translate"></p>
                 </div>
@@ -112,7 +112,7 @@
 
 
                 <button ui-sref="root.householdActions"
-                        ng-disabled="!isCompleted"
+                        ng-disabled="!profileCompleted"
                         class="cr-mega-button pull-right">
                     <span ng-bind-html="'nav.to-actions' | translate"></span>
                     <span>&nbsp;</span>

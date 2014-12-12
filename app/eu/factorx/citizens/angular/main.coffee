@@ -76,7 +76,7 @@ angular
     .state 'root.householdProfile',
         url: '/household-profile'
         templateUrl: '$/angular/views/household/profile/household-profile.html'
-        controller: 'FormCtrl'
+        controller: 'ProfileCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
     .state 'root.householdActions',
         url: '/household-actions'
