@@ -3,6 +3,7 @@ package eu.factorx.citizens;
 import akka.actor.Cancellable;
 import eu.factorx.citizens.dto.technical.ExceptionsDTO;
 import eu.factorx.citizens.service.impl.BatchServiceImpl;
+import eu.factorx.citizens.service.impl.CleanupServiceImpl;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -122,6 +123,20 @@ public class Global extends GlobalSettings {
 				Duration.create(24, TimeUnit.HOURS),
 				new Runnable() {
 					public void run() {
+
+						try {
+							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+							Date date = new Date();
+							Logger.info("Cleanup Batch Started @" + dateFormat.format(date));
+							// run batch here
+							new CleanupServiceImpl().run();
+							date = new Date();
+							Logger.info("Cleanup Batch Ended @" + dateFormat.format(date));
+
+						} catch (Exception e) {
+							Logger.info("Cleanup batch exception...", e);
+						}
+
 						try {
 							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 							Date date = new Date();

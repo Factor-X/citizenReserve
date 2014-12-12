@@ -12,7 +12,12 @@ public enum BusinessErrorType {
     EMAIL_FATAL_ERROR("email_fatal_error"), //email cannot be send for a unknown error
     NOT_CONNECTED("not_connected"),  // you are not connected => wrong authentication
     WRONG_RIGHT("wrong_right"),
-    DATA_NOT_FOUND("data_not_found");
+    DATA_NOT_FOUND("data_not_found"),
+    VALIDATION_PATTERN("validation_pattern"),
+    VALIDATION_SIZE("validation_size"),
+    VALIDATION_NOT_NULL("validation_not_null"),
+    DTO_VERIFICATION_PATTERN_STRING_EXPECTED("dto_verification_pattern_string_expected"),
+    FATAL_ERROR("fatal_error");
 
     private String messageReference;
 
