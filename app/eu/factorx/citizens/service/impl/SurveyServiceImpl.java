@@ -35,6 +35,15 @@ public class SurveyServiceImpl implements SurveyService {
                 .findList();
     }
 
+	@Override
+	public List<Survey> findDeletedSurveysByAccountLastDeletedFirst(Account account)
+	{
+		return Ebean.find(Survey.class)
+			.where().eq("account", account).isNotNull(AbstractEntity.DELETION_DATE)
+			.orderBy(AbstractEntity.DELETION_DATE + " DESC")
+			.findList();
+	}
+
     public Survey findValidSurveyByAccount(Account account) {
         List<Survey> list = Ebean.createNamedQuery(Survey.class, Survey.FIND_VALID_BY_ACCOUNT)
                 .setParameter(Survey.COL_ACCOUNT, account.getId())
