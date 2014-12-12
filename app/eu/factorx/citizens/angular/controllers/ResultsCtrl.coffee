@@ -1,7 +1,6 @@
 angular
 .module('app.controllers')
 .controller "ResultsCtrl", ($scope, modalService, $filter, $log, downloadService, surveyDTOService) ->
-
     $scope.isAuthenticated = ->
         return surveyDTOService.isAuthenticated()
 
@@ -45,12 +44,12 @@ angular
             v3 = result.data.reductions[0].thirdPeriodPowerReduction
 
             result = regression('polynomial', [
-                [17,v1],
-                [18,v1],
-                [18,v2],
-                [19,v2],
-                [19,v3],
-                [20,v3]
+                [17, v1],
+                [18, v1],
+                [18, v2],
+                [19, v2],
+                [19, v3],
+                [20, v3]
             ], 2)
 
 
@@ -82,6 +81,7 @@ angular
     $scope.effectiveAverageReduction = null
     $scope.totalEffectiveAverageReduction = null
 
+
     $scope.getNbSurveys = ->
         downloadService.getJson '/stats/nbSurveys', (result) ->
             if result.success
@@ -93,8 +93,9 @@ angular
         downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 $scope.effectiveReduction = result.data
-                if (!! $scope.effectiveReduction)
-                    $scope.effectiveAverageReduction = $filter("number") parseFloat($scope.effectiveReduction.reductions[0].averagePowerReduction), 0
+                if (!!$scope.effectiveReduction)
+                    ear = $scope.effectiveReduction.reductions[0]
+                    $scope.effectiveAverageReduction = $filter('number')(parseFloat(ear.averagePowerReduction), 0)
             else
                 console.log(result.data)
 
@@ -103,7 +104,8 @@ angular
             if result.success
                 summaryResult = result.data
                 if (!!summaryResult)
-                    $scope.totalEffectiveAverageReduction = $filter("number") (parseFloat(summaryResult.effectiveReduction)/1000), 0
+                    ear = parseFloat(summaryResult.effectiveReduction)
+                    $scope.totalEffectiveAverageReduction = $filter('number')(ear / 1000.0, 0)
             else
                 console.log(result.data)
 
