@@ -1,5 +1,6 @@
 package eu.factorx.citizens.controllers;
 
+import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.converter.BatchSetToBatchSetDTOConverter;
 import eu.factorx.citizens.dto.SummaryResultDTO;
 import eu.factorx.citizens.model.batch.BatchResultItem;

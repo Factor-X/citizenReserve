@@ -1,10 +1,11 @@
 package eu.factorx.citizens.dto;
 
 import eu.factorx.citizens.dto.technical.DTO;
+import eu.factorx.citizens.dto.technical.verification.NotNull;
+import eu.factorx.citizens.dto.technical.verification.Pattern;
+import eu.factorx.citizens.dto.technical.verification.Size;
 import play.data.validation.Constraints;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class AccountDTO extends DTO {
     @Size(min = 2, max = 100)
     private String lastName;
 
-    @Constraints.Email
+    @Pattern(regexp = Pattern.EMAIL)
     private String email;
 
     @Size(min = 6, max = 18)
@@ -34,6 +35,7 @@ public class AccountDTO extends DTO {
 
     private boolean sensitizationKit;
 
+    @NotNull
     private String languageAbrv;
 
     @NotNull
