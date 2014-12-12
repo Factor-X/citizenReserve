@@ -239,7 +239,7 @@ public class CalculationServiceImpl implements CalculationService {
 		effectiveReductionDetails = calculateEffectiveReductionDetails(surveyAnswers, potentialReductionDetails, potentialReductionSummary);
 		effectiveReductionSummary = calculateEffectiveSummary(effectiveReductionDetails);
 
-		//dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
+		dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
 
 		return effectiveReductionSummary;
 	}
@@ -536,9 +536,9 @@ public class CalculationServiceImpl implements CalculationService {
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
-					// YES to 3730 and day is one of the repeat actions one
+			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3720).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3720).get(Period.FIRST).getBooleanValue()) )) {
+				if ( ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
+					// YES to 3720 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
 					localResult.setSecondPeriodPowerReduction(ZERO);
@@ -556,7 +556,7 @@ public class CalculationServiceImpl implements CalculationService {
 					}
 				}
 			} else {
-				// NO to 3730
+				// NO to 3720
 				localResult.setFirstPeriodPowerReduction(ZERO);
 				localResult.setSecondPeriodPowerReduction(ZERO);
 				localResult.setThirdPeriodPowerReduction(ZERO);
@@ -587,7 +587,7 @@ public class CalculationServiceImpl implements CalculationService {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+				if ( ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
@@ -635,7 +635,7 @@ public class CalculationServiceImpl implements CalculationService {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()!=null))
-					&& ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+					&& ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
 				// YES to 3740
 				localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
 				localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
@@ -673,7 +673,7 @@ public class CalculationServiceImpl implements CalculationService {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3750).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3750).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+				if ( ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
@@ -722,7 +722,7 @@ public class CalculationServiceImpl implements CalculationService {
 			ReductionDTO localResult = new ReductionDTO();
 
 			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3760).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3760).get(Period.FIRST).getBooleanValue()) )) {
-				if ( ((day.ordinal()+1) <= reductionDaysNumber.intValue()) ) {
+				if ( ((day.ordinal()+1) < reductionDaysNumber.intValue()) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
