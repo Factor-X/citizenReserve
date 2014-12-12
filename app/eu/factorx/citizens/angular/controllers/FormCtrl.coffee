@@ -94,13 +94,15 @@ angular
 
 
     $scope.effectiveAverageReduction = null
+    $scope.formattedEffectiveAverageReduction = null
 
     $scope.getEffectiveReduction = ->
         downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
             if result.success
                 effectiveReduction = result.data
                 if (!!effectiveReduction)
-                    $scope.effectiveAverageReduction = $filter("number") parseFloat(effectiveReduction.reductions[0].averagePowerReduction), 0
+                    $scope.effectiveAverageReduction = parseFloat(effectiveReduction.reductions[0].averagePowerReduction)
+                    $scope.formattedEffectiveAverageReduction = $filter("number") $scope.effectiveAverageReduction, 0
             else
                 console.log(result.data)
             return
