@@ -25,7 +25,7 @@ public class CalculationServiceTest {
 		Helpers.start(app);
 	}
 
-    @Test
+    //Test
     public void testCalculatePotentialReduction() throws Exception {
 
 		play.Logger.debug("Entering Calculate Potential Reduction test...");
@@ -154,8 +154,63 @@ public class CalculationServiceTest {
 		return answersDTOs;
 	}
 
+	private List<AnswerDTO> buildSampleConsumerProfile003() {
+		List<AnswerDTO> answersDTOs = new ArrayList<>();
 
-	@Test
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1300, null, 4d));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1400, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1500, null, "0"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.FIRST, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.SECOND, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1110, Period.THIRD, "0"));
+
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.FIRST, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.SECOND, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1120, Period.THIRD, "0"));
+
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.FIRST, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.SECOND, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1130, Period.THIRD, "0"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1600, null, 0));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1900, null, 0));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1210, null, "0"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.FIRST, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.SECOND, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1160, Period.THIRD, "0"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1220, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1230, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1700, null, "0"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1750, null, "3")); //warning choices are from 0 to 3... and not to 1 to 4 anymore...
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1800, null, 0)); // TODO: 15 (Watt) is not a typical value for this question!!
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q2010, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q2020, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q2030, null, "4"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q2040, null, "4"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1235, null, "0"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.FIRST, "5"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.SECOND, "5"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1140, Period.THIRD, "5"));
+
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.FIRST, "5"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.SECOND, "5"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q1150, Period.THIRD, "5"));
+
+		return answersDTOs;
+	}
+
+
+	//Test
 	public void testCalculateEffectiveReduction() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test...");
@@ -203,7 +258,7 @@ public class CalculationServiceTest {
 	}
 
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase001() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 001...");
@@ -282,7 +337,7 @@ public class CalculationServiceTest {
 	}
 
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase002() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 002...");
@@ -360,7 +415,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase003() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 003...");
@@ -436,7 +491,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase004() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 004...");
@@ -513,7 +568,7 @@ public class CalculationServiceTest {
 	}
 
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase005() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 005...");
@@ -590,7 +645,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase006() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 006...");
@@ -666,7 +721,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase007() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 007...");
@@ -743,7 +798,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase008() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 008...");
@@ -820,7 +875,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase009() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 009...");
@@ -896,7 +951,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase010() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -972,7 +1027,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase011() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -1049,7 +1104,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3510
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase012() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -1127,7 +1182,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3530
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase013() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 010...");
@@ -1204,7 +1259,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3610
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase014() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 014...");
@@ -1282,7 +1337,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3620
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase015() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 015...");
@@ -1359,7 +1414,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3630
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase016() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 016...");
@@ -1436,7 +1491,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3640
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase017() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 017...");
@@ -1512,7 +1567,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3640
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase018() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 018...");
@@ -1592,7 +1647,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3710
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase019() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 019...");
@@ -1669,7 +1724,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3720
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase020() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 020...");
@@ -1746,7 +1801,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3730
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase021() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 021...");
@@ -1822,7 +1877,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3750
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase022() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 022...");
@@ -1898,7 +1953,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3760
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase023() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 023...");
@@ -1990,7 +2045,7 @@ public class CalculationServiceTest {
 	}
 
 	// 3740 & 3741
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase024() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 024...");
@@ -2083,7 +2138,7 @@ public class CalculationServiceTest {
 
 
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase025() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 025...");
@@ -2158,7 +2213,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase026() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 026...");
@@ -2249,7 +2304,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase027() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 027...");
@@ -2340,7 +2395,7 @@ public class CalculationServiceTest {
 
 	}
 
-	@Test
+	//Test
 	public void testCalculateEffectiveReductionCase028() throws Exception {
 
 		play.Logger.debug("Entering Calculate Effective Reduction test Case 028...");
@@ -2432,6 +2487,97 @@ public class CalculationServiceTest {
 	}
 
 
+	@Test
+	public void testCalculateEffectiveReductionCase029() throws Exception {
+
+		play.Logger.debug("Entering Calculate Effective Reduction test Case 029...");
+		List<AnswerDTO> answersDTOs = buildSampleActionsConsumerProfile003();
+
+		// Sortir
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3210, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "0"));
+
+		// Programme et electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3110, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3120, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3130, null, false));
+
+		//Chauffage et eau chaude
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3310, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3320, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3330, null, false));
+
+		//Eclairage & electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3410, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3420, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3510, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3530, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3610, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3620, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3630, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3631, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3640, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3810, null, false));
+
+		//Repas
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3710, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3720, null, true)); // taque de cuisson
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true)); // four
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true)); // micro-onde
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, true)); // bouilloire
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "0"));
+
+		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
+
+		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+
+		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+
+		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+
+		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getEnergyReduction());
+
+	}
+
 
 	private List<AnswerDTO> buildSampleActionsConsumerProfile001() {
 		List<AnswerDTO> answersDTOs = new ArrayList<>();
@@ -2446,6 +2592,14 @@ public class CalculationServiceTest {
 		List<AnswerDTO> answersDTOs = new ArrayList<>();
 
 		answersDTOs = buildSampleConsumerProfile002();
+
+		return answersDTOs;
+	}
+
+	private List<AnswerDTO> buildSampleActionsConsumerProfile003() {
+		List<AnswerDTO> answersDTOs = new ArrayList<>();
+
+		answersDTOs = buildSampleConsumerProfile003();
 
 		return answersDTOs;
 	}

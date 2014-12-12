@@ -134,7 +134,7 @@ public class CalculationServiceImpl implements CalculationService {
 		}
 
 		if ( (byQuestionCodeAndPeriod.get(QuestionCode.Q3711) == null) || (byQuestionCodeAndPeriod.get(QuestionCode.Q3711).get(Period.FIRST).getStringValue() == null)) {
-			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "1"));
+			answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
 		}
 
 		if (byQuestionCodeAndPeriod.get(QuestionCode.Q3720) == null) {
@@ -588,9 +588,9 @@ public class CalculationServiceImpl implements CalculationService {
 			ReductionDTO localResult = new ReductionDTO();
 
 			// chek if Q3730 != null and Q3730 == true
-			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
+			if (((byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()!=null) && (byQuestionCodeAndPeriod.get(QuestionCode.Q3730).get(Period.FIRST).getBooleanValue()) )) {
 
-				if ( ((day.ordinal()+1) <= maxDays.intValue()) ) {
+				if ( maxDays.intValue() >= (day.ordinal()+1) ) {
 					// YES to 3730 and day is one of the repeat actions one
 					//play.Logger.debug("DAY: " + day.name() + " set to ZER0 ");
 					localResult.setFirstPeriodPowerReduction(ZERO);
