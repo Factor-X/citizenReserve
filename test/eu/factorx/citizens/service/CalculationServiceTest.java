@@ -2669,6 +2669,98 @@ public class CalculationServiceTest {
 		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getEnergyReduction());
 
 	}
+
+	@Test
+	public void testCalculateEffectiveReductionCase031() throws Exception {
+
+		play.Logger.debug("Entering Calculate Effective Reduction test Case 031...");
+		List<AnswerDTO> answersDTOs = buildSampleActionsConsumerProfile003();
+
+		// Sortir
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3210, null, true));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3211, null, "1"));
+
+		// Programme et electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3110, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3120, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3130, null, false));
+
+		//Chauffage et eau chaude
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3310, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3320, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3330, null, false));
+
+		//Eclairage & electromenager
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3410, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3420, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3510, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3530, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3610, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3620, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3630, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3631, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3640, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3810, null, false));
+
+		//Repas
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3710, null, false));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3711, null, "0"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3720, null, true)); // taque de cuisson
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3730, null, true)); // four
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3750, null, true)); // micro-onde
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3760, null, true)); // bouilloire
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3740, null, "1"));
+		answersDTOs.add(buildAnswerDTO(QuestionCode.Q3741, null, "1"));
+
+		List<ReductionDTO> effectiveReduction = calculationService.calculateEffectiveReduction(answersDTOs);
+
+		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY1 :" + effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+
+		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY2 :" + effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+
+		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY3 :" + effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+
+		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+		play.Logger.debug(" DAY4 :" + effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+
+		Assert.assertEquals(new Double(10200), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(10200), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(10200), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getFirstPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getSecondPeriodPowerReduction());
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getThirdPeriodPowerReduction());
+
+		Assert.assertEquals(new Double(10200), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(30.6), effectiveReduction.get(ReductionDay.DAY1.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY2.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY3.ordinal()).getEnergyReduction());
+
+		Assert.assertEquals(new Double(9700), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getAveragePowerReduction());
+		Assert.assertEquals(new Double(29.1), effectiveReduction.get(ReductionDay.DAY4.ordinal()).getEnergyReduction());
+
+	}
+
 	
 
 

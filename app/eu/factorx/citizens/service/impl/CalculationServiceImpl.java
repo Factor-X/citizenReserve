@@ -623,8 +623,8 @@ public class CalculationServiceImpl implements CalculationService {
 		Double value = ZERO;
 
 		//
-		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue());
-		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue());
+		Double reductionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3741).get(Period.FIRST).getStringValue()); // combien de jour d'affilé pour 4740
+		Double globalActionDaysNumber = Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3211).get(Period.FIRST).getStringValue()); // combien de jour d'alerte
 
 		Double maxDays = Math.max(reductionDaysNumber,globalActionDaysNumber);
 
@@ -633,18 +633,24 @@ public class CalculationServiceImpl implements CalculationService {
 		for (ReductionDay day : ReductionDay.values()) {
 			ReductionDTO localResult = new ReductionDTO();
 
-			if ( ((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()!=null))
-					&& ((maxDays.intValue() >= (day.ordinal()+1)))
-				) {
-				// YES to 3740
-				localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
-				localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
-				localResult.setThirdPeriodPowerReduction(QuestionCode.Q3740.getNominalPower()*Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
-			} else {
-				// NO to 3740
+			if (globalActionDaysNumber>=(day.ordinal()+1)) {
 				localResult.setFirstPeriodPowerReduction(ZERO);
 				localResult.setSecondPeriodPowerReduction(ZERO);
 				localResult.setThirdPeriodPowerReduction(ZERO);
+			} else {
+				if (((byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue() != null))
+						&& ((maxDays.intValue() >= (day.ordinal() + 1)))
+						) {
+					// YES to 3740
+					localResult.setFirstPeriodPowerReduction(QuestionCode.Q3740.getNominalPower() * Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+					localResult.setSecondPeriodPowerReduction(QuestionCode.Q3740.getNominalPower() * Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+					localResult.setThirdPeriodPowerReduction(QuestionCode.Q3740.getNominalPower() * Double.parseDouble(byQuestionCodeAndPeriod.get(QuestionCode.Q3740).get(Period.FIRST).getStringValue()));
+				} else {
+					// NO to 3740
+					localResult.setFirstPeriodPowerReduction(ZERO);
+					localResult.setSecondPeriodPowerReduction(ZERO);
+					localResult.setThirdPeriodPowerReduction(ZERO);
+				}
 			}
 			// add localResult to return list
 			result.add(day.ordinal(),localResult);
