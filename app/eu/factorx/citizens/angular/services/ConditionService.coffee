@@ -137,9 +137,6 @@ angular
         Q3711: ->
             return testAnswerIsTrue("Q3710", null)
         Q3720: ->
-            console.log("caca")
-            console.log "testAnyAnswerNotEquals('Q1140', '0') = " + testAnyAnswerNotEquals("Q1140", "0")
-            console.log "testAnswerNotEqualsOrNull('Q3711', null, '4') = " + testAnswerNotEqualsOrNull("Q3711", null, "4")
             return testIsNotAlwaysOut() &&
                 testAnyAnswerNotEquals("Q1140", "0") &&
                 testAnswerNotEqualsOrNull("Q3711", null, "4")

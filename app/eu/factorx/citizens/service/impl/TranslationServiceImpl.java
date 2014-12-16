@@ -18,7 +18,6 @@ public class TranslationServiceImpl implements TranslationService {
             if (Global.TRANSLATIONS.get(language).get(key) != null) {
 
                 String content = Global.TRANSLATIONS.get(language).get(key);
-                Logger.error("Founded : "+key+"=>"+content);
                 for (int i = 0; i < params.length; i++) {
                     content = content.replace("{" + i + "}", params[i]);
                 }

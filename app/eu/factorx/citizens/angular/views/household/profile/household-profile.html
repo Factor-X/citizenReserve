@@ -30,8 +30,8 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-green"
                         label="topic.presence.label"
-                        active="{{ topics.presence.completed }}"
-                        ng-callback="onTopicClose(topics.presence)"
+                        active="{{ isTopicCompleted('presence') }}"
+                        ng-callback="onTopicClose('presence')"
                         ></cr-topic>
             </div>
 
@@ -43,8 +43,8 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-blue"
                         label="topic.programs.label"
-                        active="{{ topics.programs.completed }}"
-                        ng-callback="onTopicClose(topics.programs)"
+                        active="{{ isTopicCompleted('programs') }}"
+                        ng-callback="onTopicClose('programs')"
                         ></cr-topic>
             </div>
 
@@ -55,8 +55,8 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-red"
                         label="topic.heating.label"
-                        active="{{ topics.heating.completed }}"
-                        ng-callback="onTopicClose(topics.heating)"
+                        active="{{ isTopicCompleted('heating') }}"
+                        ng-callback="onTopicClose('heating')"
                         ></cr-topic>
             </div>
 
@@ -67,8 +67,8 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-orange"
                         label="topic.lighting.label"
-                        active="{{ topics.lighting.completed }}"
-                        ng-callback="onTopicClose(topics.lighting)"
+                        active="{{ isTopicCompleted('lighting') }}"
+                        ng-callback="onTopicClose('lighting')"
                         ></cr-topic>
             </div>
 
@@ -79,8 +79,8 @@
                         controller="ModalTopicCtrl"
                         window-class="cr-theme-magenta"
                         label="topic.dinner.label"
-                        active="{{ topics.dinner.completed }}"
-                        ng-callback="onTopicClose(topics.dinner)"
+                        active="{{ isTopicCompleted('dinner') }}"
+                        ng-callback="onTopicClose('dinner')"
                         ></cr-topic>
             </div>
 
@@ -89,11 +89,11 @@
         <div class="row">
 
             <div class="col-md-12">
-                <div class="col-md-12" ng-hide="profileCompleted">
+                <div class="col-md-12" ng-hide="isProfileCompleted()">
                     <h3 class="cr-outro" ng-bind-html="'profile.outro_1' | translate"></h3>
                 </div>
-                <div class="col-md-12" ng-show="profileCompleted">
-                    <h3 ng-bind-html="'profile.result' | translate | params:[potentialReduction]"></h3>
+                <div class="col-md-12" ng-show="isProfileCompleted()">
+                    <h3 ng-bind-html="'profile.result' | translate | params:[getAveragePotentialPowerReduction()]"></h3>
                     <p class="cr-outro" ng-bind-html="'profile.outro_2' | translate"></p>
                 </div>
             </div>
@@ -110,9 +110,8 @@
                     <span ng-bind-html="'nav.back-to-welcome' | translate"></span>
                 </button>
 
-
                 <button ui-sref="root.householdActions"
-                        ng-disabled="!profileCompleted"
+                        ng-disabled="!isProfileCompleted()"
                         class="cr-mega-button pull-right">
                     <span ng-bind-html="'nav.to-actions' | translate"></span>
                     <span>&nbsp;</span>

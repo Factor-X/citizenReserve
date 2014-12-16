@@ -1,14 +1,17 @@
 # simple download service
 angular
 .module('app.services')
-.service "surveyDTOService", (downloadService, $flash) ->
-
+.service "surveyDTOService", (downloadService, $flash, $filter) ->
     @surveyDTO = {
-        account:{
-            otherEmailAddresses:[]
+        account:
+        {
+            otherEmailAddresses: []
         }
         answers: []
     }
+
+    potentialPowerReduction = null
+    effectivePowerReduction = null
 
     @createPreAccount = (accountType) ->
         @surveyDTO.account.accountType = accountType
@@ -24,13 +27,14 @@ angular
 
     @logout = () ->
         @surveyDTO = {
-            account:{
-                otherEmailAddresses:[]
+            account:
+            {
+                otherEmailAddresses: []
             }
             answers: []
         }
 
-    @setAccount =(account) ->
+    @setAccount = (account) ->
         @surveyDTO.account.id = account.id
 
     @hasAccountType = ()->
@@ -71,13 +75,6 @@ angular
 
         return answerValue
 
-    @saveSurvey = ->
-        downloadService.postJson '/survey/update', @surveyDTO, (result) ->
-            if result.success
-                $flash.success 'account.save.success'
-            else
-                $flash.error result.data.message
-
     @isQuestionCompleted = (questionKey) ->
         answers = @getAnswers(questionKey)
         if answers.length == 0
@@ -88,12 +85,43 @@ angular
                     return false
         return true
 
-    @getAveragePotentialPowerReduction = ->
+    @saveSurvey = ->
+        downloadService.postJson '/survey/update', @surveyDTO, (result) ->
+            if result.success
+                $flash.success 'account.save.success'
+            else
+                console.error("saveSurvey() thrown error: ", result.data)
+
+    @updatePotentialPowerReduction = ->
         downloadService.postJson '/reduction/potential', @surveyDTO, (result) ->
             if result.success
-                return $filter("number") parseFloat(result.data.potentialReduction.averagePowerReduction), 0
-            return
-        return
+                # ReductionDTO
+                potentialPowerReduction = result.data
+            else
+                console.error("updatePotentialPowerReduction() thrown error: ", result.data)
 
+    @updateEffectivePowerReduction = ->
+        downloadService.postJson '/reduction/effective', @surveyDTO, (result) ->
+            if result.success
+                # EffectiveReductionDTO
+                effectivePowerReduction = result.data
+            else
+                console.error("updateEffectivePowerReduction() thrown error: ", result.data)
+
+    #
+    # get average 'potential' power reduction, i.e. the average power consumption (based on consumer profile) between 17:00 and 20:00
+    #
+    @getAveragePotentialPowerReduction = ->
+        if !!potentialPowerReduction
+            return parseFloat(potentialPowerReduction.averagePowerReduction)
+        return null
+
+    #
+    # get average 'effective' power reduction, i.e. the average power reserve (based on consumer actions) between 17:00 and 20:00 (first day)
+    #
+    @getAverageEffectivePowerReduction = ->
+        if !!effectivePowerReduction
+            return parseFloat(effectivePowerReduction.reductions[0].averagePowerReduction)
+        return null
 
     return

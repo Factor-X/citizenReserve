@@ -81,7 +81,7 @@ angular
     .state 'root.householdActions',
         url: '/household-actions'
         templateUrl: '$/angular/views/household/actions/household-actions.html'
-        controller: 'FormCtrl'
+        controller: 'ActionsCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
     .state 'root.householdResults',
         url: '/household-results'
