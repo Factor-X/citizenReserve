@@ -2,13 +2,10 @@
 angular
 .module('app.services')
 .service "surveyDTOService", (downloadService, $flash, $filter) ->
-    @surveyDTO = {
+    @surveyDTO =
         account:
-        {
             otherEmailAddresses: []
-        }
         answers: []
-    }
 
     potentialPowerReduction = null
     effectivePowerReduction = null
@@ -26,13 +23,10 @@ angular
         return (@surveyDTO.account.id? && @surveyDTO.account.id != null)
 
     @logout = () ->
-        @surveyDTO = {
+        @surveyDTO =
             account:
-            {
                 otherEmailAddresses: []
-            }
             answers: []
-        }
 
     @setAccount = (account) ->
         @surveyDTO.account.id = account.id
