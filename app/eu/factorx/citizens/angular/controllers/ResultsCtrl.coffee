@@ -4,6 +4,10 @@ angular
     $scope.isAuthenticated = ->
         return surveyDTOService.isAuthenticated()
 
+    $scope.nbSurveys = null
+    $scope.effectiveAverageReduction = null
+    $scope.totalEffectiveAverageReduction = null
+
     $scope.options =
         chart:
             type: 'lineChart',
@@ -38,6 +42,8 @@ angular
 
     downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
         if result.success
+
+            $scope.effectiveAverageReduction = $filter('number')(parseFloat(result.data.reductions[0].averagePowerReduction), 0)
 
             v1 = result.data.reductions[0].firstPeriodPowerReduction
             v2 = result.data.reductions[0].secondPeriodPowerReduction
@@ -77,27 +83,6 @@ angular
                 }
             ];
 
-    $scope.nbSurveys = null
-    $scope.effectiveAverageReduction = null
-    $scope.totalEffectiveAverageReduction = null
-
-
-    $scope.getNbSurveys = ->
-        downloadService.getJson '/stats/nbSurveys', (result) ->
-            if result.success
-                $scope.nbSurveys = result.data.value
-            else
-                console.log(result.data)
-
-    $scope.getEffectiveReduction = ->
-        downloadService.postJson '/reduction/effective', surveyDTOService.surveyDTO, (result) ->
-            if result.success
-                $scope.effectiveReduction = result.data
-                if (!!$scope.effectiveReduction)
-                    ear = $scope.effectiveReduction.reductions[0]
-                    $scope.effectiveAverageReduction = $filter('number')(parseFloat(ear.averagePowerReduction), 0)
-            else
-                console.log(result.data)
 
     $scope.getSummaryResult = ->
         downloadService.getJson '/stats/summaryValues', (result) ->
@@ -106,11 +91,10 @@ angular
                 if (!!summaryResult)
                     ear = parseFloat(summaryResult.effectiveReduction)
                     $scope.totalEffectiveAverageReduction = $filter('number')(ear / 1000.0, 0)
+                    $scope.nbSurveys = summaryResult.nbParticipants
             else
                 console.log(result.data)
 
-    $scope.getEffectiveReduction()
-    $scope.getNbSurveys()
     $scope.getSummaryResult();
 
 
