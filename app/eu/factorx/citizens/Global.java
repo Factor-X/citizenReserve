@@ -118,7 +118,7 @@ public class Global extends GlobalSettings {
         DateTime nextExecution = now.plusDays(1).withHourOfDay(0).withMinuteOfHour(5);
         Logger.info("Next execution of BatchService will occur on " + nextExecution.toString(DateTimeFormat.fullDateTime()));
         org.joda.time.Duration duration = new org.joda.time.Duration(now, nextExecution);
-        Cancellable schedule = Akka.system().scheduler().schedule(
+        Akka.system().scheduler().schedule(
 				Duration.create(duration.getStandardSeconds(), TimeUnit.SECONDS),
 				Duration.create(24, TimeUnit.HOURS),
 				new Runnable() {
