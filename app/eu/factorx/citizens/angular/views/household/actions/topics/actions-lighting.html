@@ -41,14 +41,11 @@
     <cr-question label="Q3630.label" cr-conditioned="Q3630">
         <cr-boolean cr-tootip-on-respond="{key:'Q3630',period:null}"
                     ng-model="getAnswerValue('Q3630').booleanValue"></cr-boolean>
-    </cr-question>
-
-    <cr-section  cr-conditioned="Q3631">
-        <cr-question label="Q3631.label">
+        <cr-question label="Q3631.label" cr-conditioned="Q3631">
             <cr-slider cr-tootip-on-respond="{key:'Q3631',period:null}" ng-model="getAnswerValue('Q3631').stringValue"
                        ng-steps="getNumericOptions('Q3631',1,4,1)"></cr-slider>
         </cr-question>
-    </cr-section>
+    </cr-question>
 
 
     <cr-question label="Q3640.label" cr-conditioned="Q3640">

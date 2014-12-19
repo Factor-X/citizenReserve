@@ -24,6 +24,10 @@ import java.util.List;
  */
 public class BatchResultController extends AbstractController {
 
+	public static final int OLD_VERSION_NB_SURVEYS = 307;
+	public static final int OLD_VERSION_NB_PARTICIPANTS = 935;
+	public static final int OLD_VERSION_REDUCTION = 965525;
+
     //service
     private BatchSetService batchSetService = new BatchSetServiceImpl();
     private SurveyService surveyService = new SurveyServiceImpl();
@@ -75,7 +79,8 @@ public class BatchResultController extends AbstractController {
             }
         }
 
-        return ok(new SummaryResultDTO(nbSurvey, nbParticipants, reduction));
+		// TODO: Incorporate old version accounts
+        return ok(new SummaryResultDTO(OLD_VERSION_NB_SURVEYS + nbSurvey, OLD_VERSION_NB_PARTICIPANTS + nbParticipants, OLD_VERSION_REDUCTION + reduction));
     }
 
 }

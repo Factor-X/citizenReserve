@@ -153,8 +153,7 @@ angular
                 testAnswerNotEquals("Q2040", null, "0") &&
                 testAnswerNotEqualsOrNull("Q3711", null, "4")
         Q3740: ->
-            return testIsNotAlwaysOut() &&
-                testAnswerNotEqualsOrNull("Q3711", null, "4")
+            return testIsNotAlwaysOut()
         Q3741: ->
             return testAnswerNotEquals("Q3740", null, "0")
 
