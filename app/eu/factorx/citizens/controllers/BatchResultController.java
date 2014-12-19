@@ -79,6 +79,7 @@ public class BatchResultController extends AbstractController {
             }
         }
 
+		// TODO: Incorporate old version accounts
         return ok(new SummaryResultDTO(OLD_VERSION_NB_SURVEYS + nbSurvey, OLD_VERSION_NB_PARTICIPANTS + nbParticipants, OLD_VERSION_REDUCTION + reduction));
     }
 
