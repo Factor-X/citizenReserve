@@ -4,7 +4,7 @@ angular
     $scope.isAuthenticated = ->
         return surveyDTOService.isAuthenticated()
 
-    $scope.nbSurveys = null
+    $scope.nbParticipants = null
     $scope.effectiveAverageReduction = null
     $scope.totalEffectiveAverageReduction = null
 
@@ -89,9 +89,8 @@ angular
             if result.success
                 summaryResult = result.data
                 if (!!summaryResult)
-                    ear = parseFloat(summaryResult.effectiveReduction)
-                    $scope.totalEffectiveAverageReduction = $filter('number')(ear / 1000.0, 0)
-                    $scope.nbSurveys = summaryResult.nbParticipants
+                    $scope.totalEffectiveAverageReduction = $filter('number')(parseFloat(summaryResult.effectiveReduction) / 1000.0, 0)
+                    $scope.nbParticipants = summaryResult.nbParticipants
             else
                 console.log(result.data)
 
