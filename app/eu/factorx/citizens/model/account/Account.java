@@ -55,7 +55,9 @@ public class Account extends AbstractEntity {
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean superAdmin = false;
 
-    public Account() {
+	private Double legacyAccountPowerReduction;
+
+	public Account() {
     }
 
     public Account(AccountType accountType, String email, String password, String firstName, String lastName, String zipCode, String powerProvider) {
@@ -165,91 +167,67 @@ public class Account extends AbstractEntity {
         this.superAdmin = superAdmin;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
+	public Double getLegacyAccountPowerReduction() {
+		return legacyAccountPowerReduction;
+	}
 
-        Account account = (Account) o;
+	public void setLegacyAccountPowerReduction(Double legacyAccountPowerReduction) {
+		this.legacyAccountPowerReduction = legacyAccountPowerReduction;
+	}
 
-        if (sensitizationKit != account.sensitizationKit) {
-            return false;
-        }
-        if (superAdmin != account.superAdmin) {
-            return false;
-        }
-        if (accountType != account.accountType) {
-            return false;
-        }
-        if (email != null ? !email.equals(account.email) : account.email != null) {
-            return false;
-        }
-        if (firstName != null ? !firstName.equals(account.firstName) : account.firstName != null) {
-            return false;
-        }
-        if (language != account.language) {
-            return false;
-        }
-        if (lastName != null ? !lastName.equals(account.lastName) : account.lastName != null) {
-            return false;
-        }
-        if (otherEmailAdresses != null ? !otherEmailAdresses.equals(account.otherEmailAdresses) : account.otherEmailAdresses != null) {
-            return false;
-        }
-        if (password != null ? !password.equals(account.password) : account.password != null) {
-            return false;
-        }
-        if (powerComsumerCategory != null ? !powerComsumerCategory.equals(account.powerComsumerCategory) : account.powerComsumerCategory != null) {
-            return false;
-        }
-        if (powerProvider != null ? !powerProvider.equals(account.powerProvider) : account.powerProvider != null) {
-            return false;
-        }
-        if (zipCode != null ? !zipCode.equals(account.zipCode) : account.zipCode != null) {
-            return false;
-        }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
 
-        return true;
-    }
+		Account account = (Account) o;
 
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (accountType != null ? accountType.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (zipCode != null ? zipCode.hashCode() : 0);
-        result = 31 * result + (powerProvider != null ? powerProvider.hashCode() : 0);
-        result = 31 * result + (powerComsumerCategory != null ? powerComsumerCategory.hashCode() : 0);
-        result = 31 * result + (otherEmailAdresses != null ? otherEmailAdresses.hashCode() : 0);
-        result = 31 * result + (sensitizationKit ? 1 : 0);
-        result = 31 * result + (language != null ? language.hashCode() : 0);
-        result = 31 * result + (superAdmin ? 1 : 0);
-        return result;
-    }
+		if (sensitizationKit != account.sensitizationKit) return false;
+		if (superAdmin != account.superAdmin) return false;
+		if (accountType != account.accountType) return false;
+		if (!email.equals(account.email)) return false;
+		if (!firstName.equals(account.firstName)) return false;
+		if (language != account.language) return false;
+		if (!lastName.equals(account.lastName)) return false;
+		if (legacyAccountPowerReduction != null ? !legacyAccountPowerReduction.equals(account.legacyAccountPowerReduction) : account.legacyAccountPowerReduction != null)
+			return false;
+		if (otherEmailAdresses != null ? !otherEmailAdresses.equals(account.otherEmailAdresses) : account.otherEmailAdresses != null) return false;
+		if (!password.equals(account.password)) return false;
+		if (powerComsumerCategory != null ? !powerComsumerCategory.equals(account.powerComsumerCategory) : account.powerComsumerCategory != null) return false;
+		if (powerProvider != null ? !powerProvider.equals(account.powerProvider) : account.powerProvider != null) return false;
+		if (zipCode != null ? !zipCode.equals(account.zipCode) : account.zipCode != null) return false;
 
-    @Override
-    public String toString() {
-        return "Account{" + super.toString() +
-            "accountType=" + accountType +
-            ", email='" + email + '\'' +
-            ", password='" + password + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", zipCode='" + zipCode + '\'' +
-            ", powerProvider='" + powerProvider + '\'' +
-            ", powerComsumerCategory='" + powerComsumerCategory + '\'' +
-            ", otherEmailAdresses='" + otherEmailAdresses + '\'' +
-            ", sensitizationKit='" + sensitizationKit + '\'' +
-            '}';
-    }
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + accountType.hashCode();
+		result = 31 * result + email.hashCode();
+		result = 31 * result + password.hashCode();
+		result = 31 * result + firstName.hashCode();
+		result = 31 * result + lastName.hashCode();
+		result = 31 * result + (zipCode != null ? zipCode.hashCode() : 0);
+		result = 31 * result + (powerProvider != null ? powerProvider.hashCode() : 0);
+		result = 31 * result + (powerComsumerCategory != null ? powerComsumerCategory.hashCode() : 0);
+		result = 31 * result + (otherEmailAdresses != null ? otherEmailAdresses.hashCode() : 0);
+		result = 31 * result + (sensitizationKit ? 1 : 0);
+		result = 31 * result + (language != null ? language.hashCode() : 0);
+		result = 31 * result + (superAdmin ? 1 : 0);
+		result = 31 * result + (legacyAccountPowerReduction != null ? legacyAccountPowerReduction.hashCode() : 0);
+		return result;
+	}
+
+	public String toString() {
+		return "Account{" +
+			"id=" + id +
+			", accountType=" + accountType +
+			", email='" + email + '\'' +
+			", password='" + password + '\'' +
+			", firstName='" + firstName + '\'' +
+			", lastName='" + lastName + '\'' +
+			'}';
+	}
 }

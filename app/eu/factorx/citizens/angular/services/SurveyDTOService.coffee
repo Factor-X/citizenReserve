@@ -7,9 +7,6 @@ angular
             otherEmailAddresses: []
         answers: []
 
-    potentialPowerReduction = null
-    effectivePowerReduction = null
-
     @createPreAccount = (accountType) ->
         @surveyDTO.account.accountType = accountType
 
@@ -84,38 +81,25 @@ angular
             if result.success
                 $flash.success 'account.save.success'
             else
-                console.error("saveSurvey() thrown error: ", result.data)
+                console.error("@saveSurvey() thrown error! Response = ", result)
+            return
 
-    @updatePotentialPowerReduction = ->
+    @getPotentialReductionDTO = (cb) ->
         downloadService.postJson '/reduction/potential', @surveyDTO, (result) ->
             if result.success
                 # ReductionDTO
-                potentialPowerReduction = result.data
+                cb(result.data)
             else
-                console.error("updatePotentialPowerReduction() thrown error: ", result.data)
+                console.error("@getPotentialReductionDTO() thrown error! Response = ", result)
+            return
 
-    @updateEffectivePowerReduction = ->
+    @getEffectiveReductionDTO = (cb) ->
         downloadService.postJson '/reduction/effective', @surveyDTO, (result) ->
             if result.success
                 # EffectiveReductionDTO
-                effectivePowerReduction = result.data
+                cb(result.data)
             else
-                console.error("updateEffectivePowerReduction() thrown error: ", result.data)
-
-    #
-    # get average 'potential' power reduction, i.e. the average power consumption (based on consumer profile) between 17:00 and 20:00
-    #
-    @getAveragePotentialPowerReduction = ->
-        if !!potentialPowerReduction
-            return parseFloat(potentialPowerReduction.averagePowerReduction)
-        return null
-
-    #
-    # get average 'effective' power reduction, i.e. the average power reserve (based on consumer actions) between 17:00 and 20:00 (first day)
-    #
-    @getAverageEffectivePowerReduction = ->
-        if !!effectivePowerReduction
-            return parseFloat(effectivePowerReduction.reductions[0].averagePowerReduction)
-        return null
+                console.error("@getEffectiveReductionDTO() thrown error! Response = ", result)
+            return
 
     return

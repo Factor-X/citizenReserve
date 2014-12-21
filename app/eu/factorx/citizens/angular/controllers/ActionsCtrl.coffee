@@ -11,36 +11,47 @@ angular
         # enterprise: {}
         # institution: {}
 
-    topics = {}
-    for topicKey, topicQuestions of questionsByAccountTypes['household']
-        topics[topicKey] = {questions: topicQuestions, empty: false}
+    $scope.averagePowerReduction = null
 
-    # An action topic is 'empty' (and then disabled) if it does not contain any visible question
-    updateTopicState = (topic) ->
-        topic.empty = !_.find topic.questions, (questionKey) ->
-            return conditionService.checkCondition(questionKey)
+    $scope.topics = {}
+    for topicKey, topicQuestions of questionsByAccountTypes['household']
+        $scope.topics[topicKey] = {questions: topicQuestions, disabled: false}
+    console.log("$scope.topics", $scope.topics)
+
+    checkAllConditionsAreFalse = (topic) ->
+        res = true
+        for questionKey in topic.questions
+            if conditionService.checkCondition(questionKey) && (res == true)
+                res = false
+        return res
+
+    updateTopics = ->
+        for topicKey, topic of $scope.topics
+            # we may check if at least one condition is true (more fast),
+            # but we have to check all conditions, in order to reset all answers related to hidden questions...
+            topic.disabled = checkAllConditionsAreFalse(topic)
         return
 
+    updateAveragePowerReduction = ->
+        surveyDTOService.getEffectiveReductionDTO (effectiveReductionDTO) ->
+            apr = effectiveReductionDTO.reductions[0].averagePowerReduction
+            if (apr > 0)
+                $scope.averagePowerReduction = $filter("number")(apr, 0)
+            return
+
     $scope.onLoad = ->
-        _.each(topics, updateTopicState)
-        surveyDTOService.updateEffectivePowerReduction()
+        updateTopics()
+        updateAveragePowerReduction()
 
     $scope.onTopicClose = ->
-        _.each(topics, updateTopicState)
-        surveyDTOService.updateEffectivePowerReduction()
+        updateTopics()
+        updateAveragePowerReduction()
         if surveyDTOService.isAuthenticated()
             surveyDTOService.saveSurvey()
         return
 
-    $scope.isEffectivePowerReductionNotNull = ->
-        epr = surveyDTOService.getAverageEffectivePowerReduction()
-        return (!!epr) && (epr > 0)
-
-    $scope.getAverageEffectivePowerReduction = ->
-        return $filter("number")(surveyDTOService.getAverageEffectivePowerReduction(), 0)
-
-    $scope.isTopicEmpty = (topicKey) ->
-        return topics[topicKey].empty
+    $scope.isTopicDisabled = (topicKey) ->
+        return $scope.topics[topicKey].disabled
 
     $scope.openModal = (target, controller = 'ModalTopicCtrl') ->
         modalService.open({

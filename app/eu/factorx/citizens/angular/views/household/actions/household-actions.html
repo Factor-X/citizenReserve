@@ -30,7 +30,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-green"
                     label="topic.presence.label"
-                    ng-disabled="isTopicEmpty('presence')"
+                    ng-disabled="isTopicDisabled('presence')"
                     ng-callback="onTopicClose()"
                     ></cr-topic>
             </div>
@@ -43,7 +43,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-blue"
                     label="topic.programs.label"
-                    ng-disabled="isTopicEmpty('programs')"
+                    ng-disabled="isTopicDisabled('programs')"
                     ng-callback="onTopicClose()"
                     ></cr-topic>
             </div>
@@ -55,7 +55,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-red"
                     label="topic.heating.label"
-                    ng-disabled="isTopicEmpty('heating')"
+                    ng-disabled="isTopicDisabled('heating')"
                     ng-callback="onTopicClose()"
                     ></cr-topic>
             </div>
@@ -67,7 +67,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-orange"
                     label="topic.lighting.label"
-                    ng-disabled="isTopicEmpty('lighting')"
+                    ng-disabled="isTopicDisabled('lighting')"
                     ng-callback="onTopicClose()"
                     ></cr-topic>
             </div>
@@ -79,7 +79,7 @@
                     controller="ModalTopicCtrl"
                     window-class="cr-theme-magenta"
                     label="topic.dinner.label"
-                    ng-disabled="isTopicEmpty('dinner')"
+                    ng-disabled="isTopicDisabled('dinner')"
                     ng-callback="onTopicClose()"
                     ></cr-topic>
             </div>
@@ -89,8 +89,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <div class="col-md-12" ng-show="isEffectivePowerReductionNotNull()">
-                    <h3 ng-bind-html="'actions.result' | translate | params:[getAverageEffectivePowerReduction()]"></h3>
+                <div class="col-md-12" ng-show="!!averagePowerReduction">
+                    <h3 ng-bind-html="'actions.result' | translate | params:[averagePowerReduction]"></h3>
                     <p class="cr-outro" ng-bind-html="'actions.outro' | translate"></p>
                 </div>
             </div>

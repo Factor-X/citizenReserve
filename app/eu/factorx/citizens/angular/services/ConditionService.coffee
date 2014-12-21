@@ -169,7 +169,6 @@ angular
             return res
         return true
 
-
     tooltips =
         Q1300: ->
             if testAnswerEquals('Q1300', null, '20')

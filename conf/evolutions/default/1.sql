@@ -1,5 +1,3 @@
-# --- Created by Ebean DDL
-# To stop Ebean DDL generation, remove this comment and start using Evolutions
 
 # --- !Ups
 
@@ -154,4 +152,3 @@ drop sequence if exists batchresultitem_seq;
 drop sequence if exists batch_result_set_seq;
 
 drop sequence if exists surveys_seq;
-

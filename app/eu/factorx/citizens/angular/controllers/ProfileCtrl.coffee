@@ -11,11 +11,12 @@ angular
     #enterprise: {}
     #institution: {}
 
-    profileCompleted = false
+    $scope.profileCompleted = false
+    $scope.averagePotentialPowerReduction = null
 
-    topics = {}
+    $scope.topics = {}
     for topicKey, topicQuestions of questionsByAccountTypes['household']
-        topics[topicKey] = {questions: topicQuestions, completed: false}
+        $scope.topics[topicKey] = {questions: topicQuestions, completed: false}
 
     # A profile topic is 'completed' if it does not contain any unanswered question
     updateTopicState = (topic) ->
@@ -25,33 +26,35 @@ angular
 
     # A profile is 'completed' if it does not contain any not completed topic
     updateProfileState = ->
-        profileCompleted = !_.find topics, (topic) ->
+        $scope.profileCompleted = !_.find $scope.topics, (topic) ->
             return !topic.completed
         return
 
+    updateAveragePotentialPowerReduction = ->
+        surveyDTOService.getPotentialReductionDTO (reductionDto) ->
+            $scope.averagePotentialPowerReduction = $filter("number")(reductionDto.averagePowerReduction, 0)
+            return
+
     $scope.onLoad = ->
-        _.each(topics, updateTopicState)
+        _.each($scope.topics, updateTopicState)
         updateProfileState()
-        if profileCompleted
-            surveyDTOService.updatePotentialPowerReduction()
+        if $scope.profileCompleted
+            updateAveragePotentialPowerReduction()
 
     $scope.onTopicClose = (topicKey) ->
-        updateTopicState(topics[topicKey])
+        updateTopicState($scope.topics[topicKey])
         updateProfileState()
+        if $scope.profileCompleted
+            updateAveragePotentialPowerReduction()
         if surveyDTOService.isAuthenticated()
             surveyDTOService.saveSurvey()
-        if profileCompleted
-            surveyDTOService.updatePotentialPowerReduction()
         return
 
-    $scope.getAveragePotentialPowerReduction = ->
-        return $filter("number")(surveyDTOService.getAveragePotentialPowerReduction(), 0)
-
     $scope.isTopicCompleted = (topicKey) ->
-        return topics[topicKey].completed
+        return $scope.topics[topicKey].completed
 
     $scope.isProfileCompleted = ->
-        return profileCompleted
+        return $scope.profileCompleted
 
     $scope.openModal = (target, controller = 'ModalTopicCtrl') ->
         modalService.open({
