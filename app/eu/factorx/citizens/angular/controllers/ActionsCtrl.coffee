@@ -37,6 +37,8 @@ angular
             apr = effectiveReductionDTO.reductions[0].averagePowerReduction
             if (apr > 0)
                 $scope.averagePowerReduction = $filter("number")(apr, 0)
+            else
+                $scope.averagePowerReduction = null
             return
 
     $scope.onLoad = ->
