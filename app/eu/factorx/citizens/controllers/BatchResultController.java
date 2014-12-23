@@ -9,8 +9,10 @@ import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.AnswerValue;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
+import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.service.BatchSetService;
 import eu.factorx.citizens.service.SurveyService;
+import eu.factorx.citizens.service.impl.AccountServiceImpl;
 import eu.factorx.citizens.service.impl.BatchSetServiceImpl;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import play.db.ebean.Transactional;
@@ -31,6 +33,7 @@ public class BatchResultController extends AbstractController {
     //service
     private BatchSetService batchSetService = new BatchSetServiceImpl();
     private SurveyService surveyService = new SurveyServiceImpl();
+	private AccountService accountService = new AccountServiceImpl();
 
     //converter
     private BatchSetToBatchSetDTOConverter batchSetToBatchSetDTOConverter = new BatchSetToBatchSetDTOConverter();
@@ -79,8 +82,10 @@ public class BatchResultController extends AbstractController {
             }
         }
 
-		// TODO: Incorporate old version accounts
-        return ok(new SummaryResultDTO(OLD_VERSION_NB_SURVEYS + nbSurvey, OLD_VERSION_NB_PARTICIPANTS + nbParticipants, OLD_VERSION_REDUCTION + reduction));
+		// Add legacy accounts reduction (nbSurvey & nbParticipants are already correct...)
+		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbParticipants, reduction + accountService.getLegacyAccountsTotalReduction());
+
+		return ok(summaryResultDTO);
     }
 
 }

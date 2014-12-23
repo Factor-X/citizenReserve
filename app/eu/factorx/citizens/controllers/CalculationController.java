@@ -61,10 +61,14 @@ public class CalculationController extends AbstractController {
 		}
 		//play.Logger.debug(json.asText());
 
-
 		SurveyDTO survey = extractDTOFromRequest(SurveyDTO.class);
+		EffectiveReductionDTO effectiveReductionResult = getEffectiveReductionDTO(survey);
 
+		return ok(effectiveReductionResult);
 
+	} // end of action calculate effective reduction
+
+	public EffectiveReductionDTO getEffectiveReductionDTO(SurveyDTO survey) {
 		// Validate incoming DTO - TODO
 		List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
 		try {
@@ -100,9 +104,7 @@ public class CalculationController extends AbstractController {
 //			System.out.println("Effective Reduction Average:" + result.get(day.ordinal()).getAveragePowerReduction());
 //			System.out.println("Effective Reduction Energy ratio:" + result.get(day.ordinal()).getEnergyReduction());
 		}
-
-		return ok(effectiveReductionResult);
-
-	} // end of action calculate effective reduction
+		return effectiveReductionResult;
+	}
 
 }  // end of controller

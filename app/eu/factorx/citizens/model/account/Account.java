@@ -57,6 +57,8 @@ public class Account extends AbstractEntity {
 
 	private Double legacyAccountPowerReduction;
 
+	private Boolean passwordToChange;
+
 	public Account() {
     }
 
@@ -173,6 +175,14 @@ public class Account extends AbstractEntity {
 
 	public void setLegacyAccountPowerReduction(Double legacyAccountPowerReduction) {
 		this.legacyAccountPowerReduction = legacyAccountPowerReduction;
+	}
+
+	public Boolean getPasswordToChange() {
+		return passwordToChange;
+	}
+
+	public void setPasswordToChange(Boolean passwordToChange) {
+		this.passwordToChange = passwordToChange;
 	}
 
 	@Override

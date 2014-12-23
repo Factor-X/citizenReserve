@@ -4,151 +4,160 @@ import eu.factorx.citizens.dto.technical.DTO;
 import eu.factorx.citizens.dto.technical.verification.NotNull;
 import eu.factorx.citizens.dto.technical.verification.Pattern;
 import eu.factorx.citizens.dto.technical.verification.Size;
-import play.data.validation.Constraints;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccountDTO extends DTO {
 
-    private Long id;
+	private Long id;
 
-    @Size(min = 2, max = 100)
-    private String firstName;
+	@Size(min = 2, max = 100)
+	private String firstName;
 
-    @Size(min = 2, max = 100)
-    private String lastName;
+	@Size(min = 2, max = 100)
+	private String lastName;
 
-    @Pattern(regexp = Pattern.EMAIL)
-    private String email;
+	@Pattern(regexp = Pattern.EMAIL)
+	private String email;
 
-    @Size(min = 6, max = 18)
-    private String password;
+	@Size(min = 6, max = 18)
+	private String password;
 
-    private String zipCode;
+	private String zipCode;
 
-    private String powerProvider;
+	private String powerProvider;
 
-    private String powerComsumerCategory;
+	private String powerComsumerCategory;
 
-    private List<String> otherEmailAddresses = new ArrayList<>();
+	private List<String> otherEmailAddresses = new ArrayList<>();
 
-    private boolean sensitizationKit;
+	private boolean sensitizationKit;
 
-    @NotNull
-    private String languageAbrv;
+	@NotNull
+	private String languageAbrv;
 
-    @NotNull
-    private String accountType;
+	@NotNull
+	private String accountType;
 
-    public AccountDTO() {
-    }
+	private boolean passwordToChange;
 
-    public String getLanguageAbrv() {
-        return languageAbrv;
-    }
+	public AccountDTO() {
+	}
 
-    public void setLanguageAbrv(String languageAbrv) {
-        this.languageAbrv = languageAbrv;
-    }
+	public String getLanguageAbrv() {
+		return languageAbrv;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setLanguageAbrv(String languageAbrv) {
+		this.languageAbrv = languageAbrv;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getZipCode() {
-        return zipCode;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+	public String getZipCode() {
+		return zipCode;
+	}
 
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
 
 
-    public String getPowerProvider() {
-        return powerProvider;
-    }
+	public String getAccountType() {
+		return accountType;
+	}
 
-    public void setPowerProvider(String powerProvider) {
-        this.powerProvider = powerProvider;
-    }
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
 
-    public String getPowerComsumerCategory() {
-        return powerComsumerCategory;
-    }
 
-    public void setPowerComsumerCategory(String powerComsumerCategory) {
-        this.powerComsumerCategory = powerComsumerCategory;
-    }
+	public String getPowerProvider() {
+		return powerProvider;
+	}
 
-    public List<String> getOtherEmailAddresses() {
-        return otherEmailAddresses;
-    }
+	public void setPowerProvider(String powerProvider) {
+		this.powerProvider = powerProvider;
+	}
 
-    public void setOtherEmailAddresses(List<String> otherEmailAddresses) {
-        this.otherEmailAddresses = otherEmailAddresses;
-    }
+	public String getPowerComsumerCategory() {
+		return powerComsumerCategory;
+	}
 
-    public boolean isSensitizationKit() {
-        return sensitizationKit;
-    }
+	public void setPowerComsumerCategory(String powerComsumerCategory) {
+		this.powerComsumerCategory = powerComsumerCategory;
+	}
 
-    public void setSensitizationKit(boolean sensitizationKit) {
-        this.sensitizationKit = sensitizationKit;
-    }
+	public List<String> getOtherEmailAddresses() {
+		return otherEmailAddresses;
+	}
 
-    @Override
-    public String toString() {
-        return "AccountDTO{" +
-            "id=" + id +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            '}';
-    }
+	public void setOtherEmailAddresses(List<String> otherEmailAddresses) {
+		this.otherEmailAddresses = otherEmailAddresses;
+	}
+
+	public boolean isSensitizationKit() {
+		return sensitizationKit;
+	}
+
+	public void setSensitizationKit(boolean sensitizationKit) {
+		this.sensitizationKit = sensitizationKit;
+	}
+
+	public boolean isPasswordToChange() {
+		return passwordToChange;
+	}
+
+	public void setPasswordToChange(boolean passwordToChange) {
+		this.passwordToChange = passwordToChange;
+	}
+
+	@Override
+	public String toString() {
+		return "AccountDTO{" +
+			"id=" + id +
+			", firstName='" + firstName + '\'' +
+			", lastName='" + lastName + '\'' +
+			", email='" + email + '\'' +
+			'}';
+	}
 }

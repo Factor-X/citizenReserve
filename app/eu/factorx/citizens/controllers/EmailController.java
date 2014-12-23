@@ -82,7 +82,6 @@ public class EmailController extends AbstractController {
         String velocityContent = velocityGeneratorService.generate(VELOCITY_BASIC_EMAIL, values);
 
         EmailMessage emailMessage = new EmailMessage(to, title, velocityContent);
-        emailMessage.setEmailsToCC(emailsToCC);
         emailService.send(emailMessage);
     }
 

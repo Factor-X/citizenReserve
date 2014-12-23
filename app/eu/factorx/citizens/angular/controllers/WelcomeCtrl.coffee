@@ -29,10 +29,13 @@ angular
             downloadService.postJson '/login', dto, (result)->
                 $scope.loading = false
                 if result.success
-                    $flash.success 'account.login.success'
                     surveyDTOService.login(result.data)
                     if result.data.account.accountType == 'household'
-                        $state.go 'root.householdProfile'
+                        if (result.data.account.passwordToChange)
+                            $scope.openChangePasswordModal($scope.loginParams.password)
+                        else
+                            $flash.success 'account.login.success'
+                            $state.go 'root.householdProfile'
                 else
                     $flash.error result.data.message
     #TODO to complete
@@ -51,5 +54,13 @@ angular
                     $scope.forgotPasswordParams.email = null
                 else
                     $flash.error result.data.message
+
+    $scope.openChangePasswordModal = () ->
+        modalService.open({
+            templateUrl: '$/angular/views/household/account/account-change-password.html',
+            controller: 'ModalChangePasswordCtrl',
+            size: 'lg',
+            scope: $scope
+        })
 
 

@@ -35,7 +35,8 @@ public class AccountToAccountDTOConverter implements Converter<Account, AccountD
         }
         dto.setSensitizationKit(account.isSensitizationKit());
         dto.setAccountType(account.getAccountType().getString());
-
+		Boolean passwordToChange = account.getPasswordToChange();
+		dto.setPasswordToChange(passwordToChange!=null && passwordToChange == true);
 		return dto;
 	}
 }

@@ -15,4 +15,6 @@ public interface AccountService {
     public boolean controlPassword(String password, Account account);
 
     public Account findById(Long id);
+
+	public Double getLegacyAccountsTotalReduction();
 }

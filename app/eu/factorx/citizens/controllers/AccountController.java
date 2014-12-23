@@ -94,6 +94,7 @@ public class AccountController extends AbstractController {
 
         //add password
         account.setPassword(dto.getNewPassword());
+		account.setPasswordToChange(false);
 
         //save
         accountService.saveOrUpdate(account);
@@ -155,8 +156,8 @@ public class AccountController extends AbstractController {
             throw new MyRuntimeException("there is no not deleted survey for account " + account.getId());
         }
 
-        //save account into context
-        securedController.storeIdentifier(account);
+		//save account into context
+		securedController.storeIdentifier(account);
 
         //build dto
         return ok(surveyToSurveyDTOConverter.convert(survey));

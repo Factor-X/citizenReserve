@@ -19,6 +19,8 @@ public class SurveyController extends AbstractController {
     //service
     private SurveyService surveyService = new SurveyServiceImpl();
 
+	private CalculationController calculationController = new CalculationController();
+
     @Transactional
     @Security.Authenticated(SecuredController.class)
     public Result updateSurvey() {
@@ -63,6 +65,19 @@ public class SurveyController extends AbstractController {
             }
 
         }
+
+		// For legacy accounts:
+		// If we can calculate an effective reduction, then user is a "normal" account => we can put the value of 'legacyAccountPowerReduction' to 0
+		Double legacyAccountPowerReduction = account.getLegacyAccountPowerReduction();
+		if (legacyAccountPowerReduction != null && legacyAccountPowerReduction > 0) {
+			EffectiveReductionDTO effectiveReductionDTO = null;
+			try {
+				effectiveReductionDTO = calculationController.getEffectiveReductionDTO(dto);
+				if ((effectiveReductionDTO != null) && (effectiveReductionDTO.getReductions().get(0).getAveragePowerReduction() > 0)) {
+					account.setLegacyAccountPowerReduction(null);
+				}
+			} catch (Exception e) {}
+		}
 
         surveyService.saveSurvey(survey);
     }

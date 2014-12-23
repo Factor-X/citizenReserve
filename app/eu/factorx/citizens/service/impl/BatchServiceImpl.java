@@ -60,6 +60,12 @@ public class BatchServiceImpl implements BatchService {
 
         for (Survey survey : surveyService.findAllSurveys()) {
 
+			Double legacyAccountPowerReduction = survey.getAccount().getLegacyAccountPowerReduction();
+			if (legacyAccountPowerReduction != null && legacyAccountPowerReduction > 0) {
+				Logger.info("Ignoring survey with ID = {} (legacy account without data)", survey.getId());
+				continue;
+			}
+
             List<AnswerDTO> surveyAnswersDTOs = new ArrayList<>();
             for (Answer answer : survey.getAnswers()) {
                 surveyAnswersDTOs.add(answerToAnswerDTOConverter.convert(answer));
@@ -121,7 +127,13 @@ public class BatchServiceImpl implements BatchService {
 
         for (Survey survey : surveyService.findAllSurveys()) {
 
-            List<AnswerDTO> surveyAnswersDTOs = new ArrayList<>();
+			Double legacyAccountPowerReduction = survey.getAccount().getLegacyAccountPowerReduction();
+			if (legacyAccountPowerReduction != null && legacyAccountPowerReduction > 0) {
+				Logger.info("Ignoring survey with ID = {} (legacy account without data)", survey.getId());
+				continue;
+			}
+
+			List<AnswerDTO> surveyAnswersDTOs = new ArrayList<>();
             for (Answer answer : survey.getAnswers()) {
                 surveyAnswersDTOs.add(answerToAnswerDTOConverter.convert(answer));
             }

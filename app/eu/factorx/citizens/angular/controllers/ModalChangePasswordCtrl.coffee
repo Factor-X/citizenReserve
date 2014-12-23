@@ -5,6 +5,7 @@ angular
     $scope.noSubmitYet=true
     $scope.loading=false
 
+    console.log("$scope.loginParams", $scope.loginParams)
     $scope.validation = {
         oldPassword:
             pattern:/^[a-zA-Z0-9-_%]{6,18}$/
@@ -24,6 +25,11 @@ angular
         repeatPassword:""
     }
 
+    if !!$scope.loginParams?.password
+        $scope.disableOldPassword = true
+        $scope.o.oldPassword = angular.copy($scope.loginParams.password)
+        $scope.validation.oldPassword.valid = true
+
     $scope.save = () ->
         $scope.noSubmitYet=false
         if $scope.checkValidity()
@@ -38,6 +44,11 @@ angular
                 $scope.loading=false
                 if result.success
                     $flash.success 'account.changePassword.success'
+                    if (!!$scope.loginParams)
+                        $scope.loginParams.password = angular.copy($scope.o.newPassword)
+                        $scope.login()
+                    else
+                        $flash.success 'account.changePassword.success'
                     $scope.close()
                 else
                     $flash.error result.data.message

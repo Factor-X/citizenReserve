@@ -1,19 +1,22 @@
 package eu.factorx.citizens.service.impl;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.util.BusinessErrorType;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import org.jasypt.util.password.StrongPasswordEncryptor;
-import play.Logger;
 
 import java.util.List;
 
 public class AccountServiceImpl implements AccountService {
 
 
-    @Override
+	public static final String POWER_REDUCTION_SUM_ALIAS = "totalPowerReduction";
+	public static final String LEGACY_ACCOUNTS_POWER_REDUCTION_SQL = "select sum(legacy_account_power_reduction) as " + POWER_REDUCTION_SUM_ALIAS + " from accounts where legacy_account_power_reduction is not null";
+
+	@Override
     public List<Account> findAll() {
         return Ebean.find(Account.class).findList();
     }
@@ -66,4 +69,10 @@ public class AccountServiceImpl implements AccountService {
                 .setParameter("id", id)
                 .findUnique();
     }
+
+	@Override
+	public Double getLegacyAccountsTotalReduction() {
+		SqlQuery sqlQuery = Ebean.createSqlQuery(LEGACY_ACCOUNTS_POWER_REDUCTION_SQL);
+		return sqlQuery.findUnique().getDouble(POWER_REDUCTION_SUM_ALIAS);
+	}
 }
