@@ -13,8 +13,8 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
 
-	public static final String POWER_REDUCTION_SUM_ALIAS = "totalPowerReduction";
-	public static final String LEGACY_ACCOUNTS_POWER_REDUCTION_SQL = "select sum(legacy_account_power_reduction) as " + POWER_REDUCTION_SUM_ALIAS + " from accounts where legacy_account_power_reduction is not null";
+	public static final String LEGACY_ACCOUNTS_POWER_REDUCTION_ALIAS = "totalPowerReduction";
+	public static final String LEGACY_ACCOUNTS_POWER_REDUCTION_SQL = "select sum(legacy_account_power_reduction) as " + LEGACY_ACCOUNTS_POWER_REDUCTION_ALIAS + " from accounts where legacy_account_power_reduction is not null";
 
 	@Override
     public List<Account> findAll() {
@@ -71,8 +71,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
 	@Override
-	public Double getLegacyAccountsTotalReduction() {
-		SqlQuery sqlQuery = Ebean.createSqlQuery(LEGACY_ACCOUNTS_POWER_REDUCTION_SQL);
-		return sqlQuery.findUnique().getDouble(POWER_REDUCTION_SUM_ALIAS);
+	public Double getLegacyAccountsPowerReduction() {
+		return Ebean.createSqlQuery(LEGACY_ACCOUNTS_POWER_REDUCTION_SQL).findUnique().getDouble(LEGACY_ACCOUNTS_POWER_REDUCTION_ALIAS);
 	}
 }

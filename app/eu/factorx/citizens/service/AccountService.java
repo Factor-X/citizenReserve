@@ -16,5 +16,5 @@ public interface AccountService {
 
     public Account findById(Long id);
 
-	public Double getLegacyAccountsTotalReduction();
+	public Double getLegacyAccountsPowerReduction();
 }

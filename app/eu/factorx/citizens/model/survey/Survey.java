@@ -50,6 +50,9 @@ public class Survey extends AbstractEntity {
 		this.answers = answers;
 	}
 
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+	}
 	public void addAnswer(QuestionCode questionCode, Period period, Double value) {
 		Answer answer = new Answer(this, questionCode, period);
 		answer.addDoubleValue(value, period);
@@ -89,4 +92,5 @@ public class Survey extends AbstractEntity {
 		result = 31 * result + answers.hashCode();
 		return result;
 	}
+
 }

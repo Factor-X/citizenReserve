@@ -32,7 +32,8 @@ angular
                     surveyDTOService.login(result.data)
                     if result.data.account.accountType == 'household'
                         if (result.data.account.passwordToChange)
-                            $scope.openChangePasswordModal($scope.loginParams.password)
+                            # forcing change of (generated) password
+                            $scope.openChangePasswordModal()
                         else
                             $flash.success 'account.login.success'
                             $state.go 'root.householdProfile'
@@ -55,12 +56,17 @@ angular
                 else
                     $flash.error result.data.message
 
+
+    #
+    # Open change password dialog (case of generated password)
+    # (...passing login params to avoid asking user to enter a second time the generated password)
+    #
     $scope.openChangePasswordModal = () ->
         modalService.open({
             templateUrl: '$/angular/views/household/account/account-change-password.html',
             controller: 'ModalChangePasswordCtrl',
             size: 'lg',
-            scope: $scope
+            scope: angular.copy($scope.loginParams)
         })
 
 

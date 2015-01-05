@@ -2,7 +2,7 @@
  *
  * Instant Play Framework
  * AWAC
- *                       
+ *
  *
  * Copyright (c) 2014 Factor-X.
  * Author Gaston Hollands
@@ -12,24 +12,20 @@
 package eu.factorx.citizens.service.impl;
 
 
+import eu.factorx.citizens.service.VelocityGeneratorService;
+import org.apache.commons.io.IOUtils;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.stereotype.Component;
+import play.Logger;
+import play.api.Play;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Map;
-
-import eu.factorx.citizens.service.VelocityGeneratorService;
-import org.apache.commons.io.IOUtils;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.springframework.stereotype.Component;
-
-import play.Logger;
-import play.api.Play;
-import play.api.templates.Html;
-import play.mvc.Result;
-import play.mvc.Results;
 
 @Component
 public class VelocityGeneratorServiceImpl implements VelocityGeneratorService {
@@ -93,9 +89,9 @@ public class VelocityGeneratorServiceImpl implements VelocityGeneratorService {
 		StringWriter result = new StringWriter();
 		try {
 			if (!ve.evaluate(context, result, "report", template)) {
-				Logger.info("Evaluation error");
+				Logger.error("Evaluation error");
 			} else {
-				Logger.info("Evaluation success");
+				Logger.debug("Evaluation success");
 			}
 
 		} catch (Exception e) {

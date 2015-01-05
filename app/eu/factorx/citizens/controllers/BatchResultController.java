@@ -83,7 +83,7 @@ public class BatchResultController extends AbstractController {
         }
 
 		// Add legacy accounts reduction (nbSurvey & nbParticipants are already correct...)
-		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbParticipants, reduction + accountService.getLegacyAccountsTotalReduction());
+		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbParticipants, reduction + accountService.getLegacyAccountsPowerReduction());
 
 		return ok(summaryResultDTO);
     }

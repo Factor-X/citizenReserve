@@ -25,9 +25,9 @@ angular
         repeatPassword:""
     }
 
-    if !!$scope.loginParams?.password
-        $scope.disableOldPassword = true
+    if !!$scope.loginParams
         $scope.o.oldPassword = angular.copy($scope.loginParams.password)
+        $scope.o.generatedPassword = true
         $scope.validation.oldPassword.valid = true
 
     $scope.save = () ->
