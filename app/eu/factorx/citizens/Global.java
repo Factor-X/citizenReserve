@@ -40,6 +40,8 @@ public class Global extends GlobalSettings {
     //value : translatable message
     public static final Map<String, Map<String, String>> TRANSLATIONS = new HashMap<>();
 
+	private Cancellable batchScheduler;
+
     @Override
     public F.Promise<SimpleResult> onError(Http.RequestHeader request, Throwable t) {
 
@@ -111,6 +113,13 @@ public class Global extends GlobalSettings {
 		Logger.info("Global.onStart - END");
 	}
 
+	@Override
+	public void onStop(Application app) {
+		if (batchScheduler != null) {
+			batchScheduler.cancel();
+		}
+	}
+
 	private void startBatchProcessing () {
 
 		// start Akka task every 24 hours to compute consolidation statistics
@@ -118,40 +127,40 @@ public class Global extends GlobalSettings {
         DateTime nextExecution = now.plusDays(1).withHourOfDay(0).withMinuteOfHour(5);
         Logger.info("Next execution of BatchService will occur on " + nextExecution.toString(DateTimeFormat.fullDateTime()));
         org.joda.time.Duration duration = new org.joda.time.Duration(now, nextExecution);
-        Akka.system().scheduler().schedule(
-				Duration.create(duration.getStandardSeconds(), TimeUnit.SECONDS),
-				Duration.create(24, TimeUnit.HOURS),
-				new Runnable() {
-					public void run() {
+		batchScheduler = Akka.system().scheduler().schedule(
+			Duration.create(duration.getStandardSeconds(), TimeUnit.SECONDS),
+			Duration.create(24, TimeUnit.HOURS),
+			new Runnable() {
+				public void run() {
 
-						try {
-							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-							Date date = new Date();
-							Logger.info("Cleanup Batch Started @" + dateFormat.format(date));
-							// run batch here
-							new CleanupServiceImpl().run();
-							date = new Date();
-							Logger.info("Cleanup Batch Ended @" + dateFormat.format(date));
+					try {
+						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+						Date date = new Date();
+						Logger.info("Cleanup Batch Started @" + dateFormat.format(date));
+						// run batch here
+						new CleanupServiceImpl().run();
+						date = new Date();
+						Logger.info("Cleanup Batch Ended @" + dateFormat.format(date));
 
-						} catch (Exception e) {
-							Logger.info("Cleanup batch exception...", e);
-						}
-
-						try {
-							DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-							Date date = new Date();
-							Logger.info("Consolidation Batch Started @" + dateFormat.format(date));
-							// run batch here
-							new BatchServiceImpl().run();
-							date = new Date();
-							Logger.info("Consolidation Batch Ended @" + dateFormat.format(date));
-
-						} catch (Exception e) {
-							Logger.info("batch exception...", e);
-						}
+					} catch (Exception e) {
+						Logger.info("Cleanup batch exception...", e);
 					}
-				},
-				Akka.system().dispatchers().defaultGlobalDispatcher()
+
+					try {
+						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+						Date date = new Date();
+						Logger.info("Consolidation Batch Started @" + dateFormat.format(date));
+						// run batch here
+						new BatchServiceImpl().run();
+						date = new Date();
+						Logger.info("Consolidation Batch Ended @" + dateFormat.format(date));
+
+					} catch (Exception e) {
+						Logger.info("batch exception...", e);
+					}
+				}
+			},
+			Akka.system().dispatchers().defaultGlobalDispatcher()
 		);
 
 	}

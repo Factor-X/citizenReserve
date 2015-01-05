@@ -104,9 +104,139 @@ angular.module('app.controllers').config(function($stateProvider, $urlRouterProv
 Messenger.options = {
   extraClasses: 'messenger-fixed messenger-on-top messenger-on-center cr-messenger',
   theme: 'block'
-};angular.module('app.services').service("modalService", function($rootScope, $modal) {
-  this.open = function(parameters) {
-    return $modal.open(parameters);
+};angular.module('app.services').service("messageFlash", function() {
+  this.display = function(type, message, opts) {
+    var options;
+    options = {
+      message: message,
+      type: type,
+      hideAfter: 5,
+      showCloseButton: true
+    };
+    return console.log("MessageFlash : type:" + type + "/content:" + message);
+  };
+  this.displaySuccess = function(message, opts) {
+    return this.display('success', message, opts);
+  };
+  this.displayInfo = function(message, opts) {
+    return this.display('info', message, opts);
+  };
+  this.displayError = function(message, opts) {
+    return this.display('error', message, opts);
+  };
+  return;
+});angular.module('app.services').service("directiveService", function($sce) {
+  this.autoScope = function(s) {
+    var k, res, v;
+    res = {};
+    for (k in s) {
+      v = s[k];
+      res[k] = v;
+      if (k.slice(0, 2) === 'ng' && v === '=') {
+        res[k[2].toLowerCase() + k.slice(3)] = '@';
+      }
+    }
+    return res;
+  };
+  this.autoScopeImpl = function(s, name) {
+    var fget, key, val;
+    s.$$NAME = name;
+    for (key in s) {
+      val = s[key];
+      if (key.slice(0, 2) === 'ng') {
+        fget = function(scope, k) {
+          return function() {
+            var v;
+            v = 0;
+            if (scope[k] === void 0 || scope[k] === null || scope[k] === '') {
+              v = scope[k[2].toLowerCase() + k.slice(3)];
+            } else {
+              v = scope[k];
+            }
+            if (scope['decorate' + k.slice(2)]) {
+              return scope['decorate' + k.slice(2)](v);
+            } else {
+              return v;
+            }
+          };
+        };
+        s['get' + key.slice(2)] = fget(s, key);
+      }
+    }
+    s.isTrue = function(v) {
+      return v === true || v === 'true' || v === 'y';
+    };
+    s.isFalse = function(v) {
+      return v === false || v === 'false' || v === 'n';
+    };
+    s.isNull = function(v) {
+      return v === null;
+    };
+    return s.html = function(v) {
+      return $sce.trustAsHtml(v);
+    };
+  };
+  return;
+});angular.module('app.services').service("optionService", function($rootScope, $modal, gettextCatalog, $filter) {
+  var cleanKey, options;
+  options = {};
+  this.getNumericOptions = function(questionKey, min, max, step) {
+    var element, maxF, minF, optionList, stepF, _i, _len, _ref;
+    if (options[questionKey] != null) {
+      return options[questionKey];
+    }
+    optionList = [
+      {
+        value: null,
+        label: null
+      }
+    ];
+    minF = parseFloat(min);
+    maxF = parseFloat(max) + parseFloat(step);
+    stepF = parseFloat(step);
+    _ref = _.range(minF, maxF, stepF);
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      element = _ref[_i];
+      optionList.push({
+        value: element + "",
+        label: element + ""
+      });
+    }
+    options[questionKey] = optionList;
+    return optionList;
+  };
+  this.getOptions = function(questionKey) {
+    var list, opt, optionList, pattern, _i, _len;
+    if (options[questionKey] != null) {
+      return options[questionKey];
+    }
+    pattern = new RegExp(questionKey + "\.options\.*");
+    list = _.filter(Object.keys(gettextCatalog.strings.fr), function(key) {
+      return pattern.test(key);
+    });
+    optionList = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      opt = list[_i];
+      optionList.push({
+        value: cleanKey(questionKey, opt),
+        label: opt
+      });
+    }
+    optionList = _.sortBy(optionList, function(item) {
+      return parseFloat(item.value);
+    });
+    optionList.splice(0, 0, {
+      value: null,
+      label: null
+    });
+    options[questionKey] = optionList;
+    return optionList;
+  };
+  cleanKey = function(questionKey, key) {
+    var match, pattern;
+    pattern = new RegExp(questionKey + "\.options\.([^\.]+)\.label");
+    match = pattern.exec(key);
+    return match[1];
   };
   return;
 });angular.module('app.services').service("downloadService", function($http, $q, messageFlash) {
@@ -195,139 +325,176 @@ Messenger.options = {
     return deferred.promise;
   };
   return;
-});angular.module('app.services').service("messageFlash", function() {
-  this.display = function(type, message, opts) {
-    var options;
-    options = {
-      message: message,
-      type: type,
-      hideAfter: 5,
+});angular.module('app.services').service("generateId", function($rootScope) {
+  this.generate = function() {
+    var i, possible, text;
+    text = "";
+    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    i = 0;
+    while (i < 20) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+      i++;
+    }
+    return text;
+  };
+  return;
+});angular.module('app.services').service("modalService", function($rootScope, $modal) {
+  this.open = function(parameters) {
+    return $modal.open(parameters);
+  };
+  return;
+});angular.module('app.services').service("surveyDTOService", function(downloadService, $flash, $filter) {
+  this.surveyDTO = {
+    account: {
+      otherEmailAddresses: []
+    },
+    answers: []
+  };
+  this.createPreAccount = function(accountType) {
+    return this.surveyDTO.account.accountType = accountType;
+  };
+  this.setLanguage = function(lang) {
+    return this.surveyDTO.account.languageAbrv = lang;
+  };
+  this.login = function(surveyDTO) {
+    return this.surveyDTO = surveyDTO;
+  };
+  this.isAuthenticated = function() {
+    return (this.surveyDTO.account.id != null) && this.surveyDTO.account.id !== null;
+  };
+  this.logout = function() {
+    return this.surveyDTO = {
+      account: {
+        otherEmailAddresses: []
+      },
+      answers: []
+    };
+  };
+  this.setAccount = function(account) {
+    return this.surveyDTO.account.id = account.id;
+  };
+  this.hasAccountType = function() {
+    var result;
+    result = (this.surveyDTO.account.accountType != null);
+    return result;
+  };
+  this.getAnswers = function(questionCode) {
+    return _.where(this.surveyDTO.answers, {
+      questionKey: questionCode
+    });
+  };
+  this.getAccount = function() {
+    return this.surveyDTO.account;
+  };
+  this.getAnswerValue = function(questionKey, periodKey) {
+    var answer, answerValue;
+    if (!!periodKey) {
+      answer = _.findWhere(this.surveyDTO.answers, {
+        questionKey: questionKey,
+        periodKey: periodKey
+      });
+    } else {
+      answer = _.findWhere(this.surveyDTO.answers, {
+        questionKey: questionKey
+      });
+    }
+    if (!answer) {
+      answer = {
+        questionKey: questionKey,
+        periodKey: periodKey,
+        answerValues: []
+      };
+      this.surveyDTO.answers.push(answer);
+    }
+    if (answer.answerValues.length === 0) {
+      answerValue = {
+        stringValue: null,
+        doubleValue: null,
+        booleanValue: null
+      };
+      answer.answerValues.push(answerValue);
+    } else {
+      answerValue = answer.answerValues[0];
+    }
+    return answerValue;
+  };
+  this.isQuestionCompleted = function(questionKey) {
+    var answer, answerValue, answers, _i, _j, _len, _len2, _ref;
+    answers = this.getAnswers(questionKey);
+    if (answers.length === 0) {
+      return false;
+    }
+    for (_i = 0, _len = answers.length; _i < _len; _i++) {
+      answer = answers[_i];
+      _ref = answer.answerValues;
+      for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+        answerValue = _ref[_j];
+        if (!((!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue === 0))) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+  this.saveSurvey = function() {
+    return downloadService.postJson('/survey/update', this.surveyDTO, function(result) {
+      if (result.success) {
+        $flash.success('account.save.success');
+      } else {
+        console.error("@saveSurvey() thrown error! Response = ", result);
+      }
+      return;
+    });
+  };
+  this.getPotentialReductionDTO = function(cb) {
+    return downloadService.postJson('/reduction/potential', this.surveyDTO, function(result) {
+      if (result.success) {
+        cb(result.data);
+      } else {
+        console.error("@getPotentialReductionDTO() thrown error! Response = ", result);
+      }
+      return;
+    });
+  };
+  this.getEffectiveReductionDTO = function(cb) {
+    return downloadService.postJson('/reduction/effective', this.surveyDTO, function(result) {
+      if (result.success) {
+        cb(result.data);
+      } else {
+        console.error("@getEffectiveReductionDTO() thrown error! Response = ", result);
+      }
+      return;
+    });
+  };
+  return;
+});angular.module('app.services').service("$flash", function($filter) {
+  this.success = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'success',
       showCloseButton: true
-    };
-    return console.log("MessageFlash : type:" + type + "/content:" + message);
-  };
-  this.displaySuccess = function(message, opts) {
-    return this.display('success', message, opts);
-  };
-  this.displayInfo = function(message, opts) {
-    return this.display('info', message, opts);
-  };
-  this.displayError = function(message, opts) {
-    return this.display('error', message, opts);
-  };
-  return;
-});angular.module('app.services').service("optionService", function($rootScope, $modal, gettextCatalog, $filter) {
-  var cleanKey, options;
-  options = {};
-  this.getNumericOptions = function(questionKey, min, max, step) {
-    var element, maxF, minF, optionList, stepF, _i, _len, _ref;
-    if (options[questionKey] != null) {
-      return options[questionKey];
-    }
-    optionList = [
-      {
-        value: null,
-        label: null
-      }
-    ];
-    minF = parseFloat(min);
-    maxF = parseFloat(max) + parseFloat(step);
-    stepF = parseFloat(step);
-    _ref = _.range(minF, maxF, stepF);
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      element = _ref[_i];
-      optionList.push({
-        value: element + "",
-        label: element + ""
-      });
-    }
-    options[questionKey] = optionList;
-    return optionList;
-  };
-  this.getOptions = function(questionKey) {
-    var list, opt, optionList, pattern, _i, _len;
-    if (options[questionKey] != null) {
-      return options[questionKey];
-    }
-    pattern = new RegExp(questionKey + "\.options\.*");
-    list = _.filter(Object.keys(gettextCatalog.strings.fr), function(key) {
-      return pattern.test(key);
     });
-    optionList = [];
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      opt = list[_i];
-      optionList.push({
-        value: cleanKey(questionKey, opt),
-        label: opt
-      });
-    }
-    optionList = _.sortBy(optionList, function(item) {
-      return parseFloat(item.value);
+  };
+  this.info = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'info',
+      showCloseButton: true
     });
-    optionList.splice(0, 0, {
-      value: null,
-      label: null
+  };
+  this.error = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'error',
+      showCloseButton: true
     });
-    options[questionKey] = optionList;
-    return optionList;
   };
-  cleanKey = function(questionKey, key) {
-    var match, pattern;
-    pattern = new RegExp(questionKey + "\.options\.([^\.]+)\.label");
-    match = pattern.exec(key);
-    return match[1];
-  };
-  return;
-});angular.module('app.services').service("directiveService", function($sce) {
-  this.autoScope = function(s) {
-    var k, res, v;
-    res = {};
-    for (k in s) {
-      v = s[k];
-      res[k] = v;
-      if (k.slice(0, 2) === 'ng' && v === '=') {
-        res[k[2].toLowerCase() + k.slice(3)] = '@';
-      }
-    }
-    return res;
-  };
-  this.autoScopeImpl = function(s, name) {
-    var fget, key, val;
-    s.$$NAME = name;
-    for (key in s) {
-      val = s[key];
-      if (key.slice(0, 2) === 'ng') {
-        fget = function(scope, k) {
-          return function() {
-            var v;
-            v = 0;
-            if (scope[k] === void 0 || scope[k] === null || scope[k] === '') {
-              v = scope[k[2].toLowerCase() + k.slice(3)];
-            } else {
-              v = scope[k];
-            }
-            if (scope['decorate' + k.slice(2)]) {
-              return scope['decorate' + k.slice(2)](v);
-            } else {
-              return v;
-            }
-          };
-        };
-        s['get' + key.slice(2)] = fget(s, key);
-      }
-    }
-    s.isTrue = function(v) {
-      return v === true || v === 'true' || v === 'y';
-    };
-    s.isFalse = function(v) {
-      return v === false || v === 'false' || v === 'n';
-    };
-    s.isNull = function(v) {
-      return v === null;
-    };
-    return s.html = function(v) {
-      return $sce.trustAsHtml(v);
-    };
+  this.warning = function(key) {
+    return Messenger().post({
+      message: $filter('translate')(key),
+      type: 'warning',
+      showCloseButton: true
+    });
   };
   return;
 });angular.module('app.services').service("conditionService", function(surveyDTOService) {
@@ -613,173 +780,12 @@ Messenger.options = {
     return null;
   };
   return;
-});angular.module('app.services').service("$flash", function($filter) {
-  this.success = function(key) {
-    return Messenger().post({
-      message: $filter('translate')(key),
-      type: 'success',
-      showCloseButton: true
-    });
-  };
-  this.info = function(key) {
-    return Messenger().post({
-      message: $filter('translate')(key),
-      type: 'info',
-      showCloseButton: true
-    });
-  };
-  this.error = function(key) {
-    return Messenger().post({
-      message: $filter('translate')(key),
-      type: 'error',
-      showCloseButton: true
-    });
-  };
-  this.warning = function(key) {
-    return Messenger().post({
-      message: $filter('translate')(key),
-      type: 'warning',
-      showCloseButton: true
-    });
-  };
-  return;
-});angular.module('app.services').service("generateId", function($rootScope) {
-  this.generate = function() {
-    var i, possible, text;
-    text = "";
-    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    i = 0;
-    while (i < 20) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-      i++;
+});angular.module('app.filters').filter("toHour", function(translateFilter) {
+  return function(input) {
+    if (input != null) {
+      return input + translateFilter('filter.toHour.hour.suffix');
     }
-    return text;
   };
-  return;
-});angular.module('app.services').service("surveyDTOService", function(downloadService, $flash, $filter) {
-  this.surveyDTO = {
-    account: {
-      otherEmailAddresses: []
-    },
-    answers: []
-  };
-  this.createPreAccount = function(accountType) {
-    return this.surveyDTO.account.accountType = accountType;
-  };
-  this.setLanguage = function(lang) {
-    return this.surveyDTO.account.languageAbrv = lang;
-  };
-  this.login = function(surveyDTO) {
-    return this.surveyDTO = surveyDTO;
-  };
-  this.isAuthenticated = function() {
-    return (this.surveyDTO.account.id != null) && this.surveyDTO.account.id !== null;
-  };
-  this.logout = function() {
-    return this.surveyDTO = {
-      account: {
-        otherEmailAddresses: []
-      },
-      answers: []
-    };
-  };
-  this.setAccount = function(account) {
-    return this.surveyDTO.account.id = account.id;
-  };
-  this.hasAccountType = function() {
-    var result;
-    result = (this.surveyDTO.account.accountType != null);
-    return result;
-  };
-  this.getAnswers = function(questionCode) {
-    return _.where(this.surveyDTO.answers, {
-      questionKey: questionCode
-    });
-  };
-  this.getAccount = function() {
-    return this.surveyDTO.account;
-  };
-  this.getAnswerValue = function(questionKey, periodKey) {
-    var answer, answerValue;
-    if (!!periodKey) {
-      answer = _.findWhere(this.surveyDTO.answers, {
-        questionKey: questionKey,
-        periodKey: periodKey
-      });
-    } else {
-      answer = _.findWhere(this.surveyDTO.answers, {
-        questionKey: questionKey
-      });
-    }
-    if (!answer) {
-      answer = {
-        questionKey: questionKey,
-        periodKey: periodKey,
-        answerValues: []
-      };
-      this.surveyDTO.answers.push(answer);
-    }
-    if (answer.answerValues.length === 0) {
-      answerValue = {
-        stringValue: null,
-        doubleValue: null,
-        booleanValue: null
-      };
-      answer.answerValues.push(answerValue);
-    } else {
-      answerValue = answer.answerValues[0];
-    }
-    return answerValue;
-  };
-  this.isQuestionCompleted = function(questionKey) {
-    var answer, answerValue, answers, _i, _j, _len, _len2, _ref;
-    answers = this.getAnswers(questionKey);
-    if (answers.length === 0) {
-      return false;
-    }
-    for (_i = 0, _len = answers.length; _i < _len; _i++) {
-      answer = answers[_i];
-      _ref = answer.answerValues;
-      for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-        answerValue = _ref[_j];
-        if (!((!!answerValue.booleanValue) || (!!answerValue.stringValue) || (!!answerValue.doubleValue) || (answerValue.doubleValue === 0))) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-  this.saveSurvey = function() {
-    return downloadService.postJson('/survey/update', this.surveyDTO, function(result) {
-      if (result.success) {
-        $flash.success('account.save.success');
-      } else {
-        console.error("@saveSurvey() thrown error! Response = ", result);
-      }
-      return;
-    });
-  };
-  this.getPotentialReductionDTO = function(cb) {
-    return downloadService.postJson('/reduction/potential', this.surveyDTO, function(result) {
-      if (result.success) {
-        cb(result.data);
-      } else {
-        console.error("@getPotentialReductionDTO() thrown error! Response = ", result);
-      }
-      return;
-    });
-  };
-  this.getEffectiveReductionDTO = function(cb) {
-    return downloadService.postJson('/reduction/effective', this.surveyDTO, function(result) {
-      if (result.success) {
-        cb(result.data);
-      } else {
-        console.error("@getEffectiveReductionDTO() thrown error! Response = ", result);
-      }
-      return;
-    });
-  };
-  return;
 });angular.module('app.filters').filter("params", function() {
   return function(input, params) {
     var k, v;
@@ -789,22 +795,10 @@ Messenger.options = {
     }
     return input;
   };
-});angular.module('app.filters').filter("toHour", function(translateFilter) {
-  return function(input) {
-    if (input != null) {
-      return input + translateFilter('filter.toHour.hour.suffix');
-    }
-  };
 });angular.module('app.filters').filter("toSquareMeters", function(translateFilter) {
   return function(input) {
     if (input != null) {
       return input + translateFilter('filter.toSquareMeters.m2.suffix');
-    }
-  };
-});angular.module('app.filters').filter("stringToFloat", function() {
-  return function(input) {
-    if (input != null) {
-      return parseFloat(input);
     }
   };
 });angular.module('app.filters').filter("numberToI18N", function($filter) {
@@ -823,87 +817,58 @@ Messenger.options = {
       return input + translateFilter('filter.toWatts.w.suffix');
     }
   };
-});angular.module('app.directives').directive("crTootipOnRespond", function(directiveService, $filter, $parse, conditionService) {
-  return {
-    restrict: "A",
-    require: 'ngModel',
-    link: function(scope, elem, attrs, ngModel) {
-      var o, periodKey, questionKey;
-      o = $parse(attrs.crTootipOnRespond)(scope);
-      questionKey = o.key;
-      periodKey = o.period;
-      if (conditionService.getTooltip(questionKey, periodKey) != null) {
-        if ($(elem).closest('.modal').length > 0) {
-          scope.$lbl = conditionService.getTooltip(questionKey, periodKey)();
-          scope.$oldLbl = scope.$lbl;
-        }
-        scope.$on('$destroy', function() {
-          if (scope.$trip) {
-            scope.$trip.stop();
-            return scope.$trip = null;
-          }
-        });
-        scope.$$childHead.$watch('ngModel', function(n, o) {
-          scope.$lbl = conditionService.getTooltip(questionKey, periodKey)();
-          if (scope.$lbl !== scope.$oldLbl) {
-            if (scope.$trip) {
-              scope.$trip.stop();
-              scope.$trip = null;
-            }
-            if (scope.$lbl) {
-              scope.$trip = new Trip([
-                {
-                  sel: $(elem),
-                  content: $filter('translate')(scope.$lbl),
-                  position: 'w',
-                  delay: 10000,
-                  animation: 'bounceInLeft',
-                  showCloseBox: true
-                }
-              ], {
-                overlayHolder: '.modal-body'
-              });
-              scope.$trip.start();
-            }
-            return scope.$oldLbl = scope.$lbl;
-          }
-        });
-      }
-      return;
+});angular.module('app.filters').filter("stringToFloat", function() {
+  return function(input) {
+    if (input != null) {
+      return parseFloat(input);
     }
   };
-});angular.module('app.directives').directive("crTopic", function(directiveService, modalService, $log) {
+});angular.module('app.directives').directive("crRadio", function(directiveService) {
   return {
     restrict: "E",
     scope: directiveService.autoScope({
-      ngActive: '=',
-      ngImage: '=',
-      ngView: '=',
-      ngController: '=',
-      ngWindowClass: '=',
-      ngLabel: '=',
-      ngDisabled: '=',
-      ngCallback: '&'
+      ngModel: '=',
+      ngOptions: '=',
+      ngFreeAllowed: '='
     }),
-    templateUrl: "$/angular/templates/cr-topic.html",
+    templateUrl: "$/angular/templates/cr-radio.html",
     replace: true,
     link: function(scope, elem, attrs, ngModel) {
       directiveService.autoScopeImpl(scope);
-      return scope.open = function() {
-        var cb, modalInstance;
-        console.log(scope.getWindowClass());
-        modalInstance = modalService.open({
-          templateUrl: scope.getView(),
-          controller: scope.getController(),
-          size: 'lg',
-          windowClass: scope.getWindowClass(),
-          resolve: {}
-        });
-        cb = scope.ngCallback;
-        if (!cb) {
-          cb = angular.noop;
+      scope.setValue = function(v) {
+        return scope.ngModel = v;
+      };
+      scope.isValue = function(v) {
+        return scope.ngModel == v;
+      };
+      scope.$watch('ngOptions', function(n, o) {
+        var element, _i, _len, _results;
+        scope.computedOptions = [];
+        _results = [];
+        for (_i = 0, _len = n.length; _i < _len; _i++) {
+          element = n[_i];
+          _results.push(typeof element === 'object' ? scope.computedOptions.push(element) : scope.computedOptions.push({
+            value: element,
+            label: element
+          }));
         }
-        return modalInstance.result.then(cb, cb);
+        return _results;
+      });
+      return scope.toggle = function() {
+        var o, _i, _len, _ref;
+        scope.edit = !scope.edit;
+        if (!scope.edit) {
+          if (scope.ngOptions.length > 0) {
+            _ref = scope.ngOptions;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              o = _ref[_i];
+              if (o.value == scope.ngModel) {
+                return;
+              }
+            }
+            return scope.ngModel = scope.ngOptions[0].value;
+          }
+        }
       };
     }
   };
@@ -918,6 +883,151 @@ Messenger.options = {
     transclude: true,
     link: function(scope, elem, attrs, ngModel) {
       return directiveService.autoScopeImpl(scope);
+    }
+  };
+});angular.module('app.directives').directive("crBoolean", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngModel: '='
+    }),
+    templateUrl: "$/angular/templates/cr-boolean.html",
+    replace: false,
+    link: function(scope, elem, attrs, ngModel) {
+      directiveService.autoScopeImpl(scope);
+      return scope.steps = [
+        {
+          value: null,
+          label: null
+        }, {
+          value: true,
+          label: "directive.boolean.yes"
+        }, {
+          value: false,
+          label: "directive.boolean.no"
+        }
+      ];
+    }
+  };
+});angular.module('app.directives').directive("crDoubleRange", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngRangeMin: '=',
+      ngRangeMax: '=',
+      ngMin: '=',
+      ngMax: '=',
+      ngDisabled: '='
+    }),
+    templateUrl: "$/angular/templates/cr-double-range.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      return directiveService.autoScopeImpl(scope);
+    }
+  };
+});angular.module('app.directives').directive("crNumber", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngModel: '='
+    }),
+    require: 'ngModel',
+    templateUrl: "$/angular/templates/cr-number.html",
+    replace: true,
+    link: function(scope, elem, attrs, ngModel) {
+      directiveService.autoScopeImpl(scope);
+      ngModel.$parsers.push(function(inputValue) {
+        var firstParse, max, min, n, prepParse, returnValue, safeParse, secondParse, transformedInput;
+        if (inputValue == null) {
+          return "";
+        }
+        firstParse = inputValue.replace(/[^0-9 . -]/g, "");
+        safeParse = firstParse.charAt(0);
+        prepParse = firstParse.substring(1, firstParse.length);
+        secondParse = safeParse + prepParse.replace(/[^0-9 .]/g, "");
+        n = secondParse.indexOf(".");
+        transformedInput = void 0;
+        if (n === -1) {
+          transformedInput = secondParse;
+        } else {
+          safeParse = secondParse.substring(0, n + 1);
+          firstParse = (secondParse.substring(n + 1, secondParse.length)).replace(/[^0-9]/g, "");
+          n = 2;
+          if (firstParse.length <= n) {
+            transformedInput = safeParse + firstParse;
+          } else {
+            transformedInput = safeParse + firstParse.substring(0, n);
+          }
+        }
+        min = parseInt(attrs.minvalue);
+        max = parseInt(attrs.maxvalue);
+        if (transformedInput !== inputValue || transformedInput < min || transformedInput > max) {
+          returnValue = void 0;
+          if (transformedInput < min || transformedInput > max) {
+            returnValue = transformedInput.substring(0, transformedInput.length - 1);
+          } else {
+            returnValue = transformedInput;
+          }
+          ngModel.$setViewValue(returnValue);
+          ngModel.$render();
+        }
+        returnValue;
+        return;
+      });
+      ngModel.$formatters.push(function(value) {
+        return 0 + parseInt(value);
+      });
+      scope.g = function() {
+        return typeof scope.ngModel;
+      };
+      return scope;
+    }
+  };
+});angular.module('app.directives').directive("crLogin", function(surveyDTOService, downloadService, $state, $flash) {
+  return {
+    restrict: "E",
+    scope: {},
+    templateUrl: "$/angular/templates/cr-login.html",
+    replace: false,
+    link: function(scope, elem, attrs) {
+      scope.fullname = function() {
+        return surveyDTOService.getAccount().firstName + ' ' + surveyDTOService.getAccount().lastName;
+      };
+      scope.isAuthenticated = function() {
+        return surveyDTOService.isAuthenticated();
+      };
+      return scope.logout = function() {
+        downloadService.postJson('/logout', surveyDTOService.surveyDTO, function(result) {
+          if (result.success) {
+            $state.go('root.welcome');
+            surveyDTOService.logout();
+            return $flash.success('logout.success');
+          }
+        });
+        return;
+      };
+    }
+  };
+});angular.module('app.directives').directive("crDropdown", function(directiveService) {
+  return {
+    restrict: "E",
+    scope: directiveService.autoScope({
+      ngOptions: '=',
+      ngModel: '=',
+      ngDisabled: '=',
+      ngOpened: '='
+    }),
+    templateUrl: "$/angular/templates/cr-dropdown.html",
+    replace: true,
+    link: function(scope) {
+      directiveService.autoScopeImpl(scope);
+      scope.$select = function(o) {
+        return scope.ngModel = o;
+      };
+      return scope.$opened = function() {
+        console.log('ok');
+        return !!scope.getOpened();
+      };
     }
   };
 });angular.module('app.directives').directive("mmFieldAutoCompletion", function(directiveService) {
@@ -1256,31 +1366,6 @@ Messenger.options = {
       return directiveService.autoScopeImpl(scope);
     }
   };
-});angular.module('app.directives').directive("crLogin", function(surveyDTOService, downloadService, $state, $flash) {
-  return {
-    restrict: "E",
-    scope: {},
-    templateUrl: "$/angular/templates/cr-login.html",
-    replace: false,
-    link: function(scope, elem, attrs) {
-      scope.fullname = function() {
-        return surveyDTOService.getAccount().firstName + ' ' + surveyDTOService.getAccount().lastName;
-      };
-      scope.isAuthenticated = function() {
-        return surveyDTOService.isAuthenticated();
-      };
-      return scope.logout = function() {
-        downloadService.postJson('/logout', surveyDTOService.surveyDTO, function(result) {
-          if (result.success) {
-            $state.go('root.welcome');
-            surveyDTOService.logout();
-            return $flash.success('logout.success');
-          }
-        });
-        return;
-      };
-    }
-  };
 });angular.module('app.directives').directive("crText", function(directiveService, $timeout) {
   return {
     restrict: "E",
@@ -1326,62 +1411,97 @@ Messenger.options = {
       }
     }
   };
-});angular.module('app.directives').directive("crNumber", function(directiveService) {
+});angular.module('app.directives').directive("crMultiText", function(directiveService) {
   return {
     restrict: "E",
     scope: directiveService.autoScope({
-      ngModel: '='
+      ngModel: '=',
+      ngRegex: '='
     }),
     require: 'ngModel',
-    templateUrl: "$/angular/templates/cr-number.html",
+    templateUrl: "$/angular/templates/cr-multi-text.html",
     replace: true,
-    link: function(scope, elem, attrs, ngModel) {
+    link: function(scope, elem, attrs) {
       directiveService.autoScopeImpl(scope);
-      ngModel.$parsers.push(function(inputValue) {
-        var firstParse, max, min, n, prepParse, returnValue, safeParse, secondParse, transformedInput;
-        if (inputValue == null) {
-          return "";
-        }
-        firstParse = inputValue.replace(/[^0-9 . -]/g, "");
-        safeParse = firstParse.charAt(0);
-        prepParse = firstParse.substring(1, firstParse.length);
-        secondParse = safeParse + prepParse.replace(/[^0-9 .]/g, "");
-        n = secondParse.indexOf(".");
-        transformedInput = void 0;
-        if (n === -1) {
-          transformedInput = secondParse;
+      scope.getRange = function() {
+        if (!scope.ngModel) {
+          return [0];
         } else {
-          safeParse = secondParse.substring(0, n + 1);
-          firstParse = (secondParse.substring(n + 1, secondParse.length)).replace(/[^0-9]/g, "");
-          n = 2;
-          if (firstParse.length <= n) {
-            transformedInput = safeParse + firstParse;
-          } else {
-            transformedInput = safeParse + firstParse.substring(0, n);
-          }
+          return _.range(scope.ngModel.length + 1);
         }
-        min = parseInt(attrs.minvalue);
-        max = parseInt(attrs.maxvalue);
-        if (transformedInput !== inputValue || transformedInput < min || transformedInput > max) {
-          returnValue = void 0;
-          if (transformedInput < min || transformedInput > max) {
-            returnValue = transformedInput.substring(0, transformedInput.length - 1);
-          } else {
-            returnValue = transformedInput;
-          }
-          ngModel.$setViewValue(returnValue);
-          ngModel.$render();
-        }
-        returnValue;
-        return;
-      });
-      ngModel.$formatters.push(function(value) {
-        return 0 + parseInt(value);
-      });
-      scope.g = function() {
-        return typeof scope.ngModel;
       };
-      return scope;
+      scope.validation = [];
+      return scope.$watch('ngModel', function(n, o) {
+        var k, r, v, _ref, _ref2;
+        scope.ngModel = _.reject(scope.ngModel, function(e) {
+          return !e;
+        });
+        scope.validation = [];
+        if (scope.getRegex()) {
+          r = new RegExp(scope.getRegex());
+          _ref = scope.ngModel;
+          for (k in _ref) {
+            v = _ref[k];
+            scope.validation[k] = r.test(v);
+          }
+        } else {
+          _ref2 = scope.ngModel;
+          for (k in _ref2) {
+            v = _ref2[k];
+            scope.validation[k] = true;
+          }
+        }
+        return scope.validation[scope.ngModel.length] = true;
+      }, true);
+    }
+  };
+});angular.module('app.directives').directive("crTootipOnRespond", function(directiveService, $filter, $parse, conditionService) {
+  return {
+    restrict: "A",
+    require: 'ngModel',
+    link: function(scope, elem, attrs, ngModel) {
+      var o, periodKey, questionKey;
+      o = $parse(attrs.crTootipOnRespond)(scope);
+      questionKey = o.key;
+      periodKey = o.period;
+      if (conditionService.getTooltip(questionKey, periodKey) != null) {
+        if ($(elem).closest('.modal').length > 0) {
+          scope.$lbl = conditionService.getTooltip(questionKey, periodKey)();
+          scope.$oldLbl = scope.$lbl;
+        }
+        scope.$on('$destroy', function() {
+          if (scope.$trip) {
+            scope.$trip.stop();
+            return scope.$trip = null;
+          }
+        });
+        scope.$$childHead.$watch('ngModel', function(n, o) {
+          scope.$lbl = conditionService.getTooltip(questionKey, periodKey)();
+          if (scope.$lbl !== scope.$oldLbl) {
+            if (scope.$trip) {
+              scope.$trip.stop();
+              scope.$trip = null;
+            }
+            if (scope.$lbl) {
+              scope.$trip = new Trip([
+                {
+                  sel: $(elem),
+                  content: $filter('translate')(scope.$lbl),
+                  position: 'w',
+                  delay: 10000,
+                  animation: 'bounceInLeft',
+                  showCloseBox: true
+                }
+              ], {
+                overlayHolder: '.modal-body'
+              });
+              scope.$trip.start();
+            }
+            return scope.$oldLbl = scope.$lbl;
+          }
+        });
+      }
+      return;
     }
   };
 });angular.module('app.directives').directive("crSlider", function(directiveService, $filter, $timeout) {
@@ -1592,114 +1712,38 @@ Messenger.options = {
       }, 0);
     }
   };
-});angular.module('app.directives').directive("crDoubleRange", function(directiveService) {
+});angular.module('app.directives').directive("crTopic", function(directiveService, modalService, $log) {
   return {
     restrict: "E",
     scope: directiveService.autoScope({
-      ngRangeMin: '=',
-      ngRangeMax: '=',
-      ngMin: '=',
-      ngMax: '=',
-      ngDisabled: '='
-    }),
-    templateUrl: "$/angular/templates/cr-double-range.html",
-    replace: true,
-    link: function(scope, elem, attrs, ngModel) {
-      return directiveService.autoScopeImpl(scope);
-    }
-  };
-});angular.module('app.directives').directive("crBoolean", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngModel: '='
-    }),
-    templateUrl: "$/angular/templates/cr-boolean.html",
-    replace: false,
-    link: function(scope, elem, attrs, ngModel) {
-      directiveService.autoScopeImpl(scope);
-      return scope.steps = [
-        {
-          value: null,
-          label: null
-        }, {
-          value: true,
-          label: "directive.boolean.yes"
-        }, {
-          value: false,
-          label: "directive.boolean.no"
-        }
-      ];
-    }
-  };
-});angular.module('app.directives').directive("crRadio", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngModel: '=',
-      ngOptions: '=',
-      ngFreeAllowed: '='
-    }),
-    templateUrl: "$/angular/templates/cr-radio.html",
-    replace: true,
-    link: function(scope, elem, attrs, ngModel) {
-      directiveService.autoScopeImpl(scope);
-      scope.setValue = function(v) {
-        return scope.ngModel = v;
-      };
-      scope.isValue = function(v) {
-        return scope.ngModel == v;
-      };
-      scope.$watch('ngOptions', function(n, o) {
-        var element, _i, _len, _results;
-        scope.computedOptions = [];
-        _results = [];
-        for (_i = 0, _len = n.length; _i < _len; _i++) {
-          element = n[_i];
-          _results.push(typeof element === 'object' ? scope.computedOptions.push(element) : scope.computedOptions.push({
-            value: element,
-            label: element
-          }));
-        }
-        return _results;
-      });
-      return scope.toggle = function() {
-        var o, _i, _len, _ref;
-        scope.edit = !scope.edit;
-        if (!scope.edit) {
-          if (scope.ngOptions.length > 0) {
-            _ref = scope.ngOptions;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              o = _ref[_i];
-              if (o.value == scope.ngModel) {
-                return;
-              }
-            }
-            return scope.ngModel = scope.ngOptions[0].value;
-          }
-        }
-      };
-    }
-  };
-});angular.module('app.directives').directive("crDropdown", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngOptions: '=',
-      ngModel: '=',
+      ngActive: '=',
+      ngImage: '=',
+      ngView: '=',
+      ngController: '=',
+      ngWindowClass: '=',
+      ngLabel: '=',
       ngDisabled: '=',
-      ngOpened: '='
+      ngCallback: '&'
     }),
-    templateUrl: "$/angular/templates/cr-dropdown.html",
+    templateUrl: "$/angular/templates/cr-topic.html",
     replace: true,
-    link: function(scope) {
+    link: function(scope, elem, attrs, ngModel) {
       directiveService.autoScopeImpl(scope);
-      scope.$select = function(o) {
-        return scope.ngModel = o;
-      };
-      return scope.$opened = function() {
-        console.log('ok');
-        return !!scope.getOpened();
+      return scope.open = function() {
+        var cb, modalInstance;
+        console.log(scope.getWindowClass());
+        modalInstance = modalService.open({
+          templateUrl: scope.getView(),
+          controller: scope.getController(),
+          size: 'lg',
+          windowClass: scope.getWindowClass(),
+          resolve: {}
+        });
+        cb = scope.ngCallback;
+        if (!cb) {
+          cb = angular.noop;
+        }
+        return modalInstance.result.then(cb, cb);
       };
     }
   };
@@ -1728,118 +1772,6 @@ Messenger.options = {
       }), handler, true);
       return;
     }
-  };
-});angular.module('app.directives').directive("crMultiText", function(directiveService) {
-  return {
-    restrict: "E",
-    scope: directiveService.autoScope({
-      ngModel: '=',
-      ngRegex: '='
-    }),
-    require: 'ngModel',
-    templateUrl: "$/angular/templates/cr-multi-text.html",
-    replace: true,
-    link: function(scope, elem, attrs) {
-      directiveService.autoScopeImpl(scope);
-      scope.getRange = function() {
-        if (!scope.ngModel) {
-          return [0];
-        } else {
-          return _.range(scope.ngModel.length + 1);
-        }
-      };
-      scope.validation = [];
-      return scope.$watch('ngModel', function(n, o) {
-        var k, r, v, _ref, _ref2;
-        scope.ngModel = _.reject(scope.ngModel, function(e) {
-          return !e;
-        });
-        scope.validation = [];
-        if (scope.getRegex()) {
-          r = new RegExp(scope.getRegex());
-          _ref = scope.ngModel;
-          for (k in _ref) {
-            v = _ref[k];
-            scope.validation[k] = r.test(v);
-          }
-        } else {
-          _ref2 = scope.ngModel;
-          for (k in _ref2) {
-            v = _ref2[k];
-            scope.validation[k] = true;
-          }
-        }
-        return scope.validation[scope.ngModel.length] = true;
-      }, true);
-    }
-  };
-});angular.module('app.controllers').controller("ModalChangeEmailCtrl", function($scope, modalService, $log, downloadService, $modalInstance, surveyDTOService, $flash) {
-  $scope.noSubmitYet = true;
-  $scope.loading = false;
-  $scope.validation = {
-    oldPassword: {
-      pattern: /^[a-zA-Z0-9-_%]{6,18}$/,
-      valid: false
-    },
-    newEmail: {
-      pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      valid: false
-    }
-  };
-  $scope.o = {
-    oldPassword: "",
-    newEmail: ""
-  };
-  $scope.save = function() {
-    var dto;
-    $scope.noSubmitYet = false;
-    if ($scope.checkValidity()) {
-      dto = {
-        oldPassword: $scope.o.oldPassword,
-        email: $scope.o.newEmail
-      };
-      $scope.loading = true;
-      return downloadService.postJson('/account/changeEmail', dto, function(result) {
-        $scope.loading = false;
-        if (result.success) {
-          $flash.success('account.changeEmail.success');
-          surveyDTOService.getAccount().email = $scope.o.newEmail;
-          return $scope.close();
-        } else {
-          return $flash.error(result.data.message);
-        }
-      });
-    }
-  };
-  $scope.checkValidity = function() {
-    var key, _i, _len, _ref;
-    _ref = Object.keys($scope.validation);
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      key = _ref[_i];
-      if ($scope.validation[key].valid === false) {
-        return false;
-      }
-    }
-    return true;
-  };
-  return $scope.close = function() {
-    return $modalInstance.close();
-  };
-});angular.module('app.controllers').controller("ModalTopicCtrl", function($scope, surveyDTOService, optionService, $modalInstance) {
-  $scope.getOptions = function(questionKey) {
-    return optionService.getOptions(questionKey);
-  };
-  $scope.getNumericOptions = function(questionKey, min, max, step) {
-    return optionService.getNumericOptions(questionKey, min, max, step);
-  };
-  $scope.getAnswerValue = function(questionKey, periodKey) {
-    return surveyDTOService.getAnswerValue(questionKey, periodKey);
-  };
-  $scope.getAccount = function() {
-    return surveyDTOService.getAccount();
-  };
-  return $scope.close = function() {
-    return $modalInstance.close();
   };
 });angular.module('app.controllers').controller("FormCtrl", function($scope, modalService, $filter, $log, downloadService, surveyDTOService, conditionService, $location, $flash, $filter) {
   $scope.topicQuestions = {
@@ -1980,6 +1912,191 @@ Messenger.options = {
   };
   $scope.getPotentialReduction();
   return $scope.getEffectiveReduction();
+});angular.module('app.controllers').controller("WelcomeCtrl", function($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash, $stateParams) {
+  $scope.toHouseHold = function() {
+    surveyDTOService.createPreAccount('household');
+    return $state.go('root.householdProfile');
+  };
+  $scope.loginParams = {
+    email: "",
+    password: ""
+  };
+  $scope.forgotPasswordParams = {
+    email: ""
+  };
+  $scope.loading = false;
+  $scope.login = function() {
+    var dto;
+    if ($scope.loading === false) {
+      dto = {
+        email: $scope.loginParams.email,
+        password: $scope.loginParams.password
+      };
+      $scope.loading = true;
+      return downloadService.postJson('/login', dto, function(result) {
+        $scope.loading = false;
+        if (result.success) {
+          surveyDTOService.login(result.data);
+          if (result.data.account.accountType === 'household') {
+            console.log("result.data.account.passwordToChange = " + result.data.account.passwordToChange);
+            if (result.data.account.passwordToChange) {
+              return $scope.openChangePasswordModal();
+            } else {
+              $flash.success('account.login.success');
+              return $state.go('root.householdProfile');
+            }
+          }
+        } else {
+          return $flash.error(result.data.message);
+        }
+      });
+    }
+  };
+  $scope.forgotPassword = function() {
+    var dto;
+    if ($scope.loading === false) {
+      dto = {
+        email: $scope.forgotPasswordParams.email
+      };
+      $scope.loading = true;
+      return downloadService.postJson('/forgotPassword', dto, function(result) {
+        $scope.loading = false;
+        if (result.success) {
+          $flash.success('account.forgotPassword.success');
+          return $scope.forgotPasswordParams.email = null;
+        } else {
+          return $flash.error(result.data.message);
+        }
+      });
+    }
+  };
+  return $scope.openChangePasswordModal = function() {
+    var s;
+    s = $scope.$new();
+    s.loginParams = angular.copy($scope.loginParams);
+    return modalService.open({
+      templateUrl: '$/angular/views/household/account/account-change-password.html',
+      controller: 'ModalChangePasswordCtrl',
+      size: 'lg',
+      scope: s
+    });
+  };
+});angular.module('app.controllers').controller("ModalChangeEmailCtrl", function($scope, modalService, $log, downloadService, $modalInstance, surveyDTOService, $flash) {
+  $scope.noSubmitYet = true;
+  $scope.loading = false;
+  $scope.validation = {
+    oldPassword: {
+      pattern: /^[a-zA-Z0-9-_%]{6,18}$/,
+      valid: false
+    },
+    newEmail: {
+      pattern: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      valid: false
+    }
+  };
+  $scope.o = {
+    oldPassword: "",
+    newEmail: ""
+  };
+  $scope.save = function() {
+    var dto;
+    $scope.noSubmitYet = false;
+    if ($scope.checkValidity()) {
+      dto = {
+        oldPassword: $scope.o.oldPassword,
+        email: $scope.o.newEmail
+      };
+      $scope.loading = true;
+      return downloadService.postJson('/account/changeEmail', dto, function(result) {
+        $scope.loading = false;
+        if (result.success) {
+          $flash.success('account.changeEmail.success');
+          surveyDTOService.getAccount().email = $scope.o.newEmail;
+          return $scope.close();
+        } else {
+          return $flash.error(result.data.message);
+        }
+      });
+    }
+  };
+  $scope.checkValidity = function() {
+    var key, _i, _len, _ref;
+    _ref = Object.keys($scope.validation);
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      key = _ref[_i];
+      if ($scope.validation[key].valid === false) {
+        return false;
+      }
+    }
+    return true;
+  };
+  return $scope.close = function() {
+    return $modalInstance.close();
+  };
+});angular.module('app.controllers').controller("SuperAdminLoginCtrl", function($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash) {
+  $scope.loginParams = {
+    email: "",
+    password: ""
+  };
+  $scope.loading = false;
+  return $scope.login = function() {
+    var dto;
+    if ($scope.loading === false) {
+      dto = {
+        email: $scope.loginParams.email,
+        password: $scope.loginParams.password
+      };
+      $scope.loading = true;
+      return downloadService.postJson('/superAdmin/login', dto, function(result) {
+        $scope.loading = false;
+        if (result.success) {
+          surveyDTOService.login(result.data);
+          $flash.success('account.login.success');
+          return $state.go('root.superAdminMain');
+        } else {
+          return $flash.error(result.data.message);
+        }
+      });
+    }
+  };
+});angular.module('app.controllers').controller("SuperAdminMainCtrl", function($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash) {
+  $scope.loginParams = {
+    email: "",
+    password: ""
+  };
+  $scope.batchs = null;
+  $scope.logout = function() {
+    downloadService.postJson('/logout', surveyDTOService.surveyDTO, function(result) {
+      if (result.success) {
+        $location.path('/welcome');
+        surveyDTOService.logout();
+        return $flash.success('logout.success');
+      }
+    });
+    return;
+  };
+  $scope.loadingReductionData = function() {
+    return downloadService.getJson('/superAdmin/reductionData', function(result) {
+      $scope.loading = false;
+      if (result.success) {
+        console.log("------------------------------------------------");
+        console.log(result.data.list);
+        return $scope.batchs = result.data.list;
+      } else {
+        return $flash.error(result.data.message);
+      }
+    });
+  };
+  $scope.loadingReductionData();
+  return $scope.getValue = function(map, day, period) {
+    var el, _i, _len;
+    for (_i = 0, _len = map.length; _i < _len; _i++) {
+      el = map[_i];
+      if ((day === null || el.dayKey === day) && (el.periodKey = period)) {
+        return el.powerReduction;
+      }
+    }
+  };
 });angular.module('app.controllers').controller("ControlsDemoCtrl", function($scope, modalService, $log, gettextCatalog, $flash) {
   $scope.setLanguage = function(lang) {
     return gettextCatalog.setCurrentLanguage(lang);
@@ -2142,76 +2259,6 @@ Messenger.options = {
   return $scope.cancel = function() {
     return $modalInstance.dismiss('cancel');
   };
-});angular.module('app.controllers').controller("ModalChangePasswordCtrl", function($scope, modalService, $log, downloadService, $modalInstance, $flash) {
-  $scope.noSubmitYet = true;
-  $scope.loading = false;
-  console.log("$scope.loginParams", $scope.loginParams);
-  $scope.validation = {
-    oldPassword: {
-      pattern: /^[a-zA-Z0-9-_%]{6,18}$/,
-      valid: false
-    },
-    newPassword: {
-      pattern: /^[a-zA-Z0-9-_%]{6,18}$/,
-      valid: false
-    },
-    repeatPassword: {
-      validation: function() {
-        return $scope.o.newPassword === $scope.o.repeatPassword;
-      },
-      valid: false
-    }
-  };
-  $scope.o = {
-    oldPassword: "",
-    newPassword: "",
-    repeatPassword: ""
-  };
-  if (!!$scope.loginParams) {
-    $scope.o.oldPassword = angular.copy($scope.loginParams.password);
-    $scope.o.generatedPassword = true;
-    $scope.validation.oldPassword.valid = true;
-  }
-  $scope.save = function() {
-    var dto;
-    $scope.noSubmitYet = false;
-    if ($scope.checkValidity()) {
-      dto = {
-        oldPassword: $scope.o.oldPassword,
-        newPassword: $scope.o.newPassword
-      };
-      $scope.loading = true;
-      return downloadService.postJson('/account/changePassword', dto, function(result) {
-        $scope.loading = false;
-        if (result.success) {
-          $flash.success('account.changePassword.success');
-          if (!!$scope.loginParams) {
-            $scope.loginParams.password = angular.copy($scope.o.newPassword);
-            $scope.login();
-          } else {
-            $flash.success('account.changePassword.success');
-          }
-          return $scope.close();
-        } else {
-          return $flash.error(result.data.message);
-        }
-      });
-    }
-  };
-  $scope.checkValidity = function() {
-    var key, _i, _len, _ref;
-    _ref = Object.keys($scope.validation);
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      key = _ref[_i];
-      if ($scope.validation[key].valid === false) {
-        return false;
-      }
-    }
-    return true;
-  };
-  return $scope.close = function() {
-    return $modalInstance.close();
-  };
 });angular.module('app.controllers').controller("ProfileCtrl", function($scope, modalService, surveyDTOService, $filter) {
   var householdProfileQuestions, topicKey, topicQuestions, updateAveragePotentialPowerReduction, updateProfileState, updateTopicState;
   householdProfileQuestions = {
@@ -2284,71 +2331,6 @@ Messenger.options = {
     });
   };
   return $scope.onLoad();
-});angular.module('app.controllers').controller("WelcomeCtrl", function($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash, $stateParams) {
-  $scope.toHouseHold = function() {
-    surveyDTOService.createPreAccount('household');
-    return $state.go('root.householdProfile');
-  };
-  $scope.loginParams = {
-    email: "",
-    password: ""
-  };
-  $scope.forgotPasswordParams = {
-    email: ""
-  };
-  $scope.loading = false;
-  $scope.login = function() {
-    var dto;
-    if ($scope.loading === false) {
-      dto = {
-        email: $scope.loginParams.email,
-        password: $scope.loginParams.password
-      };
-      $scope.loading = true;
-      return downloadService.postJson('/login', dto, function(result) {
-        $scope.loading = false;
-        if (result.success) {
-          surveyDTOService.login(result.data);
-          if (result.data.account.accountType === 'household') {
-            if (result.data.account.passwordToChange) {
-              return $scope.openChangePasswordModal();
-            } else {
-              $flash.success('account.login.success');
-              return $state.go('root.householdProfile');
-            }
-          }
-        } else {
-          return $flash.error(result.data.message);
-        }
-      });
-    }
-  };
-  $scope.forgotPassword = function() {
-    var dto;
-    if ($scope.loading === false) {
-      dto = {
-        email: $scope.forgotPasswordParams.email
-      };
-      $scope.loading = true;
-      return downloadService.postJson('/forgotPassword', dto, function(result) {
-        $scope.loading = false;
-        if (result.success) {
-          $flash.success('account.forgotPassword.success');
-          return $scope.forgotPasswordParams.email = null;
-        } else {
-          return $flash.error(result.data.message);
-        }
-      });
-    }
-  };
-  return $scope.openChangePasswordModal = function() {
-    return modalService.open({
-      templateUrl: '$/angular/views/household/account/account-change-password.html',
-      controller: 'ModalChangePasswordCtrl',
-      size: 'lg',
-      scope: angular.copy($scope.loginParams)
-    });
-  };
 });angular.module('app.controllers').controller("ResultsCtrl", function($scope, modalService, $filter, $timeout, $log, downloadService, surveyDTOService) {
   $scope.isAuthenticated = function() {
     return surveyDTOService.isAuthenticated();
@@ -2449,69 +2431,91 @@ Messenger.options = {
     };
     return a(document, "script", "twitter-wjs");
   }, 0);
-});angular.module('app.controllers').controller("SuperAdminLoginCtrl", function($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash) {
-  $scope.loginParams = {
-    email: "",
-    password: ""
+});angular.module('app.controllers').controller("ModalTopicCtrl", function($scope, surveyDTOService, optionService, $modalInstance) {
+  $scope.getOptions = function(questionKey) {
+    return optionService.getOptions(questionKey);
   };
+  $scope.getNumericOptions = function(questionKey, min, max, step) {
+    return optionService.getNumericOptions(questionKey, min, max, step);
+  };
+  $scope.getAnswerValue = function(questionKey, periodKey) {
+    return surveyDTOService.getAnswerValue(questionKey, periodKey);
+  };
+  $scope.getAccount = function() {
+    return surveyDTOService.getAccount();
+  };
+  return $scope.close = function() {
+    return $modalInstance.close();
+  };
+});angular.module('app.controllers').controller("ModalChangePasswordCtrl", function($scope, modalService, $log, downloadService, $modalInstance, $flash) {
+  $scope.noSubmitYet = true;
   $scope.loading = false;
-  return $scope.login = function() {
+  console.log("$scope.loginParams", $scope.loginParams);
+  $scope.validation = {
+    oldPassword: {
+      pattern: /^[a-zA-Z0-9-_%]{6,18}$/,
+      valid: false
+    },
+    newPassword: {
+      pattern: /^[a-zA-Z0-9-_%]{6,18}$/,
+      valid: false
+    },
+    repeatPassword: {
+      validation: function() {
+        return $scope.o.newPassword === $scope.o.repeatPassword;
+      },
+      valid: false
+    }
+  };
+  $scope.o = {
+    oldPassword: "",
+    newPassword: "",
+    repeatPassword: ""
+  };
+  if (!!$scope.loginParams) {
+    $scope.o.oldPassword = angular.copy($scope.loginParams.password);
+    $scope.o.generatedPassword = true;
+    $scope.validation.oldPassword.valid = true;
+  }
+  $scope.save = function() {
     var dto;
-    if ($scope.loading === false) {
+    $scope.noSubmitYet = false;
+    if ($scope.checkValidity()) {
       dto = {
-        email: $scope.loginParams.email,
-        password: $scope.loginParams.password
+        oldPassword: $scope.o.oldPassword,
+        newPassword: $scope.o.newPassword
       };
       $scope.loading = true;
-      return downloadService.postJson('/superAdmin/login', dto, function(result) {
+      return downloadService.postJson('/account/changePassword', dto, function(result) {
         $scope.loading = false;
         if (result.success) {
-          surveyDTOService.login(result.data);
-          $flash.success('account.login.success');
-          return $state.go('root.superAdminMain');
+          $flash.success('account.changePassword.success');
+          if (!!$scope.loginParams) {
+            $scope.loginParams.password = angular.copy($scope.o.newPassword);
+            $scope.login();
+          } else {
+            $flash.success('account.changePassword.success');
+          }
+          return $scope.close();
         } else {
           return $flash.error(result.data.message);
         }
       });
     }
   };
-});angular.module('app.controllers').controller("SuperAdminMainCtrl", function($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash) {
-  $scope.loginParams = {
-    email: "",
-    password: ""
-  };
-  $scope.batchs = null;
-  $scope.logout = function() {
-    downloadService.postJson('/logout', surveyDTOService.surveyDTO, function(result) {
-      if (result.success) {
-        $location.path('/welcome');
-        surveyDTOService.logout();
-        return $flash.success('logout.success');
-      }
-    });
-    return;
-  };
-  $scope.loadingReductionData = function() {
-    return downloadService.getJson('/superAdmin/reductionData', function(result) {
-      $scope.loading = false;
-      if (result.success) {
-        console.log("------------------------------------------------");
-        console.log(result.data.list);
-        return $scope.batchs = result.data.list;
-      } else {
-        return $flash.error(result.data.message);
-      }
-    });
-  };
-  $scope.loadingReductionData();
-  return $scope.getValue = function(map, day, period) {
-    var el, _i, _len;
-    for (_i = 0, _len = map.length; _i < _len; _i++) {
-      el = map[_i];
-      if ((day === null || el.dayKey === day) && (el.periodKey = period)) {
-        return el.powerReduction;
+  $scope.checkValidity = function() {
+    var key, _i, _len, _ref;
+    _ref = Object.keys($scope.validation);
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      key = _ref[_i];
+      if ($scope.validation[key].valid === false) {
+        return false;
       }
     }
+    return true;
+  };
+  return $scope.close = function() {
+    return $modalInstance.close();
   };
 });angular.module('app.controllers').controller("ActionsCtrl", function($scope, modalService, surveyDTOService, conditionService, $filter) {
   var checkAllConditionsAreFalse, questionsByAccountTypes, topicKey, topicQuestions, updateAveragePowerReduction, updateTopics, _ref;
