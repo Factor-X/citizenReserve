@@ -25,7 +25,7 @@ import java.util.Map;
 public class LegacyEmailSender {
 
 	private static final String HOSTNAME = Configuration.root().getString("citizens-reserve.hostname");
-	private static final String CITIZENS_RESERVE_HOME = Configuration.root().getString("citizens-reserve.home");
+	private static final String CITIZENS_RESERVE_HOME = "www.citizensreserve.be";
 	private static final String EMAIL_TEMPLATE = "basicEmailStructure.vm";
 	private static final String EMAIL_SUBJECT_KEY = "email.legacyuserinvitation.subject";
 	private static final String EMAIL_CONTENT_KEY = "email.legacyuserinvitation.content";
@@ -44,11 +44,13 @@ public class LegacyEmailSender {
 
 	public void sendInvitations() throws IOException {
 		emailService = new EmailService();
+
 		for (CSVRecord record : parseCsvInputFile()) {
 			Long accountId = Long.valueOf(record.get("accountId"));
+			String email = record.get("email");
 			String generatedPassword = record.get("generatedPassword");
 
-			Account account = accountService.findById(accountId);
+			Account account = accountService.findByEmail(email);
 			if (account == null) {
 				Logger.error("Cannot find account with id = " + accountId);
 				nbErrors++;
@@ -58,13 +60,12 @@ public class LegacyEmailSender {
 			String subject = translationService.getTranslation(EMAIL_SUBJECT_KEY, account.getLanguage().getAbrv());
 			String content = velocityGeneratorService.generate(EMAIL_TEMPLATE, getEmailModel(account, generatedPassword));
 			try {
-				Thread.sleep(1000L);
-				emailService.send(new EmailMessage("jerome.carton@factorx.eu", subject, content));
+				Thread.sleep(3000L);
+				emailService.send(new EmailMessage(account.getEmail(), subject, content));
 			} catch (Exception e) {
 				Logger.error("Exception while sending mail to '{}': {}", account.getEmail(), e.getMessage());
 				nbErrors++;
 			}
-			break;
 		}
 	}
 
@@ -76,8 +77,8 @@ public class LegacyEmailSender {
 	private Map<String, Object> getEmailModel(Account account, String generatedPassword) {
 		Map<String, Object> values = new HashMap<>();
 		values.put("contentKey", EMAIL_CONTENT_KEY);
-		// (params: 0 = firstname, 1 = lastname, 2 = citizens reserve web site, 3 = login, 4 = password)
-		values.put("contentParams", new String[]{account.getFirstName(), account.getLastName(), CITIZENS_RESERVE_HOME, account.getEmail(), generatedPassword});
+		// (params: 0 = firstname, 1 = lastname, 2 = citizens reserve web site, 3 = space link, 4 = login, 5 = password)
+		values.put("contentParams", new String[]{account.getFirstName(), account.getLastName(), CITIZENS_RESERVE_HOME, CITIZENS_RESERVE_HOME + "/myaccount", account.getEmail(), generatedPassword});
 		values.put("hostname", HOSTNAME);
 		values.put("citizensReserveHome", CITIZENS_RESERVE_HOME);
 		values.put("translationHelper", new TranslationHelper(translationService, account.getLanguage()));
