@@ -34,7 +34,8 @@ object ApplicationBuild extends Build {
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
     "org.jasypt" % "jasypt" % "1.9.2",
     "org.apache.velocity" % "velocity" % "1.7",
-    "org.apache.commons" % "commons-csv" % "1.0"
+    "org.apache.commons" % "commons-csv" % "1.0",
+    "joda-time" % "joda-time" % "2.3"
   )
 
   lazy val angularCompileTask = TaskKey[Unit]("angular-compile", "Compile angular app")
