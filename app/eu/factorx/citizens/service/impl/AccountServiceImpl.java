@@ -7,6 +7,7 @@ import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.util.BusinessErrorType;
 import eu.factorx.citizens.util.exception.MyRuntimeException;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import play.Logger;
 
 import java.util.List;
 
@@ -72,6 +73,8 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Double getLegacyAccountsPowerReduction() {
-		return Ebean.createSqlQuery(LEGACY_ACCOUNTS_POWER_REDUCTION_SQL).findUnique().getDouble(LEGACY_ACCOUNTS_POWER_REDUCTION_ALIAS);
+		Double result = Ebean.createSqlQuery(LEGACY_ACCOUNTS_POWER_REDUCTION_SQL).findUnique().getDouble(LEGACY_ACCOUNTS_POWER_REDUCTION_ALIAS);
+		Logger.info("Legacy accounts reserve = " + result + " Watt");
+		return result;
 	}
 }

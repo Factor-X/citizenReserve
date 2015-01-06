@@ -14,17 +14,25 @@ import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.security.KeyGenerator;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import play.Logger;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class LegacyDataImporter implements TxRunnable {
+
+	//Delimiter used in CSV file
+	private static final String NEW_LINE_SEPARATOR = "\n";
+	//CSV file header
+	private static final String [] OUTPUT_HEADER = {"accountId","email","generatedPassword"};
 
 	private AccountService accountService = new AccountServiceImpl();
 	private SurveyService surveyService = new SurveyServiceImpl();
@@ -64,6 +72,7 @@ public class LegacyDataImporter implements TxRunnable {
 				errors.add(record);
 			}
 		}
+		exportResults(results, FilenameUtils.removeExtension(csvFilePath) + "_output.csv");
 	}
 
 	private static Account createAccount(CSVRecord record, String generatedPassword) throws Exception {
@@ -82,6 +91,54 @@ public class LegacyDataImporter implements TxRunnable {
 		return account;
 	}
 
+	private void exportResults(List<Pair<Account, String>> results, String fileName) {
+		FileWriter fileWriter = null;
+
+		CSVPrinter csvFilePrinter = null;
+
+		//Create the CSVFormat object with "\n" as a record delimiter
+		CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
+
+		try {
+
+			//initialize FileWriter object
+			fileWriter = new FileWriter(fileName);
+
+			//initialize CSVPrinter object
+			csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
+
+			//Create CSV file header
+			csvFilePrinter.printRecord(OUTPUT_HEADER);
+
+			//Write each result in CSV file
+			for (Pair<Account, String> resultInfo : results) {
+				Account account = resultInfo.getLeft();
+				String generatedPassword = resultInfo.getRight();
+				List<String> studentDataRecord = new ArrayList<>();
+				studentDataRecord.add(String.valueOf(account.getId()));
+				studentDataRecord.add(account.getEmail());
+				studentDataRecord.add(generatedPassword);
+				csvFilePrinter.printRecord(studentDataRecord);
+			}
+
+			Logger.info("CSV file was created successfully !!!");
+
+		} catch (Exception e) {
+			Logger.error("Error in CsvFileWriter !!!");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+				csvFilePrinter.close();
+			} catch (IOException e) {
+				Logger.error("Error while flushing/closing fileWriter/csvPrinter !!!");
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 	/**
 	 * Import accounts of citizens' reserve legacy version from a csv file.
 	 * <br> You may trigger this importer in a scala console:
@@ -97,11 +154,6 @@ public class LegacyDataImporter implements TxRunnable {
 		LegacyDataImporter importer = new LegacyDataImporter(csvFilePath);
 		Ebean.execute(importer);
 		Logger.info("==== End of data importer: {} accounts imported{}", importer.results.size(), importer.errors.isEmpty() ? "" : " (" + importer.errors.size() + " errors)");
-
-		Logger.info("==== Start of email sender: - {} emails to send", importer.results.size());
-		EmailSender emailSender = new EmailSender();
-		emailSender.sendInvitations(importer.results);
-		Logger.info("==== End of email sender{}", (emailSender.nbErrors == 0) ? " (no errors)" : " (" + emailSender.nbErrors + " errors)");
 	}
 
 }

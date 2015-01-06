@@ -1,7 +1,6 @@
 angular
 .module('app.controllers')
-.controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService,$flash,$stateParams) ->
-
+.controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash, $stateParams) ->
     $scope.toHouseHold = ->
         surveyDTOService.createPreAccount('household')
         $state.go 'root.householdProfile'
@@ -31,9 +30,8 @@ angular
                 if result.success
                     surveyDTOService.login(result.data)
                     if result.data.account.accountType == 'household'
-                        console.log("result.data.account.passwordToChange = " + result.data.account.passwordToChange)
                         if (result.data.account.passwordToChange)
-                            # forcing change of (generated) password
+                            # forcing change of password
                             $scope.openChangePasswordModal()
                         else
                             $flash.success 'account.login.success'
@@ -57,20 +55,22 @@ angular
                 else
                     $flash.error result.data.message
 
-
     #
-    # Open change password dialog (case of generated password)
-    # (...passing login params to avoid asking user to enter a second time the generated password)
+    # Open change password dialog (passing login params)
     #
     $scope.openChangePasswordModal = () ->
         s = $scope.$new()
         s.loginParams = angular.copy($scope.loginParams)
 
-        modalService.open({
+        modalInstance = modalService.open({
             templateUrl: '$/angular/views/household/account/account-change-password.html',
             controller: 'ModalChangePasswordCtrl',
             size: 'lg',
             scope: s
         })
 
-
+        # callback function (called on close): auto login with the new password
+        modalInstance.result.then (newPassword) ->
+            console.log("newPassword = " + newPassword)
+            $scope.loginParams.password = newPassword
+            $scope.login()

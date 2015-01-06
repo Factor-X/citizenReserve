@@ -27,7 +27,7 @@ angular
 
     updateTopics = ->
         for topicKey, topic of $scope.topics
-            # we may check if at least one condition is true (more fast),
+            # a topic is enabled when at least one action can be purposed => we might check if at least one condition is true
             # but we have to check all conditions, in order to reset all answers related to hidden questions...
             topic.disabled = checkAllConditionsAreFalse(topic)
         return

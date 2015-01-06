@@ -55,7 +55,7 @@ public class EmailSender implements ApplicationContextAware {
      */
 
     public void sendEmail(EmailMessage email) throws MessagingException, UnsupportedEncodingException {
-        play.Logger.info("Sending email ...");
+        play.Logger.info("Sending email to {}...", email.getToAddress());
         final String username = MailConfig.username;
         // mail.smpt.password must be define in conf/application.conf
         final String password = Configuration.root().getString("mail.smtp.password");
