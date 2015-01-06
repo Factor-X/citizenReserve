@@ -32,12 +32,12 @@ public class LegacyDataImporter implements TxRunnable {
 	//Delimiter used in CSV file
 	private static final String NEW_LINE_SEPARATOR = "\n";
 	//CSV file header
-	private static final String [] OUTPUT_HEADER = {"accountId","email","generatedPassword"};
+	private static final Object[] OUTPUT_HEADER = {"accountId", "email", "generatedPassword"};
 
 	private AccountService accountService = new AccountServiceImpl();
 	private SurveyService surveyService = new SurveyServiceImpl();
 	private List<Pair<Account, String>> results = new ArrayList<>();
-	private List<CSVRecord> errors = new ArrayList();
+	private List<CSVRecord> errors = new ArrayList<>();
 
 	private String csvFilePath;
 
@@ -75,7 +75,7 @@ public class LegacyDataImporter implements TxRunnable {
 		exportResults(results, FilenameUtils.removeExtension(csvFilePath) + "_output.csv");
 	}
 
-	private static Account createAccount(CSVRecord record, String generatedPassword) throws Exception {
+	private static Account createAccount(CSVRecord record, String generatedPassword) {
 		Account account = new Account();
 		account.setAccountType(AccountType.HOUSEHOLD);
 		account.setLanguage(LanguageEnum.FRANCAIS);
@@ -147,7 +147,6 @@ public class LegacyDataImporter implements TxRunnable {
 	 * <br><br> The csv file must have these headers: "email", "firstName", "lastName", "zipCode", "nbPersons", "powerProvider", "powerComsumerCategory", "averagePowerReduction"
 	 *
 	 * @param csvFilePath The full-qualified CSV file path
-	 * @throws IOException
 	 */
 	public static void execute(String csvFilePath) {
 		Logger.info("==== Start of data importer: CSV input file: '{}'", csvFilePath);
