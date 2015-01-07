@@ -21,6 +21,7 @@ import eu.factorx.citizens.util.exception.MyRuntimeException;
 import eu.factorx.citizens.util.security.KeyGenerator;
 import eu.factorx.citizens.util.security.LoginAttemptManager;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -108,10 +109,18 @@ public class AccountController extends AbstractController {
     @Security.Authenticated(SecuredController.class)
     public Result testAuthentication() {
 
-        Survey survey = surveyService.findValidSurveyByAccount(securedController.getCurrentUser());
+		Account currentUser = securedController.getCurrentUser();
+
+		Survey survey;
+		if (currentUser.isSuperAdmin()) {
+			survey = new Survey();
+			survey.setAccount(currentUser);
+		} else {
+			survey = surveyService.findValidSurveyByAccount(currentUser);
+		}
 
         if (survey == null) {
-            throw new MyRuntimeException("there is no not deleted survey for account " + securedController.getCurrentUser().getId());
+            throw new MyRuntimeException("there is no not deleted survey for account " + currentUser.getId());
         }
 
         //build dto
@@ -150,11 +159,17 @@ public class AccountController extends AbstractController {
         }
 
         //build and return result
-        Survey survey = surveyService.findValidSurveyByAccount(account);
+		Survey survey;
+		if (account.isSuperAdmin()) {
+			survey = new Survey();
+			survey.setAccount(account);
+		} else {
+			survey = surveyService.findValidSurveyByAccount(account);
+		}
 
-        if (survey == null) {
-            throw new MyRuntimeException("there is no not deleted survey for account " + account.getId());
-        }
+		if (survey == null) {
+			throw new MyRuntimeException("there is no not deleted survey for account " + account.getId());
+		}
 
 		//save account into context
 		securedController.storeIdentifier(account);
