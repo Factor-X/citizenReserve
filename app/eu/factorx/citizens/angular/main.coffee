@@ -105,6 +105,7 @@ angular
         templateUrl: '$/angular/views/enterprise/actions/enterprise-actions.html'
         controller: 'ActionsCtrl'
         # resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: changeLanguageResolve
 
 
     .state 'root.controlsDemo',

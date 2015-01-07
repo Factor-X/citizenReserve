@@ -1,0 +1,39 @@
+.cr-enterprise-form {
+
+    border-spacing: 0.5em;
+    border-collapse: separate;
+
+    thead {
+        tr {
+            th {
+                span {
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+
+            &.main-question {
+                border-top: solid 1px #f00;
+            }
+
+            td {
+                white-space: nowrap;
+
+                &:first-child {
+                    font-weight: bold;
+                }
+
+                input {
+                    width: 5em;
+                }
+                input[type=time] {
+                    width: 5em;
+                    line-height: normal;
+                }
+            }
+        }
+    }
+
+}

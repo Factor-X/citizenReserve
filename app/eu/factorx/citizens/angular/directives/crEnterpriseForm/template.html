@@ -1,29 +1,36 @@
-<table>
+<table class="cr-enterprise-form">
     <thead>
     <tr>
         <th></th>
-        <th ng-bind-html="'enterprise.power' | translate"></th>
-        <th ng-bind-html="'enterprise.begin' | translate"></th>
-        <th ng-bind-html="'enterprise.duration' | translate"></th>
-        <th ng-bind-html="'enterprise.description' | translate"></th>
+        <th><span ng-bind-html="'enterprise.power' | translate"></span></th>
+        <th><span ng-bind-html="'enterprise.begin' | translate"></span></th>
+        <th><span ng-bind-html="'enterprise.duration' | translate"></span></th>
+        <th><span ng-bind-html="'enterprise.description' | translate"></span></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="cr-enterprise-form-body">
 
-    <tr ng-repeat="q in ngQuestions">
-        <td><label ng-bing-html="(q + '.label') | translate"></label>sss</td>
+    <tr ng-repeat-start="q in ngQuestions">
+        <td>{{q + '.label' | translate}}</td>
         <td>
             <input type="text"/> Watt
         </td>
         <td>
-            <input type="text"/>
+            <input cr-time-format="HH:mm" type="text" ng-model="getAnswerValue(q).stringValue"/>
+        </td>
+        <td>
+            <input type="time" />
         </td>
         <td>
             <input type="text"/>
         </td>
         <td>
-            <input type="text"/>
+            <button class="btn btn-xs btn-default">+</button>
         </td>
+    </tr>
+
+    <tr ng-repeat-end>
+        <td colspan="5"></td>
     </tr>
 
     </tbody>
