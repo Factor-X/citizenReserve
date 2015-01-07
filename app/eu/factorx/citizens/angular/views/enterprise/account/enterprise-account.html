@@ -138,17 +138,17 @@
                 <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
 
                 <button
-                    class="btn btn-small cr-mega-button pull-left"
-                    ui-sref="root.householdActions">
+                    class="btn btn-small cr-mega-button pull-right"
+                    ui-sref="root.enterpriseActions">
 
-                    <i class="fa fa-caret-left fa-2x"></i>
+                    <i class="fa fa-caret-right fa-2x"></i>
                     <span>&nbsp;</span>
-                    <span ng-bind-html="'nav.back-to-actions' | translate"></span>
+                    <span ng-bind-html="'nav.to-actions' | translate"></span>
 
                 </button>
 
 
-                <button class="btn btn-small cr-theme-green cr-mega-button pull-right" ng-disabled="loading == true"
+                <button class="btn btn-small cr-theme-green cr-mega-button pull-left" ng-disabled="loading == true"
                         ng-click="save()">
                     <i class="fa fa-save"></i>
                     <span>&nbsp;</span>

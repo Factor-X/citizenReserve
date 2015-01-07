@@ -72,13 +72,13 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button ui-sref="root.householdProfile"
+                <button ui-sref="root.enterpriseAccount"
                         class="pull-left cr-mega-button">
                     <i class="fa fa-caret-left fa-2x"></i>
                     <span>&nbsp;</span>
-                    <span ng-bind-html="'nav.back-to-profile' | translate"></span>
+                    <span ng-bind-html="'nav.back-to-identification' | translate"></span>
                 </button>
-                <button ui-sref="root.householdResults"
+                <button ui-sref="root.enterpriseResults"
                         ng-show="isAuthenticated()"
                         class="pull-right cr-mega-button">
                     <span ng-bind-html="'nav.to-results' | translate"></span>
@@ -86,10 +86,10 @@
                     <i class="fa fa-caret-right fa-2x"></i>
                 </button>
 
-                <button ui-sref="root.householdAccount"
+                <button ui-sref="root.enterpriseResults"
                         ng-hide="isAuthenticated()"
                         class="pull-right cr-mega-button">
-                    <span ng-bind-html="'nav.to-identification' | translate"></span>
+                    <span ng-bind-html="'nav.to-results' | translate"></span>
                     <span>&nbsp;</span>
                     <i class="fa fa-caret-right fa-2x"></i>
                 </button>

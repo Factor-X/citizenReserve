@@ -43,6 +43,13 @@ angular
                         else
                             $flash.success 'account.login.success'
                             $state.go 'root.householdProfile'
+                    if result.data.account.accountType == 'enterprise'
+                        if (result.data.account.passwordToChange)
+                            # forcing change of password
+                            $scope.openChangePasswordModal()
+                        else
+                            $flash.success 'account.login.success'
+                            $state.go 'root.enterpriseAccount'
                 else
                     $flash.error result.data.message
     #TODO to complete
