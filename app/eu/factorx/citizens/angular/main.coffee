@@ -106,6 +106,10 @@ angular
         controller: 'ActionsCtrl'
         # resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
         resolve: changeLanguageResolve
+    .state 'root.enterpriseResults',
+          url: '/enterprise-results'
+          templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'
+          controller: 'ResultsCtrl'
 
 
     .state 'root.controlsDemo',

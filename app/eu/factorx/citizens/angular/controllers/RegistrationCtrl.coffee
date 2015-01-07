@@ -78,7 +78,10 @@ angular
                 if result.success
                     surveyDTOService.setAccount(result.data.account)
                     $flash.success 'account.save.success'
-                    $state.go 'root.householdResults'
+                    if (surveyDTOService.isHousehold())
+                        $state.go 'root.householdResults'
+                    else
+                        $state.go 'root.enterpriseActions'
                 else
                     $flash.error result.data.message
 

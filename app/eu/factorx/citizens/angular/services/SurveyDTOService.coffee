@@ -19,6 +19,9 @@ angular
     @isAuthenticated = () ->
         return (@surveyDTO.account.id? && @surveyDTO.account.id != null)
 
+    @isHousehold = () ->
+        return (@surveyDTO.account.accountType == "household")
+
     @logout = () ->
         @surveyDTO =
             account:
