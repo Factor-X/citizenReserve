@@ -6,6 +6,7 @@ CREATE TABLE shedding_risks
   id bigint NOT NULL,
   deletion_date timestamp without time zone,
   risk_date date,
+  mail_sending_date date,
   version bigint NOT NULL,
   creation_date timestamp without time zone NOT NULL,
   last_update_date timestamp without time zone NOT NULL,

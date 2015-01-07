@@ -21,9 +21,6 @@ import play.mvc.Result;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by florian on 5/12/14.
- */
 public class BatchResultController extends AbstractController {
 
 	public static final int OLD_VERSION_NB_SURVEYS = 307;

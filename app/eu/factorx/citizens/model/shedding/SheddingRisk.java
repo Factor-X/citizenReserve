@@ -20,6 +20,8 @@ public class SheddingRisk extends AbstractEntity {
 	@OneToMany(mappedBy = "risk", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SheddingRiskAnswer> answers;
 
+	private LocalDate mailSendingDate;
+
 	public SheddingRisk(LocalDate riskDate) {
 		this.riskDate = riskDate;
 		this.answers = new ArrayList<>();
@@ -31,6 +33,14 @@ public class SheddingRisk extends AbstractEntity {
 
 	public void setRiskDate(LocalDate riskDate) {
 		this.riskDate = riskDate;
+	}
+
+	public LocalDate getMailSendingDate() {
+		return mailSendingDate;
+	}
+
+	public void setMailSendingDate(LocalDate mailSendingDate) {
+		this.mailSendingDate = mailSendingDate;
 	}
 
 	public List<SheddingRiskAnswer> getAnswers() {
