@@ -6,6 +6,7 @@ angular
         $state.go 'root.householdProfile'
 
     $scope.toEnterprise = ->
+        surveyDTOService.createPreAccount('enterprise')
         $state.go 'root.enterpriseAccount'
 
     $scope.toAuthority = ->

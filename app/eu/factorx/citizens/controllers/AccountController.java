@@ -8,6 +8,7 @@ import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.type.AccountType;
 import eu.factorx.citizens.service.AccountService;
 import eu.factorx.citizens.service.CalculationService;
 import eu.factorx.citizens.service.SurveyService;
@@ -236,6 +237,7 @@ public class AccountController extends AbstractController {
         account.setAccountType(getAccountTypeByString(dto.getAccount().getAccountType()));
         account.setOtherEmailAdresses(StringUtils.join(dto.getAccount().getOtherEmailAddresses(), ";"));
         account.setLanguage(LanguageEnum.getByAbvr(dto.getAccount().getLanguageAbrv()));
+		account.setOrganizationName(dto.getAccount().getOrganizationName());
 
         //power data
         account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
@@ -248,8 +250,11 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
-        //send email
-        sendSummaryEmail(account, dto);
+		// send email only if accountType is household
+		if (account.getAccountType()== AccountType.HOUSEHOLD) {
+			//send email
+			sendSummaryEmail(account, dto);
+		}
 
         //save account into context
         securedController.storeIdentifier(account);

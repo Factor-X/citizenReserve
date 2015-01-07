@@ -43,6 +43,15 @@
                        ng-bind-html="'account.errorMessage.lastName' | translate"></p>
                 </cr-question>
 
+                <!-- Qxxxx generic.organizationName -->
+                <cr-question label="generic.organizationName">
+                    <cr-text ng-model="getAccount().organizationName" name="organizationname"
+                             ng-validation="validation.organizationName"></cr-text>
+                    <p class="cr-error" ng-show="validation.organizationName.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.organizationName' | translate"></p>
+                </cr-question>
+
+
                 <!-- Q5130 generic.emailAddress -->
                 <cr-question label="generic.emailAddress">
                     <cr-text ng-model="getAccount().email" name="email"
@@ -53,7 +62,7 @@
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
-                            ng-click="openModal('household/account/account-change-email','ModalChangeEmailCtrl')">
+                            ng-click="openModal('enterprise/account/account-change-email','ModalChangeEmailCtrl')">
                         <i class="fa fa-gear"></i>
                         <span>&nbsp;</span>
                         <span ng-bind-html="'account.button.changeEmail' | translate"></span>
@@ -70,7 +79,7 @@
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
-                            ng-click="openModal('household/account/account-change-password','ModalChangePasswordCtrl')">
+                            ng-click="openModal('enterprise/account/account-change-password','ModalChangePasswordCtrl')">
                         <i class="fa fa-gear"></i>
                         <span>&nbsp;</span>
                         <span ng-bind-html="'account.button.changePassword' | translate"></span>
@@ -109,12 +118,6 @@
                 <cr-question label="account.powerconsumercategory.label">
                     <cr-slider ng-steps="getOptions('powerconsumercategory')"
                                ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
-                </cr-question>
-
-                <!-- Kit -->
-                <!-- Q5230 account.kit.label -->
-                <cr-question label="account.kit.label" ng-hide="isAuthenticated() == true">
-                    <cr-boolean ng-model="getAccount().sensitizationKit"></cr-boolean>
                 </cr-question>
 
                 <!-- agreement -->
