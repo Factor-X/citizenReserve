@@ -1,0 +1,30 @@
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th ng-bind-html="'enterprise.power' | translate"></th>
+        <th ng-bind-html="'enterprise.begin' | translate"></th>
+        <th ng-bind-html="'enterprise.duration' | translate"></th>
+        <th ng-bind-html="'enterprise.description' | translate"></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr ng-repeat="q in ngQuestions">
+        <td><label ng-bing-html="(q + '.label') | translate"></label>sss</td>
+        <td>
+            <input type="text"/> Watt
+        </td>
+        <td>
+            <input type="text"/>
+        </td>
+        <td>
+            <input type="text"/>
+        </td>
+        <td>
+            <input type="text"/>
+        </td>
+    </tr>
+
+    </tbody>
+</table>

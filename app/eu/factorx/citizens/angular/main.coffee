@@ -73,6 +73,7 @@ angular
         templateUrl: '$/angular/views/welcome.html'
         controller: 'WelcomeCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), testAuthenticationResolve)
+
     .state 'root.householdProfile',
         url: '/household-profile'
         templateUrl: '$/angular/views/household/profile/household-profile.html'
@@ -93,16 +94,31 @@ angular
         templateUrl: '$/angular/views/household/account/household-account.html'
         controller: 'RegistrationCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+
+    .state 'root.enterpriseAccount',
+        url: '/enterprise-account'
+        templateUrl: '$/angular/views/enterprise/account/enterprise-account.html'
+        controller: 'RegistrationCtrl'
+        # resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+    .state 'root.enterpriseActions',
+        url: '/enterprise-actions'
+        templateUrl: '$/angular/views/enterprise/actions/enterprise-actions.html'
+        controller: 'ActionsCtrl'
+        # resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+
+
     .state 'root.controlsDemo',
         url: '/controls-demo'
         templateUrl: '$/angular/views/test/controls-demo.html'
         controller: 'ControlsDemoCtrl'
         resolve: {}
+
     .state 'root.superAdminLogin',
         url: '/admin'
         templateUrl: '$/angular/views/admin/login.html'
         controller: 'SuperAdminLoginCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), testAuthenticationResolve)
+
     .state 'root.superAdminMain',
         url: '/admin/main'
         templateUrl: '$/angular/views/admin/main.html'

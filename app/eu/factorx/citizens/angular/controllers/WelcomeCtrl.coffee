@@ -1,9 +1,15 @@
 angular
 .module('app.controllers')
 .controller "WelcomeCtrl", ($scope, modalService, $state, $log, $location, surveyDTOService, downloadService, $flash, $stateParams) ->
-    $scope.toHouseHold = ->
+    $scope.toHousehold = ->
         surveyDTOService.createPreAccount('household')
         $state.go 'root.householdProfile'
+
+    $scope.toEnterprise = ->
+        $state.go 'root.enterpriseAccount'
+
+    $scope.toAuthority = ->
+        $state.go 'root.authorityAccount'
 
 
     $scope.loginParams = {
