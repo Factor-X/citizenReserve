@@ -12,20 +12,30 @@
 
     <tr ng-repeat-start="q in ngQuestions">
         <td>{{q + '.label' | translate}}</td>
-        <td>
-            <input type="text"/> Watt
+        <td class="cr-enterprise-form-power">
+            <input type="text" ng-pattern="/^\d*$/" ng-model="getAnswerValue(q).doubleValue"/> Watt
         </td>
-        <td>
-            <input cr-time-format="HH:mm" type="text" ng-model="getAnswerValue(q).stringValue"/>
+        <td class="cr-enterprise-form-begin">
+            <input cr-time-format type="text" ng-model="getAnswerValue(q).stringValue" placeholder="hh:mm"/>
         </td>
-        <td>
-            <input type="time" />
+        <td class="cr-enterprise-form-duration">
+            <input cr-time-format type="text" ng-model="getAnswerValue(q).stringValue" placeholder="hh:mm"/>
         </td>
-        <td>
+        <td class="cr-enterprise-form-description">
             <input type="text"/>
         </td>
-        <td>
-            <button class="btn btn-xs btn-default">+</button>
+        <td class="cr-enterprise-form-minus">
+            <button title="retirer une tranche horaire">
+                <i class="fa fa-minus-circle"></i>
+            </button>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="5" class="cr-enterprise-form-plus">
+            <button>
+                <i class="fa fa-plus-circle"></i>&nbsp;ajouter une tranche horaire
+            </button>
         </td>
     </tr>
 

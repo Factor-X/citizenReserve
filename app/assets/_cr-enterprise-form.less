@@ -2,6 +2,7 @@
 
     border-spacing: 0.5em;
     border-collapse: separate;
+    width: 100%;
 
     thead {
         tr {
@@ -27,10 +28,47 @@
 
                 input {
                     width: 5em;
+
+                    &.ng-invalid {
+                        background: #faa;
+                    }
                 }
-                input[type=time] {
-                    width: 5em;
-                    line-height: normal;
+
+                &.cr-enterprise-form-power input {
+                    text-align: right;
+                    width: 4em;
+                }
+                &.cr-enterprise-form-begin input {
+                    text-align: center;
+                    width: 4em;
+                }
+                &.cr-enterprise-form-duration input {
+                    text-align: center;
+                    width: 4em;
+                }
+                &.cr-enterprise-form-description {
+                    width: 100%;
+                    input {
+                        text-align: left;
+                        width: 100%;
+                        font-style: italic;
+                    }
+                }
+                &.cr-enterprise-form-plus, &.cr-enterprise-form-minus {
+                    text-align: right;
+                    button {
+                        color: #999;
+                        cursor: pointer;
+                        border: none;
+                        background: none;
+                        outline: none;
+                        box-shadow: none;
+                        font-weight: normal;
+                        font-style: italic;
+                    }
+                    button:hover{
+                        color: #333;
+                    }
                 }
             }
         }
