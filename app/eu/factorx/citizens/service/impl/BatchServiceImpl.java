@@ -156,7 +156,8 @@ public class BatchServiceImpl implements BatchService {
 
             List<ReductionDTO> reductionDTOs;
             try {
-                reductionDTOs = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
+                EffectiveReductionDTO erDTO = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
+				reductionDTOs = erDTO.getReductions();
             } catch (Exception e) {
                 e.printStackTrace();
                 //Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());

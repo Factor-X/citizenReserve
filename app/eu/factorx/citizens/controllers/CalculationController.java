@@ -81,11 +81,9 @@ public class CalculationController extends AbstractController {
 
 		EffectiveReductionDTO effectiveReductionResult = new EffectiveReductionDTO();
 
-		List<ReductionDTO> result = calculationService.calculateEffectiveReduction(survey.getAnswers());
+		effectiveReductionResult = calculationService.calculateEffectiveReduction(survey.getAnswers());
 
-		//add result to DTO
-		effectiveReductionResult.setReductions(result);
-
+		List<ReductionDTO> result = effectiveReductionResult.getReductions();
 
 		for (ReductionDay day : ReductionDay.values()) {
 

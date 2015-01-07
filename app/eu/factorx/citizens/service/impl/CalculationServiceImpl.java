@@ -3,6 +3,7 @@ package eu.factorx.citizens.service.impl;
 
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.AnswerValueDTO;
+import eu.factorx.citizens.dto.EffectiveReductionDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
 import eu.factorx.citizens.model.survey.Period;
 import eu.factorx.citizens.model.type.QuestionCode;
@@ -221,7 +222,9 @@ public class CalculationServiceImpl implements CalculationService {
 
 
 	@Override
-	public List<ReductionDTO> calculateEffectiveReduction(List<AnswerDTO> surveyAnswers) {
+	public EffectiveReductionDTO calculateEffectiveReduction(List<AnswerDTO> surveyAnswers) {
+	// old signature public List<ReductionDTO> calculateEffectiveReduction(List<AnswerDTO> surveyAnswers) {
+
 
 		Map <QuestionCode,ReductionDTO> potentialReductionDetails = new HashMap <QuestionCode,ReductionDTO>();
 		Map <QuestionCode,List<ReductionDTO>> effectiveReductionDetails = new HashMap <QuestionCode,List<ReductionDTO>>();
@@ -239,9 +242,14 @@ public class CalculationServiceImpl implements CalculationService {
 		effectiveReductionDetails = calculateEffectiveReductionDetails(surveyAnswers, potentialReductionDetails, potentialReductionSummary);
 		effectiveReductionSummary = calculateEffectiveSummary(effectiveReductionDetails);
 
-		dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
+		ArrayList<String> details = dumpEffectiveReductionDetailsMap(effectiveReductionDetails);
 
-		return effectiveReductionSummary;
+		EffectiveReductionDTO erDTO = new EffectiveReductionDTO();
+		erDTO.setReductions(effectiveReductionSummary);
+		erDTO.setLogs(details);
+
+		//return effectiveReductionSummary;
+		return erDTO;
 	}
 
 	/*************** Private methods ****************/
@@ -753,23 +761,31 @@ public class CalculationServiceImpl implements CalculationService {
 	* Dump to map
 	*/
 
-	private void dumpEffectiveReductionDetailsMap (Map <QuestionCode,List<ReductionDTO>> localMapByQuestionCode) {
+	private ArrayList<String> dumpEffectiveReductionDetailsMap (Map <QuestionCode,List<ReductionDTO>> localMapByQuestionCode) {
+		ArrayList<String> detailsLog = new ArrayList<String>();
 		play.Logger.debug("Entering -> dumpEffectiveReductionDetailsMap");
 
 		for (Map.Entry <QuestionCode,List<ReductionDTO>> item : localMapByQuestionCode.entrySet()) {
 			QuestionCode key = item.getKey();
 			List<ReductionDTO> value = item.getValue();
-			play.Logger.debug("DUMP: QuestionCode [" + key + "]");
+			String section = "DUMP: QuestionCode [" + key + "]";
+			play.Logger.debug(section);
+			detailsLog.add(section);
 
 			for (ReductionDay day : ReductionDay.values()) {
 
 				ReductionDTO reductionDTO = value.get(day.ordinal());
 
-				play.Logger.debug(">>>DUMP: Day [" + day.name() + "]");
-				play.Logger.debug(">>>DUMP: Values F[" + reductionDTO.getFirstPeriodPowerReduction() + "]S[" + reductionDTO.getSecondPeriodPowerReduction() + "]T[" + reductionDTO.getThirdPeriodPowerReduction() + "]");
+				String detailLineOne = ">>>DUMP: Day [" + day.name() + "]";
+				play.Logger.debug(detailLineOne);
+				detailsLog.add(detailLineOne);
+				String detailLineTwo = ">>>DUMP: Values F[" + reductionDTO.getFirstPeriodPowerReduction() + "]S[" + reductionDTO.getSecondPeriodPowerReduction() + "]T[" + reductionDTO.getThirdPeriodPowerReduction() + "]";
+				play.Logger.debug(detailLineTwo);
+				detailsLog.add(detailLineTwo);
 			}
 		}
 		play.Logger.debug("Quitting -> dumpEffectiveReductionDetailsMap");
+		return (detailsLog);
 	}
 
 
