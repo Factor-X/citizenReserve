@@ -2,7 +2,6 @@ package eu.factorx.citizens.model.survey;
 
 import eu.factorx.citizens.model.technical.AbstractEntity;
 import eu.factorx.citizens.model.type.QuestionCode;
-import org.joda.time.Duration;
 import org.joda.time.LocalTime;
 
 import javax.persistence.*;
@@ -26,15 +25,15 @@ public class ActionAnswer extends AbstractEntity {
 
 	private LocalTime startTime;
 
-	private Duration duration;
+	private Long duration;
 
 	private String comment;
 
-	public ActionAnswer(Survey survey, QuestionCode questionCode, Integer powerReduction, LocalTime startTime, Duration duration, String comment) {
+	public ActionAnswer(Survey survey, QuestionCode questionCode, Integer powerReduction, LocalTime startTime, Long duration, String comment) {
 		this(survey, questionCode, null, powerReduction, startTime, duration, comment);
 	}
 
-	public ActionAnswer(Survey survey, QuestionCode questionCode, String title, Integer powerReduction, LocalTime startTime, Duration duration, String comment) {
+	public ActionAnswer(Survey survey, QuestionCode questionCode, String title, Integer powerReduction, LocalTime startTime, Long duration, String comment) {
 		this.survey = survey;
 		this.questionCode = questionCode;
 		this.title = title;
@@ -84,11 +83,11 @@ public class ActionAnswer extends AbstractEntity {
 		this.startTime = startTime;
 	}
 
-	public Duration getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Duration duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
 
