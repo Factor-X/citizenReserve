@@ -63,6 +63,28 @@ angular
         acceptAgreement: surveyDTOService.isAuthenticated()
     }
 
+    $scope.saveEnterprise = () ->
+        $scope.noSubmitYet = false
+        if $scope.checkValidity()
+          $scope.loading = true
+
+          # add the language
+          surveyDTOService.setLanguage($stateParams.lang)
+
+          console.log "DTO to save"
+          console.log surveyDTOService.surveyDTO
+
+          downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
+              $scope.loading = false
+              if result.success
+                  surveyDTOService.setAccount(result.data.account)
+                  $flash.success 'account.save.success'
+                  $state.go 'root.enterpriseActions'
+              else
+                  $flash.error result.data.message
+
+
+
     $scope.save = () ->
         $scope.noSubmitYet = false
         if $scope.checkValidity()
@@ -78,10 +100,7 @@ angular
                 if result.success
                     surveyDTOService.setAccount(result.data.account)
                     $flash.success 'account.save.success'
-                    if (surveyDTOService.isHousehold())
-                        $state.go 'root.householdResults'
-                    else
-                        $state.go 'root.enterpriseActions'
+                    $state.go 'root.householdResults'
                 else
                     $flash.error result.data.message
 
