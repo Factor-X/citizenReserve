@@ -24,10 +24,14 @@
             </div>
         </div>
 
-
-        <div class="row" class="graphHolder" ng-if="data.length > 0">
-            <nvd3 options='$parent.options' data='$parent.data'></nvd3>
-        </div>
+        <h3>{{ 'enterprise.office.label' | translate }}</h3>
+        <cr-enterprise-form ng-read-only="true" ng-questions="['Q10110', 'Q10120']"></cr-enterprise-form>
+        <h3>{{ 'enterprise.building.label' | translate }}</h3>
+        <cr-enterprise-form ng-read-only="true" ng-questions="['Q10210', 'Q10220', 'Q10230', 'Q10240', 'Q10250', 'Q10260', 'Q10270', 'Q10280', 'Q10290']" ng-free-questions="['Q10290']"></cr-enterprise-form>
+        <h3>{{ 'enterprise.process.label' | translate }}</h3>
+        <cr-enterprise-form ng-read-only="true" ng-questions="['Q10310','Q10320','Q10330','Q10340','Q10350','Q10360','Q10380','Q10390','Q10395']" ng-free-questions="['Q10395']"></cr-enterprise-form>
+        <h3>{{ 'enterprise.other.label' | translate }}</h3>
+        <cr-enterprise-form ng-read-only="true" ng-questions="['Q10400']" ng-free-questions="['Q10400']"></cr-enterprise-form>
 
         <div class="row">
             <div class="col-md-12">

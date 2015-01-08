@@ -5,6 +5,7 @@ angular
     scope: directiveService.autoScope
         ngQuestions: '='
         ngFreeQuestions: '='
+        ngReadOnly: '='
         ngModel: '='
     templateUrl: "$/angular/templates/cr-enterprise-form.html"
     replace: false
@@ -12,7 +13,10 @@ angular
         directiveService.autoScopeImpl scope
 
         scope.getActionAnswers = (questionKey) ->
-            return surveyDTOService.getActionAnswers(questionKey)
+            if scope.ngReadOnly
+                return _.filter(surveyDTOService.getActionAnswers(questionKey), scope.isComplete)
+            else
+                return surveyDTOService.getActionAnswers(questionKey)
 
         scope.addEmptyActionAnswer = (questionKey) ->
             actionAnswers = surveyDTOService.getActionAnswers(questionKey)

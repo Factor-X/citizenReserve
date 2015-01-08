@@ -88,7 +88,9 @@ public class SurveyController extends AbstractController {
 
 			h = Long.valueOf(duration.split(":")[0]);
 			m = Long.valueOf(duration.split(":")[1]);
-			Long durationMillis = (h * 60L + m) * 60L * 1000L;
+			long durationMillis = (h * 60L + m) * 60L * 1000L;
+
+			System.out.println(durationMillis);
 
 			ActionAnswer e = new ActionAnswer(survey, getQuestionCodeByQuestionKey(questionKey), title, power, startTime, durationMillis, description);
 			survey.getActionAnswers().add(e);

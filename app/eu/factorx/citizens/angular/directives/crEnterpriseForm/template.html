@@ -1,12 +1,14 @@
 <table class="cr-enterprise-form">
     <tbody class="cr-enterprise-form-body" ng-repeat="q in ngQuestions">
 
+
         <tr ng-repeat="aa in getActionAnswers(q)">
             <td>
                 <span ng-show="$index == 0 && !isFree(q)">{{q + '.label' | translate}}</span>
-                <input ng-show="isFree(q)" type="text" ng-model="aa.title" placeholder="{{ 'enterprise.actions.title.placeholder' | translate }}"/>
+                <input ng-show="isFree(q)" ng-readonly="ngReadOnly" type="text" ng-model="aa.title"
+                       placeholder="{{ 'enterprise.actions.title.placeholder' | translate }}"/>
             </td>
-            <td>
+            <td ng-hide="ngReadOnly">
                 <i class="fa fa-check"
                    style="color: #006400"
                    ng-show="isComplete(aa)"
@@ -17,31 +19,35 @@
                     ></i>
             </td>
             <td class="cr-enterprise-form-power">
-                <input type="text" ng-pattern="/^\d*$/" ng-model="aa.power" /> Watt
+                <input ng-readonly="ngReadOnly" type="text" ng-pattern="/^\d*$/" ng-model="aa.power"/> Watt
             </td>
             <td class="cr-enterprise-form-begin">
-                {{ 'enterprise.since' | translate }}&nbsp;<input cr-time-format type="text" ng-model="aa.begin"
-                                                                        placeholder="{{ 'enterprise.actions.begin.placeholder' | translate }}"/>
+                {{ 'enterprise.since' | translate }}&nbsp;<input ng-readonly="ngReadOnly" cr-time-format type="text"
+                                                                 ng-model="aa.begin"
+                                                                 placeholder="{{ 'enterprise.actions.begin.placeholder' | translate }}"/>
             </td>
             <td class="cr-enterprise-form-duration">
-                {{ 'enterprise.during' | translate }}&nbsp;<input cr-time-format type="text"
-                                                                         ng-model="aa.duration" placeholder="{{ 'enterprise.actions.duration.placeholder' | translate }}"/>
+                {{ 'enterprise.during' | translate }}&nbsp;<input ng-readonly="ngReadOnly" cr-time-format type="text"
+                                                                  ng-model="aa.duration"
+                                                                  placeholder="{{ 'enterprise.actions.duration.placeholder' | translate }}"/>
             </td>
             <td class="cr-enterprise-form-description">
-                <span>(</span>
-                <input type="text" ng-model="aa.description" />
-                <span>)</span>
+
+                <span ng-hide="ngReadOnly && !aa.description">(</span>
+                <input ng-hide="ngReadOnly" type="text" ng-readonly="ngReadOnly" ng-model="aa.description"/>
+                <span ng-show="ngReadOnly">{{ aa.description }}</span>
+                <span ng-hide="ngReadOnly && !aa.description">)</span>
             </td>
             <td class="cr-enterprise-form-minus">
                 <button title="retirer une tranche horaire"
                         ng-click="removeActionAnswer(aa)"
-                        ng-show="getActionAnswers(q).length > 1">
+                        ng-show="getActionAnswers(q).length > 1 && !ngReadOnly">
                     <i class="fa fa-minus-circle"></i>
                 </button>
             </td>
         </tr>
 
-        <tr>
+        <tr ng-hide="ngReadOnly">
             <td colspan="6" class="cr-enterprise-form-plus">
                 <button ng-click="addEmptyActionAnswer(q)">
                     <i class="fa fa-plus-circle"></i>&nbsp;{{ 'enterprise.actions.addline' | translate }}
