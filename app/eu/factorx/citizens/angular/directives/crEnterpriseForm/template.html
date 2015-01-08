@@ -1,47 +1,54 @@
 <table class="cr-enterprise-form">
-    <thead>
-    <tr>
-        <th></th>
-        <th><span ng-bind-html="'enterprise.power' | translate"></span></th>
-        <th><span ng-bind-html="'enterprise.begin' | translate"></span></th>
-        <th><span ng-bind-html="'enterprise.duration' | translate"></span></th>
-        <th><span ng-bind-html="'enterprise.description' | translate"></span></th>
-    </tr>
-    </thead>
-    <tbody class="cr-enterprise-form-body">
+    <tbody class="cr-enterprise-form-body" ng-repeat="q in ngQuestions">
 
-    <tr ng-repeat-start="q in ngQuestions">
-        <td>{{q + '.label' | translate}}</td>
-        <td class="cr-enterprise-form-power">
-            <input type="text" ng-pattern="/^\d*$/" ng-model="getAnswerValue(q).doubleValue"/> Watt
-        </td>
-        <td class="cr-enterprise-form-begin">
-            <input cr-time-format type="text" ng-model="getAnswerValue(q).stringValue" placeholder="hh:mm"/>
-        </td>
-        <td class="cr-enterprise-form-duration">
-            <input cr-time-format type="text" ng-model="getAnswerValue(q).stringValue" placeholder="hh:mm"/>
-        </td>
-        <td class="cr-enterprise-form-description">
-            <input type="text"/>
-        </td>
-        <td class="cr-enterprise-form-minus">
-            <button title="retirer une tranche horaire">
-                <i class="fa fa-minus-circle"></i>
-            </button>
-        </td>
-    </tr>
+        <tr ng-repeat="aa in getActionAnswers(q)">
+            <td>
+                <span ng-show="$index == 0">{{q + '.label' | translate}}</span>
+            </td>
+            <td>
+                <i class="fa fa-check"
+                   style="color: #006400"
+                   ng-show="!!aa.power && !!aa.begin && !!aa.duration"
+                   title="Complet"
+                    ></i>
+                <i class="fa fa-warning"
+                   style="color: #8c781c"
+                   title="Incomplet"
+                   ng-hide="(!aa.power && !aa.begin && !aa.duration) || (!!aa.power && !!aa.begin && !!aa.duration)"
+                    ></i>
+            </td>
+            <td class="cr-enterprise-form-power">
+                <input type="text" ng-pattern="/^\d*$/" ng-model="aa.power"/> Watt
+            </td>
+            <td class="cr-enterprise-form-begin">
+                {{ 'enterprise.since' | translate }}&nbsp;<input cr-time-format type="text" ng-model="aa.begin"
+                                                                        placeholder="hh:mm"/>
+            </td>
+            <td class="cr-enterprise-form-duration">
+                {{ 'enterprise.during' | translate }}&nbsp;<input cr-time-format type="text"
+                                                                         ng-model="aa.duration" placeholder="hh:mm"/>
+            </td>
+            <td class="cr-enterprise-form-description">
+                <span>(</span>
+                <input type="text" ng-model="aa.description"/>
+                <span>)</span>
+            </td>
+            <td class="cr-enterprise-form-minus">
+                <button title="retirer une tranche horaire"
+                        ng-click="removeActionAnswer(aa)"
+                        ng-show="getActionAnswers(q).length > 1">
+                    <i class="fa fa-minus-circle"></i>
+                </button>
+            </td>
+        </tr>
 
-    <tr>
-        <td colspan="5" class="cr-enterprise-form-plus">
-            <button>
-                <i class="fa fa-plus-circle"></i>&nbsp;ajouter une tranche horaire
-            </button>
-        </td>
-    </tr>
-
-    <tr ng-repeat-end>
-        <td colspan="5"></td>
-    </tr>
+        <tr>
+            <td colspan="6" class="cr-enterprise-form-plus">
+                <button ng-click="addEmptyActionAnswer(q)">
+                    <i class="fa fa-plus-circle"></i>&nbsp;ajouter une tranche horaire
+                </button>
+            </td>
+        </tr>
 
     </tbody>
 </table>

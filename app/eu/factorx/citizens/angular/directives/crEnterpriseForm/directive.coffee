@@ -10,15 +10,25 @@ angular
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
 
+        scope.getActionAnswers = (questionKey) ->
+            return surveyDTOService.getActionAnswers(questionKey)
 
-        scope.getOptions = (questionKey) ->
-            return optionService.getOptions(questionKey)
+        scope.addEmptyActionAnswer = (questionKey) ->
+            actionAnswers = surveyDTOService.getActionAnswers(questionKey)
 
-        scope.getNumericOptions = (questionKey, min, max, step) ->
-            return optionService.getNumericOptions(questionKey, min, max, step)
+            found = null
+            for aa in actionAnswers
+                if !aa.title and !aa.power and !aa.begin and !aa.duration and !aa.description
+                    found = aa
 
-        scope.getAnswerValue = (questionKey, periodKey) ->
-            return surveyDTOService.getAnswerValue(questionKey, periodKey)
+            if !found
+                surveyDTOService.addEmptyActionAnswer(questionKey)
+
+            return undefined
+
+        scope.removeActionAnswer = (aa) ->
+            surveyDTOService.removeActionAnswer(aa)
+            return undefined
 
         scope.getAccount = () ->
             return surveyDTOService.getAccount()

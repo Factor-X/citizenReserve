@@ -104,8 +104,7 @@ angular
         url: '/enterprise-actions'
         templateUrl: '$/angular/views/enterprise/actions/enterprise-actions.html'
         controller: 'ActionsCtrl'
-        # resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
-        resolve: changeLanguageResolve
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
     .state 'root.enterpriseResults',
           url: '/enterprise-results'
           templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'

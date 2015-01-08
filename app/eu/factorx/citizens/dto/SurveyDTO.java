@@ -9,6 +9,7 @@ public class SurveyDTO extends DTO {
 	private AccountDTO account;
 
 	private List<AnswerDTO> answers;
+	private List<ActionAnswerDTO> actionAnswers;
 
 	public SurveyDTO() {
 	}
@@ -29,11 +30,21 @@ public class SurveyDTO extends DTO {
 		this.answers = answers;
 	}
 
-    @Override
-    public String toString() {
-        return "SurveyDTO{" +
-                "account=" + account +
-                ", answers=" + answers +
-                '}';
-    }
+
+	public void setActionAnswers(List<ActionAnswerDTO> actionAnswers) {
+		this.actionAnswers = actionAnswers;
+	}
+
+	public List<ActionAnswerDTO> getActionAnswers() {
+		return actionAnswers;
+	}
+
+	@Override
+	public String toString() {
+		return "SurveyDTO{" +
+			"account=" + account +
+			", answers=" + answers +
+			", actionAnswers=" + actionAnswers +
+			'}';
+	}
 }
