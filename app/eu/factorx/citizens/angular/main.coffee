@@ -39,6 +39,18 @@ defaultResolve =
                 else
                     $state.go 'root', $stateParams
 
+householdResolve = angular.extend({}, defaultResolve)
+householdResolve.instanceName =  () ->
+  'household'
+
+enterpriseResolve = angular.extend({}, defaultResolve)
+enterpriseResolve.instanceName = () ->
+  'enterprise'
+
+authorityResolve = angular.extend({}, defaultResolve)
+authorityResolve.instanceName = () ->
+  'authority'
+
 testAuthenticationResolve =
     testConnection: ($http, $rootScope, $state, $stateParams, downloadService, surveyDTOService) ->
         downloadService.getJson '/authenticated', (result) ->
@@ -78,22 +90,22 @@ angular
         url: '/household-profile'
         templateUrl: '$/angular/views/household/profile/household-profile.html'
         controller: 'ProfileCtrl'
-        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), householdResolve)
     .state 'root.householdActions',
         url: '/household-actions'
         templateUrl: '$/angular/views/household/actions/household-actions.html'
         controller: 'ActionsCtrl'
-        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), householdResolve)
     .state 'root.householdResults',
         url: '/household-results'
         templateUrl: '$/angular/views/household/results/household-results.html'
         controller: 'ResultsCtrl'
-        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), householdResolve)
     .state 'root.householdAccount',
         url: '/household-account'
         templateUrl: '$/angular/views/household/account/household-account.html'
         controller: 'RegistrationCtrl'
-        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), householdResolve)
 
     .state 'root.enterpriseAccount',
         url: '/enterprise-account'
@@ -104,12 +116,12 @@ angular
         url: '/enterprise-actions'
         templateUrl: '$/angular/views/enterprise/actions/enterprise-actions.html'
         controller: 'ActionsCtrl'
-        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), enterpriseResolve)
     .state 'root.enterpriseResults',
         url: '/enterprise-results'
         templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'
         controller: 'ResultsCtrl'
-        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), enterpriseResolve)
 
     .state 'root.controlsDemo',
         url: '/controls-demo'
