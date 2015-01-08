@@ -99,17 +99,17 @@ angular
         url: '/enterprise-account'
         templateUrl: '$/angular/views/enterprise/account/enterprise-account.html'
         controller: 'RegistrationCtrl'
-        # resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+        resolve: changeLanguageResolve
     .state 'root.enterpriseActions',
         url: '/enterprise-actions'
         templateUrl: '$/angular/views/enterprise/actions/enterprise-actions.html'
         controller: 'ActionsCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
     .state 'root.enterpriseResults',
-          url: '/enterprise-results'
-          templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'
-          controller: 'ResultsCtrl'
-
+        url: '/enterprise-results'
+        templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'
+        controller: 'ResultsCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
 
     .state 'root.controlsDemo',
         url: '/controls-demo'

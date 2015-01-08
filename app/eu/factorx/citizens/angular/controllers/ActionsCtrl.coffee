@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ActionsCtrl", ($scope, modalService, surveyDTOService, downloadService, conditionService, $filter, $flash) ->
+.controller "ActionsCtrl", ($scope, modalService, surveyDTOService, downloadService, conditionService, $filter, $flash, $state) ->
     questionsByAccountTypes =
         household:
             presence: ['Q3210', 'Q3211']
