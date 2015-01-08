@@ -120,7 +120,7 @@ angular
     .state 'root.enterpriseResults',
         url: '/enterprise-results'
         templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'
-        controller: 'ResultsCtrl'
+        controller: 'EnterpriseResultsCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), enterpriseResolve)
 
     .state 'root.controlsDemo',
