@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "EnterpriseResultsCtrl", ($scope, modalService, $filter, $timeout, $log, downloadService, surveyDTOService) ->
+.controller "EnterpriseResultsCtrl", ($scope, modalService, $filter, $timeout, $log, $stateParams, $flash, downloadService, surveyDTOService) ->
     $scope.isAuthenticated = ->
         return surveyDTOService.isAuthenticated()
 
@@ -82,6 +82,20 @@ angular
 #
 #    $scope.getSummaryResult();
 
+    $scope.sendSummaryEmail = () ->
+
+        surveyDTOService.setLanguage($stateParams.lang)
+
+        console.log "DTO to save"
+        console.log surveyDTOService.surveyDTO
+        downloadService.postJson '/enterprise/summaryEmail', surveyDTOService.surveyDTO, (result) ->
+            $scope.loading = false
+            if result.success
+                $flash.success 'account.save.success'
+            else
+                $flash.error result.data.message
+
+    $scope.sendSummaryEmail();
 
     #twitter
     $timeout(() ->

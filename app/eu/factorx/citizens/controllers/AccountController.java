@@ -318,54 +318,124 @@ public class AccountController extends AbstractController {
 
     }
 
+	private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
 
-    private void sendSummaryEmail(Account account, SurveyDTO surveyDTO) {
+		String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
 
-        String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
-
-        /****************************/
+		/****************************/
         /* add unselected actions to perform calculation */
 
-        // Validate incoming DTO
-        List<AnswerDTO> missingActions = new ArrayList<>();
-        try {
-            missingActions = calculationService.validateActions(surveyDTO.getAnswers());
-        } catch (Exception e) {
-            e.printStackTrace();
-            //throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
-        }
+		// Validate incoming DTO
+		List<AnswerDTO> missingActions = new ArrayList<>();
+		try {
+			missingActions = calculationService.validateActions(surveyDTO.getAnswers());
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+		}
 
-        surveyDTO.getAnswers().addAll(missingActions);
+		surveyDTO.getAnswers().addAll(missingActions);
 
-        //create action list
-        EffectiveReductionDTO erDto = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
+		//create action list
+		EffectiveReductionDTO erDto = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
 
 		List<ReductionDTO> reductionDTOs = erDto.getReductions();
-        Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
-        //convert action to string
-        String actionString = emailController.generateActionsTable(account);
+		Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
+		//convert action to string
+		String actionString = emailController.generateActionsTable(account);
 
-        HashMap<EmailParams, String> paramsMap = new HashMap<>();
+		HashMap<EmailParams, String> paramsMap = new HashMap<>();
 
-        for (EmailParams emailParams : EmailEnum.SUMMARY.getExpectedParams()) {
-            if (emailParams.getName().equals("firstName")) {
-                paramsMap.put(emailParams, account.getFirstName());
-            } else if (emailParams.getName().equals("lastName")) {
-                paramsMap.put(emailParams, account.getLastName());
-            } else if (emailParams.getName().equals("reductionSum")) {
-                paramsMap.put(emailParams, reductionPower.intValue() + "");
-            } else if (emailParams.getName().equals("actionTable")) {
-                paramsMap.put(emailParams, actionString);
-            } else if (emailParams.getName().equals("personal_access_url")) {
-                if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
-                    paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.nl"));
-                } else {
-                    paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.default"));
-                }
-            }
-        }
+		for (EmailParams emailParams : EmailEnum.SUMMARY.getExpectedParams()) {
+			if (emailParams.getName().equals("firstName")) {
+				paramsMap.put(emailParams, account.getFirstName());
+			} else if (emailParams.getName().equals("lastName")) {
+				paramsMap.put(emailParams, account.getLastName());
+			} else if (emailParams.getName().equals("reductionSum")) {
+				paramsMap.put(emailParams, reductionPower.intValue() + "");
+			} else if (emailParams.getName().equals("actionTable")) {
+				paramsMap.put(emailParams, actionString);
+			} else if (emailParams.getName().equals("personal_access_url")) {
+				if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
+					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.nl"));
+				} else {
+					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.default"));
+				}
+			}
+		}
 
-        emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap, account.getLanguage(), emailsToCC);
-    }
+		emailController.sendEmail(account.getEmail(), EmailEnum.SUMMARY, paramsMap, account.getLanguage(), emailsToCC);
+	}
+
+
+	@Transactional
+	public Result sendEnterpriseSummaryEmail () {
+
+		if (!securedController.isAuthenticated()) {
+			return securedController.onUnauthorized(ctx());
+		}
+
+		SurveyDTO dto = extractDTOFromRequest(SurveyDTO.class);
+
+		Account account = accountService.findByEmail(dto.getAccount().getEmail());
+
+		if (account == null) {
+			throw new MyRuntimeException(BusinessErrorType.EMAIL_DOESNT_EXIT);
+		}
+
+		sendEnterpriseSummaryEmail(account, dto);
+
+		return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
+	}
+
+	private void sendEnterpriseSummaryEmail(Account account, SurveyDTO surveyDTO) {
+
+		String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
+
+		/****************************/
+        /* add unselected actions to perform calculation */
+
+		// Validate incoming DTO
+//		List<AnswerDTO> missingActions = new ArrayList<>();
+//		try {
+//			missingActions = calculationService.validateActions(surveyDTO.getAnswers());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+//		}
+
+//		surveyDTO.getAnswers().addAll(missingActions);
+
+//		//create action list
+//		EffectiveReductionDTO erDto = calculationService.calculateEffectiveReduction(surveyDTO.getAnswers());
+//
+//		List<ReductionDTO> reductionDTOs = erDto.getReductions();
+//		Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
+//		//convert action to string
+//		String actionString = emailController.generateActionsTable(account);
+
+		HashMap<EmailParams, String> paramsMap = new HashMap<>();
+
+		for (EmailParams emailParams : EmailEnum.ENTERPRISE_SUMMARY.getExpectedParams()) {
+			if (emailParams.getName().equals("firstName")) {
+				paramsMap.put(emailParams, account.getFirstName());
+			} else if (emailParams.getName().equals("lastName")) {
+				paramsMap.put(emailParams, account.getLastName());
+//			} else if (emailParams.getName().equals("reductionSum")) {
+//				paramsMap.put(emailParams, reductionPower.intValue() + "");
+//			} else if (emailParams.getName().equals("actionTable")) {
+//				paramsMap.put(emailParams, actionString);
+			} else if (emailParams.getName().equals("personal_access_url")) {
+				if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
+					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.nl"));
+				} else {
+					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.default"));
+				}
+			}
+		}
+
+		emailController.sendEmail(account.getEmail(), EmailEnum.ENTERPRISE_SUMMARY, paramsMap, account.getLanguage(), emailsToCC);
+	}
+
 
 }
