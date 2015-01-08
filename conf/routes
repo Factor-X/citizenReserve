@@ -36,3 +36,6 @@ GET         /superAdmin/reductionData        @eu.factorx.citizens.controllers.Su
 
 # BATCH RESULT
 GET         /batch/last                      @eu.factorx.citizens.controllers.BatchResultController.getLastBatchResultSet()
+
+# enterprise
+POST        /enterprise/summaryEmail         @eu.factorx.citizens.controllers.AccountController.sendEnterpriseSummaryEmail()
