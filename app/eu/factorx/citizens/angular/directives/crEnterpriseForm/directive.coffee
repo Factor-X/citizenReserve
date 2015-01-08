@@ -4,6 +4,7 @@ angular
     restrict: "E"
     scope: directiveService.autoScope
         ngQuestions: '='
+        ngFreeQuestions: '='
         ngModel: '='
     templateUrl: "$/angular/templates/cr-enterprise-form.html"
     replace: false
@@ -25,6 +26,21 @@ angular
                 surveyDTOService.addEmptyActionAnswer(questionKey)
 
             return undefined
+
+        scope.isComplete = (aa) ->
+            if scope.isFree(aa.questionKey)
+                return !!aa.title and !!aa.power && !!aa.begin && !!aa.duration
+            else
+                return !!aa.power && !!aa.begin && !!aa.duration
+
+        scope.isEmpty = (aa) ->
+            if scope.isFree(aa.questionKey)
+                return !aa.title && !aa.power && !aa.begin && !aa.duration
+            else
+                return !aa.power && !aa.begin && !aa.duration
+
+        scope.isFree = (q) ->
+            return _.contains(scope.ngFreeQuestions, q)
 
         scope.removeActionAnswer = (aa) ->
             surveyDTOService.removeActionAnswer(aa)
