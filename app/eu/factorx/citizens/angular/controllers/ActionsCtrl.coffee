@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ActionsCtrl", ($scope, modalService, surveyDTOService, conditionService, $filter) ->
+.controller "ActionsCtrl", ($scope, modalService, surveyDTOService, downloadService, conditionService, $filter, $flash) ->
     questionsByAccountTypes =
         household:
             presence: ['Q3210', 'Q3211']
@@ -40,6 +40,18 @@ angular
             else
                 $scope.averagePowerReduction = null
             return
+
+
+    $scope.updateEnterprise = () ->
+        $scope.loading = true
+        downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
+            $scope.loading = false
+            if result.success
+                surveyDTOService.setAccount(result.data.account)
+                $flash.success 'account.save.success'
+                $state.go 'root.enterpriseResults'
+            else
+                $flash.error result.data.message
 
     $scope.onLoad = ->
         updateTopics()

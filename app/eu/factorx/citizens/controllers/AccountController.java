@@ -308,8 +308,11 @@ public class AccountController extends AbstractController {
         //save data
         surveyController.saveSurvey(dto, account);
 
-        //send email
-        sendSummaryEmail(account, dto);
+		// send email only if accountType is household
+		if (account.getAccountType()== AccountType.HOUSEHOLD) {
+			//send email
+			sendSummaryEmail(account, dto);
+		}
 
         return ok(new SummaryDTO(accountToAccountDTOConverter.convert(account)));
 

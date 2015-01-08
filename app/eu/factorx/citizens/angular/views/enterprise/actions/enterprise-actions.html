@@ -78,21 +78,13 @@
                     <span>&nbsp;</span>
                     <span ng-bind-html="'nav.back-to-identification' | translate"></span>
                 </button>
-                <button ui-sref="root.enterpriseResults"
-                        ng-show="isAuthenticated()"
+                <button ng-click="updateEnterprise()"
                         class="pull-right cr-mega-button">
                     <span ng-bind-html="'nav.to-results' | translate"></span>
                     <span>&nbsp;</span>
                     <i class="fa fa-caret-right fa-2x"></i>
                 </button>
 
-                <button ui-sref="root.enterpriseResults"
-                        ng-hide="isAuthenticated()"
-                        class="pull-right cr-mega-button">
-                    <span ng-bind-html="'nav.to-results' | translate"></span>
-                    <span>&nbsp;</span>
-                    <i class="fa fa-caret-right fa-2x"></i>
-                </button>
             </div>
         </div>
 
