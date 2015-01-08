@@ -139,6 +139,7 @@
 
                 <button
                     class="btn btn-small cr-mega-button pull-right"
+                    ng-show="isAuthenticated()"
                     ui-sref="root.enterpriseActions">
 
                     <i class="fa fa-caret-right fa-2x"></i>
@@ -149,7 +150,8 @@
 
 
                 <button class="btn btn-small cr-theme-green cr-mega-button pull-left" ng-disabled="loading == true"
-                        ng-click="save()">
+                        ng-hide="isAuthenticated()"
+                        ng-click="saveEnterprise()">
                     <i class="fa fa-save"></i>
                     <span>&nbsp;</span>
                     <span ng-bind-html="'generic.save' | translate"></span>
