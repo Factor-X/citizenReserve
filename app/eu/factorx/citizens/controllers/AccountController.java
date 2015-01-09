@@ -261,6 +261,7 @@ public class AccountController extends AbstractController {
 		account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
 		account.setPowerProvider(dto.getAccount().getPowerProvider());
 		account.setSensitizationKit(dto.getAccount().isSensitizationKit());
+		account.setPowerConsumption(dto.getAccount().getPowerConsumption());
 
 		//save
 		accountService.saveOrUpdate(account);
