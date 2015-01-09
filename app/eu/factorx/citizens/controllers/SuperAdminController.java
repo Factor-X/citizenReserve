@@ -31,7 +31,6 @@ import play.libs.Akka;
 import play.mvc.Result;
 import play.mvc.Security;
 import scala.concurrent.duration.Duration;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.*;
@@ -165,7 +164,7 @@ public class SuperAdminController extends AbstractController {
 		if (account.getAccountType().equals(AccountType.ENTERPRISE)) {
 			values.put("actionsTable", generateActionsTableForEnterprise(account, translationHelper));
 		}
-		if (account.getAccountType().equals(AccountType.INSTITUTION)) {
+		if (account.getAccountType().equals(AccountType.AUTHORITY)) {
 			values.put("actionsTable", generateActionsTableForInstitution(account, translationHelper));
 		}
 		if (LanguageEnum.FRANCAIS.equals(account.getLanguage())) {

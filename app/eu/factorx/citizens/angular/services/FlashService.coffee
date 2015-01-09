@@ -9,21 +9,21 @@ angular
             showCloseButton: true
             id: key
 
-    @info = (key) ->
+    @info = (key, params) ->
         Messenger().post
             message: $filter('params')($filter('translate')(key), params)
             type: 'info'
             showCloseButton: true
             id: key
 
-    @error = (key) ->
+    @error = (key, params) ->
         Messenger().post
             message: $filter('params')($filter('translate')(key), params)
             type: 'error'
             showCloseButton: true
             id: key
 
-    @warning = (key) ->
+    @warning = (key, params) ->
         Messenger().post
             message: $filter('params')($filter('translate')(key), params)
             type: 'warning'

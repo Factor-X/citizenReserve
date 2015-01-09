@@ -62,7 +62,7 @@
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
-                            ng-click="openModal('enterprise/account/account-change-email','ModalChangeEmailCtrl')">
+                            ng-click="openModal('authority/account/account-change-email','ModalChangeEmailCtrl')">
                         <i class="fa fa-gear"></i>
                         <span>&nbsp;</span>
                         <span ng-bind-html="'account.button.changeEmail' | translate"></span>
@@ -79,7 +79,7 @@
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
-                            ng-click="openModal('enterprise/account/account-change-password','ModalChangePasswordCtrl')">
+                            ng-click="openModal('authority/account/account-change-password','ModalChangePasswordCtrl')">
                         <i class="fa fa-gear"></i>
                         <span>&nbsp;</span>
                         <span ng-bind-html="'account.button.changePassword' | translate"></span>
@@ -136,9 +136,7 @@
 
                 <button class="btn btn-small cr-mega-button pull-right"
                         ng-show="isAuthenticated()"
-                        ng-click="saveEnterprise()"
-                        ui-sref="root.enterpriseActions">
-
+                        ng-click="saveEnterprise()">
                     <i class="fa fa-caret-right fa-2x"></i>
                     <span>&nbsp;</span>
                     <span ng-bind-html="'nav.to-actions' | translate"></span>
