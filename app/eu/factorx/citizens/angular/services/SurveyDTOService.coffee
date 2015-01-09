@@ -126,4 +126,13 @@ angular
                 console.error("@getEffectiveReductionDTO() thrown error! Response = ", result)
             return
 
+    @getEnterpriseEffectiveReductionDTO = (cb) ->
+        downloadService.postJson '/reduction/effective-enterprise', @surveyDTO, (result) ->
+            if result.success
+                # EffectiveReductionDTO
+                cb(result.data)
+            else
+                console.error("@getEnterpriseEffectiveReductionDTO() thrown error! Response = ", result)
+            return
+
     return

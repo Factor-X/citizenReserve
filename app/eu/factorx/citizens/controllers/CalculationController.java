@@ -51,12 +51,12 @@ public class CalculationController extends AbstractController {
 
 		return ok(result);
 
-    } // end of action calculate potential reduction
+	} // end of action calculate potential reduction
 
 
 	// TODO - to be implemented
 	//@BodyParser.Of(BodyParser.Json.class)
-	public Result calculateEffectiveReduction () {
+	public Result calculateEffectiveReduction() {
 
 		JsonNode json = request().body().asJson();
 		if (json == null) {
@@ -70,6 +70,22 @@ public class CalculationController extends AbstractController {
 		return ok(effectiveReductionResult);
 
 	} // end of action calculate effective reduction
+
+
+	public Result calculateEnterpriseEffectiveReduction() {
+
+		JsonNode json = request().body().asJson();
+		if (json == null) {
+			return badRequest("empty json");
+		}
+
+		SurveyDTO survey = extractDTOFromRequest(SurveyDTO.class);
+		EnterpriseEffectiveReductionDTO enterpriseEffectiveReductionDTO = getEnterpriseEffectiveReductionDTO(survey);
+
+		return ok(enterpriseEffectiveReductionDTO);
+
+	}
+
 
 	public EffectiveReductionDTO getEffectiveReductionDTO(SurveyDTO survey) {
 		// Validate incoming DTO - TODO

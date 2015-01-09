@@ -82,6 +82,12 @@ angular
 #
 #    $scope.getSummaryResult();
 
+
+    surveyDTOService.getEnterpriseEffectiveReductionDTO (dto) ->
+        $scope.meanPower = dto.meanPower
+        $scope.kwh = dto.kwh
+
+
     $scope.sendSummaryEmail = () ->
 
         surveyDTOService.setLanguage($stateParams.lang)

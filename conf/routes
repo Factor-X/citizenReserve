@@ -2,46 +2,48 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+GET         /assets/*file                           controllers.Assets.at(path="/public", file)
 
 # Home page
-GET         /                                @eu.factorx.citizens.controllers.ApplicationController.index()
+GET         /                                       @eu.factorx.citizens.controllers.ApplicationController.index()
 
 #translation
-GET         /translations                    @eu.factorx.citizens.controllers.TranslationController.get()
+GET         /translations                           @eu.factorx.citizens.controllers.TranslationController.get()
 
 #account
-POST        /login                           @eu.factorx.citizens.controllers.AccountController.login()
+POST        /login                                  @eu.factorx.citizens.controllers.AccountController.login()
 
 #also vali for update
-POST        /survey/update                   @eu.factorx.citizens.controllers.SurveyController.updateSurvey()
-POST        /registration                    @eu.factorx.citizens.controllers.AccountController.createAccountAndSaveData()
-GET         /authenticated                   @eu.factorx.citizens.controllers.AccountController.testAuthentication()
-POST        /forgotPassword                  @eu.factorx.citizens.controllers.AccountController.forgotPassword()
-POST        /logout                          @eu.factorx.citizens.controllers.AccountController.logout()
-POST        /account/changePassword          @eu.factorx.citizens.controllers.AccountController.changePassword()
-POST        /account/changeEmail             @eu.factorx.citizens.controllers.AccountController.changeEmail()
+POST        /survey/update                          @eu.factorx.citizens.controllers.SurveyController.updateSurvey()
+POST        /registration                           @eu.factorx.citizens.controllers.AccountController.createAccountAndSaveData()
+GET         /authenticated                          @eu.factorx.citizens.controllers.AccountController.testAuthentication()
+POST        /forgotPassword                         @eu.factorx.citizens.controllers.AccountController.forgotPassword()
+POST        /logout                                 @eu.factorx.citizens.controllers.AccountController.logout()
+POST        /account/changePassword                 @eu.factorx.citizens.controllers.AccountController.changePassword()
+POST        /account/changeEmail                    @eu.factorx.citizens.controllers.AccountController.changeEmail()
 
 #calulation routes
-POST        /reduction/effective             @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
-POST        /reduction/potential             @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
+POST        /reduction/effective                    @eu.factorx.citizens.controllers.CalculationController.calculateEffectiveReduction()
+POST        /reduction/potential                    @eu.factorx.citizens.controllers.CalculationController.calculatePotentialReduction()
+
+POST        /reduction/effective-enterprise         @eu.factorx.citizens.controllers.CalculationController.calculateEnterpriseEffectiveReduction()
 
 # Stats
-GET         /stats/summaryValues             @eu.factorx.citizens.controllers.BatchResultController.getSummaryResults()
-GET         /stats/nbSurveys                 @eu.factorx.citizens.controllers.SurveyController.getNbSurveys()
+GET         /stats/summaryValues                    @eu.factorx.citizens.controllers.BatchResultController.getSummaryResults()
+GET         /stats/nbSurveys                        @eu.factorx.citizens.controllers.SurveyController.getNbSurveys()
 
 # ADMIN
-POST        /superAdmin/login                @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()
-GET         /superAdmin/reductionData        @eu.factorx.citizens.controllers.SuperAdminController.getReductionValuesProgression()
-POST        /risks/create                    @eu.factorx.citizens.controllers.SuperAdminController.saveSheddingRisk()
-GET         /risks/load                      @eu.factorx.citizens.controllers.SuperAdminController.findAllSheddingRisks()
-POST        /risks/sendAlerts                @eu.factorx.citizens.controllers.SuperAdminController.sendAlerts()
+POST        /superAdmin/login                       @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()
+GET         /superAdmin/reductionData               @eu.factorx.citizens.controllers.SuperAdminController.getReductionValuesProgression()
+POST        /risks/create                           @eu.factorx.citizens.controllers.SuperAdminController.saveSheddingRisk()
+GET         /risks/load                             @eu.factorx.citizens.controllers.SuperAdminController.findAllSheddingRisks()
+POST        /risks/sendAlerts                       @eu.factorx.citizens.controllers.SuperAdminController.sendAlerts()
 
 # BATCH RESULT
-GET         /batch/last                      @eu.factorx.citizens.controllers.BatchResultController.getLastBatchResultSet()
+GET         /batch/last                             @eu.factorx.citizens.controllers.BatchResultController.getLastBatchResultSet()
 
 # enterprise
-POST        /enterprise/summaryEmail         @eu.factorx.citizens.controllers.AccountController.sendEnterpriseSummaryEmail()
+POST        /enterprise/summaryEmail                @eu.factorx.citizens.controllers.AccountController.sendEnterpriseSummaryEmail()
 
 # SHEDDING RISK ANSWERS
-GET         /risks/user_answer/:uuid/:answer  @eu.factorx.citizens.controllers.SheddingRiskAnswerController.saveUserAnswer(uuid:String, answer:String)
+GET         /risks/user_answer/:uuid/:answer        @eu.factorx.citizens.controllers.SheddingRiskAnswerController.saveUserAnswer(uuid:String, answer:String)

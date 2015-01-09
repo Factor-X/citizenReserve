@@ -47,7 +47,6 @@ public class BatchResultController extends AbstractController {
     @Transactional
     public Result getSummaryResults() {
 
-        int nbSurveys = surveyService.countSurveys();
         List<Answer> answers = surveyService.findAnswersByQuestionCode(QuestionCode.Q1300);
 
         BatchResultSet batchResultSet = batchSetService.findLast();
@@ -60,6 +59,7 @@ public class BatchResultController extends AbstractController {
 
         Integer nbSurvey = surveyService.countSurveys();
 
+		// There are 3 periods, we take the mean value and store it in "reduction".
         double total = 0.0;
         double nbValues = 0;
         for (BatchResultItem batchResultItem : batchResultSet.getEffectiveBach().getResultItems()) {
@@ -68,19 +68,19 @@ public class BatchResultController extends AbstractController {
                 nbValues++;
             }
         }
-
         double reduction = total / nbValues;
 
-        int nbParticipants = 0;
+		// Get the answer to Q1300: "people in the household"
+        int nbHouseholdMembers = 0;
         for (Answer answer : answers) {
             Iterator<AnswerValue> answerValueIterator = answer.getAnswerValues().iterator();
             if (answerValueIterator.hasNext()) {
-                nbParticipants += answerValueIterator.next().getDoubleValue();
+                nbHouseholdMembers += answerValueIterator.next().getDoubleValue();
             }
         }
 
-		// Add legacy accounts reduction (nbSurvey & nbParticipants are already correct...)
-		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbParticipants, reduction + accountService.getLegacyAccountsPowerReduction());
+		// Add legacy accounts reduction (nbSurvey & nbHouseholdMembers are already correct...)
+		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbHouseholdMembers, reduction + accountService.getLegacyAccountsPowerReduction());
 
 		return ok(summaryResultDTO);
     }
