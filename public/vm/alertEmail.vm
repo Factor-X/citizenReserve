@@ -76,7 +76,6 @@
 
     </style>
 
-
 </header>
 <body>
 
@@ -86,14 +85,14 @@
 
 <div style="min-height: 100px;padding:10px;">
 
-    $translationHelper.getMessage("email.alert.content", "${riskAnswer.account.firstName}", "${riskAnswer.account.lastName}", "${riskAnswer.risk.riskDate}")
-    <br><br>
+    $translationHelper.getMessage("email.alert.content", "${riskAnswer.account.firstName}", "${riskAnswer.account.lastName}", "${riskAnswer.risk.riskDate.toString('dd/MM')}")
+    <br/><br/>
 
     ${actionsTable}
-    <br><br>
+    <br/><br/>
 
-    $translationHelper.getMessage("email.alert.confirmation_buttons", "${citizensReserveHome}/${confirmationPageUrl}", "${riskAnswer.uuid}")
-    <br><br>
+    $translationHelper.getMessage("email.alert.confirmation_buttons", "${confirmationPageUrl}", "${riskAnswer.uuid}", "${riskAnswer.risk.riskDate.toString('dd/MM')}")
+    <br/><br/><br/><br/>
 
     $translationHelper.getMessage('email.alert.footer')
 
