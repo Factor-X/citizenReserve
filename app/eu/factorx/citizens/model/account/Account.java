@@ -62,6 +62,8 @@ public class Account extends AbstractEntity {
 
 	private String organizationName;
 
+	private Double powerConsumption;
+
 	public Account() {
     }
 
@@ -78,6 +80,14 @@ public class Account extends AbstractEntity {
 	public Account(AccountType accountType, String email, String password, String firstName, String lastName, String zipCode, String powerProvider, String organizationName) {
 		this(accountType,email,password,firstName,lastName,zipCode,powerProvider);
 		this.organizationName = organizationName;
+	}
+
+	public Double getPowerConsumption() {
+		return powerConsumption;
+	}
+
+	public void setPowerConsumption(Double powerConsumption) {
+		this.powerConsumption = powerConsumption;
 	}
 
 	public String getOrganizationName() {

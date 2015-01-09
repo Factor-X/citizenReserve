@@ -44,7 +44,17 @@ public class AccountDTO extends DTO {
 
 	private String organizationName;
 
+	private Double powerConsumption;
+
 	public AccountDTO() {
+	}
+
+	public Double getPowerConsumption() {
+		return powerConsumption;
+	}
+
+	public void setPowerConsumption(Double powerConsumption) {
+		this.powerConsumption = powerConsumption;
 	}
 
 	public String getOrganizationName() {
