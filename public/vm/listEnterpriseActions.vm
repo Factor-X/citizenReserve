@@ -1,0 +1,20 @@
+#foreach ($sectionEntry in $sections.entrySet())
+<h1>$translationHelper.getMessage($sectionEntry.key)</h1>
+<ul>
+    #foreach ($questionCode in $sectionEntry.value[0])
+        #foreach ($aa in $actions)
+            #if($aa.questionKey.equals($questionCode))
+                #if($sectionEntry.value[1].contains($questionCode))
+                    <li>$aa.title : -$aa.power W $translationHelper.getMessage("enterprise.email.since") $aa.begin
+                        $translationHelper.getMessage("enterprise.email.during") $aa.duration $aa.description</li>
+                #else
+                    #set($code = $questionCode + ".label")
+                    <li>$translationHelper.getMessage($code) : -$aa.power W $translationHelper.getMessage(
+                        "enterprise.email.since") $aa.begin $translationHelper.getMessage(
+                        "enterprise.email.during") $aa.duration $aa.description</li>
+                #end
+            #end
+        #end
+    #end
+</ul>
+#end

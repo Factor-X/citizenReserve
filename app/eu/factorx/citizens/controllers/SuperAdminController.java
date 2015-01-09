@@ -2,15 +2,20 @@ package eu.factorx.citizens.controllers;
 
 import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.controllers.technical.SecuredController;
+import eu.factorx.citizens.converter.ActionAnswerToActionAnswerDTOConverter;
 import eu.factorx.citizens.converter.BatchSetToBatchSetDTOConverter;
 import eu.factorx.citizens.converter.SheddingRiskToSheddingRiskDTO;
+import eu.factorx.citizens.dto.ActionAnswerDTO;
 import eu.factorx.citizens.dto.ListDTO;
 import eu.factorx.citizens.dto.SheddingRiskDTO;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.batch.BatchResultSet;
 import eu.factorx.citizens.model.shedding.SheddingRisk;
 import eu.factorx.citizens.model.shedding.SheddingRiskAnswer;
+import eu.factorx.citizens.model.survey.ActionAnswer;
+import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.model.survey.TopicEnum;
+import eu.factorx.citizens.model.type.AccountType;
 import eu.factorx.citizens.service.*;
 import eu.factorx.citizens.service.impl.*;
 import eu.factorx.citizens.util.email.messages.EmailMessage;
@@ -21,14 +26,15 @@ import org.joda.time.LocalDate;
 import play.Configuration;
 import play.Logger;
 import play.db.ebean.Transactional;
+import play.libs.Akka;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.concurrent.duration.Duration;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SuperAdminController extends AbstractController {
 
@@ -38,6 +44,7 @@ public class SuperAdminController extends AbstractController {
 	private static final String HOSTNAME = Configuration.root().getString("citizens-reserve.hostname");
 	private static final String CITIZENS_RESERVE_HOME = Configuration.root().getString("citizens-reserve.home");
 	private static final String CONFIRMATION_PAGE_URL = "risks/user_answer";
+	private static final String ENTERPRISE_ACTIONS_TABLE_TEMPLATE = "listEnterpriseActions.vm";
 
 	//services
 	private BatchSetService batchSetService = new BatchSetServiceImpl();
@@ -51,6 +58,7 @@ public class SuperAdminController extends AbstractController {
 	//converters
 	private BatchSetToBatchSetDTOConverter batchSetToBatchSetDTOConverter = new BatchSetToBatchSetDTOConverter();
 	private SheddingRiskToSheddingRiskDTO sheddingRiskToSheddingRiskDTOConverter = new SheddingRiskToSheddingRiskDTO();
+	private ActionAnswerToActionAnswerDTOConverter actionAnswerToActionAnswerDTOConverter = new ActionAnswerToActionAnswerDTOConverter();
 
 	@Security.Authenticated(SecuredController.class)
 	@SecurityAnnotation(isSuperAdmin = true)
@@ -94,9 +102,20 @@ public class SuperAdminController extends AbstractController {
 		SheddingRiskDTO sheddingRiskDTO = extractDTOFromRequest(SheddingRiskDTO.class);
 		SheddingRisk sheddingRisk = sheddingRiskService.findById(sheddingRiskDTO.getId());
 
-		List<SheddingRiskAnswer> sheddingRiskAnswers = generateAnswers(sheddingRisk);
+		final List<SheddingRiskAnswer> sheddingRiskAnswers = generateAnswers(sheddingRisk);
 
-		sendAlertEmails(sheddingRiskAnswers);
+		Akka.system().scheduler().scheduleOnce(
+			Duration.create(1, TimeUnit.SECONDS),
+			new Runnable() {
+				public void run() {
+					try {
+						sendAlertEmails(sheddingRiskAnswers);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			},
+			Akka.system().dispatchers().defaultGlobalDispatcher());
 
 		sheddingRisk.setMailSendingDate(new LocalDate());
 		sheddingRiskService.update(sheddingRisk);
@@ -121,7 +140,8 @@ public class SuperAdminController extends AbstractController {
 			String content = velocityGeneratorService.generate(EMAIL_TEMPLATE, getEmailModel(sheddingRiskAnswer));
 			try {
 				Thread.sleep(3000L);
-				emailService.send(new EmailMessage(account.getEmail(), subject, content));
+				emailService.send(new EmailMessage("jerome.carton.77@gmail.com", subject, content));
+				return;
 			} catch (Exception e) {
 				Logger.error("Exception while sending mail to '{}': {}", account.getEmail(), e.getMessage());
 			}
@@ -137,13 +157,28 @@ public class SuperAdminController extends AbstractController {
 		values.put("citizensReserveHome", CITIZENS_RESERVE_HOME);
 		values.put("translationHelper", translationHelper);
 		values.put("riskAnswer", sheddingRiskAnswer);
-		values.put("actionsTable", generateActionsTable(account, translationHelper));
+		if (account.getAccountType().equals(AccountType.HOUSEHOLD)) {
+			values.put("actionsTable", generateActionsTableForHousehold(account, translationHelper));
+		}
+		if (account.getAccountType().equals(AccountType.ENTERPRISE)) {
+			values.put("actionsTable", generateActionsTableForEnterprise(account, translationHelper));
+		}
+		if (account.getAccountType().equals(AccountType.INSTITUTION)) {
+			values.put("actionsTable", generateActionsTableForInstitution(account, translationHelper));
+		}
 		values.put("confirmationPageUrl", CITIZENS_RESERVE_HOME + "/" + CONFIRMATION_PAGE_URL);
+
+		String confirmationPageUrl = CITIZENS_RESERVE_HOME + "/" + CONFIRMATION_PAGE_URL;
+		Logger.info("confirmationPageUrl = " + confirmationPageUrl);
+		values.put("confirmationPageUrl", confirmationPageUrl);
+
+		String buttons = translationHelper.getMessage("email.alert.confirmation_buttons", confirmationPageUrl, sheddingRiskAnswer.getUuid(), confirmationPageUrl, sheddingRiskAnswer.getUuid());
+		Logger.info("buttons = " + buttons);
 
 		return values;
 	}
 
-	public String generateActionsTable(Account account, TranslationHelper translationHelper) {
+	public String generateActionsTableForHousehold(Account account, TranslationHelper translationHelper) {
 		HashMap<TopicEnum, List<Pair<String, String>>> actions = surveyService.getActionsForSummaryEmail(account);
 
 		Map<String, Object> values = new HashMap<>();
@@ -152,6 +187,43 @@ public class SuperAdminController extends AbstractController {
 		values.put("hostname", HOSTNAME);
 
 		return velocityGeneratorService.generate(ACTIONS_TABLE_TEMPLATE, values);
+	}
+
+	public String generateActionsTableForEnterprise(Account account, TranslationHelper translationHelper) {
+
+		Survey survey = surveyService.findValidSurveyByAccount(account);
+
+		Map<String, Object> values = new HashMap<>();
+
+		Map<String, Object> sections = new LinkedHashMap<>();
+
+		sections.put("enterprise.office.label", Arrays.asList(Arrays.asList("Q10110", "Q10120"), new ArrayList<String>()));
+		sections.put("enterprise.building.label", Arrays.asList(Arrays.asList("Q10210", "Q10220", "Q10230", "Q10240", "Q10250", "Q10260", "Q10270", "Q10280", "Q10290"), Arrays.asList("Q10290")));
+		sections.put("enterprise.process.label", Arrays.asList(Arrays.asList("Q10310", "Q10320", "Q10330", "Q10340", "Q10350", "Q10360", "Q10380", "Q10390", "Q10395"), Arrays.asList("Q10395")));
+		sections.put("enterprise.other.label", Arrays.asList(Arrays.asList("Q10400"), Arrays.asList("Q10400")));
+
+
+		List<ActionAnswerDTO> dtos = new ArrayList<>();
+		for (ActionAnswer actionAnswer : survey.getActionAnswers()) {
+			ActionAnswerDTO dto = actionAnswerToActionAnswerDTOConverter.convert(actionAnswer);
+			if (dto.getTitle() == null) dto.setTitle("");
+			if (dto.getDescription() == null) dto.setDescription("");
+			else dto.setDescription("(" + dto.getDescription() + ")");
+			dtos.add(dto);
+		}
+
+		values.put("sections", sections);
+		values.put("actions", dtos);
+		values.put("translationHelper", translationHelper);
+		values.put("hostname", HOSTNAME);
+
+		String result = velocityGeneratorService.generate(ENTERPRISE_ACTIONS_TABLE_TEMPLATE, values);
+		return result;
+	}
+
+
+	public String generateActionsTableForInstitution(Account account, TranslationHelper translationHelper) {
+		throw new NotImplementedException();
 	}
 
 }

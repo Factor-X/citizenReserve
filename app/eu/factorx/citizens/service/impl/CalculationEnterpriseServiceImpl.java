@@ -41,9 +41,6 @@ public class CalculationEnterpriseServiceImpl implements CalculationEnterpriseSe
 			double totalJoules;
 			LocalTime delta;
 
-			play.Logger.info("begin", begin);
-
-
 			// start time
 			int h = Integer.valueOf(begin.split(":")[0]);
 			int m = Integer.valueOf(begin.split(":")[1]);
@@ -77,8 +74,6 @@ public class CalculationEnterpriseServiceImpl implements CalculationEnterpriseSe
 			} else {
 				delta = endTime.minusHours(startTime.getHourOfDay()).minusMinutes(startTime.getMinuteOfHour());
 				totalSeconds = delta.getHourOfDay() * 60 * 60 + delta.getMinuteOfHour() * 60;
-				play.Logger.info("totalSeconds for " + questionKey + " = " + totalSeconds);
-				play.Logger.info("power for " + questionKey + " = " + power);
 
 				totalJoules = power * totalSeconds;
 				enery += totalJoules;
