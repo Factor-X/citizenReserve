@@ -6,6 +6,7 @@ angular
         account:
             otherEmailAddresses: []
         answers: []
+        actionAnswers: []
 
     @createPreAccount = (accountType) ->
         @surveyDTO.account.accountType = accountType
