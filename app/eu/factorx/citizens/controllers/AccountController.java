@@ -257,6 +257,7 @@ public class AccountController extends AbstractController {
 		account.setPowerComsumerCategory(dto.getAccount().getPowerComsumerCategory());
 		account.setPowerProvider(dto.getAccount().getPowerProvider());
 		account.setSensitizationKit(dto.getAccount().isSensitizationKit());
+		account.setPowerConsumption(dto.getAccount().getPowerConsumption());
 
 		//save
 		accountService.saveOrUpdate(account);
@@ -425,7 +426,11 @@ public class AccountController extends AbstractController {
 			} else if (emailParams.getName().equals("meanPower")) {
 				paramsMap.put(emailParams, meanPower + "");
 			} else if (emailParams.getName().equals("actionTable")) {
-				paramsMap.put(emailParams, superAdminController.generateActionsTableForEnterprise(account, translationHelper));
+				if (AccountType.ENTERPRISE.equals(account.getAccountType())) {
+					paramsMap.put(emailParams, superAdminController.generateActionsTableForEnterprise(account, translationHelper));
+				} else {
+					paramsMap.put(emailParams, superAdminController.generateActionsTableForInstitution(account, translationHelper));
+				}
 			} else if (emailParams.getName().equals("personal_access_url")) {
 				if (account.getLanguage().equals(LanguageEnum.NEERDERLANDS)) {
 					paramsMap.put(emailParams, play.Configuration.root().getString("citizens-reserve.myaccount.nl"));
