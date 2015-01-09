@@ -70,17 +70,17 @@ angular
 #            ];
 
 
-#    $scope.getSummaryResult = ->
-#        downloadService.getJson '/stats/summaryValues', (result) ->
-#            if result.success
-#                summaryResult = result.data
-#                if (!!summaryResult)
-#                    $scope.totalEffectiveAverageReduction = $filter('number')(parseFloat(summaryResult.effectiveReduction) / 1000.0, 0)
-#                    $scope.nbParticipants = summaryResult.nbParticipants
-#            else
-#                console.log(result.data)
-#
-#    $scope.getSummaryResult();
+    $scope.getSummaryResult = ->
+        downloadService.getJson '/stats/summaryValues', (result) ->
+            if result.success
+                summaryResult = result.data
+                if (!!summaryResult)
+                    $scope.totalEffectiveAverageReduction = $filter('number')(parseFloat(summaryResult.effectiveReduction) / 1000.0, 0)
+                    $scope.nbParticipants = summaryResult.nbParticipants
+            else
+                console.log(result.data)
+
+    $scope.getSummaryResult();
 
 
     surveyDTOService.getEnterpriseEffectiveReductionDTO (dto) ->
