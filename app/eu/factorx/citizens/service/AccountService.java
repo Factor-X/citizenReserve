@@ -1,6 +1,7 @@
 package eu.factorx.citizens.service;
 
 import eu.factorx.citizens.model.account.Account;
+import eu.factorx.citizens.model.type.AccountType;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface AccountService {
     public Account findById(Long id);
 
 	public Double getLegacyAccountsPowerReduction();
+
+	int getAccountsNumber(AccountType... accountTypes);
 }

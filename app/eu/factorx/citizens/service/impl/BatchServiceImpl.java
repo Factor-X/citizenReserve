@@ -1,21 +1,23 @@
 package eu.factorx.citizens.service.impl;
 
 import com.avaje.ebean.Ebean;
+import eu.factorx.citizens.converter.ActionAnswerToActionAnswerDTOConverter;
 import eu.factorx.citizens.converter.AnswerToAnswerDTOConverter;
+import eu.factorx.citizens.dto.ActionAnswerDTO;
 import eu.factorx.citizens.dto.AnswerDTO;
 import eu.factorx.citizens.dto.EffectiveReductionDTO;
 import eu.factorx.citizens.dto.ReductionDTO;
+import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.batch.BatchResult;
 import eu.factorx.citizens.model.batch.BatchResultSet;
 import eu.factorx.citizens.model.batch.PowerReductionType;
-import eu.factorx.citizens.model.survey.Answer;
-import eu.factorx.citizens.model.survey.AnswerValue;
-import eu.factorx.citizens.model.survey.Period;
-import eu.factorx.citizens.model.survey.Survey;
+import eu.factorx.citizens.model.survey.*;
 import eu.factorx.citizens.model.technical.AbstractEntity;
+import eu.factorx.citizens.model.type.AccountType;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.BatchService;
+import eu.factorx.citizens.service.CalculationEnterpriseService;
 import eu.factorx.citizens.service.CalculationService;
 import eu.factorx.citizens.service.SurveyService;
 import play.Logger;
@@ -29,6 +31,8 @@ public class BatchServiceImpl implements BatchService {
     private SurveyService surveyService = new SurveyServiceImpl();
     private AnswerToAnswerDTOConverter answerToAnswerDTOConverter = new AnswerToAnswerDTOConverter();
     private CalculationService calculationService = new CalculationServiceImpl();
+	private ActionAnswerToActionAnswerDTOConverter actionAnswerToActionAnswerDTOConverter = new ActionAnswerToActionAnswerDTOConverter();
+	private CalculationEnterpriseService calculationEnterpriseService = new CalculationEnterpriseServiceImpl();
 
     @Override
     public void run() {
@@ -127,64 +131,84 @@ public class BatchServiceImpl implements BatchService {
 
         for (Survey survey : surveyService.findAllSurveys()) {
 
-			Double legacyAccountPowerReduction = survey.getAccount().getLegacyAccountPowerReduction();
+			Account account = survey.getAccount();
+			Double legacyAccountPowerReduction = account.getLegacyAccountPowerReduction();
 			if (legacyAccountPowerReduction != null && legacyAccountPowerReduction > 0) {
 				Logger.info("Ignoring survey with ID = {} (legacy account without data)", survey.getId());
 				continue;
 			}
 
-			List<AnswerDTO> surveyAnswersDTOs = new ArrayList<>();
-            for (Answer answer : survey.getAnswers()) {
-                surveyAnswersDTOs.add(answerToAnswerDTOConverter.convert(answer));
-            }
 
-			/****************************/
-			/* add unselected actions to perform calculation */
+			if (AccountType.HOUSEHOLD.equals(account.getAccountType())) {
 
-			// Validate incoming DTO - TODO
-			List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
-			try {
-				missingActions = calculationService.validateActions(surveyAnswersDTOs);
-			} catch (Exception e) {
-				//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+				List<AnswerDTO> surveyAnswersDTOs = new ArrayList<>();
+				for (Answer answer : survey.getAnswers()) {
+					surveyAnswersDTOs.add(answerToAnswerDTOConverter.convert(answer));
+				}
+
+				/****************************/
+				/* add unselected actions to perform calculation */
+
+				// Validate incoming DTO - TODO
+				List<AnswerDTO> missingActions = new ArrayList<AnswerDTO>();
+				try {
+					missingActions = calculationService.validateActions(surveyAnswersDTOs);
+				} catch (Exception e) {
+					//throw new MyRuntimeException("This answerValue is not savable : " + answerValueDTO + " (from answer " + answerDTO + ")");
+				}
+
+				surveyAnswersDTOs.addAll(missingActions);
+
+
+				/*****************************/
+
+				List<ReductionDTO> reductionDTOs;
+				try {
+					EffectiveReductionDTO erDTO = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
+					reductionDTOs = erDTO.getReductions();
+				} catch (Exception e) {
+					e.printStackTrace();
+					//Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
+					nbErrors++;
+					continue;
+				}
+
+				firstDayResult_p1 += reductionDTOs.get(0).getFirstPeriodPowerReduction();
+				firstDayResult_p2 += reductionDTOs.get(0).getSecondPeriodPowerReduction();
+				firstDayResult_p3 += reductionDTOs.get(0).getThirdPeriodPowerReduction();
+
+				secondDayResult_p1 += reductionDTOs.get(1).getFirstPeriodPowerReduction();
+				secondDayResult_p2 += reductionDTOs.get(1).getSecondPeriodPowerReduction();
+				secondDayResult_p3 += reductionDTOs.get(1).getThirdPeriodPowerReduction();
+
+				thirdDayResult_p1 += reductionDTOs.get(2).getFirstPeriodPowerReduction();
+				thirdDayResult_p2 += reductionDTOs.get(2).getSecondPeriodPowerReduction();
+				thirdDayResult_p3 += reductionDTOs.get(2).getThirdPeriodPowerReduction();
+
+				fourthDayResult_p1 += reductionDTOs.get(3).getFirstPeriodPowerReduction();
+				fourthDayResult_p2 += reductionDTOs.get(3).getSecondPeriodPowerReduction();
+				fourthDayResult_p3 += reductionDTOs.get(3).getThirdPeriodPowerReduction();
+
+				for (AnswerValue answerValue : surveyService.findAnswersByQuestionCodeAndSurvey(QuestionCode.Q1300, survey).getAnswerValues()) {
+					nbParticipants+=answerValue.getDoubleValue();
+					break;
+				}
+
+
+			} else {
+				// Enterprises & Institutions
+				List<ActionAnswerDTO> actionAnswerDTOs = new ArrayList<>();
+				for (ActionAnswer actionAnswer : survey.getActionAnswers()) {
+					actionAnswerDTOs.add(actionAnswerToActionAnswerDTOConverter.convert(actionAnswer));
+				}
+
+				double meanReduction = calculationEnterpriseService.calculateEffectiveReduction(actionAnswerDTOs).getMeanPower();
+				firstDayResult_p1 += meanReduction;
+				firstDayResult_p2 += meanReduction;
+				firstDayResult_p3 += meanReduction;
+
+				nbParticipants++;
 			}
-
-			surveyAnswersDTOs.addAll(missingActions);
-
-
-			/*****************************/
-
-            List<ReductionDTO> reductionDTOs;
-            try {
-                EffectiveReductionDTO erDTO = calculationService.calculateEffectiveReduction(surveyAnswersDTOs);
-				reductionDTOs = erDTO.getReductions();
-            } catch (Exception e) {
-                e.printStackTrace();
-                //Logger.error("Calculation of effective reduction fails for survey with id = {}. Exception message is: {}", survey.getId(), e.getLocalizedMessage());
-                nbErrors++;
-                continue;
-            }
-
-            firstDayResult_p1 += reductionDTOs.get(0).getFirstPeriodPowerReduction();
-            firstDayResult_p2 += reductionDTOs.get(0).getSecondPeriodPowerReduction();
-            firstDayResult_p3 += reductionDTOs.get(0).getThirdPeriodPowerReduction();
-
-            secondDayResult_p1 += reductionDTOs.get(1).getFirstPeriodPowerReduction();
-            secondDayResult_p2 += reductionDTOs.get(1).getSecondPeriodPowerReduction();
-            secondDayResult_p3 += reductionDTOs.get(1).getThirdPeriodPowerReduction();
-
-            thirdDayResult_p1 += reductionDTOs.get(2).getFirstPeriodPowerReduction();
-            thirdDayResult_p2 += reductionDTOs.get(2).getSecondPeriodPowerReduction();
-            thirdDayResult_p3 += reductionDTOs.get(2).getThirdPeriodPowerReduction();
-
-            fourthDayResult_p1 += reductionDTOs.get(3).getFirstPeriodPowerReduction();
-            fourthDayResult_p2 += reductionDTOs.get(3).getSecondPeriodPowerReduction();
-            fourthDayResult_p3 += reductionDTOs.get(3).getThirdPeriodPowerReduction();
-
-            for (AnswerValue answerValue : surveyService.findAnswersByQuestionCodeAndSurvey(QuestionCode.Q1300, survey).getAnswerValues()) {
-                nbParticipants+=answerValue.getDoubleValue();
-                break;
-            }
             nbSurveys++;
         }
 
