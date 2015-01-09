@@ -97,7 +97,7 @@
 
 
                 <!-- Q5310  account.otheremails.label DTO : otherEmailAddresses -->
-                <cr-question label="account.otheremails.label">
+                <cr-question label="account.otheremails_enterprise.label">
                     <cr-multi-text ng-model="getAccount().otherEmailAddresses"></cr-multi-text>
                 </cr-question>
 
@@ -116,8 +116,7 @@
 
                 <!-- Q5220 account.powerconsumercategory.labe -->
                 <cr-question label="account.powerconsumercategory.label">
-                    <cr-slider ng-steps="getOptions('powerconsumercategory')"
-                               ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
+                    <cr-text ng-model="getAccount().powerComsumerCategory" ng-multiline="true"></cr-text>
                 </cr-question>
 
                 <!-- agreement -->
@@ -133,8 +132,6 @@
                 <p class="cr-error" ng-show="validation.terms.valid == false && noSubmitYet == false"
                    ng-bind-html="'account.errorMessage.terms' | translate"></p>
 
-                <!-- advertisemnt -->
-                <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
 
                 <button class="btn btn-small cr-mega-button pull-right"
                         ng-show="isAuthenticated()"
