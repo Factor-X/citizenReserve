@@ -21,14 +21,17 @@ import org.joda.time.LocalDate;
 import play.Configuration;
 import play.Logger;
 import play.db.ebean.Transactional;
+import play.libs.Akka;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.concurrent.duration.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class SuperAdminController extends AbstractController {
 
@@ -94,9 +97,20 @@ public class SuperAdminController extends AbstractController {
 		SheddingRiskDTO sheddingRiskDTO = extractDTOFromRequest(SheddingRiskDTO.class);
 		SheddingRisk sheddingRisk = sheddingRiskService.findById(sheddingRiskDTO.getId());
 
-		List<SheddingRiskAnswer> sheddingRiskAnswers = generateAnswers(sheddingRisk);
+		final List<SheddingRiskAnswer> sheddingRiskAnswers = generateAnswers(sheddingRisk);
 
-		sendAlertEmails(sheddingRiskAnswers);
+		Akka.system().scheduler().scheduleOnce(
+			Duration.create(1, TimeUnit.SECONDS),
+			new Runnable() {
+				public void run() {
+					try {
+						sendAlertEmails(sheddingRiskAnswers);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			},
+			Akka.system().dispatchers().defaultGlobalDispatcher());
 
 		sheddingRisk.setMailSendingDate(new LocalDate());
 		sheddingRiskService.update(sheddingRisk);
@@ -121,7 +135,8 @@ public class SuperAdminController extends AbstractController {
 			String content = velocityGeneratorService.generate(EMAIL_TEMPLATE, getEmailModel(sheddingRiskAnswer));
 			try {
 				Thread.sleep(3000L);
-				emailService.send(new EmailMessage(account.getEmail(), subject, content));
+				emailService.send(new EmailMessage("jerome.carton.77@gmail.com", subject, content));
+				return;
 			} catch (Exception e) {
 				Logger.error("Exception while sending mail to '{}': {}", account.getEmail(), e.getMessage());
 			}
@@ -138,7 +153,13 @@ public class SuperAdminController extends AbstractController {
 		values.put("translationHelper", translationHelper);
 		values.put("riskAnswer", sheddingRiskAnswer);
 		values.put("actionsTable", generateActionsTable(account, translationHelper));
-		values.put("confirmationPageUrl", CITIZENS_RESERVE_HOME + "/" + CONFIRMATION_PAGE_URL);
+		String confirmationPageUrl = CITIZENS_RESERVE_HOME + "/" + CONFIRMATION_PAGE_URL;
+		Logger.info("confirmationPageUrl = " + confirmationPageUrl);
+		values.put("confirmationPageUrl", confirmationPageUrl);
+
+		String buttons = translationHelper.getMessage("email.alert.confirmation_buttons", confirmationPageUrl, sheddingRiskAnswer.getUuid(), confirmationPageUrl, sheddingRiskAnswer.getUuid());
+		Logger.info("buttons = " + buttons);
+
 
 		return values;
 	}
