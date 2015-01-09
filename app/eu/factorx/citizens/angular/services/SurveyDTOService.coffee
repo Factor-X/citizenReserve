@@ -19,6 +19,9 @@ angular
     @isAuthenticated = () ->
         return (@surveyDTO.account.id? && @surveyDTO.account.id != null)
 
+    @isHousehold = () ->
+        return (@surveyDTO.account.accountType == "household")
+
     @logout = () ->
         @surveyDTO =
             account:
@@ -65,6 +68,27 @@ angular
             answerValue = answer.answerValues[0]
 
         return answerValue
+
+    @getActionAnswers = (questionKey) ->
+        actionAnswers = _.where(@surveyDTO.actionAnswers, {questionKey: questionKey})
+        if actionAnswers.length == 0
+            @addEmptyActionAnswer(questionKey)
+            actionAnswers = _.where(@surveyDTO.actionAnswers, {questionKey: questionKey})
+        return actionAnswers
+
+    @addEmptyActionAnswer = (questionKey) ->
+        @surveyDTO.actionAnswers.push {
+            questionKey: questionKey
+            title: null
+            power: null
+            begin: null
+            duration: null
+            description: null
+        }
+        return undefined
+
+    @removeActionAnswer = (actionAnswer) ->
+        @surveyDTO.actionAnswers = _.reject(@surveyDTO.actionAnswers, actionAnswer)
 
     @isQuestionCompleted = (questionKey) ->
         answers = @getAnswers(questionKey)

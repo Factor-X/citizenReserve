@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import eu.factorx.citizens.controllers.technical.AbstractController;
 import eu.factorx.citizens.dto.*;
 import eu.factorx.citizens.model.type.ReductionDay;
+import eu.factorx.citizens.service.CalculationEnterpriseService;
 import eu.factorx.citizens.service.CalculationService;
+import eu.factorx.citizens.service.impl.CalculationEnterpriseServiceImpl;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import play.mvc.Result;
 
@@ -16,6 +18,7 @@ public class CalculationController extends AbstractController {
 
 	//service
 	CalculationService calculationService = new CalculationServiceImpl();
+	CalculationEnterpriseService calculationEnterpriseService = new CalculationEnterpriseServiceImpl();
 
 	//@BodyParser.Of(BodyParser.Json.class)
 	public Result calculatePotentialReduction() {
@@ -79,9 +82,7 @@ public class CalculationController extends AbstractController {
 
 		survey.getAnswers().addAll(missingActions);
 
-		EffectiveReductionDTO effectiveReductionResult = new EffectiveReductionDTO();
-
-		effectiveReductionResult = calculationService.calculateEffectiveReduction(survey.getAnswers());
+		EffectiveReductionDTO effectiveReductionResult = calculationService.calculateEffectiveReduction(survey.getAnswers());
 
 		List<ReductionDTO> result = effectiveReductionResult.getReductions();
 
@@ -103,6 +104,10 @@ public class CalculationController extends AbstractController {
 //			System.out.println("Effective Reduction Energy ratio:" + result.get(day.ordinal()).getEnergyReduction());
 		}
 		return effectiveReductionResult;
+	}
+
+	public EnterpriseEffectiveReductionDTO getEnterpriseEffectiveReductionDTO(SurveyDTO survey) {
+		return calculationEnterpriseService.calculateEffectiveReduction(survey.getActionAnswers());
 	}
 
 }  // end of controller

@@ -59,6 +59,8 @@ public class Account extends AbstractEntity {
 
 	private Boolean passwordToChange;
 
+	private String organizationName;
+
 	public Account() {
     }
 
@@ -72,8 +74,20 @@ public class Account extends AbstractEntity {
         this.powerProvider = powerProvider;
     }
 
+	public Account(AccountType accountType, String email, String password, String firstName, String lastName, String zipCode, String powerProvider, String organizationName) {
+		this(accountType,email,password,firstName,lastName,zipCode,powerProvider);
+		this.organizationName = organizationName;
+	}
 
-    public LanguageEnum getLanguage() {
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+	public LanguageEnum getLanguage() {
         return language;
     }
 

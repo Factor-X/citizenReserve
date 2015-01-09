@@ -42,7 +42,17 @@ public class AccountDTO extends DTO {
 
 	private boolean passwordToChange;
 
+	private String organizationName;
+
 	public AccountDTO() {
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
 
 	public String getLanguageAbrv() {

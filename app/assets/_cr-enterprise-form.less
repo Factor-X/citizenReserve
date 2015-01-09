@@ -2,10 +2,28 @@
 
     border-spacing: 0.5em;
     border-collapse: separate;
+    width: 100%;
 
     thead {
         tr {
             th {
+                text-transform: uppercase;
+                font-size: 75%;
+                color: #999;
+
+                &.cr-enterprise-form-power {
+                    text-align: left;
+                }
+                &.cr-enterprise-form-begin {
+                    text-align: center;
+                }
+                &.cr-enterprise-form-duration {
+                    text-align: center;
+                }
+                &.cr-enterprise-form-description {
+                    text-align: left;
+                }
+
                 span {
                 }
             }
@@ -20,17 +38,77 @@
 
             td {
                 white-space: nowrap;
+                color: #666;
+                font-style: italic;
 
                 &:first-child {
                     font-weight: bold;
+                    color: #000;
+                    font-style: normal;
+                    white-space: normal;
+                    position: relative;
+                    padding-right: 1em;
+
+
+                    input {
+                        min-width: 10em;
+                        width: 100%;
+                    }
                 }
 
                 input {
                     width: 5em;
+                    border: none;
+                    border-bottom: dotted 1px #999;
+                    outline: none;
+                    font-weight: bold;
+                    font-style: normal;
+                    color: #000;
+                    &.ng-invalid {
+                        background: #faa;
+                    }
+
+                    &[readonly="readonly"] {
+                        border: none;
+                    }
                 }
-                input[type=time] {
-                    width: 5em;
-                    line-height: normal;
+
+                &.cr-enterprise-form-power input {
+                    text-align: right;
+                    width: 4em;
+                }
+                &.cr-enterprise-form-begin input {
+                    text-align: center;
+                    width: 4em;
+                }
+                &.cr-enterprise-form-duration input {
+                    text-align: center;
+                    width: 4em;
+                }
+                &.cr-enterprise-form-description {
+                    width: 100%;
+                    input {
+                        text-align: left;
+                        width: 100%;
+                        font-style: italic;
+                        font-weight: normal;
+                    }
+                }
+                &.cr-enterprise-form-plus, &.cr-enterprise-form-minus {
+                    text-align: right;
+                    button {
+                        color: #999;
+                        cursor: pointer;
+                        border: none;
+                        background: none;
+                        outline: none;
+                        box-shadow: none;
+                        font-weight: normal;
+                        font-style: italic;
+                    }
+                    button:hover {
+                        color: #333;
+                    }
                 }
             }
         }

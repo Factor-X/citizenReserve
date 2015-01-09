@@ -13,6 +13,9 @@ angular
         scope.isAuthenticated = ->
             return surveyDTOService.isAuthenticated()
 
+        scope.toAccount = ->
+            $state.go 'root.' + $state.current.resolve.instanceName() + 'Account'
+
         scope.logout = () ->
             downloadService.postJson '/logout', surveyDTOService.surveyDTO, (result) ->
                 if result.success

@@ -1,6 +1,7 @@
 package eu.factorx.citizens.model.type;
 
 public enum QuestionCode {
+	// household
 	Q1300,
 	Q1400,
 	Q1500,
@@ -49,7 +50,31 @@ public enum QuestionCode {
 	Q3741,
 	Q3750,
 	Q3760,
-    Q9999;
+	Q9999,
+
+	// enterprise
+	Q10110,
+	Q10120,
+	Q10210,
+	Q10220,
+	Q10230,
+	Q10240,
+	Q10250,
+	Q10260,
+	Q10270,
+	Q10280,
+	Q10290,
+	Q10310,
+	Q10320,
+	Q10330,
+	Q10340,
+	Q10350,
+	Q10360,
+	Q10380,
+	Q10390,
+	Q10395,
+	Q10400;
+
 
 	/**
 	 * Nominal power of the electrical machine on which the question relates, in Watt

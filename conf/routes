@@ -40,5 +40,8 @@ POST        /risks/sendAlerts                @eu.factorx.citizens.controllers.Su
 # BATCH RESULT
 GET         /batch/last                      @eu.factorx.citizens.controllers.BatchResultController.getLastBatchResultSet()
 
+# enterprise
+POST        /enterprise/summaryEmail         @eu.factorx.citizens.controllers.AccountController.sendEnterpriseSummaryEmail()
+
 # SHEDDING RISK ANSWERS
 GET         /risks/user_answer/:uuid/:answer  @eu.factorx.citizens.controllers.SheddingRiskAnswerController.saveUserAnswer(uuid:String, answer:String)

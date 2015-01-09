@@ -27,6 +27,9 @@ public class Survey extends AbstractEntity {
 	@OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Answer> answers = new ArrayList<>();
 
+	@OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ActionAnswer> actionAnswers = new ArrayList<>();
+
 	public Survey() {
 	}
 
@@ -70,6 +73,14 @@ public class Survey extends AbstractEntity {
 		answer.addBooleanValue(value, period);
 		this.answers.add(answer);
 	}
+
+	public List<ActionAnswer> getActionAnswers() {
+		return actionAnswers;
+	}
+	public void setActionAnswers(List<ActionAnswer> actionAnswers) {
+		this.actionAnswers = actionAnswers;
+	}
+
 
 	@Override
 	public boolean equals(Object o) {

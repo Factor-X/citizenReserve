@@ -4,7 +4,7 @@
         <div class="row cr-profile-header">
 
             <div class="col-md-6">
-                <h2 ng-bind-html="'register.title' | translate"></h2>
+                <h2 ng-bind-html="'enterprise.register.title' | translate"></h2>
 
 
             </div>
@@ -43,6 +43,15 @@
                        ng-bind-html="'account.errorMessage.lastName' | translate"></p>
                 </cr-question>
 
+                <!-- Qxxxx generic.organizationName -->
+                <cr-question label="generic.organizationName">
+                    <cr-text ng-model="getAccount().organizationName" name="organizationname"
+                             ng-validation="validation.organizationName"></cr-text>
+                    <p class="cr-error" ng-show="validation.organizationName.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.organizationName' | translate"></p>
+                </cr-question>
+
+
                 <!-- Q5130 generic.emailAddress -->
                 <cr-question label="generic.emailAddress">
                     <cr-text ng-model="getAccount().email" name="email"
@@ -53,7 +62,7 @@
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
-                            ng-click="openModal('household/account/account-change-email','ModalChangeEmailCtrl')">
+                            ng-click="openModal('enterprise/account/account-change-email','ModalChangeEmailCtrl')">
                         <i class="fa fa-gear"></i>
                         <span>&nbsp;</span>
                         <span ng-bind-html="'account.button.changeEmail' | translate"></span>
@@ -70,7 +79,7 @@
                     <button class="btn btn-small cr-theme-orange cr-mega-button"
                             ng-show="isAuthenticated() == true"
 
-                            ng-click="openModal('household/account/account-change-password','ModalChangePasswordCtrl')">
+                            ng-click="openModal('enterprise/account/account-change-password','ModalChangePasswordCtrl')">
                         <i class="fa fa-gear"></i>
                         <span>&nbsp;</span>
                         <span ng-bind-html="'account.button.changePassword' | translate"></span>
@@ -111,12 +120,6 @@
                                ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
                 </cr-question>
 
-                <!-- Kit -->
-                <!-- Q5230 account.kit.label -->
-                <cr-question label="account.kit.label" ng-hide="isAuthenticated() == true">
-                    <cr-boolean ng-model="getAccount().sensitizationKit"></cr-boolean>
-                </cr-question>
-
                 <!-- agreement -->
                 <cr-question label="account.info.terms&conditions.label">
                     <button class="btn btn-small cr-theme-magenta cr-mega-button"
@@ -135,18 +138,21 @@
                 <p ng-bind-html="'account.info.summaryemail.label' | translate"></p>
 
                 <button
-                    class="btn btn-small cr-mega-button pull-left"
-                    ui-sref="root.householdActions">
+                    class="btn btn-small cr-mega-button pull-right"
+                    ng-show="isAuthenticated()"
+                    ng-click="saveEnterprise()"
+                    ui-sref="root.enterpriseActions">
 
-                    <i class="fa fa-caret-left fa-2x"></i>
+                    <i class="fa fa-caret-right fa-2x"></i>
                     <span>&nbsp;</span>
-                    <span ng-bind-html="'nav.back-to-actions' | translate"></span>
+                    <span ng-bind-html="'nav.to-actions' | translate"></span>
 
                 </button>
 
 
                 <button class="btn btn-small cr-theme-green cr-mega-button pull-right" ng-disabled="loading == true"
-                        ng-click="save()">
+                        ng-hide="isAuthenticated()"
+                        ng-click="saveEnterprise()">
                     <i class="fa fa-save"></i>
                     <span>&nbsp;</span>
                     <span ng-bind-html="'generic.save' | translate"></span>
