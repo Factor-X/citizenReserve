@@ -131,8 +131,8 @@ public class EmailSender implements ApplicationContextAware {
             play.Logger.info("Email Successfully sent to " + email.getToAddress());
 
         } catch (MessagingException e) {
-            throw e;
-        }
+			throw e;
+		}
 
     }
 

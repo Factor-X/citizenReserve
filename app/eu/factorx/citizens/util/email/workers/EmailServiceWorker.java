@@ -13,12 +13,12 @@ import eu.factorx.citizens.util.email.messages.EmailMessage;
  */
 
 public class EmailServiceWorker extends UntypedActor {
-	
+
 	/**
      * Delivers a message
      */
     @Override
-    public void onReceive(Object message) {
+    public void onReceive(Object message) throws Exception {
     	if (message instanceof EmailMessage)
     	{
     		EmailMessage email = (EmailMessage)message;
@@ -26,9 +26,11 @@ public class EmailServiceWorker extends UntypedActor {
     			EmailSender sender = new EmailSender();
     			sender.sendEmail(email);
     		} catch (IOException e) {
-    			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    			//e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				throw e;
     		} catch (MessagingException e) {
-    			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    			//e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				throw e;
     		}
     	} else {
     		unhandled(message);
