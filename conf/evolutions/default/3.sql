@@ -25,6 +25,7 @@ CREATE TABLE shedding_risks_answers
   risk_id bigint,
   account_id bigint,
   answer boolean,
+  uuid character varying(255),
   version bigint NOT NULL,
   creation_date timestamp without time zone NOT NULL,
   last_update_date timestamp without time zone NOT NULL,
@@ -34,7 +35,8 @@ CREATE TABLE shedding_risks_answers
   ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_shedding_risks_answers_risk_6 FOREIGN KEY (risk_id)
   REFERENCES shedding_risks (id) MATCH SIMPLE
-  ON UPDATE NO ACTION ON DELETE NO ACTION
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uq_risks_answers_uuid UNIQUE (uuid)
 )
 WITH (
 OIDS=FALSE

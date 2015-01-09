@@ -33,6 +33,12 @@ GET         /stats/nbSurveys                 @eu.factorx.citizens.controllers.Su
 # ADMIN
 POST        /superAdmin/login                @eu.factorx.citizens.controllers.AccountController.loginSuperAdmin()
 GET         /superAdmin/reductionData        @eu.factorx.citizens.controllers.SuperAdminController.getReductionValuesProgression()
+POST        /risks/create                    @eu.factorx.citizens.controllers.SuperAdminController.saveSheddingRisk()
+GET         /risks/load                      @eu.factorx.citizens.controllers.SuperAdminController.findAllSheddingRisks()
+POST        /risks/sendAlerts                @eu.factorx.citizens.controllers.SuperAdminController.sendAlerts()
 
 # BATCH RESULT
 GET         /batch/last                      @eu.factorx.citizens.controllers.BatchResultController.getLastBatchResultSet()
+
+# SHEDDING RISK ANSWERS
+GET         /risks/user_answer/:uuid/:answer  @eu.factorx.citizens.controllers.SheddingRiskAnswerController.saveUserAnswer(uuid:String, answer:String)

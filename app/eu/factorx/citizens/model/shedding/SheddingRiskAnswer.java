@@ -3,14 +3,14 @@ package eu.factorx.citizens.model.shedding;
 import eu.factorx.citizens.model.account.Account;
 import eu.factorx.citizens.model.technical.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "shedding_risks_answers")
 public class SheddingRiskAnswer extends AbstractEntity {
 
+	public static final String PROPERTY_UUID = "uuid";
 	@ManyToOne
 	private SheddingRisk risk;
 
@@ -19,10 +19,14 @@ public class SheddingRiskAnswer extends AbstractEntity {
 
 	private Boolean answer;
 
+	@Column(unique = true)
+	private String uuid;
+
 	public SheddingRiskAnswer(SheddingRisk risk, Account account, Boolean answer) {
 		this.risk = risk;
 		this.account = account;
 		this.answer = answer;
+		this.uuid = UUID.randomUUID().toString();
 	}
 
 	public SheddingRisk getRisk() {
@@ -47,5 +51,13 @@ public class SheddingRiskAnswer extends AbstractEntity {
 
 	public void setAnswer(Boolean answer) {
 		this.answer = answer;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }

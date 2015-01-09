@@ -1,0 +1,47 @@
+<div class="cr-directives-demo tc-super-admin">
+
+    <div class="container">
+
+        <cr-admin-navigation-bar></cr-admin-navigation-bar>
+
+        <div class="row">
+            <div class="col-md-12">
+                <span ng-show="allRisks.length == 0" style="font-weight:bold;">Aucun risque de délestage pour l'instant.</span>
+                <table style="width: 100%" ng-show="allRisks.length > 0">
+                    <thead>
+                    <th>Date Risque de délestage</th>
+                    <th>Date Envoi des alertes</th>
+                    <th>&nbsp;</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="risk in allRisks">
+                        <td>{{ risk.riskDate | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ risk.alertSendingDate | date:'dd/MM/yyyy' }}</td>
+                        <td><button type="button" class="btn btn-default" ng-click="sendAlerts(risk)" ng-disabled="!!risk.alertSendingDate">Envoyer les alertes</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <span style="display: inline-block">Ajouter une date de risque de délestage:&nbsp;</span>
+                <span style="display: inline-block">
+                    <input type="text" class="form-control" style="display: inline-block" disabled="disabled" datepicker-popup="dd/MM/yyyy" ng-model="newRiskDate" is-open="opened"
+                           min-date="minDate"
+                           datepicker-options="dateOptions"
+                           show-button-bar="false"/>
+                </span>
+                <span style="display: inline-block">
+                    <button type="button" class="btn btn-default" style="min-width: 40px;" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    &nbsp;
+                    <button type="button" class="btn btn-default" ng-click="save()" ng-disabled="newRiskDate == null">Enregistrer</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

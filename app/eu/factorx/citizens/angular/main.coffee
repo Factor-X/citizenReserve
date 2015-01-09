@@ -126,6 +126,12 @@ angular
         controller: 'SuperAdminMainCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
 
+    .state 'root.superAdminRisks',
+        url: '/admin/risks'
+        templateUrl: '$/angular/views/admin/risks.html'
+        controller: 'SuperAdminRisksCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), defaultResolve)
+
     $urlRouterProvider.otherwise('/fr/welcome');
 
 

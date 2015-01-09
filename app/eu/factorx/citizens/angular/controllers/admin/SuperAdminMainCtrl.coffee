@@ -9,14 +9,6 @@ angular
 
     $scope.batchs = null
 
-    $scope.logout = () ->
-        downloadService.postJson '/logout', surveyDTOService.surveyDTO, (result) ->
-            if result.success
-                $location.path('/welcome')
-                surveyDTOService.logout()
-                $flash.success 'logout.success'
-        return
-
     $scope.loadingReductionData = () ->
         downloadService.getJson '/superAdmin/reductionData',  (result)->
             $scope.loading = false
