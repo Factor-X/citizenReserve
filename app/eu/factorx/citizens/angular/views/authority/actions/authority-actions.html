@@ -1,0 +1,69 @@
+<div class="cr-actions">
+
+    <div class="container">
+
+        <div class="row cr-profile-header">
+
+            <div class="col-md-6">
+                <h2 ng-bind-html="'enterprise.actions.title' | translate"></h2>
+
+
+            </div>
+            <div class="col-md-6">
+                <cr-login></cr-login>
+            </div>
+        </div>
+
+        <div class="row cr-profile-header">
+
+            <div class="col-md-12">
+                <p class="cr-intro" ng-bind-html="'actions.intro' | translate"></p>
+            </div>
+        </div>
+
+        <div class="row cr-actions-content">
+
+            <div class="col-md-12">
+
+                <h3>{{ 'enterprise.office.label' | translate }}</h3>
+                <cr-enterprise-form ng-questions="['Q10110', 'Q10120']"></cr-enterprise-form>
+                <h3>{{ 'enterprise.building.label' | translate }}</h3>
+                <cr-enterprise-form ng-questions="['Q10210', 'Q10220', 'Q10230', 'Q10240', 'Q10250', 'Q10260', 'Q10270', 'Q10280', 'Q10290']" ng-free-questions="['Q10290']"></cr-enterprise-form>
+                <h3>{{ 'enterprise.other.label' | translate }}</h3>
+                <cr-enterprise-form ng-questions="['Q10400']" ng-free-questions="['Q10400']"></cr-enterprise-form>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="col-md-12" ng-show="!!averagePowerReduction">
+                    <h3 ng-bind-html="'actions.result' | translate | params:[averagePowerReduction]"></h3>
+                    <p class="cr-outro" ng-bind-html="'actions.outro' | translate"></p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <button ui-sref="root.enterpriseAccount"
+                        class="pull-left cr-mega-button">
+                    <i class="fa fa-caret-left fa-2x"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'nav.back-to-identification' | translate"></span>
+                </button>
+                <button ng-click="updateEnterprise()"
+                        class="pull-right cr-mega-button">
+                    <span ng-bind-html="'nav.to-results' | translate"></span>
+                    <span>&nbsp;</span>
+                    <i class="fa fa-caret-right fa-2x"></i>
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</div>

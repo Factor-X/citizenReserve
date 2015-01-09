@@ -123,6 +123,23 @@ angular
         controller: 'EnterpriseResultsCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), enterpriseResolve)
 
+    .state 'root.authorityAccount',
+        url: '/authority-account'
+        templateUrl: '$/angular/views/authority/account/authority-account.html'
+        controller: 'RegistrationCtrl'
+        resolve: changeLanguageResolve
+    .state 'root.authorityActions',
+        url: '/authority-actions'
+        templateUrl: '$/angular/views/authority/actions/authority-actions.html'
+        controller: 'ActionsCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), authorityResolve)
+    .state 'root.authorityResults',
+        url: '/authority-results'
+        templateUrl: '$/angular/views/authority/results/authority-results.html'
+        controller: 'EnterpriseResultsCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), authorityResolve)
+
+
     .state 'root.controlsDemo',
         url: '/controls-demo'
         templateUrl: '$/angular/views/test/controls-demo.html'

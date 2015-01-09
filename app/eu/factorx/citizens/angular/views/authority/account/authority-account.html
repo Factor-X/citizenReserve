@@ -1,0 +1,174 @@
+<div class="cr-account">
+    <div class="container">
+
+        <div class="row cr-profile-header">
+
+            <div class="col-md-6">
+                <h2 ng-bind-html="'enterprise.register.title' | translate"></h2>
+
+
+            </div>
+            <div class="col-md-6">
+                <cr-login></cr-login>
+            </div>
+        </div>
+
+        <div class="row cr-profile-header">
+
+            <div class="col-md-12">
+                <p class="cr-intro" ng-bind-html="'register.intro' | translate"></p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+
+
+                <!-- Q5110 generic.firstName -->
+                <cr-question label="generic.firstName">
+                    <cr-text ng-model="getAccount().firstName" name="firstname"
+                             ng-validation="validation.firstName"></cr-text>
+                    <p class="cr-error" ng-show="validation.firstName.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.firstName' | translate"></p>
+                </cr-question>
+
+                <!-- Q5120 generic.lastName -->
+                <cr-question label="generic.lastName">
+                    <cr-text ng-model="getAccount().lastName" name="lastname"
+                             ng-validation="validation.lastName"></cr-text>
+                    <p class="cr-error" ng-show="validation.lastName.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.lastName' | translate"></p>
+                </cr-question>
+
+                <!-- Qxxxx generic.organizationName -->
+                <cr-question label="generic.organizationName">
+                    <cr-text ng-model="getAccount().organizationName" name="organizationname"
+                             ng-validation="validation.organizationName"></cr-text>
+                    <p class="cr-error" ng-show="validation.organizationName.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.organizationName' | translate"></p>
+                </cr-question>
+
+
+                <!-- Q5130 generic.emailAddress -->
+                <cr-question label="generic.emailAddress">
+                    <cr-text ng-model="getAccount().email" name="email"
+                             ng-validation="validation.emailAddress"
+                             ng-disabled="isAuthenticated() == true"></cr-text>
+                    <p class="cr-error" ng-show="validation.emailAddress.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.emailAddress' | translate"></p>
+                    <button class="btn btn-small cr-theme-orange cr-mega-button"
+                            ng-show="isAuthenticated() == true"
+
+                            ng-click="openModal('enterprise/account/account-change-email','ModalChangeEmailCtrl')">
+                        <i class="fa fa-gear"></i>
+                        <span>&nbsp;</span>
+                        <span ng-bind-html="'account.button.changeEmail' | translate"></span>
+                    </button>
+                </cr-question>
+
+                <!-- Q5140 generic.password -->
+                <cr-question label="generic.password">
+                    <cr-text ng-model="getAccount().password" type="password" name="password"
+                             ng-validation="validation.password"
+                             ng-disabled="isAuthenticated() == true"></cr-text>
+                    <p class="cr-error" ng-show="validation.password.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.password' | translate"></p>
+                    <button class="btn btn-small cr-theme-orange cr-mega-button"
+                            ng-show="isAuthenticated() == true"
+
+                            ng-click="openModal('enterprise/account/account-change-password','ModalChangePasswordCtrl')">
+                        <i class="fa fa-gear"></i>
+                        <span>&nbsp;</span>
+                        <span ng-bind-html="'account.button.changePassword' | translate"></span>
+                    </button>
+                </cr-question>
+
+                <!-- repeat password -->
+                <cr-question label="account.info.repeatPassword"
+                             ng-hide="isAuthenticated() == true">
+                    <cr-text ng-model="o.repeatPassword" type="password" name="password"
+                             ng-validation="validation.repeatPassword"></cr-text>
+                    <p class="cr-error" ng-show="validation.repeatPassword.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.repeatPassword' | translate | translate"></p>
+                </cr-question>
+
+
+                <!-- Q5310  account.otheremails.label DTO : otherEmailAddresses -->
+                <cr-question label="account.otheremails.label">
+                    <cr-multi-text ng-model="getAccount().otherEmailAddresses"></cr-multi-text>
+                </cr-question>
+
+                <!-- Q5150 account.zip.label -->
+                <cr-question label="account.zip.label">
+                    <cr-text ng-model="getAccount().zipCode" name="zip" ng-validation="zip"></cr-text>
+                    <p class="cr-error" ng-show="validation.zip.valid == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.zip' | translate"></p>
+                </cr-question>
+
+                <!-- Q5210 account.powerprovider.label -->
+                <cr-question label="account.powerprovider.label">
+                    <cr-slider ng-steps="getOptions('Q5210')" ng-model="getAccount().powerProvider"
+                               vertical="true"></cr-slider>
+                </cr-question>
+
+                <!-- Q5220 account.powerconsumercategory.labe -->
+                <cr-question label="account.powerconsumercategory.label">
+                    <cr-slider ng-steps="getOptions('powerconsumercategory')"
+                               ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
+                </cr-question>
+
+                <!-- agreement -->
+                <cr-question label="account.info.terms&conditions.label">
+                    <button class="btn btn-small cr-theme-magenta cr-mega-button"
+                            ng-click="openModal('household/terms')">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>&nbsp;</span>
+                        <span ng-bind-html="'account.info.term.button.consult' | translate"></span>
+                    </button>
+                    <cr-boolean ng-model="validation.terms.valid"></cr-boolean>
+                </cr-question>
+                <p class="cr-error" ng-show="validation.terms.valid == false && noSubmitYet == false"
+                   ng-bind-html="'account.errorMessage.terms' | translate"></p>
+
+
+                <button class="btn btn-small cr-mega-button pull-right"
+                        ng-show="isAuthenticated()"
+                        ng-click="saveEnterprise()"
+                        ui-sref="root.enterpriseActions">
+
+                    <i class="fa fa-caret-right fa-2x"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'nav.to-actions' | translate"></span>
+
+                </button>
+
+
+                <button class="btn btn-small cr-theme-green cr-mega-button pull-right"
+                        ng-disabled="loading == true"
+                        ng-hide="isAuthenticated()"
+                        ng-click="saveEnterprise()">
+                    <i class="fa fa-save"></i>
+                    <span>&nbsp;</span>
+                    <span ng-bind-html="'generic.save' | translate"></span>
+                </button>
+
+
+                <img ng-show="loading == true" ng-src="/assets/images/modal-loading.gif"/>
+            </div>
+
+            <div class="col-md-2">
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <p class="cr-outro" ng-bind-html="'register.outro' | translate"></p>
+            </div>
+        </div>
+
+    </div>
+</div>
