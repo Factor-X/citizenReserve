@@ -2,14 +2,15 @@ package eu.factorx.citizens.dto;
 
 import eu.factorx.citizens.dto.technical.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDTO extends DTO {
 
 	private AccountDTO account;
 
-	private List<AnswerDTO> answers;
-	private List<ActionAnswerDTO> actionAnswers;
+	private List<AnswerDTO> answers = new ArrayList<>();
+	private List<ActionAnswerDTO> actionAnswers= new ArrayList<>();
 
 	public SurveyDTO() {
 	}

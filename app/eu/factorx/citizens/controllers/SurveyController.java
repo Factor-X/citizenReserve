@@ -97,7 +97,6 @@ public class SurveyController extends AbstractController {
 
 		}
 
-
 		// For legacy accounts:
 		// If we can calculate an effective reduction, then user is a "normal" account => we can put the value of 'legacyAccountPowerReduction' to 0
 		Double legacyAccountPowerReduction = account.getLegacyAccountPowerReduction();
