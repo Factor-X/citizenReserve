@@ -17,6 +17,7 @@ public class Account extends AbstractEntity {
     public static final String FIND_BY_EMAIL = "Account_FIND_BY_EMAIL";
     public static final String FIND_BY_ID    = "Account_FIND_BY_ID";
 
+	public static final String ACCOUNT_TYPE_PROPERTY = "accountType";
 
     //column
     public static final String COL_EMAIL = "email";

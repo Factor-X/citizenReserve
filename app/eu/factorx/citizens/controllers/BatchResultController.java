@@ -7,6 +7,7 @@ import eu.factorx.citizens.model.batch.BatchResultItem;
 import eu.factorx.citizens.model.batch.BatchResultSet;
 import eu.factorx.citizens.model.survey.Answer;
 import eu.factorx.citizens.model.survey.AnswerValue;
+import eu.factorx.citizens.model.type.AccountType;
 import eu.factorx.citizens.model.type.QuestionCode;
 import eu.factorx.citizens.model.type.ReductionDay;
 import eu.factorx.citizens.service.AccountService;
@@ -80,9 +81,14 @@ public class BatchResultController extends AbstractController {
         }
 
 		// Add legacy accounts reduction (nbSurvey & nbHouseholdMembers are already correct...)
-		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbHouseholdMembers, reduction + accountService.getLegacyAccountsPowerReduction());
+		SummaryResultDTO summaryResultDTO = new SummaryResultDTO(nbSurvey, nbHouseholdMembers + getEnterprisesAndInstitutionsTotalCount(), reduction + accountService.getLegacyAccountsPowerReduction());
 
 		return ok(summaryResultDTO);
     }
+
+	private int getEnterprisesAndInstitutionsTotalCount() {
+		return accountService.getAccountsNumber(AccountType.ENTERPRISE, AccountType.INSTITUTION);
+	}
+
 
 }
