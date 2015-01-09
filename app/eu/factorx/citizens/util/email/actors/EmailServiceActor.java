@@ -21,7 +21,7 @@ public class EmailServiceActor extends UntypedActor {
      * The actor supervisor strategy attempts to send email up to 10 times if there is a EmailException
      */
     private static SupervisorStrategy strategy =
-            new OneForOneStrategy(-1, Duration.create("30 minute"),
+            new OneForOneStrategy(10, Duration.create("1 minute"),
                     new Function<Throwable, Directive>() {
 						@Override
                         public Directive apply(Throwable t) {

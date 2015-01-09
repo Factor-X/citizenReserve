@@ -139,8 +139,8 @@ public class SuperAdminController extends AbstractController {
 			String subject = translationService.getTranslation(EMAIL_SUBJECT_KEY, account.getLanguage().getAbrv(), sheddingRisk.getRiskDate().toString("dd/MM"));
 			String content = velocityGeneratorService.generate(EMAIL_TEMPLATE, getEmailModel(sheddingRiskAnswer));
 			try {
-				Thread.sleep(3000L);
-				emailService.send(new EmailMessage("jerome.carton.77@gmail.com", subject, content));
+				//Thread.sleep(3000L);
+				emailService.send(new EmailMessage("gaston.hollands@hotmail.com", subject, content));
 				return;
 			} catch (Exception e) {
 				Logger.error("Exception while sending mail to '{}': {}", account.getEmail(), e.getMessage());
