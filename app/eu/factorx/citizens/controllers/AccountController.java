@@ -397,7 +397,7 @@ public class AccountController extends AbstractController {
 		String[] emailsToCC = StringUtils.split(account.getOtherEmailAdresses(), ";");
 
 		/****************************/
-        /* add unselected actions to perform calculation */
+		/* add unselected actions to perform calculation */
 
 		// Validate incoming DTO
 //		List<AnswerDTO> missingActions = new ArrayList<>();
