@@ -105,16 +105,10 @@
                                vertical="true"></cr-slider>
                 </cr-question>
 
-                <!-- Q5220 account.powerconsumercategory.labe -->
+                <!-- Q5220 account.powerconsumercategory.label -->
                 <cr-question label="account.powerconsumercategory.label">
                     <cr-slider ng-steps="getOptions('powerconsumercategory')"
                                ng-model="getAccount().powerComsumerCategory" vertical="true"></cr-slider>
-                </cr-question>
-
-                <!-- Kit -->
-                <!-- Q5230 account.kit.label -->
-                <cr-question label="account.kit.label" ng-hide="isAuthenticated() == true">
-                    <cr-boolean ng-model="getAccount().sensitizationKit"></cr-boolean>
                 </cr-question>
 
                 <!-- agreement -->

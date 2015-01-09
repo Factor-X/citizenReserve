@@ -10,9 +10,11 @@ import eu.factorx.citizens.model.account.LanguageEnum;
 import eu.factorx.citizens.model.survey.Survey;
 import eu.factorx.citizens.model.type.AccountType;
 import eu.factorx.citizens.service.AccountService;
+import eu.factorx.citizens.service.CalculationEnterpriseService;
 import eu.factorx.citizens.service.CalculationService;
 import eu.factorx.citizens.service.SurveyService;
 import eu.factorx.citizens.service.impl.AccountServiceImpl;
+import eu.factorx.citizens.service.impl.CalculationEnterpriseServiceImpl;
 import eu.factorx.citizens.service.impl.CalculationServiceImpl;
 import eu.factorx.citizens.service.impl.SurveyServiceImpl;
 import eu.factorx.citizens.util.BusinessErrorType;
@@ -40,6 +42,7 @@ public class AccountController extends AbstractController {
 	private AccountService accountService = new AccountServiceImpl();
 	private SurveyService surveyService = new SurveyServiceImpl();
 	private CalculationService calculationService = new CalculationServiceImpl();
+	private CalculationEnterpriseService calculationEnterpriseService = new CalculationEnterpriseServiceImpl();
 	//converter
 	private AccountToAccountDTOConverter accountToAccountDTOConverter = new AccountToAccountDTOConverter();
 	private SurveyToSurveyDTOConverter surveyToSurveyDTOConverter = new SurveyToSurveyDTOConverter();
@@ -413,6 +416,8 @@ public class AccountController extends AbstractController {
 //		Double reductionPower = reductionDTOs.get(0).getAveragePowerReduction();
 //		//convert action to string
 //		String actionString = emailController.generateActionsTableForHousehold(account);
+		EnterpriseEffectiveReductionDTO enterpriseEffectiveReductionDTO = calculationEnterpriseService.calculateEffectiveReduction(surveyDTO.getActionAnswers());
+		double meanPower = enterpriseEffectiveReductionDTO.getMeanPower();
 
 		HashMap<EmailParams, String> paramsMap = new HashMap<>();
 		TranslationHelper translationHelper = new TranslationHelper(translationService, account.getLanguage());
@@ -421,8 +426,8 @@ public class AccountController extends AbstractController {
 				paramsMap.put(emailParams, account.getFirstName());
 			} else if (emailParams.getName().equals("lastName")) {
 				paramsMap.put(emailParams, account.getLastName());
-//			} else if (emailParams.getName().equals("reductionSum")) {
-//				paramsMap.put(emailParams, reductionPower.intValue() + "");
+			} else if (emailParams.getName().equals("meanPower")) {
+				paramsMap.put(emailParams, meanPower + "");
 			} else if (emailParams.getName().equals("actionTable")) {
 				paramsMap.put(emailParams, superAdminController.generateActionsTableForEnterprise(account, translationHelper));
 			} else if (emailParams.getName().equals("personal_access_url")) {
