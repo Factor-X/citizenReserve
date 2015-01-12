@@ -97,7 +97,7 @@
 </div>
 
 <div>
-    $translationHelper.getMessage('email.basic.footer_first', "${citizensReserveHome}/wp-content/uploads/2015/01/Sensibilisation.pdf")
+    $translationHelper.getMessage('email.basic.footer_first', "${citizensReserveHome}")
     <a href="https://www.facebook.com/CitizensReserve"><img src="${hostname}/assets/images/logo-fb.png"/></a>
     <a href="https://www.twitter.com/CitizReserve"><img src="${hostname}/assets/images/logo-twitter.png"/></a><br><br>
 </div>
