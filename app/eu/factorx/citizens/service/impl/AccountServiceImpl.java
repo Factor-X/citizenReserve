@@ -74,6 +74,9 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Double getLegacyAccountsPowerReduction() {
 		Double result = Ebean.createSqlQuery(LEGACY_ACCOUNTS_POWER_REDUCTION_SQL).findUnique().getDouble(LEGACY_ACCOUNTS_POWER_REDUCTION_ALIAS);
+		if (result == null) {
+			result = 0d;
+		}
 		Logger.info("Legacy accounts reserve = " + result + " Watt");
 		return result;
 	}

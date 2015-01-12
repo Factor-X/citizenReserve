@@ -83,7 +83,6 @@ public class CalculationEnterpriseServiceImpl implements CalculationEnterpriseSe
 		}
 
 		double meanPower = 1000.0 * enery / H3; // the 1000 factor is because H3 is the number of milliseconds in 3 hours
-		Logger.info("meanPower = {}", meanPower);
 
 		// 1J = 1W * 1s
 		// 1kJ = 1kW * 1s
