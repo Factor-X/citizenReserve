@@ -84,7 +84,7 @@ angular
 
 
     surveyDTOService.getEnterpriseEffectiveReductionDTO (dto) ->
-        $scope.meanPower = $filter('number') (parseFloat(dto.meanPower) / 1000.0), 0
+        $scope.meanPower = $filter('number') (parseFloat(dto.meanPower) / 1000.0), 2
         $scope.kwh = $filter('number') parseFloat(dto.kwh), 0
 
 
