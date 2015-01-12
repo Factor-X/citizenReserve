@@ -80,6 +80,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public int getAccountsNumber(AccountType... accountTypes) {
-		return Ebean.find(Account.class).where().in(Account.ACCOUNT_TYPE_PROPERTY, accountTypes).findRowCount();
+		return Ebean.find(Account.class).where().in(Account.ACCOUNT_TYPE_PROPERTY, (Object[])accountTypes).findRowCount();
 	}
 }
