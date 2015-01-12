@@ -32,10 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by florian on 20/11/14.
- * account controller
- */
 public class AccountController extends AbstractController {
 
 	//service
@@ -448,4 +444,7 @@ public class AccountController extends AbstractController {
 	}
 
 
+
 }
+
+

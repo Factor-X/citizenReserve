@@ -39,17 +39,27 @@ defaultResolve =
                 else
                     $state.go 'root', $stateParams
 
-householdResolve = angular.extend({}, defaultResolve)
-householdResolve.instanceName =  () ->
-  'household'
+changeLanguageResolve =
+    changeLanguage: ($stateParams, gettextCatalog) ->
+        gettextCatalog.setCurrentLanguage($stateParams.lang)
 
-enterpriseResolve = angular.extend({}, defaultResolve)
-enterpriseResolve.instanceName = () ->
-  'enterprise'
+householdResolveUnsecure = angular.extend({}, changeLanguageResolve)
+householdResolveUnsecure.instanceName = () ->
+    return 'household'
 
-authorityResolve = angular.extend({}, defaultResolve)
-authorityResolve.instanceName = () ->
-  'authority'
+enterpriseResolveUnsecure = angular.extend({}, changeLanguageResolve)
+enterpriseResolveUnsecure.instanceName = () ->
+    return 'enterprise'
+
+authorityResolveUnsecure = angular.extend({}, changeLanguageResolve)
+authorityResolveUnsecure.instanceName = () ->
+    return 'authority'
+
+
+householdResolve = angular.extend(angular.extend({}, householdResolveUnsecure), defaultResolve)
+enterpriseResolve = angular.extend(angular.extend({}, enterpriseResolveUnsecure), defaultResolve)
+authorityResolve = angular.extend(angular.extend({}, authorityResolveUnsecure), defaultResolve)
+
 
 testAuthenticationResolve =
     testConnection: ($http, $rootScope, $state, $stateParams, downloadService, surveyDTOService) ->
@@ -58,10 +68,6 @@ testAuthenticationResolve =
                 surveyDTOService.surveyDTO = result.data
                 if result.data.account.accountType == 'household'
                     $state.go 'root.householdProfile', $stateParams
-
-changeLanguageResolve =
-    changeLanguage: ($stateParams, gettextCatalog) ->
-        gettextCatalog.setCurrentLanguage($stateParams.lang)
 
 angular
 .module('app.controllers')
@@ -111,7 +117,7 @@ angular
         url: '/enterprise-account'
         templateUrl: '$/angular/views/enterprise/account/enterprise-account.html'
         controller: 'RegistrationCtrl'
-        resolve: changeLanguageResolve
+        resolve: enterpriseResolveUnsecure
     .state 'root.enterpriseActions',
         url: '/enterprise-actions'
         templateUrl: '$/angular/views/enterprise/actions/enterprise-actions.html'
@@ -122,6 +128,23 @@ angular
         templateUrl: '$/angular/views/enterprise/results/enterprise-results.html'
         controller: 'EnterpriseResultsCtrl'
         resolve: angular.extend(angular.extend({}, changeLanguageResolve), enterpriseResolve)
+
+    .state 'root.authorityAccount',
+        url: '/authority-account'
+        templateUrl: '$/angular/views/authority/account/authority-account.html'
+        controller: 'RegistrationCtrl'
+        resolve: authorityResolveUnsecure
+    .state 'root.authorityActions',
+        url: '/authority-actions'
+        templateUrl: '$/angular/views/authority/actions/authority-actions.html'
+        controller: 'ActionsCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), authorityResolve)
+    .state 'root.authorityResults',
+        url: '/authority-results'
+        templateUrl: '$/angular/views/authority/results/authority-results.html'
+        controller: 'EnterpriseResultsCtrl'
+        resolve: angular.extend(angular.extend({}, changeLanguageResolve), authorityResolve)
+
 
     .state 'root.controlsDemo',
         url: '/controls-demo'

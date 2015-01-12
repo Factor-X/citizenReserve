@@ -1,7 +1,6 @@
 angular
 .module('app.controllers')
-.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $state, $flash,$stateParams) ->
-
+.controller "RegistrationCtrl", ($scope, modalService, $log, downloadService, surveyDTOService, optionService, $state, $flash, $stateParams) ->
     $scope.noSubmitYet = true
     $scope.loading = false
 
@@ -55,7 +54,7 @@ angular
 
     $scope.zip =
         pattern: /^.{0,20}$/
-        valid:false
+        valid: false
 
     $scope.o = {
         errorMessage: ""
@@ -66,23 +65,23 @@ angular
     $scope.saveEnterprise = () ->
         $scope.noSubmitYet = false
         if $scope.checkValidity()
-          $scope.loading = true
+            $scope.loading = true
 
-          # add the language
-          surveyDTOService.setLanguage($stateParams.lang)
+            # add the language
+            surveyDTOService.setLanguage($stateParams.lang)
 
-          console.log "DTO to save"
-          console.log surveyDTOService.surveyDTO
+            console.log "DTO to save"
+            console.log surveyDTOService.surveyDTO
 
-          downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
-              $scope.loading = false
-              if result.success
-                  surveyDTOService.setAccount(result.data.account)
-                  $flash.success 'account.save.success'
-                  $state.go 'root.enterpriseActions'
-              else
-                  $flash.error result.data.message
-
+            downloadService.postJson '/registration', surveyDTOService.surveyDTO, (result) ->
+                $scope.loading = false
+                console.log $state
+                if result.success
+                    surveyDTOService.setAccount(result.data.account)
+                    $flash.success 'account.save.success'
+                    $state.go 'root.' + $state.current.resolve.instanceName() + 'Actions'
+                else
+                    $flash.error result.data.message
 
 
     $scope.save = () ->

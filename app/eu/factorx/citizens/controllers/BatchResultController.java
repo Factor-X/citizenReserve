@@ -87,7 +87,7 @@ public class BatchResultController extends AbstractController {
     }
 
 	private int getEnterprisesAndInstitutionsTotalCount() {
-		return accountService.getAccountsNumber(AccountType.ENTERPRISE, AccountType.INSTITUTION);
+		return accountService.getAccountsNumber(AccountType.ENTERPRISE, AccountType.AUTHORITY);
 	}
 
 

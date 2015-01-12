@@ -49,7 +49,7 @@ angular
             if result.success
                 surveyDTOService.setAccount(result.data.account)
                 $flash.success 'account.save.success'
-                $state.go 'root.enterpriseResults'
+                $state.go 'root.' + $state.current.resolve.instanceName() + 'Results'
             else
                 $flash.error result.data.message
 
@@ -73,5 +73,8 @@ angular
             controller: controller,
             size: 'lg'
         })
+
+    $scope.toAccount = () ->
+        $state.go 'root.' + $state.current.resolve.instanceName() + 'Account'
 
     $scope.onLoad()

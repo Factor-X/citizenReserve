@@ -10,6 +10,7 @@ angular
         $state.go 'root.enterpriseAccount'
 
     $scope.toAuthority = ->
+        surveyDTOService.createPreAccount('authority')
         $state.go 'root.authorityAccount'
 
 
