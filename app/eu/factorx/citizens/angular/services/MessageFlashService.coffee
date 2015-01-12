@@ -11,7 +11,7 @@ angular
             type: type
             hideAfter: 5
             showCloseButton: true
-        console.log "MessageFlash : type:"+type+"/content:"+message
+        console.log "MessageFlash : type: ", type, "/content: ", message
         # TODO Messenger().post angular.extend(options, angular.copy(opts))
 
     #

@@ -35,7 +35,8 @@ object ApplicationBuild extends Build {
     "org.jasypt" % "jasypt" % "1.9.2",
     "org.apache.velocity" % "velocity" % "1.7",
     "org.apache.commons" % "commons-csv" % "1.0",
-    "joda-time" % "joda-time" % "2.3"
+    "joda-time" % "joda-time" % "2.3",
+    "org.apache.httpcomponents" % "httpclient" % "4.2.1"
   )
 
   lazy val angularCompileTask = TaskKey[Unit]("angular-compile", "Compile angular app")

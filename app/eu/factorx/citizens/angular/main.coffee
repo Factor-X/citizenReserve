@@ -19,7 +19,6 @@ angular.module 'app', [
 
 angular.module('app').run (gettextCatalog) ->
     gettextCatalog.setCurrentLanguage('nl')
-    gettextCatalog.loadRemote("/translations")
 
 
 #
@@ -38,17 +37,14 @@ defaultResolve =
                     surveyDTOService.surveyDTO = result.data
                 else
                     $state.go 'root', $stateParams
-        else
-            if not surveyDTOService.surveyDTO.account.accountType == $state.current.resolve.instanceName()
-                downloadService.getJson '/logout', (result) ->
-                    $state.go 'root', $stateParams
 
 changeLanguageResolve =
     changeLanguage: ($stateParams, gettextCatalog) ->
         gettextCatalog.setCurrentLanguage($stateParams.lang)
+        gettextCatalog.loadRemote("/translations")
 
 householdResolveUnsecure = angular.extend({}, changeLanguageResolve)
-householdResolveUnsecure.instanceName = (surveyDTOService) ->
+householdResolveUnsecure.instanceName = () ->
     return 'household'
 
 enterpriseResolveUnsecure = angular.extend({}, changeLanguageResolve)
