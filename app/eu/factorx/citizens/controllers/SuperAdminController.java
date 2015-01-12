@@ -31,7 +31,6 @@ import play.libs.Akka;
 import play.mvc.Result;
 import play.mvc.Security;
 import scala.concurrent.duration.Duration;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.*;
