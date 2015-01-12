@@ -5,6 +5,7 @@ import eu.factorx.citizens.dto.ActionAnswerDTO;
 import eu.factorx.citizens.dto.EnterpriseEffectiveReductionDTO;
 import eu.factorx.citizens.service.CalculationEnterpriseService;
 import org.joda.time.LocalTime;
+import play.Logger;
 
 import java.util.List;
 
@@ -56,8 +57,9 @@ public class CalculationEnterpriseServiceImpl implements CalculationEnterpriseSe
 			LocalTime endTime = startTime.plusMillis(durationMillis);
 
 			// use the full range
-			delta = endTime.minusHours(startTime.getHourOfDay()).minusMinutes(startTime.getMinuteOfHour());
-			totalSeconds = delta.getHourOfDay() * 60 * 60 + delta.getMinuteOfHour() * 60;
+			//delta = endTime.minusHours(startTime.getHourOfDay()).minusMinutes(startTime.getMinuteOfHour());
+			//totalSeconds = delta.getHourOfDay() * 60 * 60 + delta.getMinuteOfHour() * 60;
+			totalSeconds = durationMillis / 1000;
 			totalJoules = power * totalSeconds;
 			fullEnery += totalJoules;
 
@@ -65,7 +67,7 @@ public class CalculationEnterpriseServiceImpl implements CalculationEnterpriseSe
 			if (startTime.isBefore(LocalTime.fromMillisOfDay(H17))) {
 				startTime = LocalTime.fromMillisOfDay(H17);
 			}
-			if (endTime.isAfter(LocalTime.fromMillisOfDay(H20))) {
+			if (endTime.isAfter(LocalTime.fromMillisOfDay(H20)) || endTime.isBefore(startTime)) {
 				endTime = LocalTime.fromMillisOfDay(H20);
 			}
 
