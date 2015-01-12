@@ -19,7 +19,7 @@
                     ></i>
             </td>
             <td class="cr-enterprise-form-power">
-                <input ng-readonly="ngReadOnly" type="text" ng-pattern="/^\d*$/" ng-model="aa.power"/> Watt
+                <cr-double ng-readonly="ngReadOnly" ng-model="aa.power"/> kW
             </td>
             <td class="cr-enterprise-form-begin">
                 {{ 'enterprise.since' | translate }}&nbsp;<input ng-readonly="ngReadOnly" cr-time-format type="text"
