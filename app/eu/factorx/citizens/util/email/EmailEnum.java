@@ -6,7 +6,7 @@ public enum EmailEnum {
 		new EmailParams(0, "firstName"),
 		new EmailParams(1, "lastName"),
 		new EmailParams(2, "newPassword")),
-	ENTERPRISE_SUMMARY("email.registration.subject", "email.registration.content",
+	ENTERPRISE_SUMMARY("email.registration.subject", "email.registration.enterprise.content",
 		new EmailParams(0, "firstName"),
 		new EmailParams(1, "lastName"),
 		new EmailParams(2, "meanPower"),
