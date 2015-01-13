@@ -1,6 +1,6 @@
 angular
 .module('app.directives')
-.directive "crDouble", () ->
+.directive "crDouble", ($filter) ->
     restrict: "E"
     scope:
         ngModel: '='
@@ -8,16 +8,16 @@ angular
     require: 'ngModel'
     templateUrl: "$/angular/templates/cr-double.html"
     replace: true
-    link: (scope, elem, attrs, ctrl) ->
-        scope.$watch 'ngModel', (newValue, oldValue) ->
-            if typeof(newValue) == 'string'
-                arr = String(newValue).split("")
-                if arr.length == 0
-                    return
-                if arr.length == 1 and arr[0] == '.'
-                    return
-                if isNaN(newValue)
-                    scope.ngModel = oldValue
-                else
-                    scope.ngModel = parseFloat(newValue)
+    link: (scope, elem, attrs, ngModelCtrl) ->
+
+        scope.myModel = 0.001 * parseFloat(scope.ngModel)
+
+        scope.$watch 'myModel', (n, o) ->
+            n = n.replace /,/g, '.'
+            f = Number(n)
+            if f < 0
+                f = -f
+                scope.myModel = f
+            scope.ngModel = f * 1000.0
+
 

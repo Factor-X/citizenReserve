@@ -25,6 +25,9 @@ angular
 
     $scope.loading = false
 
+    surveyDTOService.logout()
+
+
     $scope.login = ->
         if $scope.loading == false
             dto =

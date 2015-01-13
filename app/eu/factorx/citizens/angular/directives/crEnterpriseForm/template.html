@@ -5,30 +5,27 @@
         <tr ng-repeat="aa in getActionAnswers(q)">
             <td>
                 <span ng-show="$index == 0 && !isFree(q)">{{q + '.label' | translate}}</span>
-                <input ng-show="isFree(q)" ng-readonly="ngReadOnly" type="text" ng-model="aa.title"
-                       placeholder="{{ 'enterprise.actions.title.placeholder' | translate }}"/>
+                <input ng-show="isFree(q)" ng-readonly="ngReadOnly" type="text" ng-model="aa.title" placeholder="{{ 'enterprise.actions.title.placeholder' | translate }}"/>
             </td>
             <td ng-hide="ngReadOnly">
-                <i class="fa fa-check"
-                   style="color: #006400"
-                   ng-show="isComplete(aa)"
-                    ></i>
-                <i class="fa fa-warning"
-                   style="color: #8c781c"
-                   ng-hide="isEmpty(aa) || isComplete(aa)"
-                    ></i>
+                <i class="fa fa-check" style="color: #006400" ng-show="isComplete(aa)"></i>
+                <i class="fa fa-warning" style="color: #8c781c" ng-hide="isEmpty(aa) || isComplete(aa)"></i>
             </td>
             <td class="cr-enterprise-form-power">
-                <cr-double ng-readonly="ngReadOnly" ng-model="aa.power"/>
+                <cr-double ng-readonly="ngReadOnly" ng-model="aa.power"></cr-double>
+                <span>kW</span>
             </td>
             <td class="cr-enterprise-form-begin">
-                <span>kW</span>
-                {{ 'enterprise.since' | translate }}&nbsp;<input ng-readonly="ngReadOnly" cr-time-format type="text"
+                {{ 'enterprise.since' | translate }}&nbsp;<input ng-readonly="ngReadOnly"
+                                                                 cr-time-format
+                                                                 type="text"
                                                                  ng-model="aa.begin"
                                                                  placeholder="{{ 'enterprise.actions.begin.placeholder' | translate }}"/>
             </td>
             <td class="cr-enterprise-form-duration">
-                {{ 'enterprise.during' | translate }}&nbsp;<input ng-readonly="ngReadOnly" cr-time-format type="text"
+                {{ 'enterprise.during' | translate }}&nbsp;<input ng-readonly="ngReadOnly"
+                                                                  cr-time-format
+                                                                  type="text"
                                                                   ng-model="aa.duration"
                                                                   placeholder="{{ 'enterprise.actions.duration.placeholder' | translate }}"/>
             </td>

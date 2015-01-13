@@ -1,6 +1,6 @@
 angular
 .module('app.controllers')
-.controller "ProfileCtrl", ($scope, modalService, surveyDTOService, $filter) ->
+.controller "ProfileCtrl", ($scope, modalService, surveyDTOService, $filter, $state, $stateParams) ->
     householdProfileQuestions =
         presence: ['Q1300', 'Q1400', 'Q1500']
         programs: ['Q1110', 'Q1120', 'Q1130']
