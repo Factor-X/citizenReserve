@@ -1,7 +1,7 @@
 # simple download service
 angular
 .module('app.services')
-.service "surveyDTOService", (downloadService, $flash, $filter) ->
+.service "surveyDTOService", (downloadService, $flash, $filter, $cookieStore) ->
     @surveyDTO =
         account:
             otherEmailAddresses: []
@@ -24,10 +24,12 @@ angular
         return (@surveyDTO.account.accountType == "household")
 
     @logout = () ->
+        $cookieStore.remove('PLAY_SESSION')
         @surveyDTO =
             account:
                 otherEmailAddresses: []
             answers: []
+            actionAnswers: []
 
     @setAccount = (account) ->
         @surveyDTO.account.id = account.id

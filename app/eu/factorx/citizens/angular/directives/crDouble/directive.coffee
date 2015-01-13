@@ -1,37 +1,23 @@
 angular
 .module('app.directives')
-.directive "crDouble", (directiveService, $timeout) ->
+.directive "crDouble", ($filter) ->
     restrict: "E"
-    scope: directiveService.autoScope
+    scope:
         ngModel: '='
         ngReadonly: '='
-        ngMin: '='
-        ngMax: '='
     require: 'ngModel'
     templateUrl: "$/angular/templates/cr-double.html"
     replace: true
-    link: (scope, elem, attrs, ngModel) ->
-        directiveService.autoScopeImpl scope
+    link: (scope, elem, attrs, ngModelCtrl) ->
 
-        ngModel.$parsers.push (inputValue) ->
-            v = inputValue.replace(/,/, '.')
+        scope.myModel = 0.001 * parseFloat(scope.ngModel)
 
-            patt = /[+-]?(?=\d*[.eE])(?=\.?\d)\d*\.?\d*(?:[eE][+-]?\d+)?/
-
-            if not patt.test(v)
-                ngModel.$setValidity('format', false)
-                v = undefined
-            else
-                v = parseFloat(v)
-                if (!!scope.ngMin and v < scope.ngMin) or (!!scope.ngMax and v > scope.ngMax)
-                    v = undefined
-                    ngModel.$setValidity('format', false)
-                else
-                    ngModel.$setValidity('format', true)
-
-            return v
-
-        ngModel.$formatters.push (value) ->
-            return ('' + value).replace(/./, ',')
+        scope.$watch 'myModel', (n, o) ->
+            n = n.replace /,/g, '.'
+            f = Number(n)
+            if f < 0
+                f = -f
+                scope.myModel = f
+            scope.ngModel = f * 1000.0
 
 

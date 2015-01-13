@@ -8,6 +8,7 @@ angular
         gettextCatalog.setCurrentLanguage(lang)
 
 
+
 #rootScope
 angular.module('app').run ($rootScope, $location)->
     $rootScope.redirectTo = (target) ->

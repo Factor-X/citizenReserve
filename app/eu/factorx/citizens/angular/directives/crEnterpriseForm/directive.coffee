@@ -12,6 +12,7 @@ angular
     link: (scope, elem, attrs, ngModel) ->
         directiveService.autoScopeImpl scope
 
+        console.log surveyDTOService.surveyDTO
         scope.getActionAnswers = (questionKey) ->
             if scope.ngReadOnly
                 return _.filter(surveyDTOService.getActionAnswers(questionKey), scope.isComplete)

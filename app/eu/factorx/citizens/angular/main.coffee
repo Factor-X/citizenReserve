@@ -6,7 +6,7 @@ angular.module 'app.directives', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui
 
 angular.module 'app.filters', []
 
-angular.module 'app.services', []
+angular.module 'app.services', ['ngCookies']
 
 angular.module 'app.controllers', ['app.services', 'ngLocale', 'gettext', 'ui.router']
 
@@ -44,16 +44,19 @@ changeLanguageResolve =
         gettextCatalog.loadRemote("/translations")
 
 householdResolveUnsecure = angular.extend({}, changeLanguageResolve)
-householdResolveUnsecure.instanceName = () ->
-    return 'household'
+householdResolveUnsecure.instanceName = (surveyDTOService) ->
+    name = 'household'
+    return name
 
 enterpriseResolveUnsecure = angular.extend({}, changeLanguageResolve)
-enterpriseResolveUnsecure.instanceName = () ->
-    return 'enterprise'
+enterpriseResolveUnsecure.instanceName = (surveyDTOService) ->
+    name = 'enterprise'
+    return name
 
 authorityResolveUnsecure = angular.extend({}, changeLanguageResolve)
-authorityResolveUnsecure.instanceName = () ->
-    return 'authority'
+authorityResolveUnsecure.instanceName = (surveyDTOService) ->
+    name = 'authority'
+    return name
 
 
 householdResolve = angular.extend(angular.extend({}, householdResolveUnsecure), defaultResolve)
