@@ -117,6 +117,8 @@
                 <!-- Q5220 account.powerconsumercategory.labe -->
                 <cr-question label="account.powerconsumercategory_enterprise.label">
                     <cr-text ng-model="getAccount().powerConsumption" ng-multiline="true"></cr-text>
+                    <p class="cr-error" ng-show="validation.powerConsumption.valid() == false && noSubmitYet == false"
+                       ng-bind-html="'account.errorMessage.powerConsumption' | translate"></p>
                 </cr-question>
 
                 <!-- agreement -->

@@ -48,6 +48,12 @@ angular
             validation: ->
                 return $scope.getAccount().password == $scope.o.repeatPassword
             valid: false
+        powerConsumption:
+            valid: () ->
+                powerConsumption = surveyDTOService.getAccount().powerConsumption
+                if (!!powerConsumption)
+                    powerConsumption = powerConsumption.replace(",", ".")
+                return !isNaN(Number(powerConsumption)) and (Number(powerConsumption) >= 0)
         terms:
             valid: surveyDTOService.isAuthenticated()
     }
@@ -70,6 +76,8 @@ angular
             # add the language
             surveyDTOService.setLanguage($stateParams.lang)
 
+            surveyDTOService.surveyDTO.account.powerConsumption = surveyDTOService.surveyDTO.account.powerConsumption.replace(/,/g, '.')
+
             console.log "DTO to save"
             console.log surveyDTOService.surveyDTO
 
@@ -87,6 +95,7 @@ angular
     $scope.save = () ->
         $scope.noSubmitYet = false
         if $scope.checkValidity()
+
             $scope.loading = true
 
             # add the language
@@ -106,7 +115,11 @@ angular
 
     $scope.checkValidity = () ->
         for key in Object.keys($scope.validation)
-            if $scope.validation[key].valid == false
+            valid = $scope.validation[key].valid
+            if _.isFunction(valid)
+                if valid() == false
+                    return false
+            else if valid == false
                 return false
         return true
 
