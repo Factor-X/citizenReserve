@@ -24,11 +24,11 @@
             </div>
         </div>
 
-        <h3>{{ 'enterprise.office.label' | translate }}</h3>
+        <h3 ng-show="!isTopicEmpty(['Q10110', 'Q10120'])">{{ 'enterprise.office.label' | translate }}</h3>
         <cr-enterprise-form ng-read-only="true" ng-questions="['Q10110', 'Q10120']"></cr-enterprise-form>
-        <h3>{{ 'enterprise.building.label' | translate }}</h3>
+        <h3 ng-show="!isTopicEmpty(['Q10210', 'Q10220', 'Q10230', 'Q10240', 'Q10250', 'Q10260', 'Q10270', 'Q10280', 'Q10290'])">{{ 'enterprise.building.label' | translate }}</h3>
         <cr-enterprise-form ng-read-only="true" ng-questions="['Q10210', 'Q10220', 'Q10230', 'Q10240', 'Q10250', 'Q10260', 'Q10270', 'Q10280', 'Q10290']" ng-free-questions="['Q10290']"></cr-enterprise-form>
-        <h3>{{ 'enterprise.other.label' | translate }}</h3>
+        <h3 ng-show="!isTopicEmpty(['Q10400'])">{{ 'enterprise.other.label' | translate }}</h3>
         <cr-enterprise-form ng-read-only="true" ng-questions="['Q10400']" ng-free-questions="['Q10400']"></cr-enterprise-form>
 
         <div class="row">

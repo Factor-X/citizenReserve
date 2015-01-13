@@ -210,7 +210,14 @@ public class SuperAdminController extends AbstractController {
 			dtos.add(dto);
 		}
 
-		values.put("sections", sections);
+		Map<String, Object> sectionsWithActions = new LinkedHashMap<>();
+		for (Map.Entry<String, Object> section : sections.entrySet()) {
+			if (!sectionIsEmpty(section, dtos)) {
+				sectionsWithActions.put(section.getKey(), section.getValue());
+			}
+		}
+
+		values.put("sections", sectionsWithActions);
 		values.put("actions", dtos);
 		values.put("translationHelper", translationHelper);
 		values.put("hostname", HOSTNAME);
@@ -218,7 +225,6 @@ public class SuperAdminController extends AbstractController {
 		String result = velocityGeneratorService.generate(ENTERPRISE_ACTIONS_TABLE_TEMPLATE, values);
 		return result;
 	}
-
 
 	public String generateActionsTableForInstitution(Account account, TranslationHelper translationHelper) {
 		Survey survey = surveyService.findValidSurveyByAccount(account);
@@ -241,13 +247,30 @@ public class SuperAdminController extends AbstractController {
 			dtos.add(dto);
 		}
 
-		values.put("sections", sections);
+		Map<String, Object> sectionsWithActions = new LinkedHashMap<>();
+		for (Map.Entry<String, Object> section : sections.entrySet()) {
+			if (!sectionIsEmpty(section, dtos)) {
+				sectionsWithActions.put(section.getKey(), section.getValue());
+			}
+		}
+
+		values.put("sections", sectionsWithActions);
 		values.put("actions", dtos);
 		values.put("translationHelper", translationHelper);
 		values.put("hostname", HOSTNAME);
 
 		String result = velocityGeneratorService.generate(ENTERPRISE_ACTIONS_TABLE_TEMPLATE, values);
 		return result;
+	}
+
+	private boolean sectionIsEmpty(Map.Entry<String, Object> section, List<ActionAnswerDTO> allActionAnswerDTOs) {
+		List<String> questionKeys = (List<String>)((List<Object>) section.getValue()).get(0);
+		for (ActionAnswerDTO answerDTO : allActionAnswerDTOs) {
+			if (questionKeys.contains(answerDTO.getQuestionKey())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

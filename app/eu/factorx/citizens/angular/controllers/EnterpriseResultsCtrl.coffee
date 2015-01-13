@@ -103,6 +103,14 @@ angular
 
     $scope.sendSummaryEmail();
 
+    $scope.isTopicEmpty = (questionKeys) ->
+        for questionKey in questionKeys
+            actionAnswer = _.findWhere(surveyDTOService.surveyDTO.actionAnswers, {questionKey: questionKey})
+            if (!!actionAnswer.power)
+                return false
+        return true
+
+
     #twitter
     $timeout(() ->
         a = (d, s, id) ->

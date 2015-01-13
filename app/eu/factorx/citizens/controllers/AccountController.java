@@ -28,6 +28,7 @@ import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -424,7 +425,7 @@ public class AccountController extends AbstractController {
 			} else if (emailParams.getName().equals("lastName")) {
 				paramsMap.put(emailParams, account.getLastName());
 			} else if (emailParams.getName().equals("meanPower")) {
-				paramsMap.put(emailParams, meanPower + "");
+				paramsMap.put(emailParams, new DecimalFormat("#0.00").format(meanPower / 1000.0) + "");
 			} else if (emailParams.getName().equals("actionTable")) {
 				if (AccountType.ENTERPRISE.equals(account.getAccountType())) {
 					paramsMap.put(emailParams, superAdminController.generateActionsTableForEnterprise(account, translationHelper));
