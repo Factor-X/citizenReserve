@@ -141,8 +141,7 @@ public class SuperAdminController extends AbstractController {
 			String content = velocityGeneratorService.generate(EMAIL_TEMPLATE, getEmailModel(sheddingRiskAnswer));
 			try {
 				//Thread.sleep(3000L);
-				emailService.send(new EmailMessage("jerome.carton.77@gmail.com", subject, content));
-				return;
+				emailService.send(new EmailMessage(account.getEmail(), subject, content));
 			} catch (Exception e) {
 				Logger.error("Exception while sending mail to '{}': {}", account.getEmail(), e.getMessage());
 			}

@@ -94,7 +94,7 @@
     $translationHelper.getMessage("email.alert.confirmation_buttons", "${confirmationPageUrl}", "${riskAnswer.uuid}", "${riskAnswer.risk.riskDate.toString('dd/MM')}")
     <br/><br/><br/><br/>
 
-    $translationHelper.getMessage('email.alert.footer')
+    $translationHelper.getMessage('email.alert.footer', "${citizensReserveHome}")
 
 </div>
 
