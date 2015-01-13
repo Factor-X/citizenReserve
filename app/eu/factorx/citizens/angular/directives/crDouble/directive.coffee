@@ -1,37 +1,23 @@
 angular
 .module('app.directives')
-.directive "crDouble", (directiveService, $timeout) ->
+.directive "crDouble", () ->
     restrict: "E"
-    scope: directiveService.autoScope
+    scope:
         ngModel: '='
         ngReadonly: '='
-        ngMin: '='
-        ngMax: '='
     require: 'ngModel'
     templateUrl: "$/angular/templates/cr-double.html"
     replace: true
-    link: (scope, elem, attrs, ngModel) ->
-        directiveService.autoScopeImpl scope
-
-        ngModel.$parsers.push (inputValue) ->
-            v = inputValue.replace(/,/, '.')
-
-            patt = /[+-]?(?=\d*[.eE])(?=\.?\d)\d*\.?\d*(?:[eE][+-]?\d+)?/
-
-            if not patt.test(v)
-                ngModel.$setValidity('format', false)
-                v = undefined
-            else
-                v = parseFloat(v)
-                if (!!scope.ngMin and v < scope.ngMin) or (!!scope.ngMax and v > scope.ngMax)
-                    v = undefined
-                    ngModel.$setValidity('format', false)
+    link: (scope, elem, attrs, ctrl) ->
+        scope.$watch 'ngModel', (newValue, oldValue) ->
+            if typeof(newValue) == 'string'
+                arr = String(newValue).split("")
+                if arr.length == 0
+                    return
+                if arr.length == 1 and arr[0] == '.'
+                    return
+                if isNaN(newValue)
+                    scope.ngModel = oldValue
                 else
-                    ngModel.$setValidity('format', true)
-
-            return v
-
-        ngModel.$formatters.push (value) ->
-            return ('' + value).replace(/./, ',')
-
+                    scope.ngModel = parseFloat(newValue)
 

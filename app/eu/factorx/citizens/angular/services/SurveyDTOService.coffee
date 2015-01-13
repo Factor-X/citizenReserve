@@ -28,6 +28,7 @@ angular
             account:
                 otherEmailAddresses: []
             answers: []
+            actionAnswers: []
 
     @setAccount = (account) ->
         @surveyDTO.account.id = account.id

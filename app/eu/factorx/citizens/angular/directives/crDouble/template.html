@@ -2,7 +2,7 @@
 
     <input class="form-control cr-double-input"
            ng-model="ngModel"
-           ng-readonly="ngReadonly"
-           ng-disabled="getDisabled() == true"/>
+           ng-model-options="{ updateOn: 'blur' }"
+           ng-readonly="ngReadonly"/>
 
 </div>

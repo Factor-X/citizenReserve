@@ -19,9 +19,10 @@
                     ></i>
             </td>
             <td class="cr-enterprise-form-power">
-                <cr-double ng-readonly="ngReadOnly" ng-model="aa.power"/> kW
+                <cr-double ng-readonly="ngReadOnly" ng-model="aa.power"/>
             </td>
             <td class="cr-enterprise-form-begin">
+                <span>kW</span>
                 {{ 'enterprise.since' | translate }}&nbsp;<input ng-readonly="ngReadOnly" cr-time-format type="text"
                                                                  ng-model="aa.begin"
                                                                  placeholder="{{ 'enterprise.actions.begin.placeholder' | translate }}"/>
