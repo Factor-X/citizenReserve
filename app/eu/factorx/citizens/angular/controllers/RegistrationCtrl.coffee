@@ -53,7 +53,8 @@ angular
                 powerConsumption = surveyDTOService.getAccount().powerConsumption
                 if (!!powerConsumption)
                     powerConsumption = powerConsumption.replace(",", ".")
-                return !isNaN(Number(powerConsumption)) and (Number(powerConsumption) >= 0)
+                    return !isNaN(Number(powerConsumption)) and (Number(powerConsumption) >= 0)
+                return true
         terms:
             valid: surveyDTOService.isAuthenticated()
     }
