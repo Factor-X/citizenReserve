@@ -50,6 +50,8 @@ angular
             valid: false
         powerConsumption:
             valid: () ->
+                if (!surveyDTOService.getAccount().powerConsumption?)
+                    return false
                 powerConsumption = surveyDTOService.getAccount().powerConsumption
                 if (!!powerConsumption)
                     powerConsumption = powerConsumption.replace(",", ".")
