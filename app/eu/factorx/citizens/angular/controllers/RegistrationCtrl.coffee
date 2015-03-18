@@ -118,6 +118,8 @@ angular
 
     $scope.checkValidity = () ->
         for key in Object.keys($scope.validation)
+            console.log "GHO"
+            console.log $scope.validation
             valid = $scope.validation[key].valid
             if _.isFunction(valid)
                 if valid() == false
