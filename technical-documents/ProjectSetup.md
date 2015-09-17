@@ -29,6 +29,33 @@ Right click > Add Framework Support ... > Play 2.x
 
 The resolution problem should disappear.
 
+# AngularJS support
+
+AngularJS > Gruntfile > Node.js compiler
+
+
+Right click on the Gruntfile.js file. Select 'Show Grunt Tasks'. An error message occurs ('Failed to list tasks').
+This is because Grunt is not currently installed. As Grunt requires Node.js, we install it first:
+
+https://nodejs.org/en/#download
+
+When done, we use the npm utility to install the grunt-cli:
+
+npm install -g grunt-cli
+
+C:\Users\Bertrand\AppData\Roaming\npm\node_modules\grunt-cli
+
+At the command line, we can type:
+
+grunt
+
+grunt-cli starts, then faces a fatal error "Unable to find local grunt.". This is because grunt-cli does not install
+the grunt task runner. We need to issue:
+
+npm install grunt --save-dev
+
+
+
 # Rebuild the project
 
 Build > Rebuild Project
