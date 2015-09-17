@@ -28,3 +28,21 @@ support. On the citizens-reserve project node:
 Right click > Add Framework Support ... > Play 2.x
 
 The resolution problem should disappear.
+
+# Rebuild the project
+
+Build > Rebuild Project
+
+The output path is not defined for module 'citizens-reserve' so we have an error message. The 'Project Structure'
+window pops up automatically.
+
+We first fix the problems (see left pane).
+
+We have three modules: 'citizens', 'citizens-build' and 'citizens-reserve'.
+
+Actually, if we go to .idea > modules, we notice that we only have two modules, 'citizens' and 'citizens-build'.
+
+On the 'citizens-reserve' module, we decide to remove the content root (so that there is no content root anymore for
+that module).
+
+
