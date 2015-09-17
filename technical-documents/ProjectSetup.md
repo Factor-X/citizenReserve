@@ -36,13 +36,25 @@ Build > Rebuild Project
 The output path is not defined for module 'citizens-reserve' so we have an error message. The 'Project Structure'
 window pops up automatically.
 
-We first fix the problems (see left pane).
-
 We have three modules: 'citizens', 'citizens-build' and 'citizens-reserve'.
 
 Actually, if we go to .idea > modules, we notice that we only have two modules, 'citizens' and 'citizens-build'.
 
 On the 'citizens-reserve' module, we decide to remove the content root (so that there is no content root anymore for
 that module).
+
+We also fixed the problems (see left pane).
+
+# Start the project
+
+Run > Run 'Play 2'
+
+Play server is starting and listening on port 9000. We go to http://localhost:9000 and notice that there is some
+compilation going on. In the end, we get a page containing a configuration error message.
+
+This allows us to discover the configuration file of the project, located at:
+
+citizens-reserve/conf/application.conf
+
 
 
