@@ -60,4 +60,6 @@ We need a citizens-reserve database running on PostgreSQL with username and pass
 
 db.default.url = "postgres://play:play@localhost/citizens-reserve"
 
+We can obtain a database backup online from the Heroku interface (see file Heroku.md) and install it locally.
+
 
