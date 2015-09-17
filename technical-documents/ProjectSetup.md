@@ -56,5 +56,8 @@ This allows us to discover the configuration file of the project, located at:
 
 citizens-reserve/conf/application.conf
 
+We need a citizens-reserve database running on PostgreSQL with username and password play/play as deduced from:
+
+db.default.url = "postgres://play:play@localhost/citizens-reserve"
 
 
