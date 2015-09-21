@@ -1,5 +1,6 @@
 
 | Database | Value |
+|----------|-------|
 | Type | PostgreSQL |
 | Version | 9.x |
 | Name | citizens-reserve |
