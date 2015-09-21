@@ -1,9 +1,15 @@
 
 # Project Structure
 
-Play Framework is used for the back-end; AngularJS is used for the front-end. LESS is used to compile CSS files.
+- Play Framework is used for the back-end.
 
-## LESS
+- AngularJS is used for the front-end.
+
+    - ".less" are files written in the LESS language to produce CSS files once compiled.
+    - ".coffee" are files written in the CoffeeScript language to produce JavaScript files once compiled.
+    - ".jade" are files using the JADE template language.
+
+## AngularJS | LESS
 
 app/assets
 
@@ -12,16 +18,20 @@ app/assets
 
     QU: How are less files compiled in the project?
 
-## AngularJS
+## AngularJS | CoffeeScript
 
     The AngularJS part of the applications makes use of CoffeeScript. CoffeeScript is a language that compiles into
     JavaScript and adds Ruby, Python and Haskell-like syntax. Cf. http://coffeescript.org/
+
+    QU: How are coffeescript files compiled in the project?
 
 app/eu.factorx.citizens/angular
 
     controllers
 
     directives
+
+        Some templates are written using JADE, which is a template language. Cf. http://jade-lang.com.
 
     filters
 
@@ -47,7 +57,7 @@ app/eu.factorx.citizens
 
     views
 
-        The visual parts of the application?
+        The visual parts of the application.
 
 
 
