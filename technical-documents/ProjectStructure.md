@@ -1,13 +1,13 @@
 
 # Project Structure
 
-- Play Framework is used for the back-end, in conjunction with the EBean ORM.
+- **Play Framework** is used for the back-end, in conjunction with the **EBean** ORM.
 
-- AngularJS is used for the front-end.
+- **AngularJS** is used for the front-end.
 
-    - ".less" are files written in the LESS language to produce CSS files once compiled.
-    - ".coffee" are files written in the CoffeeScript language to produce JavaScript files once compiled.
-    - ".jade" are files using the JADE template language.
+    - ".less" are files written in the **LESS** language to produce CSS files once compiled.
+    - ".coffee" are files written in the **CoffeeScript** language to produce JavaScript files once compiled.
+    - ".jade" are files using the **JADE** template language.
 
 ## AngularJS | LESS
 
@@ -23,7 +23,7 @@ QU: How are less files compiled in the project?
 The AngularJS part of the applications makes use of CoffeeScript. CoffeeScript is a language that compiles into
 JavaScript and adds Ruby, Python and Haskell-like syntax. Cf. http://coffeescript.org/
 
-QU: How are coffeescript files compiled in the project?
+QU: How are CoffeeScript files compiled in the project?
 
 **app/eu.factorx.citizens/angular**
 
@@ -108,7 +108,4 @@ Examples of utilities:
 
 **app/eu.factorx.citizens/views**
 
-The visual parts of the application.
-
-## Routes definition
-
+Only contains index.scala.html file which is the root of the application.
