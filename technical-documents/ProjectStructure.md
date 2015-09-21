@@ -1,7 +1,7 @@
 
 # Project Structure
 
-- Play Framework is used for the back-end.
+- Play Framework is used for the back-end, in conjunction with the EBean ORM.
 
 - AngularJS is used for the front-end.
 
@@ -11,12 +11,12 @@
 
 ## AngularJS | LESS
 
-app/assets
+**app/assets**
 
-    LESS files. LESS is a language to manipulate CSS with variables, functions and inheritance. LESS files are compiled
-    into regular CSS files used by Web applications. Cf. http://lesscss.org.
+LESS files. LESS is a language to manipulate CSS with variables, functions and inheritance. LESS files are compiled
+into regular CSS files used by Web applications. Cf. http://lesscss.org.
 
-    QU: How are less files compiled in the project?
+QU: How are less files compiled in the project?
 
 ## AngularJS | CoffeeScript
 
@@ -78,9 +78,35 @@ app/eu.factorx.citizens
 
     model
 
+        Business Objects of the application classified in specific packages.
+
+        Examples of Business Objects:
+
+        - account/Account with fields such as firstName, lastName, etc.
+        - survey/Answer with fields such as questionCode, answerValues, etc.
+
+        Business Objects are persisted into a PostgreSQL database using EBean. EBean is an object-relational mapping
+        product written in Java advertised to be simpler than JPA (cf. http://ebean-orm.github.io/docs/). EBean makes
+        use of JPA annotations. The datasource of the application is defined in the application.conf file of Play.
+
     service
 
+        Services of the application. Divided in interfaces and implementations (cf. 'impl' package).
+
+        Examples of services:
+
+        - AccountService implemented by impl/AccountServiceImpl with methods such as findByEmail() or saveOrUpdate().
+        - CalculationService implemented by impl/CalculationServiceImpl with methods such as calculatePotentialReduction(),
+          calculateEffectiveReduction(), etc.
+
     util
+
+        Utility classes.
+
+        Examples of utilities:
+
+        - email/messages/EmailMessage that encapsulate the definition of email messages.
+        - security/LoginAttemptManager that manages attempts to connect to the application.?
 
     views
 
