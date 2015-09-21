@@ -20,97 +20,95 @@ QU: How are less files compiled in the project?
 
 ## AngularJS | CoffeeScript
 
-    The AngularJS part of the applications makes use of CoffeeScript. CoffeeScript is a language that compiles into
-    JavaScript and adds Ruby, Python and Haskell-like syntax. Cf. http://coffeescript.org/
+The AngularJS part of the applications makes use of CoffeeScript. CoffeeScript is a language that compiles into
+JavaScript and adds Ruby, Python and Haskell-like syntax. Cf. http://coffeescript.org/
 
-    QU: How are coffeescript files compiled in the project?
+QU: How are coffeescript files compiled in the project?
 
-app/eu.factorx.citizens/angular
+**app/eu.factorx.citizens/angular**
 
-    controllers
+**app/eu.factorx.citizens/angular/controllers**
 
-    directives
+**app/eu.factorx.citizens/angular/directives**
 
-        Some templates are written using JADE, which is a template language. Cf. http://jade-lang.com.
+Some templates are written using JADE, which is a template language. Cf. http://jade-lang.com.
 
-    filters
+**app/eu.factorx.citizens/angular/filters**
 
-    services
+**app/eu.factorx.citizens/angular/services**
 
-    views
+**app/eu.factorx.citizens/angular/views**
 
 ## Play Framework
 
-app/eu.factorx.citizens
+**app/eu.factorx.citizens/controllers**
 
-    controllers
+The application controllers. Receive and output DTO objects. Controllers convert DTO inputs in Business Objects,
+invoke services, and send back results as DTO outputs.
 
-        The application controllers. Receive and output DTO objects. Controllers convert DTO inputs in Business Objects,
-        invoke services, and send back results as DTO outputs.
+DTO objects are defined in the 'dto' package.
+Business objects are defined in the 'model' package.
+Services are defined in the 'service' package.
 
-        DTO objects are defined in the 'dto' package.
-        Business objects are defined in the 'model' package.
-        Services are defined in the 'service' package.
+Examples of controllers:
 
-        Examples of controllers:
+- AccountController with methods such as login(), changePassword(), etc.
+- CalculationController with methods such as calculatePotentialReduction(), calculateEffectiveReduction(), etc.
 
-        - AccountController with methods such as login(), changePassword(), etc.
-        - CalculationController with methods such as calculatePotentialReduction(), calculateEffectiveReduction(), etc.
+**app/eu.factorx.citizens/converter**
 
-    converter
+Converts Business Objects to DTOs. This is done 'manually' (no Dozer or whatever). There is no DTO to Business
+Object converter as information are directly extracted from DTOs as needed by services.
 
-        Converts Business Objects to DTOs. This is done 'manually' (no Dozer or whatever). There is no DTO to Business
-        Object converter as information are directly extracted from DTOs as needed by services.
+Examples of converters:
 
-        Examples of converters:
+- AccountToAccountDTO Converter.
+- AnswerToAnswerDTO Converter.
 
-        - AccountToAccountDTO Converter.
-        - AnswerToAnswerDTO Converter.
+**app/eu.factorx.citizens/dto**
 
-    dto
+Data Transfer Objects used to convey data between the back-end and front-end parts of the application.
 
-        Data Transfer Objects used to convey data between the back-end and front-end parts of the application.
+Examples of DTOs:
 
-        Examples of DTOs:
+- AccountDTO with fields such as firstName, lastName, etc.
+- AnswerDTO with fields such as questionKey, answerValues, etc.
 
-        - AccountDTO with fields such as firstName, lastName, etc.
-        - AnswerDTO with fields such as questionKey, answerValues, etc.
+**app/eu.factorx.citizens/model**
 
-    model
+Business Objects of the application classified in specific packages.
 
-        Business Objects of the application classified in specific packages.
+Examples of Business Objects:
 
-        Examples of Business Objects:
+- account/Account with fields such as firstName, lastName, etc.
+- survey/Answer with fields such as questionCode, answerValues, etc.
 
-        - account/Account with fields such as firstName, lastName, etc.
-        - survey/Answer with fields such as questionCode, answerValues, etc.
+Business Objects are persisted into a PostgreSQL database using EBean. EBean is an object-relational mapping
+product written in Java advertised to be simpler than JPA (cf. http://ebean-orm.github.io/docs/). EBean makes
+use of JPA annotations. The datasource of the application is defined in the application.conf file of Play.
 
-        Business Objects are persisted into a PostgreSQL database using EBean. EBean is an object-relational mapping
-        product written in Java advertised to be simpler than JPA (cf. http://ebean-orm.github.io/docs/). EBean makes
-        use of JPA annotations. The datasource of the application is defined in the application.conf file of Play.
+**app/eu.factorx.citizens/service**
 
-    service
+Services of the application. Divided in interfaces and implementations (cf. 'impl' package).
 
-        Services of the application. Divided in interfaces and implementations (cf. 'impl' package).
+Examples of services:
 
-        Examples of services:
+- AccountService implemented by impl/AccountServiceImpl with methods such as findByEmail() or saveOrUpdate().
+- CalculationService implemented by impl/CalculationServiceImpl with methods such as calculatePotentialReduction(),
+  calculateEffectiveReduction(), etc.
 
-        - AccountService implemented by impl/AccountServiceImpl with methods such as findByEmail() or saveOrUpdate().
-        - CalculationService implemented by impl/CalculationServiceImpl with methods such as calculatePotentialReduction(),
-          calculateEffectiveReduction(), etc.
+**app/eu.factorx.citizens/util**
 
-    util
+Utility classes.
 
-        Utility classes.
+Examples of utilities:
 
-        Examples of utilities:
+- email/messages/EmailMessage that encapsulate the definition of email messages.
+- security/LoginAttemptManager that manages attempts to connect to the application.
 
-        - email/messages/EmailMessage that encapsulate the definition of email messages.
-        - security/LoginAttemptManager that manages attempts to connect to the application.?
+**app/eu.factorx.citizens/views**
 
-    views
-
-        The visual parts of the application.
+The visual parts of the application.
 
 ## Routes definition
 
