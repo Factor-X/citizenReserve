@@ -39,6 +39,13 @@ Some templates are written using JADE, which is a template language. Cf. http://
 
 **app/eu.factorx.citizens/angular/views**
 
+## AngularJS | Compilation
+
+Under the project[citizens-build] node, we can find a Build.scala file that executes the AngularCompilerTask that
+can be found at the same place. The AngularCompilerTask delegates to AngularCompiler. The root of the AngularJS part
+of the application is provided: app/eu/factorx/citizens/angular. Within this path, the compiler is pointer to '.coffee',
+'.jade', views and other required files. 
+
 ## Play Framework
 
 **app/eu.factorx.citizens/controllers**

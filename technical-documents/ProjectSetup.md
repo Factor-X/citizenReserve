@@ -89,9 +89,3 @@ db.default.url = "postgres://play:play@localhost/citizens-reserve"
 
 We can obtain a database backup online from the Heroku interface (see file Heroku.md) and install it locally.
 
-
-
-
-https://www.playframework.com/documentation/2.1.0/JavaTodoList
-
-https://www.playframework.com/documentation/2.3.x/ScalaDatabase
