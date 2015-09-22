@@ -16,14 +16,10 @@
 LESS files. LESS is a language to manipulate CSS with variables, functions and inheritance. LESS files are compiled
 into regular CSS files used by Web applications. Cf. http://lesscss.org.
 
-QU: How are less files compiled in the project?
-
 ## AngularJS | CoffeeScript
 
 The AngularJS part of the applications makes use of CoffeeScript. CoffeeScript is a language that compiles into
 JavaScript and adds Ruby, Python and Haskell-like syntax. Cf. http://coffeescript.org/
-
-QU: How are CoffeeScript files compiled in the project?
 
 **app/eu.factorx.citizens/angular**
 
@@ -39,12 +35,25 @@ Some templates are written using JADE, which is a template language. Cf. http://
 
 **app/eu.factorx.citizens/angular/views**
 
+The views of the application, such as welcome.html, login.html, etc.
+
+AngularJS pages are not served directly through URLs. Instead, they are stored in the AngularJS template cache at
+compile time. Cf. the AngularCompiler.scala file.
+
+On Windows, we first had a problem when composing the urls used as the first parameter of:
+
+$templateCache.put(url, content);
+
+They were indeed containing backslashes. Their corresponding value would hence not be found when an appropriate url,
+with slashes only, would be used as keys (i.e. we were having keys like $/angular/views\welcome.html instead of
+$/angular/views/welcome.html).
+
 ## AngularJS | Compilation
 
 Under the project[citizens-build] node, we can find a Build.scala file that executes the AngularCompilerTask that
 can be found at the same place. The AngularCompilerTask delegates to AngularCompiler. The root of the AngularJS part
-of the application is provided: app/eu/factorx/citizens/angular. Within this path, the compiler is pointer to '.coffee',
-'.jade', views and other required files. 
+of the application is provided: app/eu/factorx/citizens/angular. Within this path, the compiler is pointed to '.coffee',
+'.jade', views and other required files.
 
 ## Play Framework
 
