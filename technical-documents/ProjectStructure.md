@@ -23,7 +23,27 @@ JavaScript and adds Ruby, Python and Haskell-like syntax. Cf. http://coffeescrip
 
 **app/eu.factorx.citizens/angular**
 
+Only contains main.coffee.
+
+main.coffee is mainly feeding the AngularJS router.
+
 **app/eu.factorx.citizens/angular/controllers**
+
+The controllers of the AngularJS part of the application.
+
+For example, the WelcomeCtrl.coffee file defines the controllers to which the welcome.html file is bound. The ng-click
+attributes refer to:
+
+toHousehold()
+toEnterprise()
+toAuthority()
+login()
+forgotPassword()
+
+All these methods are implemented in the coffee file.
+
+The login() method, for example, will populate a dto based on the email and password information entered in textfields
+and post them as JSON to the /login route of Play.
 
 **app/eu.factorx.citizens/angular/directives**
 
