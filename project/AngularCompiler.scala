@@ -171,7 +171,6 @@ class AngularCompiler {
                     var usefulPathParts = usefulPath.split("[/\\\\]")
                     usefulPathParts = usefulPathParts.slice(0, usefulPathParts.length - 1)
                     usefulPath = usefulPathParts.slice(usefulPathParts.length - 1, usefulPathParts.length).mkString
-
                     url = "$/angular/templates/" + usefulPath + ".html"
                 }
 
@@ -179,6 +178,10 @@ class AngularCompiler {
                     val usefulPath = f.path.substring((Path.fromString(".tmp") / "sources" / angular / "views").path.length)
                     url = "$/angular/views" + usefulPath
                 }
+
+                // on Windows, that path would be $/angular/views\welcome.html for example -> we replace all \ by /
+                // otherwise the page would not be found in the AngularJS cache
+                url = url.replace('\\','/');
 
                 val content = mapper.writeValueAsString(scala.io.Source.fromFile(f.path, "utf-8").getLines().mkString("\n"))
                 result += "$templateCache.put('" + url + "', " + content + ");"
