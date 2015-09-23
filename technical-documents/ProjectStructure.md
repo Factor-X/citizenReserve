@@ -1,5 +1,7 @@
 
-# Project Structure
+# Project structure
+
+## Introduction
 
 - **Play Framework** is used for the back-end, in conjunction with the **EBean** ORM.
 
@@ -47,7 +49,12 @@ and post them as JSON to the /login route of Play.
 
 **app/eu.factorx.citizens/angular/directives**
 
-Some templates are written using JADE, which is a template language. Cf. http://jade-lang.com.
+The directives of the AngularJS Application. Directives are used whenever DOM manipulation is required.
+
+There is one directive per 'package' divided into two files: a directive.coffee file and a template.html or
+template.jade file (Jade is a template language. Cf. http://jade-lang.com).
+
+For example, if we consider crLogin, directive.coffee defines a link directive
 
 **app/eu.factorx.citizens/angular/filters**
 
