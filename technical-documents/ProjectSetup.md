@@ -1,10 +1,22 @@
-# Source root identification
+# Project setup
+
+## Introduction
+
+To extract the project using Intellij IDEA:
+
+File > New > Project from Version Control > GitHub
+
+The repository URL is:
+
+https://github.com/Factor-X/citizens-reserve.git
+
+## Source root identification
 
 We need to define the app folder as a source root.
 
 Right click > Mark Directory As > Sources Root
 
-# Scala installation
+## Scala installation
 
 The Scala plugin is not installed by default. Open the AngularCompiler.scala file. A message is displayed at the top of
 the editor to propose the installation of the Scala plugin. Install the plugin and let Intellij IDEA restart.
@@ -20,7 +32,7 @@ To add Scala support, we will need to create a library by pointing the IDE to th
 We are now treating another message at the top of the editor telling that AngularComposite.scala is SBT build file.
 We import the project as suggested.
 
-# Play framework support
+## Play framework support
 
 Some files, such as AccountController.java, can't resolve some symbols that belong to Play. We need to activate the
 support. On the citizens-reserve project node:
@@ -29,34 +41,11 @@ Right click > Add Framework Support ... > Play 2.x
 
 The resolution problem should disappear.
 
-# AngularJS support
+## AngularJS support
 
-AngularJS > Gruntfile > Node.js compiler
+Nothing particular to install.
 
-
-Right click on the Gruntfile.js file. Select 'Show Grunt Tasks'. An error message occurs ('Failed to list tasks').
-This is because Grunt is not currently installed. As Grunt requires Node.js, we install it first:
-
-https://nodejs.org/en/#download
-
-When done, we use the npm utility to install the grunt-cli:
-
-npm install -g grunt-cli
-
-C:\Users\Bertrand\AppData\Roaming\npm\node_modules\grunt-cli
-
-At the command line, we can type:
-
-grunt
-
-grunt-cli starts, then faces a fatal error "Unable to find local grunt.". This is because grunt-cli does not install
-the grunt task runner. We need to issue:
-
-npm install grunt --save-dev
-
-
-
-# Rebuild the project
+## Rebuild the project
 
 Build > Rebuild Project
 
@@ -72,12 +61,12 @@ that module).
 
 We also fixed the problems (see left pane).
 
-# Start the project
+## Start the project
 
 Run > Run 'Play 2'
 
-Play server is starting and listening on port 9000. We go to http://localhost:9000 and notice that there is some
-compilation going on. In the end, we get a page containing a configuration error message.
+Play server is starting and listening on port 9000. We go to http://localhost:9000. There is some compilation going on
+(see the messages at the console). Finally, a page containing an error message is displayed.
 
 This allows us to discover the configuration file of the project, located at:
 
@@ -88,4 +77,6 @@ We need a citizens-reserve database running on PostgreSQL with username and pass
 db.default.url = "postgres://play:play@localhost/citizens-reserve"
 
 We can obtain a database backup online from the Heroku interface (see file Heroku.md) and install it locally.
+
+Once all of this done, we can restart the project and reach the welcome page of the application.
 
