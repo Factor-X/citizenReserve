@@ -1,3 +1,4 @@
+# Project configuration
 
 ## Play Framework configuration
 
@@ -43,7 +44,12 @@ eu.factorx.citizens.controllers.ApplicationController controller.
 
 ## AngularJS routes definition
 
-...
+The AngularJS part of the application makes use of AngularUI Router which is based on a finite state machine.
+
+The main.coffee files contains all the routing. Cf. the .state sections.
+
+Note that all AngularJS elements are stored in cache. As a result, there is never any call to the backend to serve HTML
+files. Assets such as Javascript, images, CSS, etc. are served through the /assets/*file Play route.
 
 ## Batch processing
 
