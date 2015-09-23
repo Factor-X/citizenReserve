@@ -61,6 +61,13 @@ of the template.html page.
 
 The filters of the AngularJS application.
 
+The filters are typically used in conjunction with the sliders of the application, implemented by the crSlider
+directive (cr-slider tag).
+
+For example:
+
+&inf;cr-slider ... min="0" max="1000" step="10" filter="toSquareMeters"&sup;&inf;/cr-slider&sup;
+
 **app/eu.factorx.citizens/angular/services**
 
 The services of the AngularJS application.
