@@ -158,6 +158,12 @@ Examples of utilities:
 
 Only contains index.scala.html file which is the root of the application.
 
+## Document generation with Velocity
+
+The application makes use of Velocity (http://velocity.apache.org) to generate some documents, such as email content.
+
+The Velocity templates are located in public/vm.
+
 ## Internationalisation
 
 Several resource bundles have been defined under conf/translation:
@@ -176,8 +182,9 @@ In the AngularJS part of the application, translations are typically handled the
 ng-bind-html will here evaluate 'welcome.button.login' | translate and insert the resulting content into the span
 element.
 
-## Document generation with Velocity
+Internationalisation is also used in Velocity templates similarly to the following:
 
-The application makes use of Velocity (http://velocity.apache.org) to generate some documents, such as email content.
+$translationHelper.getMessage('email.basic.footer_first', "${citizensReserveHome}")
 
-The Velocity templates are located in public/vm.
+Here, the message is parametrised.
+
