@@ -191,11 +191,11 @@ In the AngularJS part of the application, translations are typically handled the
 ng-bind-html will here evaluate 'welcome.button.login' | translate and insert the resulting content into the span
 element. translate is a translation filter part of the angular-gettext library.
 
-When the application starts, the GlobalSettings instance of the Play application is invoked and initialises a
-TRANSLATIONS HashMap from the various properties files (cf. eu.factorx.citizens.Global). This map will be serialised in
-a JSON stream when the TranslationController Play controller will be invoked from the /translations route.
-
 The catalog of gettext is initialised via a call to gettextCatalog.loadRemote("/translations").
+
+/translations is a Play route that maps to eu.factorx.citizens.controllers.TranslationController. When the Play
+application starts, the eu.factorx.citizens.Global object defining the global settings of the application is created.
+The properties files are read to populate the HashMap that will serve as an input to the TranslationController.
 
 Internationalisation is also used in Velocity templates similarly to the following:
 
