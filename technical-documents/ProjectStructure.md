@@ -48,7 +48,7 @@ and post them as JSON to the /login route of Play.
 
 **app/eu.factorx.citizens/angular/directives**
 
-The directives of the AngularJS Application. Directives are used whenever DOM manipulation is required.
+The directives of the AngularJS application. Directives are used whenever DOM manipulation is required.
 
 There is one directive per 'package' divided into two files: a directive.coffee file and a template.html or
 template.jade file (Jade is a template language. Cf. http://jade-lang.com).
@@ -59,7 +59,11 @@ of the template.html page.
 
 **app/eu.factorx.citizens/angular/filters**
 
+The filters of the AngularJS application.
+
 **app/eu.factorx.citizens/angular/services**
+
+The services of the AngularJS application.
 
 **app/eu.factorx.citizens/angular/views**
 
@@ -153,3 +157,27 @@ Examples of utilities:
 **app/eu.factorx.citizens/views**
 
 Only contains index.scala.html file which is the root of the application.
+
+## Internationalisation
+
+Several resource bundles have been defined under conf/translation:
+
+- Email
+- Interfaces
+- Messages
+- Surveys
+
+Each bundle encapsulates one properties file for French and one properties file for Dutch.
+
+In the AngularJS part of the application, translations are typically handled the following way:
+
+&inf;span ng-bind-html="'welcome.button.login' | translate"&sup;&inf;/span&sup;
+
+ng-bind-html will here evaluate 'welcome.button.login' | translate and insert the resulting content into the span
+element.
+
+## Document generation with Velocity
+
+The application makes use of Velocity (http://velocity.apache.org) to generate some documents, such as email content.
+
+The Velocity templates are located in public/vm.
