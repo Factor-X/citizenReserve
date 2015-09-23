@@ -164,6 +164,8 @@ The application makes use of Velocity (http://velocity.apache.org) to generate s
 
 The Velocity templates are located in public/vm.
 
+The class implementing the generator is eu.factorx.citizens.service.impl.VelocityGeneratorServiceImpl.
+
 ## Internationalisation
 
 Several resource bundles have been defined under conf/translation:
@@ -186,5 +188,5 @@ Internationalisation is also used in Velocity templates similarly to the followi
 
 $translationHelper.getMessage('email.basic.footer_first', "${citizensReserveHome}")
 
-Here, the message is parametrised.
+where translationHelper is an instance of eu.factorx.citizens.controllers.TranslationHelper.
 
