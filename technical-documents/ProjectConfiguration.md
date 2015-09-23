@@ -13,7 +13,7 @@ db.default.url = "postgres://play:play@localhost/citizens-reserve"
 
 ebean.default = "eu.factorx.citizens.model.*"
 
-This points to the package containing the entities. If not defined correctly, an EBean server error message may be
+This points to the package containing the entities. If not defined correctly, an EBean server error message will be
 thrown.
 
 **Logging configuration**
@@ -49,7 +49,7 @@ The AngularJS part of the application makes use of AngularUI Router which is bas
 The main.coffee files contains all the routing. Cf. the .state sections.
 
 Note that all AngularJS elements are stored in cache. As a result, there is never any call to the backend to serve HTML
-files. Assets such as Javascript, images, CSS, etc. are served through the /assets/*file Play route.
+files. Assets such as Javascript, images, CSS, etc. are served through the /assets/*file Play route, however.
 
 ## Batch processing
 
