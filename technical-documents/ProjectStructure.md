@@ -36,9 +36,13 @@ For example, the WelcomeCtrl.coffee file defines the controllers to which the we
 attributes refer to:
 
 toHousehold()
+
 toEnterprise()
+
 toAuthority()
+
 login()
+
 forgotPassword()
 
 All these methods are implemented in the coffee file.
