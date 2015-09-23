@@ -1,4 +1,3 @@
-
 # Project structure
 
 ## Introduction
@@ -54,7 +53,9 @@ The directives of the AngularJS Application. Directives are used whenever DOM ma
 There is one directive per 'package' divided into two files: a directive.coffee file and a template.html or
 template.jade file (Jade is a template language. Cf. http://jade-lang.com).
 
-For example, if we consider crLogin, directive.coffee defines a link directive
+For example, if we consider crLogin, directive.coffee defines a link function that will make available to the
+application scope the fullname, isAuthenticated, toAccount and logout functionality required by the html snippet
+of the template.html page.
 
 **app/eu.factorx.citizens/angular/filters**
 
