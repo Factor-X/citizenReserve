@@ -190,7 +190,7 @@ Each bundle encapsulates one properties file for French and one properties file 
 
 In the AngularJS part of the application, translations are typically handled the following way:
 
-&inf;span ng-bind-html="'welcome.button.login' | translate"&sup;&inf;/span&sup;
+&lt;span ng-bind-html="'welcome.button.login' | translate"&gt;&lt;/span&gt;
 
 ng-bind-html will here evaluate 'welcome.button.login' | translate and insert the resulting content into the span
 element. translate is a translation filter part of the angular-gettext library.
