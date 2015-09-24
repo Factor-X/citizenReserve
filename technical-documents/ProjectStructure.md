@@ -70,7 +70,7 @@ directive (cr-slider tag).
 
 For example:
 
-&inf;cr-slider ... min="0" max="1000" step="10" filter="toSquareMeters"&sup;&inf;/cr-slider&sup;
+&lt;cr-slider ... min="0" max="1000" step="10" filter="toSquareMeters"&gt;&lt;/cr-slider&gt;
 
 **app/eu.factorx.citizens/angular/services**
 
