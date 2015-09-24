@@ -27,8 +27,8 @@ Otherwise, PGAdmin will refuse to restore it.
 Start PGAdmin. If not already done:
 
 - Add a new login role: Login Roles > New Login Role ... for role name 'play' with password 'play'.
-- Create a the database: New Database ... with name 'citizens-reserve' and owner 'play'.
-- Restore the backup: Restore ... with filename the downloaded and renamed '.backup' file.
+- Create the database: New Database ... with name 'citizens-reserve' and owner 'play'.
+- Restore the backup: Restore ... with the downloaded and renamed '.backup' file as the filename.
 
 You should get a database with 11 tables: accounts ... surveys.
 
