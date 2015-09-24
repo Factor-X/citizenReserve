@@ -1,7 +1,18 @@
+# Heroku deployment
 
-The application is hosted on Heroku (www.heroku.com).
+## Login credentials
 
-The login credentials are: fournisseurs@factorx.eu / factorx07.
+| Environment | Username | Password |
+|----------|-------|-------|
+| PROD | fournisseurs@factorx.eu |factorx07 |
+| DEV | xavier.marichal@factorx.eu | ??? |
+
+
+
+
+
+
+
 
 We can download a PostgreSQL database backup.
 

@@ -53,5 +53,6 @@ files. Assets such as Javascript, images, CSS, etc. are served through the /asse
 
 ## Batch processing
 
-Batch processing is defined in the eu.factorx.citizens.Global class which overrides Play GlobalSettings. It relies
-on the Akka scheduler (cf. http://doc.akka.io/docs/akka/snapshot/java/scheduler.html).
+Batch processing is defined in the eu.factorx.citizens.Global class. That class overrides Play GlobalSettings and is
+instanciated at the start of the application. It relies on the Akka scheduler
+(cf. http://doc.akka.io/docs/akka/snapshot/java/scheduler.html).
