@@ -27,7 +27,8 @@ http://www.scala-lang.org/download/
 
 And install Scala (at the date of this writing in 2015.09, Scala 2.11.7).
 
-To add Scala support, we will need to create a library by pointing the IDE to the Scala install folder.
+Click the header that relate to the Scala SDK to complete the installation. A dialog will pop up to create a library.
+This will require pointing the IDE to the Scala install folder.
 
 We are now treating another message at the top of the editor telling that AngularComposite.scala is SBT build file.
 We import the project as suggested.
