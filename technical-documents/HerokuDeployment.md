@@ -55,7 +55,6 @@ https://citizenreserve.herokuapp.com/#/fr/admin/
 
 The login credentials for this admin access are:
 
-login: factorx@factorx.eu
-password: GU57IYjGjg
+factorx@factorx.eu / GU57IYjGjg
 
 The password can be modified (directly in encrpyted version) via the file: citizens-reserve/conf/evolutions/default/6.sql
