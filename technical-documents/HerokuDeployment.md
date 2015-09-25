@@ -58,3 +58,11 @@ The login credentials for this admin access are:
 factorx@factorx.eu / GU57IYjGjg
 
 The password can be modified (directly in encrpyted version) via the file: citizens-reserve/conf/evolutions/default/6.sql
+
+## Full deployment procedure (based on AWAC)
+
+The deployment procedure is identical to the one for AWAC except that the application is this time compiled remotely on
+Heroku.
+
+Cf. https://github.com/Factor-X/awac/tree/master/operational-procedures/Heroku%20deployment
+
