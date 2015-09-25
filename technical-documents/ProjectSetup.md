@@ -92,7 +92,8 @@ This generally indicates that ebean.default is not initialised properly in conf/
 This is not the case here.
 
 What we have noticed is that the eu.factorx.citizens.Global class extending Play GlobalSettings was never instantiated
-when tests were called. As a result, ebean.default is indeed not initialised hence the observed message.
+when tests were called. As a result, ebean.default is indeed not initialised despite its presence in
+conf/application.conf what explains the error message.
 
 
 
