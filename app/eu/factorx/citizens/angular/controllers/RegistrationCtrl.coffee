@@ -97,6 +97,10 @@ angular
 
     $scope.save = () ->
         $scope.noSubmitYet = false
+
+        # the following has been added otherwise checkValidity() below would return false -> the form would not be submitted ...
+        surveyDTOService.surveyDTO.account.powerConsumption = 0
+
         if $scope.checkValidity()
 
             $scope.loading = true
