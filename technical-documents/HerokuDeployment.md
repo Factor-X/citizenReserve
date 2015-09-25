@@ -4,13 +4,9 @@
 
 Go to http://www.heroku.com > Log in
 
-Use one of the following credentials depending on your needs.
+The login credentials are:
 
-| Environment | Username | Password |
-|----------|-------|-------|
-| PROD | fournisseurs@factorx.eu |factorx07 |
-| DEV | xavier.marichal@factorx.eu | ??? |
-
+fournisseurs@factorx.eu / factorx07 |
 
 ## Download / restore a backup database
 
