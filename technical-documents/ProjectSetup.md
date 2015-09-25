@@ -81,3 +81,18 @@ We can obtain a database backup online from the Heroku interface (see file Herok
 
 Once all of this done, we can restart the project and reach the welcome page of the application.
 
+## Running tests
+
+At the date of this writing (2015.09.25), we we unable to run tests. We have a message:
+
+javax.persistence.PersistenceException: The default EbeanServer has not been defined? This is normally set via the ebean.datasource.default property. Otherwise it should be registered programatically via registerServer()
+
+This generally indicates that ebean.default is not initialised properly in conf/application.conf.
+
+This is not the case here.
+
+What we have noticed is that the eu.factorx.citizens.Global class extending Play GlobalSettings was never instantiated
+when tests were called. As a result, ebean.default is indeed not initialised hence the observed message.
+
+
+
